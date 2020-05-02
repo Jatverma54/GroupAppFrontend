@@ -17,10 +17,10 @@ const PersonalGroupsScreen = ({navigation}) => {
      
         <View style={styles.ButtonContainer}>
      <OverideBackButton/>
-      <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.setParams({
+      {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.setParams({
       Header: 'New Activity Title'
-    })}/>
-      
+    })}/> */}
+      <Text>Personal Groups Screen</Text>
       </View> 
       );
    };

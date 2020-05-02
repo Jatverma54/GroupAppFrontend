@@ -1,8 +1,9 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import {NavigationContainer,DrawerActions} from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import { useNavigation } from '@react-navigation/native';
@@ -106,7 +107,7 @@ return(
 
   
 
-  const ExplorePublicGroupTabStack = createBottomTabNavigator();
+  const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
   const ExplorePublicGroupTabStackNavigator =()=>{
     
@@ -119,10 +120,10 @@ return(
           inactiveTintColor: colors.TabinactiveTintColor,
 
           style: {
-            borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-            borderTopRightRadius: colors.TabStyleTopRightRadius,
-            borderTopColor: colors.TabStyleBorderTopColour,
-            borderTopWidth: colors.TabStyleborderTopWidth,
+           // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
+           // borderTopRightRadius: colors.TabStyleTopRightRadius,
+          //  borderTopColor: colors.TabStyleBorderTopColour,
+          //  borderTopWidth: colors.TabStyleborderTopWidth,
             width: colors.TabStylewidth,
             backgroundColor: colors.TabStylebackgroundColor,
             shadowColor: colors.TabStyleShadowColor,
@@ -149,32 +150,27 @@ return(
             
             paddingVertical: colors.TabTabStylepaddingVertical,
             backgroundColor: colors.TabTabStylebackgroundColor,
-            borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-            borderTopRightRadius: colors.TabStyleTopRightRadius,
+          //  borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
+          //  borderTopRightRadius: colors.TabStyleTopRightRadius,
           },
+          
         }}>
          
 
           <ExplorePublicGroupTabStack.Screen options={{        
-            headerTitle: 'Explore Public Groups' }} 
+            tabBarLabel: 'Explore Public Groups' }} 
             name='Explore Public Groups' 
             component={ExplorePublicGroupStackNavigator}   />
 
 <ExplorePublicGroupTabStack.Screen options={{        
-            headerTitle: 'Joined Public Groups' }} 
+            tabBarLabel: 'Joined Public Groups' }} 
             name='Joined Public Groups' 
-            component={JoinedPublicGroupStackNavigator}   />
-         
-         
+            component={JoinedPublicGroupStackNavigator}   />        
         </ExplorePublicGroupTabStack.Navigator>
 
     
     );
   };
-
-
-
-
 
 
   const ExplorePublicGroupStack = createStackNavigator();
@@ -183,29 +179,10 @@ return(
     return (
   
    
-        <ExplorePublicGroupStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
-        cardOverlayEnabled: true,
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 0.5, 0.9, 1],
-              outputRange: [0, 0.25, 0.7, 1],
-            }),
-          },
-          overlayStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 0.5],
-              extrapolate: 'clamp',
-            }),
-          },
-        }),     
-            headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-          }}>
+        <ExplorePublicGroupStack.Navigator >
 
-          <ExplorePublicGroupStack.Screen options={{        
-            headerTitle: 'Explore Public Groups' }} 
+          <ExplorePublicGroupStack.Screen 
+          options={{headerShown:false}} 
             name='ExplorePublicGroupScreen' 
             component={ExplorePublicGroupScreen}   />
          
@@ -216,13 +193,13 @@ return(
   };
 
 
-  const JoinedPublicGroupStack = createStackNavigator();
-  const JoinedPublicGroupStackNavigator =()=>{
+  const PublicGroupStack = createStackNavigator();
+  const PublicGroupStackNavigator =()=>{
     
     return (
   
-    
-        <JoinedPublicGroupStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+   
+        <PublicGroupStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
         cardOverlayEnabled: true,
         cardStyleInterpolator: ({ current: { progress } }) => ({
           cardStyle: {
@@ -242,10 +219,33 @@ return(
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
           }}>
+
+          <PublicGroupStack.Screen options={{        
+            headerTitle: 'Public Groups' }} 
+            name='Public Group' 
+            component={ExplorePublicGroupTabStackNavigator}   />
+
+
+         
+        </PublicGroupStack.Navigator>
+
+    
+    );
+  };
+
+
+
+  const JoinedPublicGroupStack = createStackNavigator();
+  const JoinedPublicGroupStackNavigator =()=>{
+    
+    return (
+  
+    
+        <JoinedPublicGroupStack.Navigator>
          
 
-        <JoinedPublicGroupStack.Screen options={{        
-            headerTitle: 'Joined Public Groups' }} 
+        <JoinedPublicGroupStack.Screen 
+         options={{headerShown:false}} 
             name='JoinedPublicGroupsScreen' 
             component={JoinedPublicGroupsScreen}   />
 
@@ -366,7 +366,7 @@ options={{
       
       initialRouteName="Explore Public Group"
       >   
-    <Drawer.Screen  name="Explore Public Groups" component={ExplorePublicGroupTabStackNavigator} />
+    <Drawer.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
      <Drawer.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
      <Drawer.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
      <Drawer.Screen name="Notifications" component={NotificatioStackNavigator}/>

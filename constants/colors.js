@@ -16,7 +16,7 @@ export default{
        TabStyleborderTopLeftRadius: 30,
        TabStyleTopRightRadius: 30,
        TabStyleBorderTopColour: "black",
-       TabStyleborderTopWidth: 0.5,
+       TabStyleborderTopWidth: 1,
        TabStylewidth:"100%",
        TabStylebackgroundColor:"#fff",
        TabStyleShadowColor:"rgba(0, 0, 0, 0.19)",
@@ -34,7 +34,7 @@ export default{
 
        TabTabStylealignItems: "center",
        TabTabStylejustifyContent: "center",
-       TabTabStylepaddingVertical: 4,
+       TabTabStylepaddingVertical: 12,
        TabTabStylebackgroundColor: "tomato",
        
 //Login Screen

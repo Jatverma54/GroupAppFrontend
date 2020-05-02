@@ -13,7 +13,9 @@ const JoinedPublicGroupsScreen = ({navigation}) => {
     return(
         <View style={styles.ButtonContainer}>
      <OverideBackButton/>
-      <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/>
+      {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/> */}
+
+      <Text>Joined Groups Screen</Text>
       
       </View> 
       );

@@ -13,7 +13,9 @@ const PublicGroupFeedScreen = ({navigation}) => {
     return(
         <View style={styles.ButtonContainer}>
      <OverideBackButton/>
-      <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/>
+      {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/> */}
+
+      <Text>Personal Groups Feed Screen</Text>
       
       </View> 
       );

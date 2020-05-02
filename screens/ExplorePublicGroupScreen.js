@@ -12,7 +12,7 @@ const ExplorePublicGroupScreen = ({navigation}) => {
      <View style={styles.ButtonContainer}>
     <OverideBackButton/>
    {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.push('JoinedPublicGroupsScreen')}/>  */}
-   <Text>Yo</Text>
+   <Text>Explore Public Group Screen</Text>
    </View> 
    );
 };
