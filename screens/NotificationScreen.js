@@ -10,7 +10,7 @@ const NotificationScreen = ({navigation}) => {
    return(
 
      <View style={styles.ButtonContainer}>
-  <OverideBackButton/>
+  {/* <OverideBackButton/> */}
    {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/> */}
    <Text>Notification Screen</Text>
    </View> 

@@ -1,19 +1,16 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
-import {NavigationContainer,DrawerActions} from '@react-navigation/native';
+import {DrawerActions,useNavigation} from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button } from 'react-native';
+import { StyleSheet,TouchableOpacity,  View, Image,  } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
-import { useNavigation } from '@react-navigation/native';
-import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreen';
-import JoinedPublicGroupsScreen from '../screens/JoinedPublicGroupsScreen';
-import NotificationScreen from '../screens/NotificationScreen';
-import PersonalGroupsScreen from '../screens/PersonalGroupsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import colors from '../constants/colors';
-import PublicGroupFeedScreen from '../screens/PublicGroupFeedScreen';
+import PersonalGroupRootStackNavigator from '../stacks/PersonalGroupRootStackNavigator';
+import PublicGroupStackNavigator from '../stacks/PublicGroupStackNavigator';
+import NotificatioStackNavigator from '../stacks/NotificatioStackNavigator';
+import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigator';
 
 
 
@@ -54,7 +51,7 @@ return(
 <RootMainStack.Screen  
 
  options={{headerShown:false}}
-      name='ExplorePublicGroupScreen' 
+      name='DrawerScreen' 
       component={DrawerScreen}/>
 
 </RootMainStack.Navigator>
@@ -65,286 +62,7 @@ return(
 
 
 
- const PersonalGroupRootStack = createStackNavigator();
-  const PersonalGroupRootStackNavigator =()=>{
-    
-    return (
   
-
-        <PersonalGroupRootStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
-    cardOverlayEnabled: true,
-    cardStyleInterpolator: ({ current: { progress } }) => ({
-      cardStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 0.5, 0.9, 1],
-          outputRange: [0, 0.25, 0.7, 1],
-        }),
-      },
-      overlayStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 0.5],
-          extrapolate: 'clamp',
-        }),
-      },
-    }),     
-        headerTintColor: colors.StackheaderTintColor,
-        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-      }}>
-        
-
-<PersonalGroupRootStack.Screen  
-     options={{        
-      headerTitle: 'Personal Groups' }} 
-            name='PersonalGroupsScreen' 
-            component={PersonalGroupsScreen}   />
-
-</PersonalGroupRootStack.Navigator>
-     
-    
-    );
-  };
-
-  
-
-  const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
-
-  const ExplorePublicGroupTabStackNavigator =()=>{
-    
-    return (
-  
-   
-        <ExplorePublicGroupTabStack.Navigator   initialRouteName="Explore Public Groups"
-        tabBarOptions={{
-          activeTintColor: colors.TabactiveTintColor,
-          inactiveTintColor: colors.TabinactiveTintColor,
-
-          style: {
-           // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-           // borderTopRightRadius: colors.TabStyleTopRightRadius,
-          //  borderTopColor: colors.TabStyleBorderTopColour,
-          //  borderTopWidth: colors.TabStyleborderTopWidth,
-            width: colors.TabStylewidth,
-            backgroundColor: colors.TabStylebackgroundColor,
-            shadowColor: colors.TabStyleShadowColor,
-            shadowOffset: {
-              width: colors.TabStyleShadowoffsetwidth,
-              height: colors.TabStyleShadowoffsetHeight
-            },
-            shadowRadius: colors.TabshadowRadius,
-            elevation:colors.Tabelevation,
-            shadowOpacity: colors.TabshadowOpacity,
-            height:colors.Tabheight
-          },
-
-          labelStyle: {
-            fontSize: colors.TabLabelStylefontSize,
-            fontWeight: colors.TabLabelStylefontWeight,
-           width:colors.TabLabelStylewidth
-          },
-
-
-          tabStyle: {
-            alignItems: colors.TabTabStylealignItems,
-            justifyContent: colors.TabTabStylejustifyContent,
-            
-            paddingVertical: colors.TabTabStylepaddingVertical,
-            backgroundColor: colors.TabTabStylebackgroundColor,
-          //  borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-          //  borderTopRightRadius: colors.TabStyleTopRightRadius,
-          },
-          
-        }}>
-         
-
-          <ExplorePublicGroupTabStack.Screen options={{        
-            tabBarLabel: 'Explore Public Groups' }} 
-            name='Explore Public Groups' 
-            component={ExplorePublicGroupStackNavigator}   />
-
-<ExplorePublicGroupTabStack.Screen options={{        
-            tabBarLabel: 'Joined Public Groups' }} 
-            name='Joined Public Groups' 
-            component={JoinedPublicGroupStackNavigator}   />        
-        </ExplorePublicGroupTabStack.Navigator>
-
-    
-    );
-  };
-
-
-  const ExplorePublicGroupStack = createStackNavigator();
-  const ExplorePublicGroupStackNavigator =()=>{
-    
-    return (
-  
-   
-        <ExplorePublicGroupStack.Navigator >
-
-          <ExplorePublicGroupStack.Screen 
-          options={{headerShown:false}} 
-            name='ExplorePublicGroupScreen' 
-            component={ExplorePublicGroupScreen}   />
-         
-        </ExplorePublicGroupStack.Navigator>
-
-    
-    );
-  };
-
-
-  const PublicGroupStack = createStackNavigator();
-  const PublicGroupStackNavigator =()=>{
-    
-    return (
-  
-   
-        <PublicGroupStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
-        cardOverlayEnabled: true,
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 0.5, 0.9, 1],
-              outputRange: [0, 0.25, 0.7, 1],
-            }),
-          },
-          overlayStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 0.5],
-              extrapolate: 'clamp',
-            }),
-          },
-        }),     
-            headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-          }}>
-
-          <PublicGroupStack.Screen options={{        
-            headerTitle: 'Public Groups' }} 
-            name='Public Group' 
-            component={ExplorePublicGroupTabStackNavigator}   />
-
-
-         
-        </PublicGroupStack.Navigator>
-
-    
-    );
-  };
-
-
-
-  const JoinedPublicGroupStack = createStackNavigator();
-  const JoinedPublicGroupStackNavigator =()=>{
-    
-    return (
-  
-    
-        <JoinedPublicGroupStack.Navigator>
-         
-
-        <JoinedPublicGroupStack.Screen 
-         options={{headerShown:false}} 
-            name='JoinedPublicGroupsScreen' 
-            component={JoinedPublicGroupsScreen}   />
-
-
-         
-        </JoinedPublicGroupStack.Navigator>
-    
-    
-    );
-  };
-
-
-
-  const PublicGroupFeedStack = createStackNavigator();
-  const PublicGroupFeedStackNavigator =()=>{
-    
-    return (
-  
-    
-        <PublicGroupFeedStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
-        cardOverlayEnabled: true,
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 0.5, 0.9, 1],
-              outputRange: [0, 0.25, 0.7, 1],
-            }),
-          },
-          overlayStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 0.5],
-              extrapolate: 'clamp',
-            }),
-          },
-        }),     
-            headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-          }}>
-         
-
-        <PublicGroupFeedStack.Screen options={{        
-            headerTitle: 'Public Groups Feed' }} 
-            name='PublicGroupFeedScreen' 
-            component={PublicGroupFeedScreen}   />
-
-
-         
-        </PublicGroupFeedStack.Navigator>
-    
-    
-    );
-  };
-
-
-
-
-
-
-  const NotificatioStack = createStackNavigator();
-  const NotificatioStackNavigator =()=>{
-    
-    return (
-  
-      
-        <NotificatioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
-    cardOverlayEnabled: true,
-    cardStyleInterpolator: ({ current: { progress } }) => ({
-      cardStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 0.5, 0.9, 1],
-          outputRange: [0, 0.25, 0.7, 1],
-        }),
-      },
-      overlayStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 0.5],
-          extrapolate: 'clamp',
-        }),
-      },
-    }),     
-        headerTintColor: colors.StackheaderTintColor,
-        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-      }}>
-          
-
-<NotificatioStack.Screen  
-options={{        
-  headerTitle: 'Notifications' }} 
-            name='NotificationsScreen' 
-            component={NotificationScreen}   />
-         
-        </NotificatioStack.Navigator>
-     
-    
-    );
-  };
-
   const Drawer = createDrawerNavigator();
   const DrawerScreen = () => {
     return(

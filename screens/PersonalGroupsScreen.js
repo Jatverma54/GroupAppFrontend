@@ -7,7 +7,18 @@ import colours from '../constants/colors';
 import DisplayAnImageWithStyle from '../components/DisplayAnImageWithStyle';
 import colors from '../constants/colors';
 import OverideBackButton from '../components/OverideBackButton'
+import Floating_Button from '../Pictures/Floating_Button.png';
+import { FloatingAction } from "react-native-floating-action";
 
+ const actions = [
+   
+    {
+      text: "Create a Personal Group",
+      icon: {Floating_Button},
+      name: "bt_CreateaPersonalGroup",
+      position: 4
+    }
+  ];
 
  
 
@@ -15,31 +26,45 @@ const PersonalGroupsScreen = ({navigation}) => {
   
     return(
      
-        <View style={styles.ButtonContainer}>
-     <OverideBackButton/>
-      {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.setParams({
-      Header: 'New Activity Title'
-    })}/> */}
-      <Text>Personal Groups Screen</Text>
-      </View> 
+      <View style={styles.container}>
+  
+  <FloatingAction
+    actions={actions}
+    onPressItem={name => {
+      console.log(`selected button: ${name}`);
+      
+
+    }}
+  />
+</View>
+
       );
    };
+
    const styles = StyleSheet.create({
-     
+  
       ButtonContainer: {   
-         flexDirection:'column', 
+         flexDirection:'row', 
          width: '100%',
          justifyContent: 'flex-start',
-         alignItems: 'stretch',
+         alignItems: 'baseline',
           
       },
       button: {
           
          width: 300,
-           marginVertical: 10,
+           marginVertical: 60,
            fontWeight: "bold",
           
       },
+      container:{
+         flex: 1,
+         justifyContent: 'center',
+         alignItems: 'center',
+         backgroundColor : '#F5F5F5'
+      },
+      
    });
+   
 
 export default PersonalGroupsScreen;

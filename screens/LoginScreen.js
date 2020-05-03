@@ -13,7 +13,7 @@ return(
 
     <View style={styles.MainContainer}>
 
-    <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>navigation.push('ExplorePublicGroupScreen')}>
+    <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>navigation.push('DrawerScreen')}>
 
        <Image 
         source={Facebook_login_Icon} 
@@ -27,7 +27,7 @@ return(
      </TouchableOpacity>
      
     
-     <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5} onPress={()=>navigation.push('ExplorePublicGroupScreen')}>
+     <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5} onPress={()=>navigation.push('DrawerScreen')}>
 
        <Image 
         source={GooglePlus_login_Icon} 
