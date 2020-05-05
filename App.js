@@ -3,8 +3,8 @@ import React from 'react';
 import { StyleSheet ,StatusBar,View } from 'react-native';
 import colors from './constants/colors';
 import RootMainStackNavigator from './stacks/RootStackNavigator';
-import {NavigationContainer,DrawerActions} from '@react-navigation/native';
-
+import {NavigationContainer,DrawerActions,Header} from '@react-navigation/native';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 
 export default function App() {
@@ -19,10 +19,14 @@ export default function App() {
         translucent = {true}
         networkActivityIndicatorVisible = {true}
         />
-    <NavigationContainer>
+        <NavigationContainer>
+       <PaperProvider>
+    
 
     <RootMainStackNavigator/>
 
+   
+   </PaperProvider>
    </NavigationContainer>
     </View>
   );

@@ -13,7 +13,7 @@ return(
 
     <View style={styles.MainContainer}>
 
-    <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>navigation.push('DrawerScreen')}>
+    <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>navigation.navigate('DrawerScreen')}>
 
        <Image 
         source={Facebook_login_Icon} 

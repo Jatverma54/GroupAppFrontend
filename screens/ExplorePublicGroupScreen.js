@@ -16,15 +16,31 @@ const ExplorePublicGroupScreen = ({navigation}) => {
   <FloatingAction
     actions={actions}
     onPressItem={name => {
-    navigation.push('CreateaPublicGroupScreen');  // console.log(`selected button: ${name}`);
-      
+  navigation.push('Create a Public Group');
 
+       console.log(`selected button: ${name}`);
     }}
   />
 </View>
 
    );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const styles = StyleSheet.create({
   
    ButtonContainer: {   

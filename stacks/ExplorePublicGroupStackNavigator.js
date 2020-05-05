@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,Header } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View, Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -94,18 +94,19 @@ const HeaderLeft = () => {
   const ExplorePublicGroupStackNavigator =()=>{
     
     return (
-     
-   
-        <ExplorePublicGroupStack.Navigator >
+  
+        <ExplorePublicGroupStack.Navigator  initialRouteName="ExplorePublicGroups">
 
           <ExplorePublicGroupStack.Screen 
           options={{headerShown:false}} 
-            name='ExplorePublicGroupScreen' 
+            name='ExplorePublicGroups' 
             component={ExplorePublicGroupScreen}   />      
 
 <ExplorePublicGroupStack.Screen 
- options={{title:"Create a Public Group"}} 
-  name='CreateaPublicGroupScreen' 
+ 
+options={{
+  headerTitle: "Create a Public Group" }} 
+  name='Create a Public Group' 
   component={CreateaPublicGroupScreen}/>
 
 </ExplorePublicGroupStack.Navigator>

@@ -43,7 +43,7 @@ export default{
     rootscreenColor:'#C8F5F2',
 
     //Drawer
-    drawerBackgroundcolor:'#DEE9E8',
+    drawerBackgroundcolor:'#DCECEB',
     drawerHiglightcolor:'#e91e63',
     drawerTextcolor:'#0d0d0d',
     drawerfontWeight:'bold',

@@ -9,8 +9,10 @@ import ExplorePublicGroupTabStackNavigator from '../stacks/ExplorePublicGroupSta
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
+    
     return (
       <View style={{flexDirection: 'row'}}>
+        
         <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
         <Image   style={styles.ImageIconStyle} 
          source={require('../Pictures/menu.png')}/>
@@ -26,8 +28,8 @@ const HeaderLeft = () => {
     
     return (
   
-   
-        <PublicGroupStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+      
+        <PublicGroupStack.Navigator headerMode='float'   screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
         cardOverlayEnabled: true,
         cardStyleInterpolator: ({ current: { progress } }) => ({
           cardStyle: {
@@ -46,7 +48,7 @@ const HeaderLeft = () => {
         }),     
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-          }}>
+          }} >
 
           <PublicGroupStack.Screen options={{        
             headerTitle: 'Public Groups' }} 

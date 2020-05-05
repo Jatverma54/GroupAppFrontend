@@ -11,6 +11,9 @@ import PersonalGroupRootStackNavigator from '../stacks/PersonalGroupRootStackNav
 import PublicGroupStackNavigator from '../stacks/PublicGroupStackNavigator';
 import NotificatioStackNavigator from '../stacks/NotificatioStackNavigator';
 import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigator';
+import DrawerContent from '../screens/DrawerContent';
+
+
 
 
 
@@ -62,37 +65,50 @@ return(
 
 
 
-  
-  const Drawer = createDrawerNavigator();
+
+  const DrawerStack = createDrawerNavigator();
   const DrawerScreen = () => {
     return(
 
      
-    <Drawer.Navigator   drawerStyle={{
+    <DrawerStack.Navigator    
+      
+ 
+      drawerContent={() => <DrawerContent  drawerContentOptions={{ 
+        activeTintColor: colors.drawerHiglightcolor, marginTop:20,
+        labelStyle:{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,
+        }
+      }}   
+      drawerStyle={{
         backgroundColor: colors.drawerBackgroundcolor,
         width: 240,
         
         fontFamily: 'SomeFont',
-      }} 
-      
-
-      drawerContentOptions={{ 
-        activeTintColor: colors.drawerHiglightcolor, marginTop:20,
-        labelStyle:{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,
-        }
       }}
-      
-      initialRouteName="Explore Public Group"
+      initialRouteName="Public Groups"
+     />}
+     
       >   
-    <Drawer.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
-     <Drawer.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
-     <Drawer.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
-     <Drawer.Screen name="Notifications" component={NotificatioStackNavigator}/>
+    <DrawerStack.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
+     <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
+     <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
+     <DrawerStack.Screen name="Notifications" component={NotificatioStackNavigator}/>
        
-    </Drawer.Navigator>
+    </DrawerStack.Navigator>
    
     );
     };
+
+
+
+
+
+
+    
+  
+
+
+
 
   const styles = StyleSheet.create({
 
