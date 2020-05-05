@@ -2,12 +2,12 @@ export default{
 
     // Status Bar Color
     StatusBarStyle:"light-content",
-    StatusbackgroundColor:"#E34F0E",
+    StatusbackgroundColor:"#086A87",//#086A87",
 
 //Different stacks color and header
       cardStyleBackgroundColor:'transparent',
        StackheaderTintColor: 'white',
-       StackheaderStyleBackgroundColor: 'tomato',
+       StackheaderStyleBackgroundColor: '#0489B1',
        
 //Explore Group Screen Tab Options 
        TabactiveTintColor: "white",
@@ -35,7 +35,7 @@ export default{
        TabTabStylealignItems: "center",
        TabTabStylejustifyContent: "center",
        TabTabStylepaddingVertical: 12,
-       TabTabStylebackgroundColor: "tomato",
+       TabTabStylebackgroundColor: "#0489B1",
        
 //Login Screen
     LoginButtonColor: '#9BED88',

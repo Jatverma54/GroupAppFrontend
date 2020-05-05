@@ -1,46 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View,  Image, Button } from 'react-native';
-import colors from '../constants/colors';
-import OverideBackButton from '../components/OverideBackButton';
+import React,{ useEffect } from 'react';
+import { StyleSheet, Text, View, BackHandler, Image, Button } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../components/FloatingActionsButton';
 
 
 
-const ExplorePublicGroupScreen = ({navigation}) => {
+const CreateaPersonalGroup = ({navigation}) => {
   
    return(
 
 <View style={styles.container}>
-    {/* <OverideBackButton/>  */}
-  <FloatingAction
-    actions={actions}
-    onPressItem={name => {
-  navigation.push('Create a Public Group');
 
-       console.log(`selected button: ${name}`);
-    }}
-  />
+  <Text>Create a Personal Group Screen</Text>
+  
 </View>
 
    );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const styles = StyleSheet.create({
   
    ButtonContainer: {   
@@ -67,5 +43,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default ExplorePublicGroupScreen;
+export default CreateaPersonalGroup;
 
