@@ -1,45 +1,203 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import { StyleSheet, Text, View,  Image, Button } from 'react-native';
-import colours from '../constants/colors';
-import DisplayAnImageWithStyle from '../components/DisplayAnImageWithStyle';
-import colors from '../constants/colors';
-import OverideBackButton from '../components/OverideBackButton'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList
+} from 'react-native';
+import { FloatingAction } from "react-native-floating-action";
+import actions from '../components/FloatingActionButtonPersonal';
+import { useNavigation } from '@react-navigation/native';
+import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
+import PropTypes from 'prop-types';
 
 
+export default class JoinedPublicGroupsScreen extends Component {
 
 
+  constructor(props) {
+  
+    super(props);
 
-const JoinedPublicGroupsScreen = ({navigation}) => {
-    return(
-        <View style={styles.ButtonContainer}>
-          
-     {/* <OverideBackButton/> */}
-      {/* <Button style={styles.button} color={colors.LoginButtonColor} title="Menu " onPress={()=>navigation.toggleDrawer()}/> */}
+    this.state = {
+      data:[
+        {
+          id:1, 
+          image: "https://lorempixel.com/100/100/nature/1/", 
+          name:"Group 1", 
+          countMembers:51,  
+          members:[
+            
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        },
+        {
+          id:2, 
+          image: "https://lorempixel.com/100/100/nature/2/", 
+          name:"Group 2", 
+          countMembers:10,  
+          members:[
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          ]
+        },
+        {
+          id:3, 
+          image: "https://lorempixel.com/100/100/nature/3/", 
+          name:"Group 3", 
+          countMembers:58,  
+          members:[
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png"
+          ]
+        },
+    
+        
+      ]
+    }
+  }
+ 
+  
 
-      <Text>Joined Groups Screen</Text>
-      
-      </View> 
+  renderGroupMembers = (group) => {
+    
+    if(group.members) {
+      return (
+        <View style={styles.groupMembersContent}>
+          {group.members.map((prop, key) => {
+            return (
+              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
+            );
+          })}
+        </View>
       );
-   };
-   const styles = StyleSheet.create({
-     
-      ButtonContainer: {   
-         flexDirection:'column', 
-         width: '100%',
-         justifyContent: 'flex-start',
-         alignItems: 'stretch',
-          
-      },
-      button: {
-          
-         width: 300,
-           marginVertical: 10,
-           fontWeight: "bold",
-          
-      },
-   });
+    }
+    return null;
+  }
 
-export default JoinedPublicGroupsScreen;
+   
+
+  render() {
+    
+    return (
+     
+      <View  style={styles.FloatButtonPlacement} > 
+
+      <FlatList 
+        style={styles.root}
+        data={this.state.data}
+        extraData={this.state}
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={styles.separator}/>
+          )
+        }}
+        keyExtractor={(item)=>{
+          return item.id;
+        }}
+        renderItem={(item) => {
+          const Group = item.item;
+          let mainContentStyle;
+          if(Group.attachment) {
+            mainContentStyle = styles.mainContent;
+          }
+          return(
+            <View style={styles.container}>
+              <Image source={{uri:Group.image}} style={styles.avatar}/>
+              <View style={styles.content}>
+                <View style={mainContentStyle}>
+                  <View style={styles.text}>
+                    <Text style={styles.groupName}>{Group.name}</Text>
+                  </View>
+                  <Text style={styles.countMembers}>
+                    {Group.countMembers} members
+                  </Text>
+                  <Text style={styles.timeAgo}>
+                    Updated 2 months ago
+                  </Text>
+                  {this.renderGroupMembers(Group)}
+                </View>
+              </View>
+             
+            </View>            
+          );
+        }}/>
+
+    </View>   );
+  }
+};
+
+
+
+
+
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: "#FFFFFF"
+  },
+  container: {
+    padding: 16,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: "#FFFFFF",
+    alignItems: 'flex-start'
+  },
+  avatar: {
+    width:55,
+    height:55,
+    borderRadius:25,
+  },
+  text: {
+    marginBottom: 5,
+    flexDirection: 'row',
+    flexWrap:'wrap'
+  },
+  content: {
+    flex: 1,
+    marginLeft: 16,
+    marginRight: 0
+  },
+  mainContent: {
+    marginRight: 60
+  },
+  memberImage: {
+    height: 30,
+    width: 30,
+    marginRight:4,
+    borderRadius:10,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#CCCCCC"
+  },
+  countMembers:{
+    color:"#20B2AA"
+  },
+  timeAgo:{
+    fontSize:12,
+    color:"#696969"
+  },
+  groupName:{
+    fontSize:23,
+    color:"#1E90FF"
+  },
+  groupMembersContent:{
+    flexDirection:'row',
+    marginTop:10
+  },
+   FloatButtonPlacement:{
+    flex: 1,
+    
+  },
+});   

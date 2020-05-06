@@ -37,6 +37,10 @@ export default{
        TabTabStylepaddingVertical: 12,
        TabTabStylebackgroundColor: "#0489B1",
        
+       ExploreGroupsLoginButtonColor:"#3F649A",
+       
+       cardStyleCreatePublicGroupBackgroundColor:"#1E1F1F"   ,
+       StackheaderCreatePublicStyleBackgroundColor:"#3F649A",
 //Login Screen
     LoginButtonColor: '#9BED88',
     SignUpButton: '#c717fc',

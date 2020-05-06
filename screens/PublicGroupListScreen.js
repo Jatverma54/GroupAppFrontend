@@ -5,17 +5,18 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Button,
   Image,
   FlatList
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../components/FloatingActionButtonPersonal';
 import { useNavigation } from '@react-navigation/native';
-import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
+import CreateaPersonalGroup from './CreateaPersonalGroup';
 import PropTypes from 'prop-types';
+import colors from '../constants/colors';
 
-
-export default class PersonalGroupsScreen extends Component {
+export default class PublicGroupListScreen extends Component {
 
 
   constructor(props) {
@@ -122,13 +123,13 @@ export default class PersonalGroupsScreen extends Component {
                   <Text style={styles.countMembers}>
                     {Group.countMembers} members
                   </Text>
-                  <Text style={styles.timeAgo}>
-                    Updated 2 months ago
-                  </Text>
-                  {this.renderGroupMembers(Group)}
+                  <View style={styles.ButtonContainer}>
+              <View style={styles.button}><Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor}  /></View>
+              </View> 
                 </View>
+                
               </View>
-             
+              
             </View>            
           );
         }}/>
@@ -144,7 +145,7 @@ const FloatingActionButton =()=>{
   <FloatingAction
   actions={actions}
   onPressItem={name => {
-    navigation.push('CreateaPersonalGroup');
+    navigation.push('Create a Public Group');
      console.log(`selected button: ${name}`);
   }}/>   
   )
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF"
   },
   container: {
-    padding: 16,
+    padding: 13,
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
@@ -195,6 +196,7 @@ const styles = StyleSheet.create({
     color:"#20B2AA"
   },
   timeAgo:{
+    marginRight:-70,
     fontSize:12,
     color:"#696969"
   },
@@ -210,4 +212,20 @@ const styles = StyleSheet.create({
     flex: 1,
     
   },
+  button: {
+  //flexDirection:'row',
+   width: "50%",
+   fontWeight: "bold",
+  // justifyContent: 'center',
+   //alignItems: 'center',
+},
+ButtonContainer: {
+   flex: 2,
+   width: '100%',
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  //paddingTop: 10,
+ marginVertical: 10,
+// marginRight: -40
+},
 });   

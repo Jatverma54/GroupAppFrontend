@@ -9,6 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreen';
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
 import CreateaPublicGroupScreen from '../screens/CreateaPublicGroupScreen';
+import PublicGroupListScreen from '../screens/PublicGroupListScreen';
 
 
 
@@ -88,26 +89,26 @@ const HeaderLeft = () => {
     
     );
   };
-
-
+  
+  
   const ExplorePublicGroupStack = createStackNavigator();
   const ExplorePublicGroupStackNavigator =()=>{
-    
+   
+
     return (
   
-        <ExplorePublicGroupStack.Navigator  initialRouteName="ExplorePublicGroups">
+        <ExplorePublicGroupStack.Navigator  initialRouteName="ExplorePublicGroups"  >
 
           <ExplorePublicGroupStack.Screen 
           options={{headerShown:false}} 
             name='ExplorePublicGroups' 
-            component={ExplorePublicGroupScreen}   />      
+            component={ExplorePublicGroupScreen }   />      
 
 <ExplorePublicGroupStack.Screen 
  
-options={{
-  headerTitle: "Create a Public Group" }} 
-  name='Create a Public Group' 
-  component={CreateaPublicGroupScreen}/>
+ options={{headerShown:false}} 
+  name='ExplorePublicGroupCategoryBased' 
+  component={ExplorePublicGroupCategoryBasedStackNavigator}/>
 
 </ExplorePublicGroupStack.Navigator>
 
@@ -115,12 +116,56 @@ options={{
     );
   };
 
+  const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
+  const ExplorePublicGroupCategoryBasedStackNavigator =()=>{
+    
+    return (
+  
+        <ExplorePublicGroupCategoryBasedStack.Navigator   headerMode='float' screenOptions={{   cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),     
+        
+            headerTintColor: colors.StackheaderTintColor,
+            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor },
+          }} >
+<ExplorePublicGroupCategoryBasedStack.Screen 
+ 
+ options={{headerShown:false}} 
+   name='Public Groups List' 
+   component={PublicGroupListScreen}/>
+ 
 
+ 
+         
 
+<ExplorePublicGroupCategoryBasedStack.Screen 
+ 
+options={{
+  
+  headerTitle: "Create a Public Group" }} 
+  name='Create a Public Group' 
+  component={CreateaPublicGroupScreen}/>
 
+</ExplorePublicGroupCategoryBasedStack.Navigator>
 
-
-
+    
+    );
+  };
+  
   const styles = StyleSheet.create({
 
     DrawerText: {
