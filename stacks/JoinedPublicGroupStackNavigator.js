@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button } from 'react-native';
 import {NavigationContainer,DrawerActions} from '@react-navigation/native';
 import JoinedPublicGroupsScreen from '../screens/JoinedPublicGroupsScreen';
+import JoinedGroupInsideGroup from '../screens/JoinedGroupInsideGroup';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -22,8 +23,8 @@ const HeaderLeft = () => {
 
 
   const JoinedPublicGroupStack = createStackNavigator();
-  const JoinedPublicGroupStackNavigator =()=>{
-    
+  const JoinedPublicGroupStackNavigator =(props)=>{
+    const navigation = useNavigation();
     return (
   
     
@@ -33,15 +34,25 @@ const HeaderLeft = () => {
         <JoinedPublicGroupStack.Screen 
          options={{headerShown:false}} 
             name='JoinedPublicGroupsScreen' 
-            component={JoinedPublicGroupsScreen}   />
+            component={withMyHook(JoinedPublicGroupsScreen)}/>
 
-
+<JoinedPublicGroupStack.Screen 
+         options={{headerShown:false}} 
+            name='JoinedGroupInsideGroup' 
+            component={JoinedGroupInsideGroup}   />
          
         </JoinedPublicGroupStack.Navigator>
     
     
     );
   };
+
+  function withMyHook(Component) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} myHookValue={myHookValue} />;
+    }
+  }
 
 
   const styles = StyleSheet.create({

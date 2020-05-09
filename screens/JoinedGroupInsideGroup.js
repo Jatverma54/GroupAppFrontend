@@ -5,7 +5,7 @@ import actions from '../components/FloatingActionsButton';
 
 
 
-const PersonalGroupInsideGroup = ({navigation}) => {
+const JoinedGroupInsideGroup = ({navigation}) => {
   
    return(
 
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default PersonalGroupInsideGroup;
+export default JoinedGroupInsideGroup;
 

@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 export default class ExplorePublicGroupScreen extends Component {
 
   constructor(props) {
@@ -18,16 +20,16 @@ export default class ExplorePublicGroupScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:1, title: "Healthcare",      color:"#FF4500", members:8,  image:"https://img.icons8.com/color/70/000000/name.png"},
-        {id:1, title: "Home Remedies",     color:"#87CEEB", members:6,  image:"https://img.icons8.com/office/70/000000/home-page.png"},
-        {id:2, title: "Love",     color:"#4682B4", members:12, image:"https://img.icons8.com/color/70/000000/two-hearts.png"} ,
-        {id:3, title: "Family",   color:"#6A5ACD", members:5,  image:"https://img.icons8.com/color/70/000000/family.png"} ,
-        {id:4, title: "Dating",  color:"#FF69B4", members:6,  image:"https://img.icons8.com/color/70/000000/groups.png"} ,
-        {id:5, title: "School",   color:"#00BFFF", members:7,  image:"https://img.icons8.com/color/70/000000/classroom.png"} ,
-        {id:6, title: "Things",   color:"#00FFFF", members:8,  image:"https://img.icons8.com/dusk/70/000000/checklist.png"} ,
-        {id:8, title: "World",    color:"#20B2AA", members:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
-        {id:9, title: "Remember", color:"#191970", members:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
-        {id:9, title: "Game",     color:"#008080", members:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
+        {id:1, title: "Healthcare",      color:"#FF4500", Groups:8,  image:"https://img.icons8.com/color/70/000000/name.png"},
+        {id:1, title: "Home Remedies",     color:"#87CEEB", Groups:6,  image:"https://img.icons8.com/office/70/000000/home-page.png"},
+        {id:2, title: "Love",     color:"#4682B4", Groups:12, image:"https://img.icons8.com/color/70/000000/two-hearts.png"} ,
+        {id:3, title: "Family",   color:"#6A5ACD", Groups:5,  image:"https://img.icons8.com/color/70/000000/family.png"} ,
+        {id:4, title: "Dating",  color:"#FF69B4", Groups:6,  image:"https://img.icons8.com/color/70/000000/groups.png"} ,
+        {id:5, title: "School",   color:"#00BFFF", Groups:7,  image:"https://img.icons8.com/color/70/000000/classroom.png"} ,
+        {id:6, title: "Things",   color:"#00FFFF", Groups:8,  image:"https://img.icons8.com/dusk/70/000000/checklist.png"} ,
+        {id:8, title: "World",    color:"#20B2AA", Groups:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
+        {id:9, title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
+        {id:9, title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
       ]
     };
   }
@@ -39,12 +41,12 @@ export default class ExplorePublicGroupScreen extends Component {
   render() {
     
     return (
-      <Aa state= {this.state}/>
+      <ExplorePublicCards state= {this.state}/>
     );
   }
 }
 
-const Aa=(state)=>{
+const ExplorePublicCards=(state)=>{
   const navigation = useNavigation();
 return(
 <View style={styles.container}>
@@ -60,12 +62,11 @@ return(
             return (
               <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>navigation.push("ExplorePublicGroupCategoryBased")}>
                 <View style={styles.cardHeader}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Image style={styles.icon} source={{uri:"https://img.icons8.com/ios/40/000000/settings.png"}}/>
+                  <Text style={styles.title}>{item.title}</Text>                
                 </View>
                 <Image style={styles.cardImage} source={{uri:item.image}}/>
                 <View style={styles.cardFooter}>
-                  <Text style={styles.subTitle}>{item.members} Groups</Text>
+                  <Text style={styles.subTitle}>{item.Groups} Groups</Text>
                 </View>
               </TouchableOpacity>
             )

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity,  View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
-import PersonalGroupInsideGroup from '../screens/PersonalGroupInsideGroup';
+
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -59,11 +59,7 @@ const PersonalGroupRootStack = createStackNavigator();
                name='CreateaPersonalGroup' 
                component={CreateaPersonalGroup}   />  
 
-<PersonalGroupRootStack.Screen  
-         
-      options={{headerShown:false}} 
-            name='PersonalGroupInsideGroup' 
-            component={PersonalGroupInsideGroup}   />          
+     
 
 </PersonalGroupRootStack.Navigator>
      

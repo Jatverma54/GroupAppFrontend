@@ -138,7 +138,7 @@ const HeaderLeft = () => {
             }),
           },
         }),     
-        
+            
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor },
           }} >
@@ -148,9 +148,6 @@ const HeaderLeft = () => {
    name='Public Groups List' 
    component={PublicGroupListScreen}/>
  
-
- 
-         
 
 <ExplorePublicGroupCategoryBasedStack.Screen 
  
@@ -166,6 +163,8 @@ options={{
     );
   };
   
+ 
+
   const styles = StyleSheet.create({
 
     DrawerText: {

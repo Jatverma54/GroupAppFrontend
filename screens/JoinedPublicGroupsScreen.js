@@ -13,7 +13,7 @@ import actions from '../components/FloatingActionButtonPersonal';
 import { useNavigation } from '@react-navigation/native';
 import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
 import PropTypes from 'prop-types';
-
+import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 
 export default class JoinedPublicGroupsScreen extends Component {
 
@@ -63,14 +63,15 @@ export default class JoinedPublicGroupsScreen extends Component {
         },
     
         
-      ]
+      ],
+        
     }
   }
  
   
 
   renderGroupMembers = (group) => {
-    
+   
     if(group.members) {
       return (
         <View style={styles.groupMembersContent}>
@@ -85,13 +86,15 @@ export default class JoinedPublicGroupsScreen extends Component {
     return null;
   }
 
-   
-
   render() {
     
     return (
-     
-      <View  style={styles.FloatButtonPlacement} > 
+
+ 
+    
+
+<View  style={styles.FloatButtonPlacement} > 
+<TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
 
       <FlatList 
         style={styles.root}
@@ -133,7 +136,12 @@ export default class JoinedPublicGroupsScreen extends Component {
           );
         }}/>
 
-    </View>   );
+</TouchableOpacity>
+    </View>  
+    
+    
+    
+     );
   }
 };
 

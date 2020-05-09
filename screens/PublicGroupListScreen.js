@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  
   Button,
   Image,
   FlatList
@@ -15,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import CreateaPersonalGroup from './CreateaPersonalGroup';
 import PropTypes from 'prop-types';
 import colors from '../constants/colors';
+import { Modal } from 'react-native-paper';
 
 export default class PublicGroupListScreen extends Component {
 
@@ -91,7 +93,7 @@ export default class PublicGroupListScreen extends Component {
   render() {
     
     return (
-     
+    
       <View  style={styles.FloatButtonPlacement} > 
 
       <FlatList 
@@ -135,7 +137,11 @@ export default class PublicGroupListScreen extends Component {
         }}/>
 
      <FloatingActionButton/>
-    </View>   );
+    </View>  
+    
+   
+    
+     );
   }
 };
 
