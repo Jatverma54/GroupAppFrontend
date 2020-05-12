@@ -3,9 +3,12 @@ import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, View,  Image } from 'react-native';
+import { StyleSheet,TouchableOpacity, View, Modal, Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import ExplorePublicGroupTabStackNavigator from '../stacks/ExplorePublicGroupStackNavigator';
+import SearchFunctionality from '../components/Search';
+import SearchIcon from '../Pictures/SearchIcon.png';
+
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -21,15 +24,32 @@ const HeaderLeft = () => {
     );
   };
 
+const Search=()=>{
+  const navigation = useNavigation();
+  return(
 
+<View style={{flexDirection: 'row'}}>
+<TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.push("Search Public Group")}>
+<Image style={styles.SearchIconStyle}  source={SearchIcon}/>
+
+
+</TouchableOpacity>
+
+
+</View>
+
+
+  );
+
+}
 
   const PublicGroupStack = createStackNavigator();
   const PublicGroupStackNavigator =()=>{
     
     return (
   
-      
-        <PublicGroupStack.Navigator headerMode='float'   screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+     
+        <PublicGroupStack.Navigator headerMode='float'   screenOptions={{ headerRight:({})=><Search/>, headerLeft: ({}) => <HeaderLeft/> , cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
         cardOverlayEnabled: true,
         cardStyleInterpolator: ({ current: { progress } }) => ({
           cardStyle: {
@@ -55,11 +75,14 @@ const HeaderLeft = () => {
             name='Public Group' 
             component={ExplorePublicGroupTabStackNavigator}   />
 
-
+ <PublicGroupStack.Screen options={{        
+            headerTitle: 'Search Groups' }} 
+            name='Search Public Group' 
+            component={SearchFunctionality}   />
          
         </PublicGroupStack.Navigator>
 
-    
+        
     );
   };
 
@@ -82,6 +105,9 @@ const HeaderLeft = () => {
     height: 30,
     width: 50,
     resizeMode : 'stretch',
+  },
+  SearchIconStyle:{
+   marginRight:20
   }
   });
   

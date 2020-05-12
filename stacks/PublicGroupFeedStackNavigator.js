@@ -6,7 +6,10 @@ import PublicGroupFeedScreen from '../screens/PublicGroupFeedScreen';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FeedDetails from '../components/FeedDetails';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import NotificationScreen from '../screens/NotificationScreen';
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
@@ -50,7 +53,7 @@ const HeaderLeft = () => {
         <PublicGroupFeedStack.Screen options={{        
             headerTitle: 'Public Groups Feed' }} 
             name='PublicGroupFeedScreen' 
-            component={PublicGroupFeedScreen}   />
+            component={PublicGroupFeedTabStackNavigator}   />
 
 
          
@@ -61,7 +64,92 @@ const HeaderLeft = () => {
   };
 
 
+  const PublicGroupFeedTabStack = createMaterialBottomTabNavigator();
+  const PublicGroupFeedTabStackNavigator =(props)=>{
+    const navigation = useNavigation();
+    return (
+  
+     
+        <PublicGroupFeedTabStack.Navigator   initialRouteName="Feed" 
+      activeColor="black"
+     // inactiveColor="#3e2465"
+     barStyle={{ backgroundColor: colors.StackheaderStyleBackgroundColor }}
+      
+     
+    >        
+        <PublicGroupFeedTabStack.Screen  options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      
+            name='Feed' 
+            component={PublicFeedHomeFeedStackNavigator}/>
 
+<PublicGroupFeedTabStack.Screen  options={{
+          tabBarLabel: 'Notifications',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={26} />
+          ),
+        }}
+      
+      
+      name='Notification' 
+      component={NotificationScreen}/>
+
+       
+        </PublicGroupFeedTabStack.Navigator>
+    
+       
+    );
+  };
+
+
+
+  const PublicFeedHomeFeedStack = createStackNavigator();
+  const PublicFeedHomeFeedStackNavigator =()=>{
+    
+    return ( 
+       <PublicFeedHomeFeedStack.Navigator  headerMode='screen' screenOptions={{  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      marginTop:-20
+      
+    },
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:60 },
+      }}>
+        
+
+<PublicFeedHomeFeedStack.Screen  
+      options={{headerShown:false}} 
+            name='Public Group FEED' 
+            component={PublicGroupFeedScreen}/>  
+
+</PublicFeedHomeFeedStack.Navigator>
+     
+    
+    );
+  };
+
+ 
 
   const styles = StyleSheet.create({
 

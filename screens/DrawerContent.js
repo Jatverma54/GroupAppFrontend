@@ -45,7 +45,7 @@ import colors from '../constants/colors';
              
               <View style={styles.section}>
                 <Paragraph style={[styles.paragraph, styles.caption]}>
-                 Private|Public|GroupChat
+                 Private | Public | GroupChat
                 </Paragraph>
                 
               </View>
@@ -90,15 +90,15 @@ import colors from '../constants/colors';
             />
              <DrawerItem
               icon={({ color, size }) => (
-                <MaterialIcons
-                  name="notifications-active"
+                <MaterialCommunityIcons
+                  name="face-profile"
                   color={color}
                   size={size}
                 />
               )}
-              label="Notifications"
+              label="Profile"
               labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
-              onPress={() =>  navigation.dispatch(DrawerActions.jumpTo('Notifications'))}
+              onPress={() =>  navigation.dispatch(DrawerActions.jumpTo('Profile'))}
             />
           </Drawer.Section>
          

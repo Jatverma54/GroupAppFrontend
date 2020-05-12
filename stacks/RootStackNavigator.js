@@ -3,7 +3,7 @@ import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet,TouchableOpacity,  View, Image,  } from 'react-native';
+import { StyleSheet,TouchableOpacity,  View, Image, Modal,  } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import colors from '../constants/colors';
@@ -70,7 +70,7 @@ return(
   const DrawerScreen = () => {
     return(
 
-     
+   
     <DrawerStack.Navigator    
       
  
@@ -92,7 +92,7 @@ return(
     <DrawerStack.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
      <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
      <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
-     <DrawerStack.Screen name="Notifications" component={NotificatioStackNavigator}/>
+     <DrawerStack.Screen name="Profile" component={NotificatioStackNavigator}/>
        
     </DrawerStack.Navigator>
    

@@ -8,10 +8,20 @@ import {
   Alert,
   ScrollView,
   FlatList,
-  Button
+  Button,
+  Container, Content,  Thumbnail 
 } from 'react-native';
+import {
+  useTheme,
+  Avatar,
+  Title,
+  Caption,
+  Paragraph,
+} from 'react-native-paper';
+import DrawerLogo from '../Pictures/DrawerLogo.png';
+import FbImages from '../components/FacebookPostImage';
 
-export default class Posts extends Component {
+export default class PublicGroupFeedScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -30,9 +40,18 @@ export default class Posts extends Component {
     };
   }
 
+
+
+
   render() {
+         
+
     return (
       <View style={styles.container}>
+    
+   
+
+
         <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
@@ -43,19 +62,22 @@ export default class Posts extends Component {
               <View style={styles.separator}/>
             )
           }}
+
           renderItem={(post) => {
             const item = post.item;
             return (
+
               <View style={styles.card}>
-               
+             
+             <Stories Number_of_run={this.state.Number_of_run}/>                  
                <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
                 </View>
-
-                <Image style={styles.cardImage} source={{uri:item.image}}/>
+             
+                <FbImages/>
                 
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
@@ -73,14 +95,94 @@ export default class Posts extends Component {
                     </View>
                     
                   </View>
-                </View>
+
+                </View>              
+                
               </View>
-            )
+            )           
           }}/>
+          
       </View>
+     
     );
   }
 }
+
+var NumberOfRun=1;
+const Stories=(Number_of_run)=>{
+ 
+  if(NumberOfRun === 1){
+    NumberOfRun=NumberOfRun+1;  
+  
+    return(
+ 
+      <View style={{ height: 100 }}>
+     
+      
+      <View style={{ flex: 3 }}>
+          <ScrollView
+             
+             horizontal={true}
+             showsHorizontalScrollIndicator={false}
+             contentContainerStyle={{
+                 alignItems: 'center',
+                 paddingStart: 5,
+                 paddingEnd: 5,
+              
+             }}
+    
+          >
+            
+               <Avatar.Image 
+                  style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+               <Avatar.Image
+                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+              <Avatar.Image
+               style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+               <Avatar.Image
+                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+     <Avatar.Image
+      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+     <Avatar.Image
+      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+     <Avatar.Image
+      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+    source={DrawerLogo}
+    size={90}
+    />
+          </ScrollView>
+
+          
+      </View>
+    </View>
+    
+    );
+   
+     }else{
+return(null);
+        }
+      
+        
+}
+
 
 const styles = StyleSheet.create({
   container:{

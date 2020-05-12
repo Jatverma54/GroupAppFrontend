@@ -3,7 +3,7 @@ import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation,Header } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet,TouchableOpacity, View, Image, Modal } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreen';
@@ -30,8 +30,7 @@ const HeaderLeft = () => {
   const ExplorePublicGroupTabStackNavigator =()=>{
     
     return (
-  
-   
+        
         <ExplorePublicGroupTabStack.Navigator   initialRouteName="Explore Public Groups"
         tabBarOptions={{
           activeTintColor: colors.TabactiveTintColor,
@@ -86,7 +85,7 @@ const HeaderLeft = () => {
             component={JoinedPublicGroupStackNavigator}   />        
         </ExplorePublicGroupTabStack.Navigator>
 
-    
+      
     );
   };
   
@@ -98,7 +97,7 @@ const HeaderLeft = () => {
     return (
   
         <ExplorePublicGroupStack.Navigator  initialRouteName="ExplorePublicGroups"  >
-
+          
           <ExplorePublicGroupStack.Screen 
           options={{headerShown:false}} 
             name='ExplorePublicGroups' 
@@ -120,7 +119,7 @@ const HeaderLeft = () => {
   const ExplorePublicGroupCategoryBasedStackNavigator =()=>{
     
     return (
-  
+ 
         <ExplorePublicGroupCategoryBasedStack.Navigator   headerMode='float' screenOptions={{   cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
         cardOverlayEnabled: true,
         cardStyleInterpolator: ({ current: { progress } }) => ({

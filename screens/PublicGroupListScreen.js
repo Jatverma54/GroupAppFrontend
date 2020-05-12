@@ -5,18 +5,18 @@ import {
   Text,
   View,
   TouchableOpacity,
-  
+  Modal,
   Button,
   Image,
   FlatList
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
-import actions from '../components/FloatingActionButtonPersonal';
+import actions from '../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
 import CreateaPersonalGroup from './CreateaPersonalGroup';
 import PropTypes from 'prop-types';
 import colors from '../constants/colors';
-import { Modal } from 'react-native-paper';
+
 
 export default class PublicGroupListScreen extends Component {
 
@@ -93,8 +93,8 @@ export default class PublicGroupListScreen extends Component {
   render() {
     
     return (
-    
-      <View  style={styles.FloatButtonPlacement} > 
+   
+   <View  style={styles.FloatButtonPlacement} > 
 
       <FlatList 
         style={styles.root}
@@ -139,7 +139,7 @@ export default class PublicGroupListScreen extends Component {
      <FloatingActionButton/>
     </View>  
     
-   
+  
     
      );
   }
