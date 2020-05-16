@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity,  View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
+import PersonalGroupFeedScreen from '../screens/PersonalGroupFeedScreen';
 
 
 const HeaderLeft = () => {
@@ -51,13 +52,19 @@ const PersonalGroupRootStack = createStackNavigator();
      options={{        
       headerTitle: 'Personal Groups' }} 
             name='PersonalGroupsScreen' 
-            component={PersonalGroupsScreen}/>
+            component={withMyHook(PersonalGroupsScreen)}/>
 
 <PersonalGroupRootStack.Screen  
          
          options={{headerShown:false}} 
                name='CreateaPersonalGroup' 
                component={CreateaPersonalGroup}   />  
+
+<PersonalGroupRootStack.Screen  
+         
+         options={{headerShown:false}} 
+               name='PersonalGroupFeed' 
+               component={PersonalGroupFeedScreen}   />  
 
      
 
@@ -68,6 +75,12 @@ const PersonalGroupRootStack = createStackNavigator();
   };
 
 
+  function withMyHook(Component) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} myHookValue={myHookValue} />;
+    }
+  }
 
 
 

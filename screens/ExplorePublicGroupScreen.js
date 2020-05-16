@@ -20,16 +20,16 @@ export default class ExplorePublicGroupScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:1, title: "Healthcare",      color:"#FF4500", Groups:8,  image:"https://img.icons8.com/color/70/000000/name.png"},
-        {id:1, title: "Home Remedies",     color:"#87CEEB", Groups:6,  image:"https://img.icons8.com/office/70/000000/home-page.png"},
-        {id:2, title: "Love",     color:"#4682B4", Groups:12, image:"https://img.icons8.com/color/70/000000/two-hearts.png"} ,
-        {id:3, title: "Family",   color:"#6A5ACD", Groups:5,  image:"https://img.icons8.com/color/70/000000/family.png"} ,
-        {id:4, title: "Dating",  color:"#FF69B4", Groups:6,  image:"https://img.icons8.com/color/70/000000/groups.png"} ,
-        {id:5, title: "School",   color:"#00BFFF", Groups:7,  image:"https://img.icons8.com/color/70/000000/classroom.png"} ,
-        {id:6, title: "Things",   color:"#00FFFF", Groups:8,  image:"https://img.icons8.com/dusk/70/000000/checklist.png"} ,
-        {id:8, title: "World",    color:"#20B2AA", Groups:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
-        {id:9, title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
-        {id:9, title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
+        {id:"1", title: "Healthcare",      color:"#FF4500", Groups:8,  image:"https://img.icons8.com/color/70/000000/name.png"},
+        {id:"2", title: "Home Remedies",     color:"#87CEEB", Groups:6,  image:"https://img.icons8.com/office/70/000000/home-page.png"},
+        {id:"3", title: "Love",     color:"#4682B4", Groups:12, image:"https://img.icons8.com/color/70/000000/two-hearts.png"} ,
+        {id:"4", title: "Family",   color:"#6A5ACD", Groups:5,  image:"https://img.icons8.com/color/70/000000/family.png"} ,
+        {id:"5", title: "Dating",  color:"#FF69B4", Groups:6,  image:"https://img.icons8.com/color/70/000000/groups.png"} ,
+        {id:"6", title: "School",   color:"#00BFFF", Groups:7,  image:"https://img.icons8.com/color/70/000000/classroom.png"} ,
+        {id:"7", title: "Things",   color:"#00FFFF", Groups:8,  image:"https://img.icons8.com/dusk/70/000000/checklist.png"} ,
+        {id:"8", title: "World",    color:"#20B2AA", Groups:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
+        {id:"9", title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
+        {id:"10", title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
       ]
     };
   }

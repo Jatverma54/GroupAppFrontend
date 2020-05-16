@@ -94,7 +94,7 @@ export default class JoinedPublicGroupsScreen extends Component {
     
 
 <View  style={styles.FloatButtonPlacement} > 
-<TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
+
 
       <FlatList 
         style={styles.root}
@@ -115,6 +115,7 @@ export default class JoinedPublicGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
+            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
             <View style={styles.container}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               <View style={styles.content}>
@@ -132,11 +133,12 @@ export default class JoinedPublicGroupsScreen extends Component {
                 </View>
               </View>
              
-            </View>            
+            </View>    
+            </TouchableOpacity>        
           );
         }}/>
 
-</TouchableOpacity>
+
     </View>  
     
     

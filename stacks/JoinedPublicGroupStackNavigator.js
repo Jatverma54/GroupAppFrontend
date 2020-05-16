@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React ,{ useState } from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PersonalGroupsScreen from '../screens/PersonalGroupsScreen';
@@ -13,27 +13,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FeedDetails from '../components/FeedDetails';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
-import {
-  useTheme,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
- TouchableRipple,
-  Switch,
-} from 'react-native-paper';
+import BackArrow from '../Pictures/BackArrow.png';
 
-const HeaderLeft = () => {
-    const navigation = useNavigation();
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
-        <Image   style={styles.ImageIconStyle} 
-         source={require('../Pictures/menu.png')}/>
-         </TouchableOpacity>
-      </View>
-    );
-  };
+
 
 
   const JoinedPublicGroupStack = createStackNavigator();
@@ -42,7 +24,7 @@ const HeaderLeft = () => {
     return (
   
     
-        <JoinedPublicGroupStack.Navigator  >
+        <JoinedPublicGroupStack.Navigator   >
          
 
         <JoinedPublicGroupStack.Screen 
@@ -53,8 +35,8 @@ const HeaderLeft = () => {
         <JoinedPublicGroupStack.Screen 
          options={{headerShown:false}} 
             name='JoinedGroupInsideGroup' 
-            component={JoinedGroupInsideGroupTabStackNavigator}   />
-         
+            component={HomeFeedStackNavigator}   />
+       
         </JoinedPublicGroupStack.Navigator>
     
     
@@ -70,14 +52,15 @@ const HeaderLeft = () => {
 
 
 
-
+ 
 
   const JoinedGroupInsideGroupTabStack = createMaterialBottomTabNavigator();
   const JoinedGroupInsideGroupTabStackNavigator =(props)=>{
-    const navigation = useNavigation();
+    
+    
     return (
   
-      <Modal>
+     
         <JoinedGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
       activeColor="black"
      // inactiveColor="#3e2465"
@@ -93,7 +76,7 @@ const HeaderLeft = () => {
         }}
       
             name='Feed' 
-            component={HomeFeedStackNavigator}/>
+            component={withMyHook(JoinedGroupInsideGroupFeed)}/>
 
 <JoinedGroupInsideGroupTabStack.Screen  options={{
           tabBarLabel: 'Notifications',
@@ -109,16 +92,34 @@ const HeaderLeft = () => {
        
         </JoinedGroupInsideGroupTabStack.Navigator>
     
-        </Modal> 
+      
     );
   };
+  
 
 
   const HomeFeedStack = createStackNavigator();
   const HomeFeedStackNavigator =()=>{
     
-    return ( 
-       <HomeFeedStack.Navigator  headerMode='screen' screenOptions={{  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+   
+
+      const [modalVisible, setModalVisible] = useState(true);
+    return (
+  
+      <Modal   animationType="slide" 
+      visible={modalVisible}
+      onRequestClose={() => setModalVisible(false)}     
+      >
+       <HomeFeedStack.Navigator  headerMode='float' screenOptions={{ headerLeft:()=>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>setModalVisible(false)}>
+       <View style={styles.ImageHeader}>
+        
+        <Image   style={styles.ImageIconStyle} 
+         source={BackArrow}/>
+        
+      </View>
+      </TouchableOpacity>
+       , cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -148,11 +149,12 @@ const HeaderLeft = () => {
 <HomeFeedStack.Screen  
      options={{        
       headerTitle: 'Group Feed' }} 
+     
             name='Group FEED' 
-            component={JoinedGroupInsideGroupFeed}/>  
+            component={JoinedGroupInsideGroupTabStackNavigator}/>  
 
 </HomeFeedStack.Navigator>
-     
+</Modal>
     
     );
   };
@@ -169,12 +171,18 @@ const HeaderLeft = () => {
       backgroundColor: colors.rootscreenColor,
     }
   ,ImageIconStyle:{
-    
+  
     padding: 10,
     margin: 5,
     height: 30,
     width: 50,
     resizeMode : 'stretch',
+   
+  },
+  ImageHeader:{
+  padding: 5,
+marginLeft:7,
+  justifyContent:'flex-end'
   }
   });
   

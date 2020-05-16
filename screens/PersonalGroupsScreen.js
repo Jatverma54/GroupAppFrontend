@@ -85,14 +85,14 @@ export default class PersonalGroupsScreen extends Component {
     return null;
   }
 
-   
+   //PersonalGroupFeed
 
   render() {
     
     return (
-     
+      
       <View  style={styles.FloatButtonPlacement} > 
-
+      
       <FlatList 
         style={styles.root}
         data={this.state.data}
@@ -112,6 +112,7 @@ export default class PersonalGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
+            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
             <View style={styles.container}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               <View style={styles.content}>
@@ -129,12 +130,19 @@ export default class PersonalGroupsScreen extends Component {
                 </View>
               </View>
              
-            </View>            
+            </View>   
+            </TouchableOpacity>           
           );
         }}/>
 
+     
+     
      <FloatingActionButton/>
-    </View>   );
+     
+    </View> 
+   
+    
+    );
   }
 };
 
@@ -150,14 +158,18 @@ const FloatingActionButton =()=>{
   )
 }
 
-
+//PersonalGroupFeed
 
 const styles = StyleSheet.create({
+
+  roots:{
+flex:1
+  },
   root: {
     backgroundColor: "#FFFFFF"
   },
   container: {
-    padding: 16,
+    padding: 13,
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
@@ -195,6 +207,7 @@ const styles = StyleSheet.create({
     color:"#20B2AA"
   },
   timeAgo:{
+    marginRight:-70,
     fontSize:12,
     color:"#696969"
   },

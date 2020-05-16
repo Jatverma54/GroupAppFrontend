@@ -35,7 +35,7 @@ const HeaderLeft = () => {
         tabBarOptions={{
           activeTintColor: colors.TabactiveTintColor,
           inactiveTintColor: colors.TabinactiveTintColor,
-
+          
           style: {
            // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
            // borderTopRightRadius: colors.TabStyleTopRightRadius,
