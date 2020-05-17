@@ -1,7 +1,6 @@
 import React,{ useEffect } from 'react';
 import { StyleSheet, Text, View, BackHandler, Image, Button } from 'react-native';
-import { FloatingAction } from "react-native-floating-action";
-import actions from '../components/FloatingActionsButton';
+
 
 
 

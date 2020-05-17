@@ -5,20 +5,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal,
-  Button,
   Image,
   FlatList
 } from 'react-native';
-import { FloatingAction } from "react-native-floating-action";
-import actions from '../components/FloatingActionsButton';
-import { useNavigation } from '@react-navigation/native';
-import CreateaPersonalGroup from './CreateaPersonalGroup';
-import PropTypes from 'prop-types';
-import colors from '../constants/colors';
 
 
-export default class PublicGroupListScreen extends Component {
+export default class JoinedPublicGroupsScreen extends Component {
 
 
   constructor(props) {
@@ -66,14 +58,15 @@ export default class PublicGroupListScreen extends Component {
         },
     
         
-      ]
+      ],
+        
     }
   }
  
   
 
   renderGroupMembers = (group) => {
-    
+   
     if(group.members) {
       return (
         <View style={styles.groupMembersContent}>
@@ -88,13 +81,15 @@ export default class PublicGroupListScreen extends Component {
     return null;
   }
 
-   
-
   render() {
     
     return (
-   
-   <View  style={styles.FloatButtonPlacement} > 
+
+ 
+    
+
+<View  style={styles.FloatButtonPlacement} > 
+
 
       <FlatList 
         style={styles.root}
@@ -115,6 +110,7 @@ export default class PublicGroupListScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
+            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
             <View style={styles.container}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               <View style={styles.content}>
@@ -125,37 +121,29 @@ export default class PublicGroupListScreen extends Component {
                   <Text style={styles.countMembers}>
                     {Group.countMembers} members
                   </Text>
-                  <View style={styles.ButtonContainer}>
-              <View style={styles.button}><Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor}  /></View>
-              </View> 
+                  <Text style={styles.timeAgo}>
+                    Updated 2 months ago
+                  </Text>
+                  {this.renderGroupMembers(Group)}
                 </View>
-                
               </View>
-              
-            </View>            
+             
+            </View>    
+            </TouchableOpacity>        
           );
         }}/>
 
-     <FloatingActionButton/>
+
     </View>  
     
-  
+    
     
      );
   }
 };
 
-const FloatingActionButton =()=>{
-  const navigation = useNavigation();
-  return(
-  <FloatingAction
-  actions={actions}
-  onPressItem={name => {
-    navigation.push('Create a Public Group');
-     console.log(`selected button: ${name}`);
-  }}/>   
-  )
-}
+
+
 
 
 
@@ -164,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF"
   },
   container: {
-    padding: 13,
+    padding: 16,
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
@@ -202,7 +190,6 @@ const styles = StyleSheet.create({
     color:"#20B2AA"
   },
   timeAgo:{
-    marginRight:-70,
     fontSize:12,
     color:"#696969"
   },
@@ -218,20 +205,4 @@ const styles = StyleSheet.create({
     flex: 1,
     
   },
-  button: {
-  //flexDirection:'row',
-   width: "50%",
-   fontWeight: "bold",
-  // justifyContent: 'center',
-   //alignItems: 'center',
-},
-ButtonContainer: {
-   flex: 2,
-   width: '100%',
-  // justifyContent: 'center',
-  // alignItems: 'center',
-  //paddingTop: 10,
- marginVertical: 10,
-// marginRight: -40
-},
 });   

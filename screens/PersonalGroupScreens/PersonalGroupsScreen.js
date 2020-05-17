@@ -9,13 +9,12 @@ import {
   FlatList
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
-import actions from '../components/FloatingActionButtonPersonal';
+import actions from '../../components/FloatingActionButtonPersonal';
 import { useNavigation } from '@react-navigation/native';
-import CreateaPersonalGroup from '../screens/CreateaPersonalGroup';
-import PropTypes from 'prop-types';
-import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 
-export default class JoinedPublicGroupsScreen extends Component {
+
+
+export default class PersonalGroupsScreen extends Component {
 
 
   constructor(props) {
@@ -63,15 +62,14 @@ export default class JoinedPublicGroupsScreen extends Component {
         },
     
         
-      ],
-        
+      ]
     }
   }
  
   
 
   renderGroupMembers = (group) => {
-   
+    
     if(group.members) {
       return (
         <View style={styles.groupMembersContent}>
@@ -86,16 +84,14 @@ export default class JoinedPublicGroupsScreen extends Component {
     return null;
   }
 
+   //PersonalGroupFeed
+
   render() {
     
     return (
-
- 
-    
-
-<View  style={styles.FloatButtonPlacement} > 
-
-
+      
+      <View  style={styles.FloatButtonPlacement} > 
+      
       <FlatList 
         style={styles.root}
         data={this.state.data}
@@ -115,7 +111,7 @@ export default class JoinedPublicGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
-            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
+            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupFeed")}>
             <View style={styles.container}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               <View style={styles.content}>
@@ -133,31 +129,46 @@ export default class JoinedPublicGroupsScreen extends Component {
                 </View>
               </View>
              
-            </View>    
-            </TouchableOpacity>        
+            </View>   
+            </TouchableOpacity>           
           );
         }}/>
 
-
-    </View>  
+     
+     
+     <FloatingActionButton/>
+     
+    </View> 
+   
     
-    
-    
-     );
+    );
   }
 };
 
+const FloatingActionButton =()=>{
+  const navigation = useNavigation();
+  return(
+  <FloatingAction
+  actions={actions}
+  onPressItem={name => {
+    navigation.push('CreateaPersonalGroup');
+     console.log(`selected button: ${name}`);
+  }}/>   
+  )
+}
 
-
-
-
+//PersonalGroupFeed
 
 const styles = StyleSheet.create({
+
+  roots:{
+flex:1
+  },
   root: {
     backgroundColor: "#FFFFFF"
   },
   container: {
-    padding: 16,
+    padding: 13,
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
@@ -195,6 +206,7 @@ const styles = StyleSheet.create({
     color:"#20B2AA"
   },
   timeAgo:{
+    marginRight:-70,
     fontSize:12,
     color:"#696969"
   },

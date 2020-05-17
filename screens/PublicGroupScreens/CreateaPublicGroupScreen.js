@@ -11,8 +11,8 @@ import {
   Picker,
   
 } from 'react-native';
-import lock_Icon from '../Pictures/lock.png';
-import AddGroup_Icon from '../Pictures/AddGroup.png';
+import lock_Icon from '../../Pictures/lock.png';
+import AddGroup_Icon from '../../Pictures/AddGroup.png';
 
 
 

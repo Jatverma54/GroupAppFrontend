@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Image,
-  
+  BackHandler,
   Alert,
   ScrollView,
   FlatList,
@@ -20,12 +20,12 @@ import {
   Caption,
   Paragraph,
 } from 'react-native-paper';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
-import FbImages from '../components/FacebookPostImage';
-import Like from '../Pictures/Like.png';
-import Comment from '../Pictures/Comment.png';
+import DrawerLogo from '../../Pictures/DrawerLogo.png';
+import FbImages from '../../components/FacebookPostImage';
+import Like from '../../Pictures/Like.png';
+import Comment from '../../Pictures/Comment.png';
 
-export default class PublicGroupFeedScreen extends Component {
+export default class JoinedGroupInsideGroupFeed extends Component {
 
   constructor(props) {
     super(props);
@@ -45,8 +45,6 @@ export default class PublicGroupFeedScreen extends Component {
   }
 
 
-
-
   render() {
          
 
@@ -54,6 +52,9 @@ export default class PublicGroupFeedScreen extends Component {
       
       <View style={styles.container}>
     
+    <ScrollView>  
+           <Stories/>
+
         <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
@@ -71,7 +72,7 @@ export default class PublicGroupFeedScreen extends Component {
 
               <View style={styles.card}>
              
-                       
+          
                <View style={styles.cardHeader}>
                   <View>
                   <Avatar.Image size={45}
@@ -111,25 +112,24 @@ export default class PublicGroupFeedScreen extends Component {
               </View>
             )           
           }}/>
-          
+         </ScrollView>  
       </View>
      
     );
   }
 }
 
-var NumberOfRun=1;
-const Stories=(Number_of_run)=>{
+
+const Stories=()=>{
  
-  if(NumberOfRun === 1){
-    NumberOfRun=NumberOfRun+1;  
+  
   
     return(
  
       <View style={{ height: 100 }}>
      
       
-      <View style={{ flex: 3 }}>
+      <View style={{ flex: 3,backgroundColor:"white" }}>
           <ScrollView
              
              horizontal={true}
@@ -146,37 +146,37 @@ const Stories=(Number_of_run)=>{
                <Avatar.Image 
                   style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
                <Avatar.Image
                 style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
               <Avatar.Image
                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
                <Avatar.Image
                 style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
           </ScrollView>
 
@@ -186,9 +186,7 @@ const Stories=(Number_of_run)=>{
     
     );
    
-     }else{
-return(null);
-        }
+     
       
         
 }
@@ -253,14 +251,15 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   title:{
-    fontSize:18,
+    fontSize:16,
+    fontWeight:'bold',
     flex:1,
    marginLeft:60,
    marginTop:-45
   
   },
   time:{
-    fontSize:13,
+    fontSize:12,
     color: "#808080",  
     marginLeft:60,
    

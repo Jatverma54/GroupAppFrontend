@@ -2,19 +2,19 @@ import 'react-native-gesture-handler';
 import React ,{ useState } from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import PersonalGroupsScreen from '../screens/PersonalGroupsScreen';
+import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button, Modal } from 'react-native';
 import {NavigationContainer,DrawerActions} from '@react-navigation/native';
-import JoinedPublicGroupsScreen from '../screens/JoinedPublicGroupsScreen';
-import JoinedGroupInsideGroupFeed from '../screens/JoinedGroupInsideGroup';
+import JoinedPublicGroupsScreen from '../screens/JoinPublicGroupScreen/JoinedPublicGroupsScreen';
+import JoinedGroupInsideGroupFeed from '../screens/JoinPublicGroupScreen/JoinedGroupInsideGroup';
 import { Appbar, Avatar } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import FeedDetails from '../components/FeedDetails';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
-
+import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 
 
 
@@ -78,6 +78,22 @@ import BackArrow from '../Pictures/BackArrow.png';
             name='Feed' 
             component={withMyHook(JoinedGroupInsideGroupFeed)}/>
 
+
+
+
+<JoinedGroupInsideGroupTabStack.Screen  options={{
+          tabBarLabel: 'Your Posts',
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="local-post-office" color={color} size={26} />
+          ),
+        }}
+      
+      
+      name='Your Posts' 
+      component={YourPublicGroupPostscreen}/>
+
+
+
 <JoinedGroupInsideGroupTabStack.Screen  options={{
           tabBarLabel: 'Notifications',
           tabBarIcon: ({ color }) => (
@@ -88,8 +104,7 @@ import BackArrow from '../Pictures/BackArrow.png';
       
       name='Notification' 
       component={NotificationScreen}/>
-
-       
+  
         </JoinedGroupInsideGroupTabStack.Navigator>
     
       
@@ -101,25 +116,19 @@ import BackArrow from '../Pictures/BackArrow.png';
   const HomeFeedStack = createStackNavigator();
   const HomeFeedStackNavigator =()=>{
     
-   
-
-      const [modalVisible, setModalVisible] = useState(true);
+     
     return (
   
       <Modal   animationType="slide" 
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}     
+      visible={true}
+   
       >
        <HomeFeedStack.Navigator  headerMode='float' screenOptions={{ headerLeft:()=>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>setModalVisible(false)}>
-       <View style={styles.ImageHeader}>
-        
-        <Image   style={styles.ImageIconStyle} 
-         source={BackArrow}/>
-        
-      </View>
-      </TouchableOpacity>
-       , cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+        <HeaderLeftFeed/>
+       , 
+       headerRight:({})=><HeaderRightFeed/>,
+       
+       cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -159,8 +168,32 @@ import BackArrow from '../Pictures/BackArrow.png';
     );
   };
 
- 
+  const HeaderLeftFeed = () => {
+    const navigation = useNavigation();
+    return (
+      <View style={styles.ImageHeader}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        <Image   style={styles.ImageIconStyle} 
+         source={BackArrow}/>
+       
+         </TouchableOpacity>
+      </View>
+    );
+  };
 
+
+  const HeaderRightFeed = () => {
+    const navigation = useNavigation();
+    return (
+      <View style={styles.ImageHeaderRight}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        <Image   style={styles.ImageIconStyleFeedRight} 
+         source={require('../Pictures/Post_Add.png')}/>
+         <Text>Add Post</Text>
+         </TouchableOpacity>
+      </View>
+    );
+  };
 
 
 
@@ -181,8 +214,21 @@ import BackArrow from '../Pictures/BackArrow.png';
   },
   ImageHeader:{
   padding: 5,
-marginLeft:7,
+    marginLeft:7,
   justifyContent:'flex-end'
+  },
+  ImageIconStyleFeedRight:{
+    marginTop: 10,
+    marginLeft:10,
+    height: 30,
+    width: 34,
+
+    resizeMode : 'stretch',
+  },
+  ImageHeaderRight:{
+   
+    marginRight:7,
+      justifyContent:'flex-end'
   }
   });
   

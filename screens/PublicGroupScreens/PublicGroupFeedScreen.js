@@ -1,4 +1,4 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -20,12 +20,12 @@ import {
   Caption,
   Paragraph,
 } from 'react-native-paper';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
-import FbImages from '../components/FacebookPostImage';
-import Like from '../Pictures/Like.png';
-import Comment from '../Pictures/Comment.png';
+import DrawerLogo from '../../Pictures/DrawerLogo.png';
+import FbImages from '../../components/FacebookPostImage';
+import Like from '../../Pictures/Like.png';
+import Comment from '../../Pictures/Comment.png';
 
-export default class JoinedGroupInsideGroupFeed extends Component {
+export default class PublicGroupFeedScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -71,7 +71,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
               <View style={styles.card}>
              
-             {/* <Stories Number_of_run={this.state.Number_of_run}/>                   */}
+                       
                <View style={styles.cardHeader}>
                   <View>
                   <Avatar.Image size={45}
@@ -279,6 +279,7 @@ const styles = StyleSheet.create({
   icon: {
     width:25,
     height:25,
+    marginRight:5
   },
   /******** social bar ******************/
   socialBarContainer: {

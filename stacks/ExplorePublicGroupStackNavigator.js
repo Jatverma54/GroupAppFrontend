@@ -6,10 +6,10 @@ import { useNavigation,Header } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View, Image, Modal } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreen';
+import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreens/ExplorePublicGroupScreen';
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
-import CreateaPublicGroupScreen from '../screens/CreateaPublicGroupScreen';
-import PublicGroupListScreen from '../screens/PublicGroupListScreen';
+import CreateaPublicGroupScreen from '../screens/PublicGroupScreens/CreateaPublicGroupScreen';
+import PublicGroupListScreen from '../screens/PublicGroupScreens/PublicGroupListScreen';
 
 
 

@@ -2,12 +2,12 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import PublicGroupFeedScreen from '../screens/PublicGroupFeedScreen';
+import PublicGroupFeedScreen from '../screens/PublicGroupScreens/PublicGroupFeedScreen';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import FeedDetails from '../components/FeedDetails';
+
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 const HeaderLeft = () => {
