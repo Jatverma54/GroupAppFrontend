@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 const HeaderLeft = () => {
@@ -64,22 +64,30 @@ const HeaderLeft = () => {
   };
 
 
-  const PublicGroupFeedTabStack = createMaterialBottomTabNavigator();
+  const PublicGroupFeedTabStack = createMaterialTopTabNavigator();
   const PublicGroupFeedTabStackNavigator =(props)=>{
     const navigation = useNavigation();
     return (
   
      
         <PublicGroupFeedTabStack.Navigator   initialRouteName="Feed" 
-      activeColor="black"
-     // inactiveColor="#3e2465"
-     barStyle={{ backgroundColor: colors.StackheaderStyleBackgroundColor }}
-      
+        activeColor="black"  
+        inactiveColor="Grey"
+       barStyle={{ backgroundColor: 'white' }}
+       tabBarOptions={{
+        
+  
+        labelStyle: {
+          fontSize: colors.TabLabelStylefontSize,
+          fontWeight: colors.TabLabelStylefontWeight,
+         width:colors.TabLabelStylewidth
+        },   
+        
+      }}
      
     >        
         <PublicGroupFeedTabStack.Screen  options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => (
+         tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
@@ -88,8 +96,7 @@ const HeaderLeft = () => {
             component={PublicFeedHomeFeedStackNavigator}/>
 
 <PublicGroupFeedTabStack.Screen  options={{
-          tabBarLabel: 'Notifications',
-          tabBarIcon: ({ color }) => (
+          tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="bell" color={color} size={26} />
           ),
         }}
