@@ -4,7 +4,7 @@ import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button, Modal } from 'react-native';
+import { StyleSheet,TouchableOpacity, Text,ScrollView ,View, ImageBackground, Image, Button, Modal } from 'react-native';
 import {NavigationContainer,DrawerActions} from '@react-navigation/native';
 import JoinedPublicGroupsScreen from '../screens/JoinPublicGroupScreen/JoinedPublicGroupsScreen';
 import JoinedGroupInsideGroupFeed from '../screens/JoinPublicGroupScreen/JoinedGroupInsideGroup';
@@ -12,9 +12,11 @@ import { Appbar, Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import FeedDetails from '../components/FeedDetails';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
+
 
 
 
@@ -54,23 +56,31 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
 
  
 
-  const JoinedGroupInsideGroupTabStack = createMaterialBottomTabNavigator();
+  const JoinedGroupInsideGroupTabStack = createMaterialTopTabNavigator();
   const JoinedGroupInsideGroupTabStackNavigator =(props)=>{
     
     
     return (
   
-     
+    
         <JoinedGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
-      activeColor="black"
-     // inactiveColor="#3e2465"
-     barStyle={{ backgroundColor: colors.StackheaderStyleBackgroundColor }}
-      
+        activeColor="black"  
+        inactiveColor="Grey"
+       barStyle={{ backgroundColor: 'white' }}
+       tabBarOptions={{
+        
+  
+        labelStyle: {
+          fontSize: colors.TabLabelStylefontSize,
+          fontWeight: colors.TabLabelStylefontWeight,
+         width:colors.TabLabelStylewidth
+        },   
+        
+      }}
       
     >        
         <JoinedGroupInsideGroupTabStack.Screen  options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => (
+           tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
@@ -81,11 +91,11 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
 
 
 
-<JoinedGroupInsideGroupTabStack.Screen  options={{
-          tabBarLabel: 'Your Posts',
+<JoinedGroupInsideGroupTabStack.Screen  options={{ tabBarLabel: 'Your Posts',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="local-post-office" color={color} size={26} />
           ),
+          labelStyle:{fontWeight:"bold"}
         }}
       
       
@@ -95,8 +105,7 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
 
 
 <JoinedGroupInsideGroupTabStack.Screen  options={{
-          tabBarLabel: 'Notifications',
-          tabBarIcon: ({ color }) => (
+         tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="bell" color={color} size={26} />
           ),
         }}
@@ -107,7 +116,6 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
   
         </JoinedGroupInsideGroupTabStack.Navigator>
     
-      
     );
   };
   
@@ -121,7 +129,7 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
   
       <Modal   animationType="slide" 
       visible={true}
-   
+      
       >
        <HomeFeedStack.Navigator  headerMode='float' screenOptions={{ headerLeft:()=>
         <HeaderLeftFeed/>

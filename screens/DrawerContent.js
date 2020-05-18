@@ -88,6 +88,21 @@ import colors from '../constants/colors';
               labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
               onPress={() => navigation.dispatch(DrawerActions.jumpTo('Personal Groups'))}
             />
+
+              <DrawerItem
+              icon={({ color, size }) => (
+                <FontAwesome
+                  name="suitcase"
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="Professional Groups"
+              labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
+              onPress={() =>  navigation.dispatch(DrawerActions.jumpTo('Professional groups'))}
+              />
+
+
              <DrawerItem
               icon={({ color, size }) => (
                 <MaterialCommunityIcons

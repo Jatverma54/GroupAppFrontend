@@ -2,15 +2,15 @@ import 'react-native-gesture-handler';
 import * as React from 'react'
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import ProfessionalGroupsScreen from '../screens/ProfessionalGroupScreens/ProfessionalGroupsScreen';
+import { createMaterialBottomTabNavigator   } from '@react-navigation/material-bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, Text, View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
-import CreateaPersonalGroup from '../screens/PersonalGroupScreens/CreateaPersonalGroup';
-import PersonalGroupFeedScreen from '../screens/PersonalGroupScreens/PersonalGroupFeedScreen';
-import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPersonalGroupPostScreen';
+import CreateaProfessionalGroup from '../screens/ProfessionalGroupScreens/CreateaProfessionalGroup';
+import ProfessionalGroupFeedScreen from '../screens/ProfessionalGroupScreens/ProfessionalGroupFeedScreen';
+import YourProfessionalGroupPostScreen from '../screens/ProfessionalGroupScreens/YourProfessionalGroupPostScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 
@@ -26,11 +26,11 @@ const HeaderLeft = () => {
     );
   };
 
-const PersonalGroupRootStack = createStackNavigator();
-  const PersonalGroupRootStackNavigator =()=>{
+const ProfessionalGroupRootStack = createStackNavigator();
+  const ProfessionalGroupRootStackNavigator =()=>{
     
     return ( 
-       <PersonalGroupRootStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+       <ProfessionalGroupRootStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeft/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -52,26 +52,26 @@ const PersonalGroupRootStack = createStackNavigator();
       }}>
         
 
-<PersonalGroupRootStack.Screen  
+<ProfessionalGroupRootStack.Screen  
      options={{        
-      headerTitle: 'Personal Groups' }} 
-            name='PersonalGroupsScreen' 
-            component={withMyHook(PersonalGroupsScreen)}/>
+      headerTitle: 'Professional Groups' }} 
+            name='ProfessionalGroupsScreen' 
+            component={withMyHook(ProfessionalGroupsScreen)}/>
 
-<PersonalGroupRootStack.Screen  
+<ProfessionalGroupRootStack.Screen  
          
          options={{headerShown:false}} 
-               name='CreateaPersonalGroup' 
-               component={CreateaPersonalGroup}   />  
+               name='CreateaProfessionalGroup' 
+               component={CreateaProfessionalGroup}   />  
 
-<PersonalGroupRootStack.Screen  
+<ProfessionalGroupRootStack.Screen  
          options={{headerShown:false}} 
-               name='PersonalGroupFeed' 
-               component={PersonalGroupFeedScreenkNavigator}   />  
+               name='ProfessionalGroupFeed' 
+               component={ProfessionalGroupFeedScreenkNavigator}   />  
 
      
 
-</PersonalGroupRootStack.Navigator>
+</ProfessionalGroupRootStack.Navigator>
      
     
     );
@@ -80,15 +80,15 @@ const PersonalGroupRootStack = createStackNavigator();
 
 
 
-  const PersonalGroupInsideGroupTabStack = createMaterialTopTabNavigator();
-  const PersonalGroupInsideGroupTabStackNavigator =(props)=>{
+  const ProfessionalGroupInsideGroupTabStack = createMaterialTopTabNavigator();
+  const ProfessionalGroupInsideGroupTabStackNavigator =(props)=>{
     
     
     return (
   
      
-        <PersonalGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
-        activeColor="black"  
+        <ProfessionalGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
+      activeColor="black"  
       inactiveColor="Grey"
      barStyle={{ backgroundColor: 'white' }}
      tabBarOptions={{
@@ -101,34 +101,36 @@ const PersonalGroupRootStack = createStackNavigator();
       },   
       
     }}
+      
     >        
-        <PersonalGroupInsideGroupTabStack.Screen  options={{
-         tabBarLabel: ({focused, tintColor:color}) => (
+        <ProfessionalGroupInsideGroupTabStack.Screen   options={{
+          tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
+          )
         }}
       
             name='Feed' 
-            component={withMyHook(PersonalGroupFeedScreen)}/>
+            component={withMyHook(ProfessionalGroupFeedScreen)}/>
 
 
 
 
-<PersonalGroupInsideGroupTabStack.Screen  options={{
+<ProfessionalGroupInsideGroupTabStack.Screen  options={{
           tabBarLabel: 'Your Posts',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="local-post-office" color={color} size={26} />
           ),
+          labelStyle:{fontWeight:"bold"}
         }}
       
       
       name='Your Posts' 
-      component={YourPersonalGroupPostScreen}/>
+      component={YourProfessionalGroupPostScreen}/>
 
 
 
-<PersonalGroupInsideGroupTabStack.Screen  options={{
-          tabBarLabel: ({focused, tintColor:color}) => (
+<ProfessionalGroupInsideGroupTabStack.Screen  options={{
+           tabBarLabel: ({focused, tintColor:color}) => (
             <MaterialCommunityIcons name="bell" color={color} size={26} />
           ),
         }}
@@ -137,7 +139,7 @@ const PersonalGroupRootStack = createStackNavigator();
       name='Notification' 
       component={NotificationScreen}/>
   
-        </PersonalGroupInsideGroupTabStack.Navigator>
+        </ProfessionalGroupInsideGroupTabStack.Navigator>
     
       
     );
@@ -152,11 +154,11 @@ const PersonalGroupRootStack = createStackNavigator();
     }
   }
 
-  const PersonalGroupFeedScreenStack = createStackNavigator();
-  const PersonalGroupFeedScreenkNavigator =()=>{
+  const ProfessionalGroupFeedScreenStack = createStackNavigator();
+  const ProfessionalGroupFeedScreenkNavigator =()=>{
     
     return ( 
-       <PersonalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,headerRight:({})=><HeaderRightFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+       <ProfessionalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,headerRight:({})=><HeaderRightFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -180,15 +182,15 @@ const PersonalGroupRootStack = createStackNavigator();
 
 
 
-<PersonalGroupFeedScreenStack.Screen  
+<ProfessionalGroupFeedScreenStack.Screen  
          options={{        
-          headerTitle: 'Personal Groups Feed' }} 
-               name='PersonalGroupFeed' 
-               component={PersonalGroupInsideGroupTabStackNavigator}   />  
+          headerTitle: 'Professional Groups Feed' }} 
+               name='ProfessionalGroupFeed' 
+               component={ProfessionalGroupInsideGroupTabStackNavigator}   />  
 
      
 
-</PersonalGroupFeedScreenStack.Navigator>
+</ProfessionalGroupFeedScreenStack.Navigator>
      
     
     );
@@ -261,4 +263,4 @@ const PersonalGroupRootStack = createStackNavigator();
   }
   });
   
-  export default PersonalGroupRootStackNavigator;
+  export default ProfessionalGroupRootStackNavigator;

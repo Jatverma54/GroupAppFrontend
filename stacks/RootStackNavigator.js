@@ -11,6 +11,7 @@ import PersonalGroupRootStackNavigator from '../stacks/PersonalGroupRootStackNav
 import PublicGroupStackNavigator from '../stacks/PublicGroupStackNavigator';
 import NotificatioStackNavigator from '../stacks/NotificatioStackNavigator';
 import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigator';
+import ProfessionalGroupRootStackNavigator from '../stacks/ProfessionalGroupRootStackNavigator';
 import DrawerContent from '../screens/DrawerContent';
 
 
@@ -92,6 +93,7 @@ return(
     <DrawerStack.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
      <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
      <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
+     <DrawerStack.Screen name="Professional groups" component={ProfessionalGroupRootStackNavigator}/>
      <DrawerStack.Screen name="Profile" component={NotificatioStackNavigator}/>
        
     </DrawerStack.Navigator>
