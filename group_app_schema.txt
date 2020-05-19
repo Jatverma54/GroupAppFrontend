@@ -1,0 +1,68 @@
+1) Users
+{
+    id,
+    username,
+    email,
+    password,
+    created_groups:[
+    ],
+    joined_groups: [],
+    stories: [],
+    profile: {
+        profile_pic,
+        dob,
+        first_name,
+        last_name
+    }
+}
+3) personal_groups
+{
+    id,
+    name,
+    members,
+    posts:[],
+    category
+    date
+}
+2) public_groups
+{
+    id,
+    group_name,
+    category_id,
+    privacy: public,
+    created_by/admin
+    date,
+    post:[]
+},
+{
+    id,
+    group_name,
+    category_id,
+    privacy: private,
+    created_by/admin
+    date,
+    accessible: 
+}
+3) Categories:
+{
+    id,
+    name
+}
+4) Posts
+{
+    id,
+    image,
+    text,
+    like,
+    comment
+}
+5) Notification
+{
+    id,
+    message,
+    group_id,
+    activity_by: user/admin
+    activity: 
+    post_id,
+    date
+}

@@ -30,7 +30,7 @@ const MainScreenPage = ({navigation}) => {
 
                 <View style={styles.ButtonContainer}>
     <View style={styles.button}><Button title="Login" color={colors.LoginButtonColor}  onPress={({}) => navigation.navigate('LoginScreen')}/></View>
-                    <View style={styles.button}><Button title="SignUp" color={colors.SignUpButton} /></View>
+                    <View style={styles.button}><Button title="SignUp" color={colors.SignUpButton} onPress={({}) => navigation.navigate('SignupScreen')}/></View>
 
                  </View> 
 

@@ -6,6 +6,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StyleSheet,TouchableOpacity,  View, Image, Modal,  } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 import colors from '../constants/colors';
 import PersonalGroupRootStackNavigator from '../stacks/PersonalGroupRootStackNavigator';
 import PublicGroupStackNavigator from '../stacks/PublicGroupStackNavigator';
@@ -49,6 +50,11 @@ return(
  options={{headerShown:false}}
       name='LoginScreen' 
       component={LoginScreen}/>
+
+<RootMainStack.Screen  
+ options={{headerShown:false}}
+      name='SignupScreen' 
+      component={SignupScreen}/>
 
 
 
