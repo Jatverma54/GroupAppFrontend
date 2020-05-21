@@ -25,6 +25,7 @@ import colors from '../constants/colors';
   const DrawerContent=(props)=> {
     const navigation = useNavigation();
     return (
+      
       <DrawerContentScrollView {...props}>
         <View
           style={

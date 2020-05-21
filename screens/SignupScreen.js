@@ -34,7 +34,7 @@ export default class SignupScreen extends Component {
             password: password,
             email: email
         }
-        const response = await fetch("http://10.0.2.2:3000/users/", {
+        const response = await fetch("http://localhost:3000/users/", {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
         'Content-Type': 'application/json'

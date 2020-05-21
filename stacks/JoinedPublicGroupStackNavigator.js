@@ -4,7 +4,7 @@ import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, Text,ScrollView ,View, ImageBackground, Image, Button, Modal } from 'react-native';
+import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button, Modal } from 'react-native';
 import {NavigationContainer,DrawerActions} from '@react-navigation/native';
 import JoinedPublicGroupsScreen from '../screens/JoinPublicGroupScreen/JoinedPublicGroupsScreen';
 import JoinedGroupInsideGroupFeed from '../screens/JoinPublicGroupScreen/JoinedGroupInsideGroup';
@@ -16,8 +16,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
-
-
+import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 
 
   const JoinedPublicGroupStack = createStackNavigator();
@@ -34,10 +33,8 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
             name='JoinedPublicGroupsScreen' 
             component={withMyHook(JoinedPublicGroupsScreen)}/>
 
-        <JoinedPublicGroupStack.Screen 
-         options={{headerShown:false}} 
-            name='JoinedGroupInsideGroup' 
-            component={HomeFeedStackNavigator}   />
+     
+       
        
         </JoinedPublicGroupStack.Navigator>
     
@@ -62,7 +59,7 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
     
     return (
   
-    
+     
         <JoinedGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
         activeColor="black"  
         inactiveColor="Grey"
@@ -116,25 +113,22 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
   
         </JoinedGroupInsideGroupTabStack.Navigator>
     
+      
     );
   };
   
 
 
   const HomeFeedStack = createStackNavigator();
-  const HomeFeedStackNavigator =()=>{
+  export const HomeFeedStackNavigator =()=>{
     
      
     return (
   
-      <Modal   animationType="slide" 
-      visible={true}
-      
-      >
-       <HomeFeedStack.Navigator  headerMode='float' screenOptions={{ headerLeft:()=>
+    
+       <HomeFeedStack.Navigator  headerMode='screen' screenOptions={{ headerLeft:()=>
         <HeaderLeftFeed/>
-       , 
-       headerRight:({})=><HeaderRightFeed/>,
+       ,
        
        cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -155,11 +149,11 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
     }),     
     headerTitleStyle: {
       fontWeight: 'bold',
-      marginTop:-20
+      
       
     },
         headerTintColor: colors.StackheaderTintColor,
-        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:60 },
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
       }}>
         
 
@@ -170,8 +164,16 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
             name='Group FEED' 
             component={JoinedGroupInsideGroupTabStackNavigator}/>  
 
+<HomeFeedStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaNewPost' 
+   component={CreateaNewPost}/>
+
 </HomeFeedStack.Navigator>
-</Modal>
+
     
     );
   };
@@ -241,3 +243,4 @@ import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPubl
   });
   
   export default JoinedPublicGroupStackNavigator;
+ 

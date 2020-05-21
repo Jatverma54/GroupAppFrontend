@@ -8,6 +8,8 @@ import {DrawerActions} from '@react-navigation/native';
 import ExplorePublicGroupTabStackNavigator from '../stacks/ExplorePublicGroupStackNavigator';
 import SearchFunctionality from '../components/Search';
 import SearchIcon from '../Pictures/SearchIcon.png';
+import {HomeFeedStackNavigator} from '../stacks/JoinedPublicGroupStackNavigator';
+import PublicGroupBio from '../screens/PublicGroupScreens/PublicGroupBio';
 
 
 const HeaderLeft = () => {
@@ -79,18 +81,87 @@ const Search=()=>{
             headerTitle: 'Search Groups' }} 
             name='Search Public Group' 
             component={SearchFunctionality}   />
+
+<PublicGroupStack.Screen   
+           options={{headerShown:false}} 
+           name='JoinedGroupInsideGroup' 
+           component={HomeFeedStackNavigator}   />
+
+
+
+<PublicGroupStack.Screen   
+           options={{headerShown:false}} 
+           name='PublicGroupBio' 
+           component={PublicGroupBioStackNavigator}   />
          
         </PublicGroupStack.Navigator>
 
+
+    );
+  };
+
+  
+  const PublicGroupBioStack = createStackNavigator();
+   const PublicGroupBioStackNavigator =()=>{
+    
+     
+    return (
+  
+    
+       <PublicGroupBioStack.Navigator  headerMode='screen' screenOptions={{ headerLeft:({})=><HeaderLeftBio/>,
+       
+       cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      
+      
+    },
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+      }}>
         
+
+<PublicGroupBioStack.Screen  
+     options={{        
+      headerTitle: 'Group Bio' }} 
+     
+            name='PublicGroupBio' 
+            component={PublicGroupBio}/>  
+
+</PublicGroupBioStack.Navigator>
+
+    
     );
   };
 
 
-
-
-
-
+  const HeaderLeftBio = () => {
+    const navigation = useNavigation();
+    return (
+      <View style={styles.ImageHeaderBio}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        <Image   style={styles.ImageIconStyleBio} 
+         source={require('../Pictures/BackArrow.png')}/>
+         </TouchableOpacity>
+      </View>
+    );
+  };
 
   const styles = StyleSheet.create({
 
@@ -108,7 +179,20 @@ const Search=()=>{
   },
   SearchIconStyle:{
    marginRight:20
-  }
+  },
+
+  ImageIconStyleBio:{
+    padding: 10,
+    margin: 5,
+    height: 30,
+    width: 50,
+    resizeMode : 'stretch',
+  },
+  ImageHeaderBio:{
+    padding: 5,
+    marginLeft:7,
+      justifyContent:'flex-end'
+  },
   });
   
   export default PublicGroupStackNavigator;

@@ -113,16 +113,23 @@ export default class PublicGroupListScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
+           
             <View style={styles.container}>
+                <TouchableOpacity onPress={()=>this.props.myHookValue.push("PublicGroupBio")}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
+              </TouchableOpacity>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
+                  <TouchableOpacity onPress={()=>this.props.myHookValue.push("PublicGroupBio")}>
                     <Text style={styles.groupName}>{Group.name}</Text>
+                    </TouchableOpacity>
                   </View>
+                 
                   <Text style={styles.countMembers}>
                     {Group.countMembers} members
                   </Text>
+                  
                   <View style={styles.ButtonContainer}>
               <View style={styles.button}><Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor}  /></View>
               </View> 
@@ -130,7 +137,8 @@ export default class PublicGroupListScreen extends Component {
                 
               </View>
               
-            </View>            
+            </View>       
+                
           );
         }}/>
 

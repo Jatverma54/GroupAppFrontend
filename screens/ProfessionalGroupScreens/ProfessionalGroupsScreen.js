@@ -9,7 +9,7 @@ import {
   FlatList
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
-import actions from '../../components/FloatingActionButtonPersonal';
+import actions from '../../components/FloatingActionsButtonProfessional';
 import { useNavigation } from '@react-navigation/native';
 
 

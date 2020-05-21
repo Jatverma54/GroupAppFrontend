@@ -13,6 +13,7 @@ import ProfessionalGroupFeedScreen from '../screens/ProfessionalGroupScreens/Pro
 import YourProfessionalGroupPostScreen from '../screens/ProfessionalGroupScreens/YourProfessionalGroupPostScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
+import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -158,7 +159,7 @@ const ProfessionalGroupRootStack = createStackNavigator();
   const ProfessionalGroupFeedScreenkNavigator =()=>{
     
     return ( 
-       <ProfessionalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,headerRight:({})=><HeaderRightFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+       <ProfessionalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -188,7 +189,13 @@ const ProfessionalGroupRootStack = createStackNavigator();
                name='ProfessionalGroupFeed' 
                component={ProfessionalGroupInsideGroupTabStackNavigator}   />  
 
-     
+<ProfessionalGroupFeedScreenStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaNewPost' 
+   component={CreateaNewPost}/>
 
 </ProfessionalGroupFeedScreenStack.Navigator>
      

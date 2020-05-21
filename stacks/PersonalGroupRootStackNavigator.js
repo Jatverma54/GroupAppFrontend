@@ -13,6 +13,7 @@ import PersonalGroupFeedScreen from '../screens/PersonalGroupScreens/PersonalGro
 import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPersonalGroupPostScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
+import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -156,7 +157,7 @@ const PersonalGroupRootStack = createStackNavigator();
   const PersonalGroupFeedScreenkNavigator =()=>{
     
     return ( 
-       <PersonalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,headerRight:({})=><HeaderRightFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+       <PersonalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -187,6 +188,14 @@ const PersonalGroupRootStack = createStackNavigator();
                component={PersonalGroupInsideGroupTabStackNavigator}   />  
 
      
+<PersonalGroupFeedScreenStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaNewPost' 
+   component={CreateaNewPost}/>
+
 
 </PersonalGroupFeedScreenStack.Navigator>
      

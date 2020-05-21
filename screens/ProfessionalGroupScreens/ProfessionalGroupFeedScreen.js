@@ -24,6 +24,7 @@ import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../../components/FacebookPostImage';
 import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
+import Post_Add from '../../Pictures/Post_Add.png';
 
 export default class ProfessionalGroupFeedScreen extends Component {
 
@@ -44,6 +45,31 @@ export default class ProfessionalGroupFeedScreen extends Component {
     };
   }
 
+
+   Stories=()=>{
+ 
+    return(
+  
+      <View style={{ flex:1 }} >
+    <TouchableOpacity style={styles.buttonContainer}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+  <View>
+  <View style={styles.bodyContent}  >
+            <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
+            </View>
+            <View>
+              
+            <Image 
+                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
+                   source={Post_Add} />
+              </View> 
+            </View>
+          </TouchableOpacity> 
+   </View> 
+    );
+        
+        
+  }
+
   render() {
          
 
@@ -62,6 +88,11 @@ export default class ProfessionalGroupFeedScreen extends Component {
               <View style={styles.separator}/>
             )
           }}
+
+          ListHeaderComponent={
+           this.Stories
+           
+       }
 
           renderItem={(post) => {
             const item = post.item;
@@ -234,5 +265,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
    
+  },
+  bodyContent: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+  buttonContainer: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:10,
+    width:"100%",
+    borderRadius:30,
+    backgroundColor: "white",
   }
 });  

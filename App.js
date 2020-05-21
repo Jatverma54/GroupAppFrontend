@@ -10,6 +10,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 export default function App() {
 
   return (
+    <NavigationContainer>
 <View style={styles.Rootscreen}>
 
 <StatusBar 
@@ -19,7 +20,7 @@ export default function App() {
         translucent = {true}
         networkActivityIndicatorVisible = {true}
         />
-        <NavigationContainer>
+       
        <PaperProvider>
     
 
@@ -27,8 +28,9 @@ export default function App() {
 
    
    </PaperProvider>
-   </NavigationContainer>
+  
     </View>
+    </NavigationContainer>
   );
 }
 

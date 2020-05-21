@@ -64,6 +64,10 @@ export default class PublicGroupFeedScreen extends Component {
               <View style={styles.separator}/>
             )
           }}
+          ListHeaderComponent={
+            <Stories />
+           
+       }
 
           renderItem={(post) => {
             const item = post.item;
@@ -118,18 +122,17 @@ export default class PublicGroupFeedScreen extends Component {
   }
 }
 
-var NumberOfRun=1;
-const Stories=(Number_of_run)=>{
+
+const Stories=()=>{
  
-  if(NumberOfRun === 1){
-    NumberOfRun=NumberOfRun+1;  
+  
   
     return(
  
       <View style={{ height: 100 }}>
      
       
-      <View style={{ flex: 3 }}>
+      <View style={{ flex: 3,backgroundColor:"white" }}>
           <ScrollView
              
              horizontal={true}
@@ -146,37 +149,37 @@ const Stories=(Number_of_run)=>{
                <Avatar.Image 
                   style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
                <Avatar.Image
                 style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
               <Avatar.Image
                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
                <Avatar.Image
                 style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
      <Avatar.Image
       style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
     source={DrawerLogo}
-    size={90}
+    size={70}
     />
           </ScrollView>
 
@@ -186,10 +189,7 @@ const Stories=(Number_of_run)=>{
     
     );
    
-     }else{
-return(null);
-        }
-      
+    
         
 }
 

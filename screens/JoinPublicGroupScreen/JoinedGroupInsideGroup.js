@@ -24,6 +24,7 @@ import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../../components/FacebookPostImage';
 import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
+import Post_Add from '../../Pictures/Post_Add.png';
 
 export default class JoinedGroupInsideGroupFeed extends Component {
 
@@ -44,91 +45,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     };
   }
 
-
-  render() {
-         
-
-    return (
-      
-      <View style={styles.container}>
-    
-    <ScrollView>  
-           <Stories/>
-
-        <FlatList style={styles.list}
-          data={this.state.data}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
-
-          renderItem={(post) => {
-            const item = post.item;
-            return (
-
-              <View style={styles.card}>
-             
-          
-               <View style={styles.cardHeader}>
-                  <View>
-                  <Avatar.Image size={45}
-                  style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
-                     source={DrawerLogo}/>
-    
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.time}>{item.time}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.cardContent}>             
-            <Text style={styles.title2}>{item.postMetaData}</Text>
-            
-            </View>
-                <FbImages/>
-                
-                <View style={styles.cardFooter}>
-                  <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Like}/>
-                        <Text style={styles.socialBarLabel}>78</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Comment}/>
-                        <Text style={styles.socialBarLabel}>25</Text>
-                      </TouchableOpacity>
-                    </View>
-                    
-                  </View>
-
-                </View>              
-                
-              </View>
-            )           
-          }}/>
-         </ScrollView>  
-      </View>
-     
-    );
-  }
-}
-
-
-const Stories=()=>{
+   Stories=()=>{
  
   
   
     return(
- 
+      <View style={{ flex:1 }} >
+
       <View style={{ height: 100 }}>
      
-      
+     
+
+     
       <View style={{ flex: 3,backgroundColor:"white" }}>
           <ScrollView
              
@@ -182,14 +110,106 @@ const Stories=()=>{
 
           
       </View>
+
     </View>
-    
+
+
+    <TouchableOpacity style={styles.buttonContainer} onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+  <View>
+<View style={styles.bodyContent}  >
+            <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
+            </View>
+            <View>
+              
+            <Image 
+                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
+                   source={Post_Add} />
+              </View> 
+            </View>
+          </TouchableOpacity> 
+   </View> 
     );
-   
-     
-      
+        
         
 }
+
+  render() {
+         
+
+    return (
+      
+      <View style={styles.container}>
+  
+     <FlatList style={styles.list}
+          data={this.state.data}
+          keyExtractor= {(item) => {
+            return item.id;
+          }}
+          ItemSeparatorComponent={() => {
+            return (
+              <View style={styles.separator}/>
+            )
+          }}
+          ListHeaderComponent={
+            this.Stories
+           
+       }
+
+          renderItem={(post) => {
+            const item = post.item;
+            return (
+
+              <View style={styles.card}>
+             
+          
+               <View style={styles.cardHeader}>
+                  <View>
+                  <Avatar.Image size={45}
+                  style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
+                     source={DrawerLogo}/>
+    
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.time}>{item.time}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.cardContent}>             
+            <Text style={styles.title2}>{item.postMetaData}</Text>
+            
+            </View>
+                <FbImages/>
+                
+                <View style={styles.cardFooter}>
+                  <View style={styles.socialBarContainer}>
+                    <View style={styles.socialBarSection}>
+                      <TouchableOpacity style={styles.socialBarButton}>
+                        <Image style={styles.icon} source={Like}/>
+                        <Text style={styles.socialBarLabel}>78</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.socialBarSection}>
+                      <TouchableOpacity style={styles.socialBarButton}>
+                        <Image style={styles.icon} source={Comment}/>
+                        <Text style={styles.socialBarLabel}>25</Text>
+                      </TouchableOpacity>
+                    </View>
+                    
+                  </View>
+
+                </View>              
+                
+              </View>
+            )           
+          }}/>
+        
+      </View>
+     
+    );
+  }
+}
+
+
+
 
 
 const styles = StyleSheet.create({
@@ -278,6 +298,7 @@ const styles = StyleSheet.create({
   icon: {
     width:25,
     height:25,
+    marginRight:5
   },
   /******** social bar ******************/
   socialBarContainer: {
@@ -304,5 +325,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
    
+  },
+  bodyContent: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+  buttonContainer: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:10,
+    width:"100%",
+    borderRadius:30,
+    backgroundColor: "white",
   }
 });  

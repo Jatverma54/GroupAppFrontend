@@ -10,6 +10,8 @@ import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreens/Explo
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
 import CreateaPublicGroupScreen from '../screens/PublicGroupScreens/CreateaPublicGroupScreen';
 import PublicGroupListScreen from '../screens/PublicGroupScreens/PublicGroupListScreen';
+import BackArrow from '../Pictures/BackArrow.png';
+
 
 
 
@@ -137,24 +139,27 @@ const HeaderLeft = () => {
             }),
           },
         }),     
-            
+        headerTitleStyle: {
+        
+          marginTop:-30
+        },
             headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor },
+            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
           }} >
 <ExplorePublicGroupCategoryBasedStack.Screen 
  
- options={{headerShown:false}} 
+ options={{
+  
+  headerTitle: "Healthcare Groups" }} 
    name='Public Groups List' 
-   component={PublicGroupListScreen}/>
+   component={withMyHook(PublicGroupListScreen)}/>
  
 
 <ExplorePublicGroupCategoryBasedStack.Screen 
  
-options={{
-  
-  headerTitle: "Create a Public Group" }} 
+ options={{headerShown:false}} 
   name='Create a Public Group' 
-  component={CreateaPublicGroupScreen}/>
+  component={CreateaPublicGroupStackNavigator}/>
 
 </ExplorePublicGroupCategoryBasedStack.Navigator>
 
@@ -162,7 +167,76 @@ options={{
     );
   };
   
+
+
+  const CreateaPublicGroupStack = createStackNavigator();
+  const CreateaPublicGroupStackNavigator =()=>{
+    
+    return (
  
+        <CreateaPublicGroupStack.Navigator   headerMode='float' screenOptions={{ headerLeft:({})=><HeaderLeftCreateaPublicGroup/> ,cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),     
+        headerTitleStyle: {
+        
+          marginTop:-25
+        },
+            headerTintColor: colors.StackheaderTintColor,
+            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
+          }} >
+  
+<CreateaPublicGroupStack.Screen 
+ 
+options={{
+  
+  headerTitle: "Create a Public Group" }} 
+  name='Create a Public Group' 
+  component={CreateaPublicGroupScreen}/>
+
+
+
+</CreateaPublicGroupStack.Navigator>
+
+
+    );
+  };
+
+  const HeaderLeftCreateaPublicGroup = () => {
+    const navigation = useNavigation();
+    return (
+      <View style={styles.ImageHeader}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        <Image   style={styles.ImageIconStyle} 
+         source={BackArrow}/>
+       
+         </TouchableOpacity>
+      </View>
+    );
+  };
+  
+ 
+  function withMyHook(Component) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} myHookValue={myHookValue} />;
+    }
+  }
+
+
 
   const styles = StyleSheet.create({
 
@@ -177,6 +251,12 @@ options={{
     height: 30,
     width: 50,
     resizeMode : 'stretch',
+   
+  },
+  ImageHeader:{
+    padding: 5,
+    marginLeft:7,
+  justifyContent:'flex-end'
   }
   });
   

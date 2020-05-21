@@ -3,7 +3,7 @@ import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet,TouchableOpacity,  View, Image, Modal,  } from 'react-native';
+import { StyleSheet,TouchableOpacity, View, Image, Modal,  } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -14,7 +14,7 @@ import NotificatioStackNavigator from '../stacks/NotificatioStackNavigator';
 import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigator';
 import ProfessionalGroupRootStackNavigator from '../stacks/ProfessionalGroupRootStackNavigator';
 import DrawerContent from '../screens/DrawerContent';
-
+import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
 
 
 
@@ -77,7 +77,7 @@ return(
   const DrawerScreen = () => {
     return(
 
-   
+    
     <DrawerStack.Navigator    
       
  
@@ -88,7 +88,7 @@ return(
       }}   
       drawerStyle={{
         backgroundColor: colors.drawerBackgroundcolor,
-        width: 240,
+        width: 400,
         
         fontFamily: 'SomeFont',
       }}
@@ -96,17 +96,18 @@ return(
      />}
      
       >   
+     
+             
     <DrawerStack.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
      <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
      <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
      <DrawerStack.Screen name="Professional groups" component={ProfessionalGroupRootStackNavigator}/>
-     <DrawerStack.Screen name="Profile" component={NotificatioStackNavigator}/>
+     <DrawerStack.Screen name="Profile" component={ProfileScreenStackNavigator}/>
        
     </DrawerStack.Navigator>
    
     );
     };
-
 
 
 
