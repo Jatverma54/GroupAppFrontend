@@ -25,6 +25,7 @@ import FbImages from '../../components/FacebookPostImage';
 import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
+import Stories from '../../components/Stories';
 
 export default class JoinedGroupInsideGroupFeed extends Component {
 
@@ -45,93 +46,63 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     };
   }
 
-   Stories=()=>{
- 
+//    Stories=(Stories)=>{
+//  console.log(Stories.id);
+//     if(Stories.id) {
   
-  
-    return(
-      <View style={{ flex:1 }} >
-
-      <View style={{ height: 100 }}>
+//     return(
+//       <View style={{ flex:1 }} >
+//       <View style={{ height: 100 }}>
      
-     
-
-     
-      <View style={{ flex: 3,backgroundColor:"white" }}>
-          <ScrollView
+      
+//       <View style={{ flex: 3 ,backgroundColor:"white" }}>
+//           <ScrollView
              
-             horizontal={true}
-             showsHorizontalScrollIndicator={false}
-             contentContainerStyle={{
-                 alignItems: 'center',
-                 paddingStart: 5,
-                 paddingEnd: 5,
+//              horizontal={true}
+//              showsHorizontalScrollIndicator={false}
+//              contentContainerStyle={{
+//                  alignItems: 'center',
+//                  paddingStart: 5,
+//                  paddingEnd: 5,
               
-             }}
-    
-          >
-            
-               <Avatar.Image 
-                  style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-              <Avatar.Image
-               style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-          </ScrollView>
+//              }} >
+
+//             <View>
+//                <Avatar.Image 
+//                   style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
+//                    source={DrawerLogo} size={70}/>
+//                  <Text style={{marginLeft:25}}>jatin</Text>
+//             </View>
+
+   
+//           </ScrollView>
 
           
-      </View>
-
-    </View>
-
-
-    <TouchableOpacity style={styles.buttonContainer} onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
-  <View>
-<View style={styles.bodyContent}  >
-            <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
-            </View>
-            <View>
+//       </View>
+      
+     
+//     </View>
+  
+// <TouchableOpacity style={styles.buttonContainer} onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+//   <View>
+// <View style={styles.bodyContent}  >
+//             <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
+//             </View>
+//             <View>
               
-            <Image 
-                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
-                   source={Post_Add} />
-              </View> 
-            </View>
-          </TouchableOpacity> 
-   </View> 
-    );
-        
-        
-}
+//             <Image 
+//                   style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
+//                    source={Post_Add} />
+//               </View> 
+//             </View>
+//           </TouchableOpacity> 
+
+//      </View>
+   
+    
+//     );
+//             }return null; 
+// }
 
   render() {
          
@@ -151,7 +122,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             )
           }}
           ListHeaderComponent={
-            this.Stories
+           <Stories nav={this.props}/>
            
        }
 
