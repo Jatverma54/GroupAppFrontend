@@ -111,9 +111,14 @@ export default class PersonalGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
-            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupFeed")}>
+          
             <View style={styles.container}>
+
+               <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupBio")}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
+              </TouchableOpacity>    
+             
+             <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupFeed")}>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
@@ -128,9 +133,9 @@ export default class PersonalGroupsScreen extends Component {
                   {this.renderGroupMembers(Group)}
                 </View>
               </View>
-             
+              </TouchableOpacity>    
             </View>   
-            </TouchableOpacity>           
+               
           );
         }}/>
 

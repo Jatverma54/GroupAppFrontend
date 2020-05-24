@@ -17,6 +17,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import TextInputClass from '../screens/Posts/TextInputClass';
 
 
   const JoinedPublicGroupStack = createStackNavigator();
@@ -147,11 +148,11 @@ import CreateaNewPost from '../screens/Posts/CreateaNewPost';
         }),
       },
     }),     
-    headerTitleStyle: {
-      fontWeight: 'bold',
+    // headerTitleStyle: {
+    //   fontWeight: 'bold',
       
       
-    },
+    // },
         headerTintColor: colors.StackheaderTintColor,
         headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
       }}>
@@ -170,11 +171,20 @@ import CreateaNewPost from '../screens/Posts/CreateaNewPost';
    
    headerTitle: "Create a New Post" }} 
    name='CreateaNewPost' 
-   component={CreateaNewPost}/>
+   component={withMyHook(CreateaNewPost)}/>
+
+   
+<HomeFeedStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Start a conversation" }} 
+   name='CreateaTextPost' 
+   component={withMyHook(TextInputClass)}/>
 
 </HomeFeedStack.Navigator>
 
-    
+
     );
   };
 

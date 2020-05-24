@@ -64,10 +64,7 @@ export default class PublicGroupFeedScreen extends Component {
               <View style={styles.separator}/>
             )
           }}
-          ListHeaderComponent={
-            <Stories />
-           
-       }
+         
 
           renderItem={(post) => {
             const item = post.item;
@@ -123,75 +120,7 @@ export default class PublicGroupFeedScreen extends Component {
 }
 
 
-const Stories=()=>{
- 
-  
-  
-    return(
- 
-      <View style={{ height: 100 }}>
-     
-      
-      <View style={{ flex: 3,backgroundColor:"white" }}>
-          <ScrollView
-             
-             horizontal={true}
-             showsHorizontalScrollIndicator={false}
-             contentContainerStyle={{
-                 alignItems: 'center',
-                 paddingStart: 5,
-                 paddingEnd: 5,
-              
-             }}
-    
-          >
-            
-               <Avatar.Image 
-                  style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-              <Avatar.Image
-               style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={70}
-    />
-          </ScrollView>
 
-          
-      </View>
-    </View>
-    
-    );
-   
-    
-        
-}
 
 
 const styles = StyleSheet.create({

@@ -14,7 +14,7 @@ const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
         <Image   style={styles.ImageIconStyle} 
          source={require('../Pictures/menu.png')}/>
          </TouchableOpacity>
@@ -136,7 +136,7 @@ const HeaderLeft = () => {
       },
     }),     
     headerTitleStyle: {
-      fontWeight: 'bold',
+     
       marginTop:-20
       
     },

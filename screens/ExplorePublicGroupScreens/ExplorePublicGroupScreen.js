@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import {DrawerActions} from '@react-navigation/native';
 
 
 export default class ExplorePublicGroupScreen extends Component {
@@ -37,46 +37,42 @@ export default class ExplorePublicGroupScreen extends Component {
   clickEventListener(item) {
     Alert.Alert(item.title)
   }
-  
+ 
   render() {
     
-    return (
-      <ExplorePublicCards state= {this.state}/>
+    return (  
+    
+      <View style={styles.container}>
+     
+      <FlatList style={styles.list}
+        contentContainerStyle={styles.listContainer}
+        data={this.state.data}
+        horizontal={false}
+        numColumns={2}
+        keyExtractor= {(item) => {
+          return item.id;
+        }}
+        
+        renderItem={({item}) => {
+          return (
+            <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>this.props.myHookValue.push("ExplorePublicGroupCategoryBased")}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.title}>{item.title}</Text>                
+              </View>
+              <Image style={styles.cardImage} source={{uri:item.image}}/>
+              <View style={styles.cardFooter}>
+                <Text style={styles.subTitle}>{item.Groups} Groups</Text>
+              </View>
+            </TouchableOpacity>
+          )
+        }}/>
+    </View>
     );
   }
+ 
 }
 
-const ExplorePublicCards=(state)=>{
-  const navigation = useNavigation();
-return(
-<View style={styles.container}>
-        <FlatList style={styles.list}
-          contentContainerStyle={styles.listContainer}
-          data={state.state.data}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          
-          renderItem={({item}) => {
-            return (
-              <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>navigation.push("ExplorePublicGroupCategoryBased")}>
-                <View style={styles.cardHeader}>
-                  <Text style={styles.title}>{item.title}</Text>                
-                </View>
-                <Image style={styles.cardImage} source={{uri:item.image}}/>
-                <View style={styles.cardFooter}>
-                  <Text style={styles.subTitle}>{item.Groups} Groups</Text>
-                </View>
-              </TouchableOpacity>
-            )
-          }}/>
-      </View>
 
-)
-
-}
 
 
 

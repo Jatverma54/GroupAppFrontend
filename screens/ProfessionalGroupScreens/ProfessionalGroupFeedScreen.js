@@ -25,6 +25,8 @@ import FbImages from '../../components/FacebookPostImage';
 import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
+import AddGroup from '../../Pictures/AddGroup.png';
+import ShareIcon from '../../Pictures/ShareIcon.png';
 
 export default class ProfessionalGroupFeedScreen extends Component {
 
@@ -46,25 +48,69 @@ export default class ProfessionalGroupFeedScreen extends Component {
   }
 
 
-   Stories=()=>{
+  PostScreen=()=>{
  
     return(
   
       <View style={{ flex:1 }} >
-    <TouchableOpacity style={styles.buttonContainer}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
-  <View>
-  <View style={styles.bodyContent}  >
-            <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
-            </View>
-            <View>
+      <View>
+     
+      <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+       <View>
+       <View style={styles.bodyContentInviteMember}  >
+                 <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 
+                 </View>
+                 <View>
+                   
+                 <Image 
+                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                        source={AddGroup} />
+                        
+                   </View> 
+                 </View>
+               </TouchableOpacity>
+     
+               <View>
+     
+     <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+      <View>
+      <View style={styles.bodyContentShare}  >
+                <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Share Group</Text> 
+                </View>
+                <View>
+                  
+                <Image 
+                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                       source={ShareIcon} />
+                       
+                  </View> 
+                </View>
+              </TouchableOpacity>
+     
+     
+     </View>
+     
+     
+     
+      </View>
               
-            <Image 
-                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
-                   source={Post_Add} />
-              </View> 
-            </View>
-          </TouchableOpacity> 
-   </View> 
+      
+         <TouchableOpacity style={styles.buttonContainer}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+       <View>
+       <View style={styles.bodyContent}  >
+                 <Text style={{fontWeight:"bold",width:"100%",marginLeft:50,marginTop:11}}>Start a conversation</Text> 
+                 </View>
+                 <View>
+                   
+                 <Image 
+                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:350,marginTop:-40}}
+                        source={Post_Add} />
+                   </View> 
+                 </View>
+               </TouchableOpacity> 
+        </View> 
+
+
     );
         
         
@@ -90,7 +136,7 @@ export default class ProfessionalGroupFeedScreen extends Component {
           }}
 
           ListHeaderComponent={
-           this.Stories
+           this.PostScreen
            
        }
 
@@ -281,6 +327,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom:10,
     width:"100%",
+    borderRadius:30,
+    backgroundColor: "white",
+  },
+  bodyContentInviteMember: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+  buttonContainerInviteMember: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom:10,
+    width:"50%",
+    borderRadius:30,
+    backgroundColor: "white",
+  },
+
+  
+  bodyContentShare: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+  buttonContainerShare: {
+    marginTop:-55,
+    height:45,
+    marginLeft:205,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom:10,
+    width:"50%",
     borderRadius:30,
     backgroundColor: "white",
   }

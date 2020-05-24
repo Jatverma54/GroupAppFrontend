@@ -88,7 +88,7 @@ export default class ProfessionalGroupsScreen extends Component {
 
   render() {
     
-    return (
+    return (//ProfessionalGroupBio
       
       <View  style={styles.FloatButtonPlacement} > 
       
@@ -111,9 +111,13 @@ export default class ProfessionalGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
-            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("ProfessionalGroupFeed")}>
+           
             <View style={styles.container}>
+                <TouchableOpacity  onPress={()=>this.props.myHookValue.push("ProfessionalGroupBio")}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity  onPress={()=>this.props.myHookValue.push("ProfessionalGroupFeed")}>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
@@ -128,9 +132,9 @@ export default class ProfessionalGroupsScreen extends Component {
                   {this.renderGroupMembers(Group)}
                 </View>
               </View>
-             
+              </TouchableOpacity>    
             </View>   
-            </TouchableOpacity>           
+                  
           );
         }}/>
 

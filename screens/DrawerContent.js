@@ -26,8 +26,8 @@ import colors from '../constants/colors';
     const navigation = useNavigation();
     return (
       
-      <DrawerContentScrollView {...props}>
-        <View
+      // <DrawerContentScrollView {...props}>
+        <View {...props}
           style={
             styles.drawerContent
           }
@@ -136,7 +136,7 @@ import colors from '../constants/colors';
 
           
         </View>
-      </DrawerContentScrollView>
+      /* </DrawerContentScrollView> */
     );
   }
   
@@ -144,6 +144,7 @@ import colors from '../constants/colors';
     drawerContent: {
       flex: 1,
       backgroundColor:colors.drawerBackgroundcolor,
+      paddingTop:38
     },
     userInfoSection: {
       paddingLeft: 20,
@@ -187,6 +188,7 @@ import colors from '../constants/colors';
       paddingVertical: "100%",
       alignItems: 'center',
       marginRight: 15,
+      marginVertical:-10
     },
     paragraphfooter: {
       fontWeight: 'bold',

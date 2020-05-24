@@ -11,15 +11,50 @@ import {
   Picker,
   
 } from 'react-native';
+
+import {
+  useTheme,
+  Avatar,
+  Title,
+  Caption,
+  Paragraph,
+  Drawer,
+  
+  TouchableRipple,
+  Switch,
+} from 'react-native-paper';
+
 import lock_Icon from '../../Pictures/lock.png';
 import AddGroup_Icon from '../../Pictures/AddGroup.png';
-
+import Group_Name from '../../Pictures/Group_Name.png';
+import GroupBio from '../../Pictures/GroupBio.png';
+import lock from '../../Pictures/lock.png';
+import Category from '../../Pictures/Category.png';
 
 
 export default class CreateaPublicGroupScreen extends Component {
   
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      Value: false,
+   
+    }
+  }
+
+
+   IsPrivate=(Value)=> {
+    // We will pass this function to Drawer and invoke it on theme switch press
+    this.setState({
+      Value
+    });
+   
+  }
+
   render() {
+
+    const {Value} = this.state;
+   
     
     return (
         
@@ -30,24 +65,49 @@ export default class CreateaPublicGroupScreen extends Component {
          
         <View style={styles.inputContainer}>
         
-          <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/password/androidL/40/3498db'}}/>
+          <Image style={[styles.icon, styles.inputIcon]} source={Group_Name}/>
           <TextInput style={styles.inputs}
               placeholder="Group Name"
               keyboardType="email-address"
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              />
+             
         </View>
-        
+         
+ 
+ 
+
         <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/envelope/androidL/40/3498db'}}/>
+        
+        <Image style={[styles.icon, styles.inputIcon]} source={GroupBio}/>
+        <TextInput style={styles.inputs}
+            placeholder="Group Bio"
+            keyboardType="email-address"
+            underlineColorAndroid='transparent'/>
+           
+      </View>
+
+     
+
+
+        <View style={styles.inputContainer}>
+          <Image style={[styles.icon, styles.inputIcon]} source={Category}/>
           <GroupCategoryPickerList/>
         </View>
 
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/envelope/androidL/40/3498db'}}/>
          <PrivacySettingsPickerList/>
         </View>
-     
-      
+      */}
+       <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
+            <View style={styles.preference}>
+              <Text style={{paddingRight:70,fontSize:20,marginTop:-3}}>Private</Text>
+              <View   pointerEvents="none">
+                <Switch value={Value} />
+              </View>
+            </View>
+          </TouchableRipple>
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
@@ -134,7 +194,8 @@ const styles = StyleSheet.create({
   },
   inputIcon:{
     marginLeft:15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop:10
   },
   buttonContainer: {
     height:45,
@@ -184,6 +245,14 @@ const styles = StyleSheet.create({
       width: 200,
       marginTop:-80,
       marginBottom:20
+  },
+
+  preference: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  //  paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom:20
   },
 
 });

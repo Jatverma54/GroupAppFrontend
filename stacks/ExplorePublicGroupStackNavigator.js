@@ -19,7 +19,7 @@ const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
         <Image   style={styles.ImageIconStyle} 
          source={require('../Pictures/menu.png')}/>
          </TouchableOpacity>
@@ -30,6 +30,7 @@ const HeaderLeft = () => {
   const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
   const ExplorePublicGroupTabStackNavigator =()=>{
+  
     
     return (
         
@@ -94,7 +95,7 @@ const HeaderLeft = () => {
   
   const ExplorePublicGroupStack = createStackNavigator();
   const ExplorePublicGroupStackNavigator =()=>{
-   
+
 
     return (
   
@@ -103,7 +104,7 @@ const HeaderLeft = () => {
           <ExplorePublicGroupStack.Screen 
           options={{headerShown:false}} 
             name='ExplorePublicGroups' 
-            component={ExplorePublicGroupScreen }   />      
+            component={withMyHook(ExplorePublicGroupScreen) }   />      
 
 <ExplorePublicGroupStack.Screen 
  

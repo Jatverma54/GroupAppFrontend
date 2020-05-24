@@ -11,7 +11,7 @@ import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 
-export default class PublicGroupBio extends Component {
+export default class PersonalGroupBio extends Component {
 
   constructor(props) {
   
@@ -66,7 +66,7 @@ export default class PublicGroupBio extends Component {
   
       <View style={{ flex:1 }} >
       <View>
-      {/* this.props.myHookValue.push("CreateaNewPost") */}
+     {/* //this.props.myHookValue.push("CreateaNewPost") */}
       <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>{}}>
        <View>
        <View style={styles.bodyContentInviteMember}  >

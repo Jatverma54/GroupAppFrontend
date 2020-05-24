@@ -14,12 +14,16 @@ import YourProfessionalGroupPostScreen from '../screens/ProfessionalGroupScreens
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import TextInputClass from '../screens/Posts/TextInputClass';
+import ProfessionalGroupBio from  '../screens/ProfessionalGroupScreens/ProfessionalGroupBio';
+
+
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
         <Image   style={styles.ImageIconStyle} 
          source={require('../Pictures/menu.png')}/>
          </TouchableOpacity>
@@ -60,10 +64,16 @@ const ProfessionalGroupRootStack = createStackNavigator();
             component={withMyHook(ProfessionalGroupsScreen)}/>
 
 <ProfessionalGroupRootStack.Screen  
+        options={{headerShown:false}} 
+               name='ProfessionalGroupBio' 
+               component={ProfessionalGroupBioStackNavigator}   />  
+
+
+<ProfessionalGroupRootStack.Screen  
          
          options={{headerShown:false}} 
                name='CreateaProfessionalGroup' 
-               component={CreateaProfessionalGroup}   />  
+               component={CreateaProfessionalGroupStackNavigator}   />  
 
 <ProfessionalGroupRootStack.Screen  
          options={{headerShown:false}} 
@@ -78,6 +88,98 @@ const ProfessionalGroupRootStack = createStackNavigator();
     );
   };
 
+
+  const ProfessionalGroupBioStack = createStackNavigator();
+  const ProfessionalGroupBioStackNavigator =()=>{
+    
+    return ( 
+       <ProfessionalGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+      }}>
+        
+
+<ProfessionalGroupBioStack.Screen  
+     options={{        
+      headerTitle: 'Group Bio' }} 
+       name='CreateaPfGroupBio' 
+       component={withMyHook(ProfessionalGroupBio)} />  
+
+
+     
+
+</ProfessionalGroupBioStack.Navigator>
+     
+    
+    );
+  };
+
+
+
+
+
+
+
+
+
+
+
+  const CreateaProfessionalGroupStack = createStackNavigator();
+  const CreateaProfessionalGroupStackNavigator =()=>{
+    
+    return ( 
+       <CreateaProfessionalGroupStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+      }}>
+        
+
+<CreateaProfessionalGroupStack.Screen  
+     options={{        
+      headerTitle: 'Create a Professional Group' }} 
+       name='CreateaPfGroup' 
+       component={CreateaProfessionalGroup} />  
+
+
+     
+
+</CreateaProfessionalGroupStack.Navigator>
+     
+    
+    );
+  };
 
 
 
@@ -195,7 +297,14 @@ const ProfessionalGroupRootStack = createStackNavigator();
    
    headerTitle: "Create a New Post" }} 
    name='CreateaNewPost' 
-   component={CreateaNewPost}/>
+   component={withMyHook(CreateaNewPost)}/>
+
+<ProfessionalGroupFeedScreenStack.Screen 
+options={{
+   
+   headerTitle: "Start a conversation" }} 
+   name='CreateaTextPost' 
+   component={withMyHook(TextInputClass)}/>
 
 </ProfessionalGroupFeedScreenStack.Navigator>
      

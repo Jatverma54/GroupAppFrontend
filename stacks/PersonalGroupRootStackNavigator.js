@@ -14,12 +14,16 @@ import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPer
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import TextInputClass from '../screens/Posts/TextInputClass';
+import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
+
+
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
         <Image   style={styles.ImageIconStyle} 
          source={require('../Pictures/menu.png')}/>
          </TouchableOpacity>
@@ -59,11 +63,19 @@ const PersonalGroupRootStack = createStackNavigator();
             name='PersonalGroupsScreen' 
             component={withMyHook(PersonalGroupsScreen)}/>
 
+
+
+<PersonalGroupRootStack.Screen  
+        options={{headerShown:false}} 
+               name='PersonalGroupBio' 
+               component={PersonalGroupBioStackNavigator}   />  
+
+
 <PersonalGroupRootStack.Screen  
          
          options={{headerShown:false}} 
                name='CreateaPersonalGroup' 
-               component={CreateaPersonalGroup}   />  
+               component={CreateaPersonalGroupStackNavigator}   />  
 
 <PersonalGroupRootStack.Screen  
          options={{headerShown:false}} 
@@ -79,6 +91,88 @@ const PersonalGroupRootStack = createStackNavigator();
   };
 
 
+  const PersonalGroupBioStack = createStackNavigator();
+  const PersonalGroupBioStackNavigator =()=>{
+    
+    return ( 
+       <PersonalGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+      }}>
+        
+
+<PersonalGroupBioStack.Screen  
+     options={{        
+      headerTitle: 'Group Bio' }} 
+       name='CreateaPGroupBio' 
+       component={withMyHook(PersonalGroupBio)} />  
+
+
+     
+
+</PersonalGroupBioStack.Navigator>
+     
+    
+    );
+  };
+
+
+  const CreateaPersonalGroupStack = createStackNavigator();
+  const CreateaPersonalGroupStackNavigator =()=>{
+    
+    return ( 
+       <CreateaPersonalGroupStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+      }}>
+        
+
+<CreateaPersonalGroupStack.Screen  
+     options={{        
+      headerTitle: 'Create a Personal Group' }} 
+       name='CreateaPGroup' 
+       component={CreateaPersonalGroup} />  
+
+
+     
+
+</CreateaPersonalGroupStack.Navigator>
+     
+    
+    );
+  };
 
 
   const PersonalGroupInsideGroupTabStack = createMaterialTopTabNavigator();
@@ -194,7 +288,14 @@ const PersonalGroupRootStack = createStackNavigator();
    
    headerTitle: "Create a New Post" }} 
    name='CreateaNewPost' 
-   component={CreateaNewPost}/>
+   component={withMyHook(CreateaNewPost)}/>
+
+<PersonalGroupFeedScreenStack.Screen 
+options={{
+   
+   headerTitle: "Start a conversation" }} 
+   name='CreateaTextPost' 
+   component={withMyHook(TextInputClass)}/>
 
 
 </PersonalGroupFeedScreenStack.Navigator>
