@@ -142,7 +142,7 @@ export default class PersonalGroupBio extends Component {
             <View style={styles.headerContent}>
                 <Image style={styles.avatar} source={{uri: item.image}}/>
                 <Text style={styles.name}>
-                  {item.name}
+                  {this.props.Name}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {item.countMembers}

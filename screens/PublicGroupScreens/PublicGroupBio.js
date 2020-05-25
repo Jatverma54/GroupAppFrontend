@@ -114,7 +114,7 @@ export default class PublicGroupBio extends Component {
 
 
  render() {
-
+ 
 
     return (
       <View style={styles.container}>
@@ -142,7 +142,7 @@ export default class PublicGroupBio extends Component {
             <View style={styles.headerContent}>
                 <Image style={styles.avatar} source={{uri: item.image}}/>
                 <Text style={styles.name}>
-                  {item.name}
+                  {this.props.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {item.countMembers}

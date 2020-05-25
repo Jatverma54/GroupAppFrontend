@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, View, Modal, Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import ExplorePublicGroupTabStackNavigator from '../stacks/ExplorePublicGroupStackNavigator';
@@ -102,8 +102,8 @@ const Search=()=>{
 
   
   const PublicGroupBioStack = createStackNavigator();
-   const PublicGroupBioStackNavigator =()=>{
-    
+   const PublicGroupBioStackNavigator =({route})=>{
+    const { name } = route.params;
      
     return (
   
@@ -127,22 +127,19 @@ const Search=()=>{
         }),
       },
     }),     
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      
-      
-    },
+    
         headerTintColor: colors.StackheaderTintColor,
         headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
       }}>
         
 
 <PublicGroupBioStack.Screen  
+
      options={{        
-      headerTitle: 'Group Bio' }} 
+      headerTitle: name }} 
      
             name='PublicGroupBio' 
-            component={withMyHook(PublicGroupBio)}/>  
+            component={withMyHook(PublicGroupBio,name)}/>  
 
 </PublicGroupBioStack.Navigator>
 
@@ -150,10 +147,11 @@ const Search=()=>{
     );
   };
 
-  function withMyHook(Component) {
+  function withMyHook(Component,name) {
     return function WrappedComponent(props) {
       const myHookValue = useNavigation();
-      return <Component {...props} myHookValue={myHookValue} />;
+    
+      return <Component {...props} GroupName={name} myHookValue={myHookValue} />;
     }
   }
 

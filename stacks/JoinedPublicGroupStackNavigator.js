@@ -121,9 +121,9 @@ import TextInputClass from '../screens/Posts/TextInputClass';
 
 
   const HomeFeedStack = createStackNavigator();
-  export const HomeFeedStackNavigator =()=>{
+  export const HomeFeedStackNavigator =({route})=>{
     
-     
+    const { name } = route.params;
     return (
   
     
@@ -160,7 +160,7 @@ import TextInputClass from '../screens/Posts/TextInputClass';
 
 <HomeFeedStack.Screen  
      options={{        
-      headerTitle: 'Group Feed' }} 
+      headerTitle: name }} 
      
             name='Group FEED' 
             component={JoinedGroupInsideGroupTabStackNavigator}/>  

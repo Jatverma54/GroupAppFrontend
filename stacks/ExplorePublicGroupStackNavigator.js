@@ -119,8 +119,8 @@ const HeaderLeft = () => {
   };
 
   const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
-  const ExplorePublicGroupCategoryBasedStackNavigator =()=>{
-    
+  const ExplorePublicGroupCategoryBasedStackNavigator =({route})=>{
+    const { title } = route.params;
     return (
  
         <ExplorePublicGroupCategoryBasedStack.Navigator   headerMode='float' screenOptions={{   cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
@@ -151,7 +151,7 @@ const HeaderLeft = () => {
  
  options={{
   
-  headerTitle: "Healthcare Groups" }} 
+  headerTitle: title}}
    name='Public Groups List' 
    component={withMyHook(PublicGroupListScreen)}/>
  

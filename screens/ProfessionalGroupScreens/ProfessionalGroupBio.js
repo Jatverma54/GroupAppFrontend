@@ -143,7 +143,7 @@ export default class ProfessionalGroupBio extends Component {
             <View style={styles.headerContent}>
                 <Image style={styles.avatar} source={{uri: item.image}}/>
                 <Text style={styles.name}>
-                  {item.name}
+                  {this.props.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {item.countMembers}

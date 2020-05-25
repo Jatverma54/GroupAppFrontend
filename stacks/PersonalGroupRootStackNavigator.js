@@ -92,8 +92,8 @@ const PersonalGroupRootStack = createStackNavigator();
 
 
   const PersonalGroupBioStack = createStackNavigator();
-  const PersonalGroupBioStackNavigator =()=>{
-    
+  const PersonalGroupBioStackNavigator =({route})=>{
+    const { name } = route.params;
     return ( 
        <PersonalGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -119,9 +119,9 @@ const PersonalGroupRootStack = createStackNavigator();
 
 <PersonalGroupBioStack.Screen  
      options={{        
-      headerTitle: 'Group Bio' }} 
+      headerTitle: name }} 
        name='CreateaPGroupBio' 
-       component={withMyHook(PersonalGroupBio)} />  
+       component={withMyHookBio(PersonalGroupBio,name)} />  
 
 
      
@@ -240,16 +240,24 @@ const PersonalGroupRootStack = createStackNavigator();
 
 
 
+  function withMyHookBio(Component,name) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} Name={name} myHookValue={myHookValue} />;
+    }
+  }
+
+
   function withMyHook(Component) {
     return function WrappedComponent(props) {
       const myHookValue = useNavigation();
-      return <Component {...props} myHookValue={myHookValue} />;
+      return <Component {...props}  myHookValue={myHookValue} />;
     }
   }
 
   const PersonalGroupFeedScreenStack = createStackNavigator();
-  const PersonalGroupFeedScreenkNavigator =()=>{
-    
+  const PersonalGroupFeedScreenkNavigator =({route})=>{
+    const { name } = route.params;
     return ( 
        <PersonalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -277,7 +285,7 @@ const PersonalGroupRootStack = createStackNavigator();
 
 <PersonalGroupFeedScreenStack.Screen  
          options={{        
-          headerTitle: 'Personal Groups Feed' }} 
+          headerTitle: name }} 
                name='PersonalGroupFeed' 
                component={PersonalGroupInsideGroupTabStackNavigator}   />  
 

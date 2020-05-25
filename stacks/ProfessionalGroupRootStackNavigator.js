@@ -90,8 +90,8 @@ const ProfessionalGroupRootStack = createStackNavigator();
 
 
   const ProfessionalGroupBioStack = createStackNavigator();
-  const ProfessionalGroupBioStackNavigator =()=>{
-    
+  const ProfessionalGroupBioStackNavigator =({route})=>{
+    const { name } = route.params;
     return ( 
        <ProfessionalGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -117,9 +117,9 @@ const ProfessionalGroupRootStack = createStackNavigator();
 
 <ProfessionalGroupBioStack.Screen  
      options={{        
-      headerTitle: 'Group Bio' }} 
+      headerTitle: name }} 
        name='CreateaPfGroupBio' 
-       component={withMyHook(ProfessionalGroupBio)} />  
+       component={withMyHookBio(ProfessionalGroupBio,name)} />  
 
 
      
@@ -249,17 +249,24 @@ const ProfessionalGroupRootStack = createStackNavigator();
   };
 
 
+  function withMyHookBio(Component,name) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} GroupName={name} myHookValue={myHookValue} />;
+    }
+  }
+
 
   function withMyHook(Component) {
     return function WrappedComponent(props) {
       const myHookValue = useNavigation();
-      return <Component {...props} myHookValue={myHookValue} />;
+      return <Component {...props}  myHookValue={myHookValue} />;
     }
   }
 
   const ProfessionalGroupFeedScreenStack = createStackNavigator();
-  const ProfessionalGroupFeedScreenkNavigator =()=>{
-    
+  const ProfessionalGroupFeedScreenkNavigator =({route})=>{
+    const { name } = route.params;
     return ( 
        <ProfessionalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -287,7 +294,7 @@ const ProfessionalGroupRootStack = createStackNavigator();
 
 <ProfessionalGroupFeedScreenStack.Screen  
          options={{        
-          headerTitle: 'Professional Groups Feed' }} 
+          headerTitle: name }} 
                name='ProfessionalGroupFeed' 
                component={ProfessionalGroupInsideGroupTabStackNavigator}   />  
 

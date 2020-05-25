@@ -114,11 +114,11 @@ export default class PersonalGroupsScreen extends Component {
           
             <View style={styles.container}>
 
-               <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupBio")}>
+               <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupBio",Group)}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               </TouchableOpacity>    
              
-             <TouchableOpacity  onPress={()=>this.props.myHookValue.push("PersonalGroupFeed")}>
+             <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupFeed",Group)}>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>

@@ -115,13 +115,13 @@ export default class PublicGroupListScreen extends Component {
           return(
            
             <View style={styles.container}>
-                <TouchableOpacity onPress={()=>this.props.myHookValue.push("PublicGroupBio")}>
+                <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("PublicGroupBio",Group)}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               </TouchableOpacity>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
-                  <TouchableOpacity onPress={()=>this.props.myHookValue.push("PublicGroupBio")}>
+                  <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("PublicGroupBio",Group)}>
                     <Text style={styles.groupName}>{Group.name}</Text>
                     </TouchableOpacity>
                   </View>

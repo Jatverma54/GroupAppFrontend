@@ -55,7 +55,7 @@ export default class ExplorePublicGroupScreen extends Component {
         
         renderItem={({item}) => {
           return (
-            <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>this.props.myHookValue.push("ExplorePublicGroupCategoryBased")}>
+            <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>this.props.myHookValue.navigate("ExplorePublicGroupCategoryBased",item)}>
               <View style={styles.cardHeader}>
                 <Text style={styles.title}>{item.title}</Text>                
               </View>

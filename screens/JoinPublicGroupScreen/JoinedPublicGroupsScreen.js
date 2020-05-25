@@ -110,7 +110,7 @@ export default class JoinedPublicGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
-            <TouchableOpacity  onPress={()=>this.props.myHookValue.push("JoinedGroupInsideGroup")}>
+            <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("JoinedGroupInsideGroup",Group)}>
             <View style={styles.container}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               <View style={styles.content}>
