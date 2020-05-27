@@ -117,7 +117,7 @@ const ProfessionalGroupRootStack = createStackNavigator();
 
 <ProfessionalGroupBioStack.Screen  
      options={{        
-      headerTitle: name }} 
+      headerTitle: "About Group" }} 
        name='CreateaPfGroupBio' 
        component={withMyHookBio(ProfessionalGroupBio,name)} />  
 

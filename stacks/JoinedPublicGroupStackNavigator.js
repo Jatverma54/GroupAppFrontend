@@ -18,6 +18,7 @@ import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 import TextInputClass from '../screens/Posts/TextInputClass';
+import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 
 
   const JoinedPublicGroupStack = createStackNavigator();
@@ -34,7 +35,6 @@ import TextInputClass from '../screens/Posts/TextInputClass';
             name='JoinedPublicGroupsScreen' 
             component={withMyHook(JoinedPublicGroupsScreen)}/>
 
-     
        
        
         </JoinedPublicGroupStack.Navigator>
@@ -42,6 +42,60 @@ import TextInputClass from '../screens/Posts/TextInputClass';
     
     );
   };
+
+
+
+  const JoinedGroupBioStack = createStackNavigator();
+ export const JoinedGroupBioStackNavigator =({route})=>{
+    const { name } = route.params;
+    return ( 
+       <JoinedGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+    cardOverlayEnabled: true,
+    cardStyleInterpolator: ({ current: { progress } }) => ({
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [0, 0.25, 0.7, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    }),     
+        headerTintColor: colors.StackheaderTintColor,
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+      }}>
+        
+
+<JoinedGroupBioStack.Screen  
+     options={{        
+      headerTitle: "About Group" }} 
+       name='JoinedPGroupBio' 
+       component={withMyHookBio(JoinedPublicGroupBio,name)} />  
+
+
+     
+
+</JoinedGroupBioStack.Navigator>
+     
+    
+    );
+  };
+
+
+
+  function withMyHookBio(Component,name) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} GroupName={name} myHookValue={myHookValue} />;
+    }
+  }
+
+
 
   function withMyHook(Component) {
     return function WrappedComponent(props) {

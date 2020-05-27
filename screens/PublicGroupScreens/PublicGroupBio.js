@@ -87,7 +87,7 @@ export default class PublicGroupBio extends Component {
      <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>{}}>
       <View>
       <View style={styles.bodyContentShare}  >
-                <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 
+                <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Join Group</Text> 
                 </View>
                 <View>
                   

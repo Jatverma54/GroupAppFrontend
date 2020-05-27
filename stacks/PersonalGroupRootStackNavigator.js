@@ -119,7 +119,7 @@ const PersonalGroupRootStack = createStackNavigator();
 
 <PersonalGroupBioStack.Screen  
      options={{        
-      headerTitle: name }} 
+      headerTitle: "About Group" }} 
        name='CreateaPGroupBio' 
        component={withMyHookBio(PersonalGroupBio,name)} />  
 
@@ -243,7 +243,7 @@ const PersonalGroupRootStack = createStackNavigator();
   function withMyHookBio(Component,name) {
     return function WrappedComponent(props) {
       const myHookValue = useNavigation();
-      return <Component {...props} Name={name} myHookValue={myHookValue} />;
+      return <Component {...props} GroupName={name} myHookValue={myHookValue} />;
     }
   }
 

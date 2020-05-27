@@ -34,15 +34,16 @@ export default class Stories extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
-        {id:"2", title: "Amit",        time:"2 minutes a go",   image:"https://lorempixel.com/400/200/nature/5/"} ,
-        {id:"3", title: "XYZ Name",     time:"3 hour a go",      image:"https://lorempixel.com/400/200/nature/4/"}, 
-        {id:"4", title: "XYZ Name",      time:"4 months a go",    image:"https://lorempixel.com/400/200/nature/6/"}, 
-        {id:"5", title: "XYZ Name",      time:"5 weeks a go",     image:"https://lorempixel.com/400/200/sports/1/"}, 
-        {id:"6", title: "XYZ Name",        time:"6 year a go",      image:"https://lorempixel.com/400/200/nature/8/"}, 
-        {id:"7", title: "XYZ Name",    time:"7 minutes a go",   image:"https://lorempixel.com/400/200/nature/1/"}, 
-        {id:"8", title: "XYZ Name",          time:"8 days a go",      image:"https://lorempixel.com/400/200/nature/3/"},
-        {id:"9", title: "XYZ Name", time:"9 minutes a go",   image:"https://lorempixel.com/400/200/nature/4/"},
+        {id:"1", title: "Add Story",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
+        {id:"2", title: "Jatin",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
+        {id:"3", title: "Amit",        time:"2 minutes a go",   image:"https://lorempixel.com/400/200/nature/5/"} ,
+        {id:"4", title: "XYZ Name",     time:"3 hour a go",      image:"https://lorempixel.com/400/200/nature/4/"}, 
+        {id:"5", title: "XYZ Name",      time:"4 months a go",    image:"https://lorempixel.com/400/200/nature/6/"}, 
+        {id:"6", title: "XYZ Name",      time:"5 weeks a go",     image:"https://lorempixel.com/400/200/sports/1/"}, 
+        {id:"7", title: "XYZ Name",        time:"6 year a go",      image:"https://lorempixel.com/400/200/nature/8/"}, 
+        {id:"8", title: "XYZ Name",    time:"7 minutes a go",   image:"https://lorempixel.com/400/200/nature/1/"}, 
+        {id:"9", title: "XYZ Name",          time:"8 days a go",      image:"https://lorempixel.com/400/200/nature/3/"},
+        {id:"10", title: "XYZ Name", time:"9 minutes a go",   image:"https://lorempixel.com/400/200/nature/4/"},
       ]
     };
   }

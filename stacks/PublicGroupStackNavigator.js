@@ -10,7 +10,7 @@ import SearchFunctionality from '../components/Search';
 import SearchIcon from '../Pictures/SearchIcon.png';
 import {HomeFeedStackNavigator} from '../stacks/JoinedPublicGroupStackNavigator';
 import PublicGroupBio from '../screens/PublicGroupScreens/PublicGroupBio';
-
+import {JoinedGroupBioStackNavigator} from '../stacks/JoinedPublicGroupStackNavigator';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -93,6 +93,12 @@ const Search=()=>{
            options={{headerShown:false}} 
            name='PublicGroupBio' 
            component={PublicGroupBioStackNavigator}   />
+
+           
+<PublicGroupStack.Screen 
+         options={{headerShown:false}} 
+            name='JoinedPublicGroupBio' 
+            component={JoinedGroupBioStackNavigator}/>
          
         </PublicGroupStack.Navigator>
 
@@ -136,7 +142,7 @@ const Search=()=>{
 <PublicGroupBioStack.Screen  
 
      options={{        
-      headerTitle: name }} 
+      headerTitle: "About Group" }} 
      
             name='PublicGroupBio' 
             component={withMyHook(PublicGroupBio,name)}/>  

@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList
+  FlatList,
+  SectionList
 } from 'react-native';
 
 
@@ -20,6 +21,9 @@ export default class JoinedPublicGroupsScreen extends Component {
     this.state = {
       data:[
         {
+          GroupCategory:"Healthcare",
+          data:[
+            {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           name:"Group 1", 
@@ -37,26 +41,47 @@ export default class JoinedPublicGroupsScreen extends Component {
         },
         {
           id:2, 
-          image: "https://lorempixel.com/100/100/nature/2/", 
+          image: "https://lorempixel.com/100/100/nature/1/", 
           name:"Group 2", 
-          countMembers:10,  
+          countMembers:51,  
           members:[
+            
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
             "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
           ]
         },
-        {
-          id:3, 
-          image: "https://lorempixel.com/100/100/nature/3/", 
-          name:"Group 3", 
-          countMembers:58,  
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png"
-          ]
-        },
-    
+      
+      
+      
+      
+      ]
+          },
+       
+          {
+            GroupCategory:"Entertainment",
+            data:[
+              {
+            id:1, 
+            image: "https://lorempixel.com/100/100/nature/1/", 
+            name:"Group 1", 
+            countMembers:51,  
+            members:[
+              
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+            ]
+          }]
+            },
         
       ],
         
@@ -91,10 +116,20 @@ export default class JoinedPublicGroupsScreen extends Component {
 <View  style={styles.FloatButtonPlacement} > 
 
 
-      <FlatList 
+      <SectionList 
         style={styles.root}
+        sections={this.state.data}
         data={this.state.data}
         extraData={this.state}
+        renderSectionHeader={({section}) => {
+          return (
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>
+                {section.GroupCategory}
+              </Text>
+            </View>
+          )
+        }}
         ItemSeparatorComponent={() => {
           return (
             <View style={styles.separator}/>
@@ -110,9 +145,13 @@ export default class JoinedPublicGroupsScreen extends Component {
             mainContentStyle = styles.mainContent;
           }
           return(
-            <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("JoinedGroupInsideGroup",Group)}>
+           
             <View style={styles.container}>
+              <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("JoinedPublicGroupBio",Group)}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("JoinedGroupInsideGroup",Group)}>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
@@ -127,9 +166,9 @@ export default class JoinedPublicGroupsScreen extends Component {
                   {this.renderGroupMembers(Group)}
                 </View>
               </View>
-             
+              </TouchableOpacity>        
             </View>    
-            </TouchableOpacity>        
+           
           );
         }}/>
 
@@ -204,5 +243,24 @@ const styles = StyleSheet.create({
    FloatButtonPlacement:{
     flex: 1,
     
+  },
+  titleContainer:{
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 2
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+   // marginVertical:2,
+    backgroundColor:"#DCDCDC",
+    padding:5,
+ 
+  },
+  title:{
+    fontSize:20,
+  
+    color:"#686E70",
+    marginLeft:7
+  
   },
 });   
