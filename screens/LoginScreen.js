@@ -32,6 +32,7 @@ return(
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Email"
+            
               keyboardType="email-address"
               underlineColorAndroid='transparent'/>
         </View>
@@ -40,6 +41,7 @@ return(
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Password"
+            
               secureTextEntry={true}
               underlineColorAndroid='transparent'/>
         </View>

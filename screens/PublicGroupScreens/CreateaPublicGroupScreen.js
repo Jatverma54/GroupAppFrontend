@@ -68,6 +68,7 @@ export default class CreateaPublicGroupScreen extends Component {
           <Image style={[styles.icon, styles.inputIcon]} source={Group_Name}/>
           <TextInput style={styles.inputs}
               placeholder="Group Name"
+            
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               />
@@ -82,6 +83,7 @@ export default class CreateaPublicGroupScreen extends Component {
         <Image style={[styles.icon, styles.inputIcon]} source={GroupBio}/>
         <TextInput style={styles.inputs}
             placeholder="Group Bio"
+          
             keyboardType="email-address"
             underlineColorAndroid='transparent'/>
            
