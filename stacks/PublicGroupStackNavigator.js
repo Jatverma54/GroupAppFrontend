@@ -29,8 +29,9 @@ const HeaderLeft = () => {
 const Search=()=>{
   const navigation = useNavigation();
   return(
-
+   
 <View style={{flexDirection: 'row'}}>
+
 <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.push("Search Public Group")}>
 <Image style={styles.SearchIconStyle}  source={SearchIcon}/>
 
@@ -47,9 +48,10 @@ const Search=()=>{
 
   const PublicGroupStack = createStackNavigator();
   const PublicGroupStackNavigator =()=>{
-    
+   
     return (
-  
+      
+     
      
         <PublicGroupStack.Navigator headerMode='float'   screenOptions={{ headerRight:({})=><Search/>, headerLeft: ({}) => <HeaderLeft/> , cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
         cardOverlayEnabled: true,
@@ -102,7 +104,7 @@ const Search=()=>{
          
         </PublicGroupStack.Navigator>
 
-
+       
     );
   };
 

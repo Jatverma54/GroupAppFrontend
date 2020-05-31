@@ -17,6 +17,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 
@@ -227,6 +228,13 @@ import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicG
    name='CreateaNewPost' 
    component={withMyHook(CreateaNewPost)}/>
 
+<HomeFeedStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaImagePost' 
+   component={withMyHook(ImagePost)}/>
    
 <HomeFeedStack.Screen 
  

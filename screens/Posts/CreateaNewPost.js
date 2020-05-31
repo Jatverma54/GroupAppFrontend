@@ -14,11 +14,94 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import data from "./static.json";
 import TextInputClass from "./TextInputClass";
 
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
 FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class CreateaNewPost extends Component {
-  
+
+  constructor(props){
+    super(props);
+  this.state = {   
+     photo: null,   
+    
+  };
+}
+
+
+componentDidMount() {
+  this.getPermissionAsync();
+  this.getCameraPermissionAsync();
+}
+
+
+getPermissionAsync = async () => {
+  if (Constants.platform.ios) {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+  }
+};
+
+
+ _pickImage = async () => {
+  try {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      //aspect: [1.100,1],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      this.setState({ photo: result.uri });
+      this.CameraOptions.close(); 
+      
+      this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+    }
+
+    console.log(result);
+  } catch (E) {
+    console.log(E);
+  }
+
+};
+
+
+getCameraPermissionAsync = async () => {
+  if (Constants.platform.ios) {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+  }
+};
+
+
+ _clickImage = async () => {
+  try {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+     // aspect: [1.85,1],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      this.setState({ photo: result.uri });
+      this.CameraOptions.close(); 
+      this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+    }
+
+    console.log(result);
+  } catch (E) {
+    console.log(E);
+  }
+
+};
+
   render() {
     return (
       <View style={styles.container}>
@@ -26,11 +109,13 @@ export default class CreateaNewPost extends Component {
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={() => this.CameraOptions.open()} style={styles.button}>
             <Text style={styles.buttonTitle}>Camera Options</Text>
+            
+            
           </TouchableOpacity>        
           <TouchableOpacity onPress={() => this.props.myHookValue.push("CreateaTextPost")} style={styles.button}>
             <Text style={styles.buttonTitle}>Text Input</Text>
           </TouchableOpacity>
-          
+         
         </View>
 
         {/* List Menu */}
@@ -42,16 +127,25 @@ export default class CreateaNewPost extends Component {
         >
           <View style={styles.listContainer}>
             <Text style={styles.listTitle}>Create</Text>
-            {data.lists.map(list => (
+          
               <TouchableOpacity
-                key={list.icon}
+                
                 style={styles.listButton}
-                onPress={() => this.CameraOptions.close()}
+                onPress={() => this._clickImage()}
               >
-                <MDIcon name={list.icon} style={styles.listIcon} />
-                <Text style={styles.listLabel}>{list.label}</Text>
+                <MDIcon name="photo-camera" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Take photo</Text>
               </TouchableOpacity>
-            ))}
+
+              <TouchableOpacity
+                
+                style={styles.listButton}
+                onPress={() => this._pickImage()}
+              >
+                <MDIcon name="photo" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Choose image</Text>
+              </TouchableOpacity>
+           
           </View>
         </RBSheet>
 

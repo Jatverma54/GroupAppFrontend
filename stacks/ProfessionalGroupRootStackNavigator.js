@@ -14,6 +14,7 @@ import YourProfessionalGroupPostScreen from '../screens/ProfessionalGroupScreens
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import ProfessionalGroupBio from  '../screens/ProfessionalGroupScreens/ProfessionalGroupBio';
 
@@ -305,6 +306,14 @@ const ProfessionalGroupRootStack = createStackNavigator();
    headerTitle: "Create a New Post" }} 
    name='CreateaNewPost' 
    component={withMyHook(CreateaNewPost)}/>
+
+<ProfessionalGroupFeedScreenStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaImagePost' 
+   component={withMyHook(ImagePost)}/>
 
 <ProfessionalGroupFeedScreenStack.Screen 
 options={{

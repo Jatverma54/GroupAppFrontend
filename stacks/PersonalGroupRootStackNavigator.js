@@ -14,6 +14,7 @@ import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPer
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
+import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 
@@ -297,6 +298,14 @@ const PersonalGroupRootStack = createStackNavigator();
    headerTitle: "Create a New Post" }} 
    name='CreateaNewPost' 
    component={withMyHook(CreateaNewPost)}/>
+
+<PersonalGroupFeedScreenStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Create a New Post" }} 
+   name='CreateaImagePost' 
+   component={withMyHook(ImagePost)}/>
 
 <PersonalGroupFeedScreenStack.Screen 
 options={{

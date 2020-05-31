@@ -32,6 +32,7 @@ export default class ExplorePublicGroupScreen extends Component {
         {id:"10", title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
       ]
     };
+    
   }
 
   clickEventListener(item) {
@@ -41,7 +42,7 @@ export default class ExplorePublicGroupScreen extends Component {
   render() {
     
     return (  
-    
+      
       <View style={styles.container}>
      
       <FlatList style={styles.list}
