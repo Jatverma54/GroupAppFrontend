@@ -24,11 +24,18 @@ import person from '../Pictures/person.png';
 import DrawerLogo from '../Pictures/DrawerLogo.png';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
 export default class SignupScreen extends Component {
   
   constructor(props) {
     super(props);
-    state = {
+  }
+
+  state = {
       userName: '',
       email   : '',
       password: '',
@@ -36,83 +43,80 @@ export default class SignupScreen extends Component {
        photo: null,
        full_name: '',
        date: new Date(1590842927000),
-       profile_pic: '',
+       mode: 'date',
+       show: false,
       
     };
 
-  }
-
   
-
-  DOB= '';
-  DatePicker=()=> {
-    const [date, setDate] = useState(new Date(1590842927000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-  
-    const onChange = (event, selectedDate) => {
+     onChange = (event, selectedDate) => {
         
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setDate(currentDate);
-      this.DOB=currentDate.toDateString();
-    };
-  
-    const showMode = currentMode => {
-      setShow(true);
-      setMode(currentMode);
-    };
-  
-    const showDatepicker = () => {
-      showMode('date');
-    };
-  
-    const showTimepicker = () => {
-      showMode('time');
-    };
-  
-    return (
-      <TouchableOpacity  onPress={showDatepicker}>
-      <View>
-          
-      
-        <Image style={styles.inputIcon} source={person}/>
-            <Text style={{marginLeft:60,marginTop:-22,color:'grey'}}>
-             DOB: 
-             <Text style={{color:'black'}}>{date.toDateString()} </Text>
-            
-             
-            </Text>
-         
-        </View>
-       
-        {show && (
-          <DateTimePicker
-            testID="DOB"
-            value={date}
-            timeZoneOffsetInMinutes={0}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-  
-        )}
-       
-        
-          
      
-      </TouchableOpacity>
+      this.setState({show: Platform.OS === 'ios'});
      
-      
-    );
+      this.setState({date: currentDate});
+    };
+  
+     showMode = currentMode => {
+     
+      this.setState({show: true});
+    
+      this.setState({mode: currentMode});
+    };
+  
+     showDatepicker = () => {
+      this.showMode('date');
+    };
+  
+     showTimepicker = () => {
+      this.showMode('time');
+    };
+  
+   
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
   };
 
+
+   _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ photo: result.uri });
+     
+      }
+
+      console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+ 
+};
+
+
+  
 
 
   signUp = async () => {
       alert("****inside sign up");
-    const { userName, password, email, full_name,confirmPassword } = this.state
+    const { userName, password, email, full_name,confirmPassword,date,photo } = this.state
     console.log(this.DOB,"ffff");
     try {
         var data = {
@@ -122,8 +126,8 @@ export default class SignupScreen extends Component {
             profile:{
               full_name: full_name,
              
-              dob:this.DOB,
-              profile_pic:'',
+              dob:date.toDateString(),
+              profile_pic:photo,
             }
         }
         const response = await fetch("http://192.168.0.101:3000/users/", {
@@ -151,28 +155,31 @@ export default class SignupScreen extends Component {
   
  
 
-  render() {
-    
+   render() {
+    let { photo,date ,show,mode} = this.state;
     return (
       <View style={styles.container}>
+
+<TouchableOpacity  onPress={this._pickImage}>
               <View style={{ height: 100,padding:10 }}>
                
                 
                 <View style={{ flex: 3 ,backgroundColor:"#00b5ec" }}>
                          
                       <View>
-                       
-                         <Avatar.Image 
+                   
+                        <Avatar.Image 
                             style={{alignSelf:"center", marginTop:-70,marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
-                             source={DrawerLogo} size={100}/>
-                       
+                             source={{ uri: photo }} size={100}/>
+                         {console.log(photo)}
+                         
                            <Text style={{fontSize:12,alignSelf:"center",paddingTop:6,fontWeight:"bold",width:"100%"}}>Choose an Avatar</Text>
                       </View>                
                     
                 </View>
                             
               </View>
-            
+              </TouchableOpacity>
    
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={Email_Icon}/>
@@ -210,7 +217,34 @@ export default class SignupScreen extends Component {
         <View style={styles.inputContainer}>
         
      
-          <this.DatePicker/>
+        <TouchableOpacity  onPress={this.showDatepicker}>
+      <View>
+          
+      
+        <Image style={styles.inputIcon} source={person}/>
+            <Text style={{marginLeft:60,marginTop:-22,color:'grey'}}>
+             DOB: 
+             <Text style={{color:'black'}}>{date.toDateString()} </Text>
+            
+             
+            </Text>
+         
+        </View>
+       
+        {show && (
+          <DateTimePicker
+            testID="DOB"
+            value={date}
+            timeZoneOffsetInMinutes={0}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={this.onChange}
+          />
+  
+        )}
+       
+      </TouchableOpacity>
                         
         </View>
         
@@ -296,3 +330,6 @@ const styles = StyleSheet.create({
   }
 });
   
+
+
+
