@@ -91,7 +91,7 @@ export default class ImagePost extends Component {
 
         <Image style={styles.inputIcon} source={Post_Add}/>
              
-             <Text style={styles.TextStyle}>Post</Text> 
+             <Text style={styles.TextStyle}>Share</Text> 
 
         </View>
       </View>
@@ -139,8 +139,10 @@ const styles = StyleSheet.create({
   },
   
   TextStyle:{
-   alignSelf:"center",
+  
   fontWeight:"bold",
+  width:"100%",
+marginLeft:185
   },
   buttonContainer: {
     height:45,

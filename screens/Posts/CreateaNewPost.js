@@ -5,6 +5,7 @@ import {
   DatePickerIOS,
   TouchableOpacity,
   Text,
+  Image,
   TextInput,
   StyleSheet
 } from "react-native";
@@ -17,7 +18,10 @@ import TextInputClass from "./TextInputClass";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
+import * as DocumentPicker from 'expo-document-picker';
+import Post_Add from '../../Pictures/Post_Add.png';
+import Attach_Icon from '../../Pictures/Attach_Icon.png';
+import Camera_Icon from '../../Pictures/Camera_Icon.png';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -26,11 +30,26 @@ export default class CreateaNewPost extends Component {
   constructor(props){
     super(props);
   this.state = {   
-     photo: null,   
+     photo: null,  
+     newValue: '',
+     height: 40,
+     //fontWeight
+     fontSize:20,
+     width:"100%",
+     marginLeft:16,
+     marginRight:16,
+     borderBottomColor: '#FFFFFF',
+     flex:1,
+     marginTop:20, 
     
   };
 }
 
+updateSize = (height) => {
+  this.setState({
+    height
+  });
+}
 
 componentDidMount() {
   this.getPermissionAsync();
@@ -48,6 +67,22 @@ getPermissionAsync = async () => {
 };
 
 
+
+
+_pickDocument = async () => {
+  try {
+  let result = await DocumentPicker.getDocumentAsync({});
+  
+  if (!result.cancelled) {
+    this.setState({ photo: result.uri });
+  }
+  console.log(result);
+} catch (E) {
+  console.log(E);
+}
+
+}
+
  _pickImage = async () => {
   try {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,7 +95,7 @@ getPermissionAsync = async () => {
       this.setState({ photo: result.uri });
       this.CameraOptions.close(); 
       
-      this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+     // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
 
     console.log(result);
@@ -92,7 +127,7 @@ getCameraPermissionAsync = async () => {
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
       this.CameraOptions.close(); 
-      this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+    //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
 
     console.log(result);
@@ -103,20 +138,98 @@ getCameraPermissionAsync = async () => {
 };
 
   render() {
+   
+   
+       const {newValue,marginLeft,borderBottomColor,marginRight,flex,marginTop, width,height,fontWeight,fontSize} = this.state;
+   let newStyle = {
+      height,fontSize,marginLeft,borderBottomColor,flex,marginTop, width,marginRight
+    }
+ 
     return (
-      <View style={styles.container}>
-        <Text style={styles.textTitle}>Choose an Option</Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => this.CameraOptions.open()} style={styles.button}>
-            <Text style={styles.buttonTitle}>Camera Options</Text>
-            
-            
-          </TouchableOpacity>        
-          <TouchableOpacity onPress={() => this.props.myHookValue.push("CreateaTextPost")} style={styles.button}>
-            <Text style={styles.buttonTitle}>Text Input</Text>
-          </TouchableOpacity>
-         
+      <View style={styles.containerNewPost}>
+      <View   style={styles.container} >
+
+        <ScrollView>
+           
+        <View style={styles.inputContainer} >
+       
+          <TextInput style={styles.inputs}
+          //maxLength={500}
+              placeholder="Click and Type your thoughts here :)"
+             // placeholderTextColor="black"
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              autoCapitalize="none"
+              style={[newStyle]}
+              editable={true}
+              multiline={true}
+              value={newValue}
+              onChangeText={(newValue) => this.setState({newValue})}             
+              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              
+               multiline style={{
+                    ...styles.editor, fontSize: 22,
+                    textAlign: 'center', color: "black", 
+             }}>
+                      
+              </TextInput> 
+              </View>
+           <View style={styles.ImageView} >
+             {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+                 <Image
+        style={styles.stretch}
+        source={{uri:this.state.photo}}
+      
+        
+      />
+      
+             
         </View>
+       
+        </ScrollView>
+       
+        <View >
+
+        <Image style={styles.inputIcon} source={Post_Add}/>
+             
+             <Text style={styles.TextStyle}>Share</Text> 
+
+        </View>
+        
+        <View>
+       <TouchableOpacity  onPress={() => this.CameraOptions.open()} > 
+        <Image style={styles.inputIconLeft} source={Camera_Icon}/>
+             
+             <Text style={styles.TextStyleLeft}>Camera Options</Text> 
+             </TouchableOpacity>
+        </View>
+       
+         
+        <TouchableOpacity   onPress={() => this._pickDocument()} >
+        <View  >
+       
+        <Image style={styles.inputIconRight} source={Attach_Icon}/>
+             
+             <Text style={styles.TextStyleRight}>Attach File</Text> 
+           
+        </View>
+        </TouchableOpacity>
+      </View>
+ 
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {/* List Menu */}
         <RBSheet
@@ -125,25 +238,25 @@ getCameraPermissionAsync = async () => {
           }}
           height={330}
         >
-          <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Create</Text>
+          <View style={styles.listContainerNewPost}>
+            <Text style={styles.listTitleNewPost}>Create</Text>
           
               <TouchableOpacity
                 
-                style={styles.listButton}
+                style={styles.listButtonNewPost}
                 onPress={() => this._clickImage()}
               >
-                <MDIcon name="photo-camera" style={styles.listIcon} />
-                <Text style={styles.listLabel}>Take photo</Text>
+                <MDIcon name="photo-camera" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Take photo</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 
-                style={styles.listButton}
+                style={styles.listButtonNewPost}
                 onPress={() => this._pickImage()}
               >
-                <MDIcon name="photo" style={styles.listIcon} />
-                <Text style={styles.listLabel}>Choose image</Text>
+                <MDIcon name="photo" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Choose image</Text>
               </TouchableOpacity>
            
           </View>
@@ -159,12 +272,12 @@ getCameraPermissionAsync = async () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerNewPost: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  textTitle: {
+  textTitleNewPost: {
     fontSize: 25,
     marginTop: 120,
     fontWeight: "bold",
@@ -172,11 +285,11 @@ const styles = StyleSheet.create({
     marginLeft:200
     
   },
-  buttonContainer: {
+  buttonContainerNewPost: {
     alignItems: "center",
     marginTop: 50
   },
-  button: {
+  buttonNewPost: {
     width: 150,
     backgroundColor: "#4EB151",
     paddingVertical: 10,
@@ -184,7 +297,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     margin: 10
   },
-  buttonTitle: {
+  buttonTitleNewPost: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
@@ -192,26 +305,26 @@ const styles = StyleSheet.create({
     marginLeft:30
 
   },
-  listContainer: {
+  listContainerNewPost: {
     flex: 1,
     padding: 25
   },
-  listTitle: {
+  listTitleNewPost: {
     fontSize: 16,
     marginBottom: 20,
     color: "#666"
   },
-  listButton: {
+  listButtonNewPost: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10
   },
-  listIcon: {
+  listIconNewPost: {
     fontSize: 26,
     color: "#666",
     width: 60
   },
-  listLabel: {
+  listLabelNewPost: {
     fontSize: 16
   },
   gridContainer: {
@@ -273,11 +386,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10
   },
-  inputIcon: {
-    fontSize: 24,
-    color: "#666",
-    marginHorizontal: 5
-  },
+ 
   inputIconSend: {
     color: "#006BFF"
   },
@@ -325,7 +434,129 @@ const styles = StyleSheet.create({
   },
   messageButtonTextRight: {
     color: "#fff"
-  }
+  },
+  container: {
+    flex: 1,
+    
+    backgroundColor: "white",
+  },
+  inputContainer: {
+      flex:2,
+      borderBottomColor: '#F5FCFF',
+      backgroundColor: '#FFFFFF',
+      borderRadius:30,
+      borderBottomWidth: 1,
+      width:"100%",
+      height:"10%",
+      marginBottom:20,
+     // flexDirection: 'row',
+      //alignItems:'center'
+      marginTop:10
+  },
+  inputs:{
+      height:45,
+      width:"100%",
+      marginLeft:16,
+      borderBottomColor: '#FFFFFF',
+      flex:2,
+    //  marginTop:10,
+     fontWeight:"bold",
+     fontSize:25,
+    
+  },
+  inputIcon:{
+     
+    width:60,
+    height:60,
+ alignSelf:"center",
+  //marginLeft:180,
+ 
+
+  },
+  
+  TextStyle:{
+  
+  fontWeight:"bold",
+  width:"100%",
+marginLeft:181,
+
+
+//marginBottom:10
+  },
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+  },
+  signupButton: {
+    backgroundColor: "#FF4DFF",
+  },
+  signUpText: {
+    color: 'white',
+  },
+  editor: {
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%'
+},
+stretch: {
+   // flex:1,
+   justifyContent:'center',
+   // width: '100%',
+   // height: "100%",
+    resizeMode: "stretch",
+    width:400,
+    height:400,
+  alignSelf:"center",
+
+  },
+  ImageView:{
+
+    flex:1,
+//justifyContent:'center',
+    width: '100%',
+    height: "100%",
+  //  resizeMode: "stretch",
+  },
+  inputIconLeft:{
+     
+    width:50,
+    height:50,
+  //alignSelf:"center",
+ marginLeft:32,
+
+
+  },
+  
+  TextStyleLeft:{
+  
+  fontWeight:"600",
+  fontSize:13,
+  width:"100%",
+marginLeft:15,
+marginBottom:10
+  },
+  inputIconRight:{
+     
+    width:50,
+    height:50,
+ // alignSelf:"center",
+ marginTop:-81,
+ marginLeft:310
+  },
+  
+  TextStyleRight:{
+  
+  fontWeight:"600",
+  fontSize:13,
+  width:"100%",
+  marginLeft:310,
+marginBottom:10
+  },
 });
 
 
