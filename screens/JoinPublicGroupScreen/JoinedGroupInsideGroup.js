@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   Image,
   BackHandler,
+
+  TouchableHighlight,
+  Modal,
   Alert,
   ScrollView,
   FlatList,
+  Dimensions,
   Button,
   Container, Content,  Thumbnail 
 } from 'react-native';
@@ -28,14 +32,16 @@ import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import ShareIcon from '../../Pictures/ShareIcon.png';
 
-
+import { Video } from 'expo-av';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 export default class JoinedGroupInsideGroupFeed extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://lorempixel.com/400/200/nature/6/"},
+        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
         {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://lorempixel.com/400/200/nature/5/"} ,
         {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:"https://lorempixel.com/400/200/nature/4/"}, 
         {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/6/"}, 
@@ -44,9 +50,19 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         {id:"7", title: "XYZ Name",    time:"7 minutes a go", postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/1/"}, 
         {id:"8", title: "XYZ Name",          time:"8 days a go",    postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/3/"},
         {id:"9", title: "XYZ Name", time:"9 minutes a go", postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/4/"},
-      ]
+      ],
+      isVisible: false,
+      MaximizeImage:'',
     };
   }
+
+  componentDidMount(){
+    this.changeScreenOrientation();
+  }
+  
+  async changeScreenOrientation() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+    }
 
   PostScreen=()=>{
  
@@ -124,8 +140,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
      <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
-            return item.id;
+            return item.id.toString();
           }}
+         
+
           ItemSeparatorComponent={() => {
             return (
               <View style={styles.separator}/>
@@ -158,7 +176,92 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             <Text style={styles.title2}>{item.postMetaData}</Text>
             
             </View>
-                <FbImages/>
+              
+
+            {(item.image!=null&&!item.image.toString().includes(".mp4"))?
+      
+
+      <View style={styles.ImageView} >
+ <TouchableOpacity onPress={()=>{this.setState({isVisible: true,MaximizeImage:item.image})}} style={{flex: 1}}>
+    
+    <Image
+  style={styles.stretch}
+  source={{uri:item.image}}
+  
+  />
+   </TouchableOpacity>
+
+  
+    {this.state.isVisible===true&&
+    
+    <Modal>
+   
+    <View style={{height:height,width:width,flex:1}}>
+      <Image resizeMode="contain" style={{height:height,width:width,flex:1}}
+        source={{uri: this.state.MaximizeImage}} >
+      </Image>
+      <TouchableHighlight
+        style={styles.overlayCancel}
+        onPress={()=>{this.setState({isVisible: false})}}>
+       
+            <MaterialCommunityIcons
+              name="close"                
+              size={21}
+              style={styles.cancelIcon} 
+            />
+      
+         
+      </TouchableHighlight>
+    </View>
+   
+    </Modal>
+    
+    
+    
+    
+    
+    
+    
+    }   
+      
+
+
+
+
+
+
+
+  </View>:
+      
+    ((item.image!=null&&item.image.toString().includes(".mp4")) ?
+      (<View style={styles.ImageView} >
+       
+        <Video
+        source={{ uri: item.image }}
+        rate={1.0}
+        volume={1.0}
+        isMuted={false}
+        resizeMode="cover"
+        shouldPlay={false}
+        isLooping={false}
+        useNativeControls
+        style={styles.video}
+  
+      />
+      </View>):null)}
+      
+   
+
+
+
+
+
+
+
+
+
+
+
                 
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
@@ -191,6 +294,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
 
 
+const { width, height } = Dimensions.get('window');
 
 
 const styles = StyleSheet.create({
@@ -365,7 +469,36 @@ const styles = StyleSheet.create({
     width:"50%",
     borderRadius:30,
     backgroundColor: "white",
-  }
+  },
+  ImageView:{
+
+    flex:1,
+//justifyContent:'center',
+    width: '100%',
+    height: "100%",
+  //  resizeMode: "stretch",
+  },
+  overlayCancel: {
+    padding: 20,
+    position: 'absolute',
+    right: 10,
+    top: 0,
+  },
+   cancelIcon: {
+    color: 'black',
+    marginTop:10
+
+  },
+  stretch: {
+    // flex:1,
+    width: width,
+    height: height / 3,
+    resizeMode: "contain",
+   },
+   video: {
+    width: width,
+    height: height / 3
+  },
 
 
 });  

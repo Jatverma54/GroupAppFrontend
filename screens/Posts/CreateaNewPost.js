@@ -7,7 +7,10 @@ import {
   Text,
   Image,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
+  Modal,TouchableHighlight,  Platform,
+  
 } from "react-native";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
@@ -22,6 +25,14 @@ import * as DocumentPicker from 'expo-document-picker';
 import Post_Add from '../../Pictures/Post_Add.png';
 import Attach_Icon from '../../Pictures/Attach_Icon.png';
 import Camera_Icon from '../../Pictures/Camera_Icon.png';
+import DocViewer from '../../Pictures/DocViewer.png';
+
+import { Video } from 'expo-av';
+import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+import FileViewer from "react-native-file-viewer";
+
+
+
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -30,7 +41,9 @@ export default class CreateaNewPost extends Component {
   constructor(props){
     super(props);
   this.state = {   
-     photo: null,  
+     photo: null,
+    
+   
      newValue: '',
      height: 40,
      //fontWeight
@@ -41,6 +54,8 @@ export default class CreateaNewPost extends Component {
      borderBottomColor: '#FFFFFF',
      flex:1,
      marginTop:20, 
+     isVisible: false,
+     MaximizeImage:'',
     
   };
 }
@@ -77,17 +92,49 @@ _pickDocument = async () => {
     this.setState({ photo: result.uri });
   }
   console.log(result);
+ 
+
 } catch (E) {
   console.log(E);
 }
 
 }
 
+
+
+openFile(){
+  if (this.state.photo) {
+    let uri = this.state.photo;
+    if (Platform.OS === 'ios') {
+      //After picking the file we need to remove 'file://' from file path
+      //Because FileViewer will not show the file with 'file://' prefix
+      uri = res.uri.replace('file://', '');
+    }
+    console.log('URI : ' + uri);
+    FileViewer.open(uri,{
+      displayName: "Documents",
+      showOpenWithDialog: true,
+      showAppsSuggestions: true
+    })
+      .then(() => {
+        //Can do anything you want after opening the file successfully
+        console.log('Success');
+      })
+      .catch(_err => {
+        //Handle failure here
+        console.log(_err);
+      });
+  }
+
+}
+
+
  _pickImage = async () => {
   try {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let result = await ImagePicker .launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
+      
       //aspect: [1.100,1],
       quality: 1,
     });
@@ -137,6 +184,84 @@ getCameraPermissionAsync = async () => {
 
 };
 
+
+
+_clickVideo = async () => {
+  try {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+     // aspect: [1.85,1],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      this.setState({ photo: result.uri });
+      this.CameraOptions.close(); 
+    //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+    }
+
+    console.log(result);
+    
+  } catch (E) {
+    console.log(E);
+  }
+
+};
+
+
+// ShowImageorVideo(){
+
+//   if(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")){
+//     return(
+//     <View style={styles.ImageView} >
+//   {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+  
+//   <Image
+// style={styles.stretch}
+// source={{uri:this.state.photo}}
+
+// />
+// </View>)
+//     }
+//     else if(this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) {
+//       return(
+//       <View style={styles.ImageView} >
+//       {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+//       <Video
+//       source={{ uri: this.state.photo }}
+//       rate={1.0}
+//       volume={1.0}
+//       isMuted={false}
+//       resizeMode="cover"
+//       shouldPlay={false}
+//       isLooping={false}
+//       useNativeControls
+//       style={styles.video}
+
+//     />
+//     </View>) 
+//     } 
+ 
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   render() {
    
    
@@ -174,50 +299,143 @@ getCameraPermissionAsync = async () => {
                       
               </TextInput> 
               </View>
-           <View style={styles.ImageView} >
-             {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-                 <Image
-        style={styles.stretch}
-        source={{uri:this.state.photo}}
-      
         
-      />
+         
+              {(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")&&!this.state.photo.toString().includes(".txt"))?
       
-             
-        </View>
+
+      <View style={styles.ImageView} >
+         {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+ <TouchableOpacity onPress={()=>{this.setState({isVisible: true,MaximizeImage:this.state.photo})}} style={{flex: 1}}>
+    
+    <Image
+  style={styles.stretch}
+  source={{uri:this.state.photo}}
+  
+  />
+   </TouchableOpacity>
+
+  
+    {this.state.isVisible===true&&
+    
+    <Modal>
+   
+    <View style={{height:height,width:width,flex:1}}>
+      <Image resizeMode="contain" style={{height:height,width:width,flex:1}}
+        source={{uri: this.state.MaximizeImage}} >
+      </Image>
+      <TouchableHighlight
+        style={styles.overlayCancel}
+        onPress={()=>{this.setState({isVisible: false})}}>
        
+            <MaterialCommunityIcons
+              name="close"                
+              size={27}
+             style={styles.cancelIcon} 
+            />
+      
+         
+      </TouchableHighlight>
+    </View>
+   
+    </Modal>
+    
+    
+    
+    
+    
+    
+    
+    }   
+      
+
+
+
+
+
+
+
+  </View>:
+      
+    (this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) ?
+      <View style={styles.ImageView} >
+        {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+        <Video
+        source={{ uri: this.state.photo }}
+        rate={1.0}
+        volume={1.0}
+        isMuted={false}
+        resizeMode="cover"
+        shouldPlay={false}
+        isLooping={false}
+        useNativeControls
+        style={styles.video}
+  
+      />
+      </View>:
+      ((this.state.photo!=null&&(this.state.photo.toString().includes(".txt")||this.state.photo.toString().includes(".pdf")||this.state.photo.toString().includes(".xls"))) ?
+      ( 
+      
+      
+      
+      <View  style={styles.ImageView} >
+        
+      {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+        
+      <TouchableHighlight   style={styles.DocumentIcon} 
+        
+        onPress={()=>{this.openFile()}}> 
+      <MaterialCommunityIcons
+              name="file-document"                
+              size={70}
+            // style={styles.DocumentIcon} 
+            />
+       </TouchableHighlight>
+  
+  <Text style={{alignSelf:"center"}}>Document</Text>
+  
+ 
+  </View>  ):null)}
+ 
+   
+  
+        
         </ScrollView>
        
+      
         <View >
-
-        <Image style={styles.inputIcon} source={Post_Add}/>
+        <TouchableOpacity style={styles.inputIcon} onPress={() => this.CameraOptions.open()} > 
+        <Image style={{width:60,
+    height:60,}} source={Post_Add}/>
              
              <Text style={styles.TextStyle}>Share</Text> 
-
-        </View>
-        
-        <View>
-       <TouchableOpacity  onPress={() => this.CameraOptions.open()} > 
-        <Image style={styles.inputIconLeft} source={Camera_Icon}/>
-             
-             <Text style={styles.TextStyleLeft}>Camera Options</Text> 
              </TouchableOpacity>
         </View>
-       
-         
-        <TouchableOpacity   onPress={() => this._pickDocument()} >
-        <View  >
-       
-        <Image style={styles.inputIconRight} source={Attach_Icon}/>
+        
+
+
+        <View>
+       <TouchableOpacity style={styles.inputIconLeft} onPress={() => this.CameraOptions.open()} > 
+        <Image style={{width:30,
+    height:30,}} source={Camera_Icon}/>
+             
+             <Text style={styles.TextStyleLeft}>Add Photo/Video</Text> 
+             </TouchableOpacity>
+
+        </View>
+        <View >
+        <TouchableOpacity style={styles.inputIconRight} onPress={() => this._pickDocument()} >
+        <Image style={{width:30,
+    height:30}} source={Attach_Icon}/>
              
              <Text style={styles.TextStyleRight}>Attach File</Text> 
-           
+             </TouchableOpacity>  
         </View>
-        </TouchableOpacity>
+         
+      
       </View>
  
-      
-
+    
 
 
 
@@ -250,32 +468,50 @@ getCameraPermissionAsync = async () => {
                 <Text style={styles.listLabelNewPost}>Take photo</Text>
               </TouchableOpacity>
 
+                
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={() => this._clickVideo()}
+              >
+                <MDIcon name="photo-camera" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Take Video</Text>
+              </TouchableOpacity>
+
+
+
               <TouchableOpacity
                 
                 style={styles.listButtonNewPost}
                 onPress={() => this._pickImage()}
               >
                 <MDIcon name="photo" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Choose image</Text>
+                <Text style={styles.listLabelNewPost}>Choose Photo/Video</Text>
               </TouchableOpacity>
+
+
+             
            
           </View>
         </RBSheet>
 
-       
-
       
-
+      
+        
       </View>
     );
   }
 }
-
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   containerNewPost: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "white",
+  },
+  video: {
+    width: width,
+    height: height / 3
   },
   textTitleNewPost: {
     fontSize: 25,
@@ -379,13 +615,7 @@ const styles = StyleSheet.create({
     color: "#006BFF",
     fontWeight: "500"
   },
-  inputContainer: {
-    borderTopWidth: 1.5,
-    borderTopColor: "#ccc",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10
-  },
+ 
  
   inputIconSend: {
     color: "#006BFF"
@@ -437,7 +667,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    
+    width:"97%",
     backgroundColor: "white",
   },
   inputContainer: {
@@ -447,8 +677,8 @@ const styles = StyleSheet.create({
       borderRadius:30,
       borderBottomWidth: 1,
       width:"100%",
-      height:"10%",
-      marginBottom:20,
+      height:"60%",
+      marginBottom:30,
      // flexDirection: 'row',
       //alignItems:'center'
       marginTop:10
@@ -465,20 +695,26 @@ const styles = StyleSheet.create({
     
   },
   inputIcon:{
-     
-    width:60,
-    height:60,
- alignSelf:"center",
+     flex:1,
+   
+ //alignSelf:"center",
   //marginLeft:180,
  
+  width:120,
+    
+  //alignSelf:"center",
+  marginLeft:175,
 
+  marginBottom:30,
+  paddingTop:20
   },
   
   TextStyle:{
   
   fontWeight:"bold",
   width:"100%",
-marginLeft:181,
+ 
+marginLeft:9,
 
 
 //marginBottom:10
@@ -508,7 +744,7 @@ stretch: {
    justifyContent:'center',
    // width: '100%',
    // height: "100%",
-    resizeMode: "stretch",
+    resizeMode: "center",
     width:400,
     height:400,
   alignSelf:"center",
@@ -523,11 +759,10 @@ stretch: {
   //  resizeMode: "stretch",
   },
   inputIconLeft:{
-     
-    width:50,
-    height:50,
+     width:120,
+    
   //alignSelf:"center",
- marginLeft:32,
+ marginLeft:30,
 
 
   },
@@ -537,16 +772,16 @@ stretch: {
   fontWeight:"600",
   fontSize:13,
   width:"100%",
-marginLeft:15,
+marginLeft:-30,
 marginBottom:10
   },
   inputIconRight:{
      
-    width:50,
-    height:50,
+    width:120,
  // alignSelf:"center",
- marginTop:-81,
- marginLeft:310
+
+ marginLeft:330,
+ marginTop:-59
   },
   
   TextStyleRight:{
@@ -554,9 +789,47 @@ marginBottom:10
   fontWeight:"600",
   fontSize:13,
   width:"100%",
-  marginLeft:310,
+  marginLeft:-10,
 marginBottom:10
+
   },
+  ImageView:{
+
+    flex:1,
+//justifyContent:'center',
+    width: '100%',
+    height: "100%",
+  //  resizeMode: "stretch",
+  },
+  overlayCancel: {
+    padding: 20,
+    position: 'absolute',
+    right: 10,
+    top: 0,
+  },
+   cancelIcon: {
+    color: 'black',
+    marginTop:10,
+    
+
+  },
+  DocumentIcon: {
+   // color: 'black',
+    marginTop:10,
+    alignSelf:"center"
+
+  },
+  stretch: {
+    // flex:1,
+    width: width,
+    height: height / 3,
+    resizeMode: "contain",
+   },
+   video: {
+    width: width,
+    height: height / 3
+  },
+
 });
 
 

@@ -6,7 +6,6 @@ import {
   TextInput,
   Button,
   TouchableHighlight,
-
   TouchableOpacity,
   Image,
   Platform,
