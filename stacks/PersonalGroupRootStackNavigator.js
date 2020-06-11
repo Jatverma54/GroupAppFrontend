@@ -14,7 +14,7 @@ import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPer
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
-import ImagePost from '../screens/Posts/ImagePost';
+import ViewMembers from '../components/ViewMembers';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 
@@ -124,7 +124,13 @@ const PersonalGroupRootStack = createStackNavigator();
        name='CreateaPGroupBio' 
        component={withMyHookBio(PersonalGroupBio,name)} />  
 
-
+<PersonalGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Group Members" }} 
+   name='ViewMembers' 
+   component={withMyHook(ViewMembers)}/>
      
 
 </PersonalGroupBioStack.Navigator>
@@ -188,7 +194,10 @@ const PersonalGroupRootStack = createStackNavigator();
       inactiveColor="Grey"
      barStyle={{ backgroundColor: 'white' }}
      tabBarOptions={{
-      
+      indicatorStyle:{
+        backgroundColor: colors.StackheaderStyleBackgroundColor
+      },
+
 
       labelStyle: {
         fontSize: colors.TabLabelStylefontSize,
@@ -299,13 +308,7 @@ const PersonalGroupRootStack = createStackNavigator();
    name='CreateaNewPost' 
    component={withMyHook(CreateaNewPost)}/>
 
-<PersonalGroupFeedScreenStack.Screen 
- 
- options={{
-   
-   headerTitle: "Create a New Post" }} 
-   name='CreateaImagePost' 
-   component={withMyHook(ImagePost)}/>
+
 
 <PersonalGroupFeedScreenStack.Screen 
 options={{

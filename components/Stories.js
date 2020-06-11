@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  Share,
   Button,
   Container, Content,  Thumbnail 
 } from 'react-native';
@@ -21,7 +22,7 @@ import {
   Paragraph,
 } from 'react-native-paper';
 import DrawerLogo from '../Pictures/DrawerLogo.png';
-import FbImages from '../components/FacebookPostImage';
+//import FbImages from '../components/FacebookPostImage';
 import Like from '../Pictures/Like.png';
 import Comment from '../Pictures/Comment.png';
 import Post_Add from '../Pictures/Post_Add.png';
@@ -49,6 +50,26 @@ export default class Stories extends Component {
   }
 
 
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+     
+      message: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   render() {
          
@@ -107,7 +128,7 @@ showsHorizontalScrollIndicator={false}
 <View style={{ flex:1 }} >
  <View>
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("CreateaNewPost")}>
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("")}>
   <View>
   <View style={styles.bodyContentInviteMember}  >
             <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 
@@ -124,7 +145,7 @@ showsHorizontalScrollIndicator={false}
 
           <View>
 
-<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.props.nav.myHookValue.push("CreateaNewPost")}>
+<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
  <View>
  <View style={styles.bodyContentShare}  >
            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Share Group</Text> 

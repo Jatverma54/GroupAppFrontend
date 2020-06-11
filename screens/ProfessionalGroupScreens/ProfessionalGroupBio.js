@@ -68,7 +68,7 @@ export default class ProfessionalGroupBio extends Component {
       <View style={{ flex:1 }} >
       <View>
      {/* //this.props.myHookValue.push("CreateaNewPost") */}
-      <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>{}}>
+      <TouchableOpacity style={styles.buttonContainerInviteMember}   onPress={()=>{this.props.myHookValue.push("ViewMembers")}}>
        <View>
        <View style={styles.bodyContentInviteMember}  >
                  <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>View Members</Text> 

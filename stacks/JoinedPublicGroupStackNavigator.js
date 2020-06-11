@@ -20,7 +20,7 @@ import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
-
+import ViewMembers from '../components/ViewMembers';
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -79,6 +79,13 @@ import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicG
        component={withMyHookBio(JoinedPublicGroupBio,name)} />  
 
 
+<JoinedGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Group Members" }} 
+   name='ViewMembers' 
+   component={withMyHook(ViewMembers)}/>
      
 
 </JoinedGroupBioStack.Navigator>
@@ -117,11 +124,17 @@ import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicG
   
      
         <JoinedGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
-        activeColor="black"  
-        inactiveColor="Grey"
+        activeTintColor="black"  
+        inactiveTintColor="Grey"
        barStyle={{ backgroundColor: 'white' }}
+
+       
+      
        tabBarOptions={{
         
+        indicatorStyle:{
+          backgroundColor: colors.StackheaderStyleBackgroundColor
+        },
   
         labelStyle: {
           fontSize: colors.TabLabelStylefontSize,

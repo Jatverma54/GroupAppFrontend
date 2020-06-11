@@ -3,95 +3,107 @@ import {
   StyleSheet,
   Text,
   View,
+
   Image,
+  Alert,
   ScrollView,
-  TouchableOpacity,
-  ListView
+  FlatList,
 } from 'react-native';
 
 export default class ViewMembers extends Component {
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows([
-         {image: "https://bootdey.com/img/Content/avatar/avatar6.png", username:"johndoe1"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar2.png", username:"johndoe2"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar3.png", username:"johndoe3"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar4.png", username:"johndoe4"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar1.png", username:"johndoe5"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar6.png", username:"johndoe6"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar1.png", username:"johndoe7"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar2.png", username:"johndoe8"},
-         {image: "https://bootdey.com/img/Content/avatar/avatar6.png", username:"johndoe2"},
-      ]),
+      calls: [
+        {id:1,  name: "Mark Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        {id:2,  name: "Clark Man",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+        {id:3,  name: "Jaden Boor",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+        {id:4,  name: "Srick Tree",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:5,  name: "Erick Doe",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+        {id:6,  name: "Francis Doe", status:"active", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+        {id:8,  name: "Matilde Doe", status:"active", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+        {id:9,  name: "John Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:10, name: "Fermod Doe",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+        {id:11, name: "Danny Doe",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
+      ]
     };
   }
 
-  render() {
+  renderItem = ({item}) => {
     return (
-      <View style={styles.container}>
-          <View style={styles.body}>
-            <ListView style={styles.container} enableEmptySections={true}
-              dataSource={this.state.dataSource}
-              renderRow={(user) => {
-                return (
-                  <TouchableOpacity>
-                    <View style={styles.box}>
-                      <Image style={styles.image} source={{uri: user.image}}/>
-                      <Text style={styles.username}>{user.username}</Text>
-                      <View style={styles.iconContent}>
-                        <Image style={styles.icon} source={{uri: "https://png.icons8.com/customer/office/40"}}/>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                )
-            }}/>
+    
+        <View style={styles.row}>
+          <Image source={{ uri: item.image }} style={styles.pic} />
+          <View>
+            <View style={styles.nameContainer}>
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
+             
+            </View>
+            <View style={styles.msgContainer}>
+              <Text style={styles.msgTxt}>{item.status}</Text>
+            </View>
           </View>
+        </View>
+     
+    );
+  }
+
+  render() {
+    return(
+      <View style={{ flex: 1 }} >
+        <FlatList 
+          extraData={this.state}
+          data={this.state.calls}
+          keyExtractor = {(item) => {
+            return item.id;
+          }}
+          renderItem={this.renderItem}/>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  image:{
-    width: 60,
-    height: 60,
-  },
-  body: {
-    padding:30,
-    backgroundColor :"#E6E6FA",
-  },
-  box: {
-    marginTop:5,
-    marginBottom:5,
-    backgroundColor: '#FFFFFF',
+  row: {
     flexDirection: 'row',
-    shadowColor: 'black',
-    shadowOpacity: .2,
-    shadowOffset: {
-      height:1,
-      width:-2
-    },
-    elevation:2
+    alignItems: 'center',
+    borderColor: '#DCDCDC',
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    padding: 10,
   },
-  username:{
-    color: "#20B2AA",
-    fontSize:22,
-    alignSelf:'center',
-    marginLeft:10
-  },
-  iconContent:{
+  pic: {
+    borderRadius: 30,
     width: 60,
     height: 60,
-    backgroundColor: '#40E0D0',
-    marginLeft: 'auto',
-    alignItems: 'center'
   },
-  icon:{
-    width: 40,
-    height: 40,
-  }
-});
- 
+  nameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 280,
+  },
+  nameTxt: {
+    marginLeft: 15,
+    fontWeight: '600',
+    color: '#222',
+    fontSize: 18,
+    width:170,
+  },
+  mblTxt: {
+    fontWeight: '200',
+    color: '#777',
+    fontSize: 13,
+  },
+  msgContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  msgTxt: {
+    fontWeight: '400',
+    color: '#008B8B',
+    fontSize: 12,
+    marginLeft: 15,
+    width:"100%"
+  },
+}); 

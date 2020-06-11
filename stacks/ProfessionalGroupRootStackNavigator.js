@@ -17,7 +17,7 @@ import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import ProfessionalGroupBio from  '../screens/ProfessionalGroupScreens/ProfessionalGroupBio';
-
+import ViewMembers from '../components/ViewMembers';
 
 
 const HeaderLeft = () => {
@@ -122,7 +122,13 @@ const ProfessionalGroupRootStack = createStackNavigator();
        name='CreateaPfGroupBio' 
        component={withMyHookBio(ProfessionalGroupBio,name)} />  
 
-
+<ProfessionalGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Group Members" }} 
+   name='ViewMembers' 
+   component={withMyHook(ViewMembers)}/>
      
 
 </ProfessionalGroupBioStack.Navigator>
@@ -197,6 +203,9 @@ const ProfessionalGroupRootStack = createStackNavigator();
      barStyle={{ backgroundColor: 'white' }}
      tabBarOptions={{
       
+      indicatorStyle:{
+        backgroundColor: colors.StackheaderStyleBackgroundColor
+      },
 
       labelStyle: {
         fontSize: colors.TabLabelStylefontSize,

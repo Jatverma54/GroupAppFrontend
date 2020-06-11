@@ -25,7 +25,7 @@ import {
   Paragraph,
 } from 'react-native-paper';
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
-import FbImages from '../../components/FacebookPostImage';
+import FbImages from '../PersonalGroupScreens/PostImagesPersonalGroup';
 import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
@@ -41,15 +41,10 @@ export default class PersonalGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",       time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",        time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://lorempixel.com/400/200/nature/5/"} ,
-        {id:"3", title: "XYZ Name",     time:"3 hour a go",  postMetaData:"This is an example post",    image:"https://lorempixel.com/400/200/nature/4/"}, 
-        {id:"4", title: "XYZ Name",      time:"4 months a go",  postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/6/"}, 
-        {id:"5", title: "XYZ Name",      time:"5 weeks a go",   postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/sports/1/"}, 
-        {id:"6", title: "XYZ Name",        time:"6 year a go",    postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/8/"}, 
-        {id:"7", title: "XYZ Name",    time:"7 minutes a go", postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/1/"}, 
-        {id:"8", title: "XYZ Name",          time:"8 days a go",    postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/3/"},
-        {id:"9", title: "XYZ Name", time:"9 minutes a go", postMetaData:"This is an example post",  image:"https://lorempixel.com/400/200/nature/4/"},
+        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
+        {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
+        {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
       ],
       isVisible: false,
       MaximizeImage:'',
@@ -174,63 +169,16 @@ async changeScreenOrientation() {
             </View>
                
 
-            {(item.image!=null&&!item.image.toString().includes(".mp4"))?
-      
+           
 
+
+            {(item.image!=null&&!item.image.toString().includes(".mp4")&&!item.image.toString().includes(".txt")&&!item.image.toString().includes(".pdf"))?
+    
+     <FbImages ShowPhotos={true} imagesdata={item.image}/>
+:
+      
+    (item.image!=null&&item.image.toString().includes(".mp4")) ?
       <View style={styles.ImageView} >
- <TouchableOpacity onPress={()=>{this.setState({isVisible: true,MaximizeImage:item.image})}} style={{flex: 1}}>
-    
-    <Image
-  style={styles.stretch}
-  source={{uri:item.image}}
-  
-  />
-   </TouchableOpacity>
-
-  
-    {this.state.isVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-      <Image resizeMode="contain" style={{height:height,width:width,flex:1}}
-        source={{uri: this.state.MaximizeImage}} >
-      </Image>
-      <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={21}
-              style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal>
-    
-    
-    
-    
-    
-    
-    
-    }   
-      
-
-
-
-
-
-
-
-  </View>:
-      
-    ((item.image!=null&&item.image.toString().includes(".mp4")) ?
-      (<View style={styles.ImageView} >
        
         <Video
         source={{ uri: item.image }}
@@ -244,11 +192,71 @@ async changeScreenOrientation() {
         style={styles.video}
   
       />
-      </View>):null)}
+      </View>: ((item.image!=null&&(item.image.toString().includes(".txt")||item.image.toString().includes(".pdf")||item.image.toString().includes(".xls"))) ?
+      ( 
       
+      
+      
+      <View  style={styles.ImageView} >
+        
+   
+        
+      <TouchableHighlight   style={{ marginTop:10,
+    alignSelf:"center"}} 
+        
+        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:item.image})}}}> 
+      <MaterialCommunityIcons
+              name="file-document"                
+              size={70}
+            // style={styles.DocumentIcon} 
+            />
+       </TouchableHighlight>
+  
+  <Text style={{alignSelf:"center"}}>PDF</Text>
+  
+
+  {this.state.isDocumentVisible===true&&
+    
+    <Modal>
+   
+    <View style={{height:height,width:width,flex:1}}>
+      
+
+ <PDFReader style={{height:height,width:width}} 
+        source={{
+          uri: this.state.OpenDucumentUri,
+
+        }}    />
+        
    
 
 
+
+      <TouchableHighlight
+        style={styles.overlayCancel}
+        onPress={()=>{this.setState({isDocumentVisible: false})}}>
+       
+            <MaterialCommunityIcons
+              name="close"                
+              size={27}
+             style={styles.cancelIcon} 
+            />
+      
+         
+      </TouchableHighlight>
+    </View>
+   
+    </Modal>
+    
+    
+    }   
+      
+
+
+
+
+ 
+  </View>  ):null)}
 
 
 

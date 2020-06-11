@@ -74,8 +74,16 @@ const HeaderLeft = () => {
         activeColor="black"  
         inactiveColor="Grey"
        barStyle={{ backgroundColor: 'white' }}
+
+
+      
+
        tabBarOptions={{
         
+        indicatorStyle:{
+          backgroundColor: colors.StackheaderStyleBackgroundColor
+        },
+  
   
         labelStyle: {
           fontSize: colors.TabLabelStylefontSize,

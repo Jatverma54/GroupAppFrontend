@@ -9,15 +9,14 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  Modal,TouchableHighlight,  Platform,
+  Modal,TouchableHighlight, Linking, Platform,NativeMethods,Button
   
 } from "react-native";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
-import data from "./static.json";
-import TextInputClass from "./TextInputClass";
-
+import FbImages from '../Posts/NewPostImagesTile';
+     
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -25,11 +24,12 @@ import * as DocumentPicker from 'expo-document-picker';
 import Post_Add from '../../Pictures/Post_Add.png';
 import Attach_Icon from '../../Pictures/Attach_Icon.png';
 import Camera_Icon from '../../Pictures/Camera_Icon.png';
-import DocViewer from '../../Pictures/DocViewer.png';
+
 
 import { Video } from 'expo-av';
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
-import FileViewer from "react-native-file-viewer";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import PDFReader from 'rn-pdf-reader-js'
 
 
 
@@ -41,9 +41,9 @@ export default class CreateaNewPost extends Component {
   constructor(props){
     super(props);
   this.state = {   
-     photo: null,
-    
-   
+     photo: [],
+     video: null,
+     pdf: null,   
      newValue: '',
      height: 40,
      //fontWeight
@@ -56,7 +56,11 @@ export default class CreateaNewPost extends Component {
      marginTop:20, 
      isVisible: false,
      MaximizeImage:'',
-    
+     isDocumentVisible: false,
+     OpenDucumentUri:'',
+     PhotoPresent:false,
+
+     photos: []
   };
 }
 
@@ -86,10 +90,13 @@ getPermissionAsync = async () => {
 
 _pickDocument = async () => {
   try {
-  let result = await DocumentPicker.getDocumentAsync({});
+  let result = await DocumentPicker.getDocumentAsync({
+
+    type : "application/pdf"
+  });
   
   if (!result.cancelled) {
-    this.setState({ photo: result.uri });
+    this.setState({ pdf: result.uri });
   }
   console.log(result);
  
@@ -102,44 +109,46 @@ _pickDocument = async () => {
 
 
 
-openFile(){
-  if (this.state.photo) {
-    let uri = this.state.photo;
-    if (Platform.OS === 'ios') {
-      //After picking the file we need to remove 'file://' from file path
-      //Because FileViewer will not show the file with 'file://' prefix
-      uri = res.uri.replace('file://', '');
-    }
-    console.log('URI : ' + uri);
-    FileViewer.open(uri,{
-      displayName: "Documents",
-      showOpenWithDialog: true,
-      showAppsSuggestions: true
-    })
-      .then(() => {
-        //Can do anything you want after opening the file successfully
-        console.log('Success');
-      })
-      .catch(_err => {
-        //Handle failure here
-        console.log(_err);
-      });
-  }
-
-}
-
 
  _pickImage = async () => {
   try {
-    let result = await ImagePicker .launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      
+      allowsMultipleSelection:true,
+     
       //aspect: [1.100,1],
       quality: 1,
     });
     if (!result.cancelled) {
-      this.setState({ photo: result.uri });
+   
+    this.state.photo.push(result.uri )
+    
+    this.setState({ PhotoPresent: true });
+      this.CameraOptions.close(); 
+    
+     // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+    }
+   
+    console.log(result);
+  } catch (E) {
+    console.log(E);
+  }
+
+};
+
+
+_pickVideo = async () => {
+  try {
+    let result = await ImagePicker .launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+     // allowsEditing: true,
+   
+      //aspect: [1.100,1],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      this.setState({ video: result.uri });
       this.CameraOptions.close(); 
       
      // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
@@ -166,13 +175,17 @@ getCameraPermissionAsync = async () => {
  _clickImage = async () => {
   try {
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
      // aspect: [1.85,1],
       quality: 1,
     });
     if (!result.cancelled) {
-      this.setState({ photo: result.uri });
+     
+      this.state.photo.push(result.uri )
+    
+      this.setState({ PhotoPresent: true });
+
       this.CameraOptions.close(); 
     //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
@@ -195,7 +208,7 @@ _clickVideo = async () => {
       quality: 1,
     });
     if (!result.cancelled) {
-      this.setState({ photo: result.uri });
+      this.setState({ video: result.uri });
       this.CameraOptions.close(); 
     //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
@@ -248,24 +261,10 @@ _clickVideo = async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   render() {
    
    
-       const {newValue,marginLeft,borderBottomColor,marginRight,flex,marginTop, width,height,fontWeight,fontSize} = this.state;
+       const {photo,newValue,marginLeft,borderBottomColor,marginRight,flex,marginTop, width,height,fontWeight,fontSize} = this.state;
    let newStyle = {
       height,fontSize,marginLeft,borderBottomColor,flex,marginTop, width,marginRight
     }
@@ -300,33 +299,80 @@ _clickVideo = async () => {
               </TextInput> 
               </View>
         
-         
-              {(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")&&!this.state.photo.toString().includes(".txt"))?
+              {(this.state.photo.length>0&&!this.state.photo.toString().includes(".mp4")&&!this.state.photo.toString().includes(".txt")&&!this.state.photo.toString().includes(".pdf"))?
+      
+    
+      <View style={styles.ImageView} >
+      
+        
+         {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: [],PhotoPresent:false })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+       
+        
+       
+         <FbImages imagesdata={ this.state.photo}/>
       
 
-      <View style={styles.ImageView} >
-         {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
- <TouchableOpacity onPress={()=>{this.setState({isVisible: true,MaximizeImage:this.state.photo})}} style={{flex: 1}}>
-    
-    <Image
-  style={styles.stretch}
-  source={{uri:this.state.photo}}
-  
-  />
-   </TouchableOpacity>
 
+  </View>:
+      
+    (this.state.video) ?
+      <View style={styles.ImageView} >
+        {this.state.video&&<TouchableOpacity onPress={() => this.setState({ video: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+        <Video
+        source={{ uri: this.state.video }}
+        rate={1.0}
+        volume={1.0}
+        isMuted={false}
+        resizeMode="cover"
+        shouldPlay={false}
+        isLooping={false}
+        useNativeControls
+        style={styles.video}
   
-    {this.state.isVisible===true&&
+      />
+      </View>:
+      ((this.state.pdf) ?
+      ( 
+      
+      
+      
+      <View  style={styles.ImageView} >
+        
+      {this.state.pdf&&<TouchableOpacity onPress={() => this.setState({ pdf: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+        
+      <TouchableHighlight   style={styles.DocumentIcon} 
+        
+        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:this.state.pdf})}}}> 
+      <MaterialCommunityIcons
+              name="file-document"                
+              size={70}
+            // style={styles.DocumentIcon} 
+            />
+       </TouchableHighlight>
+  
+  <Text style={{alignSelf:"center"}}>PDF</Text>
+  
+
+  {this.state.isDocumentVisible===true&&
     
     <Modal>
    
     <View style={{height:height,width:width,flex:1}}>
-      <Image resizeMode="contain" style={{height:height,width:width,flex:1}}
-        source={{uri: this.state.MaximizeImage}} >
-      </Image>
+      
+
+ <PDFReader style={{height:height,width:width}} 
+        source={{
+          uri: this.state.OpenDucumentUri,
+
+        }}    />
+        
+   
+
+
+
       <TouchableHighlight
         style={styles.overlayCancel}
-        onPress={()=>{this.setState({isVisible: false})}}>
+        onPress={()=>{this.setState({isDocumentVisible: false})}}>
        
             <MaterialCommunityIcons
               name="close"                
@@ -341,69 +387,24 @@ _clickVideo = async () => {
     </Modal>
     
     
-    
-    
-    
-    
-    
     }   
       
 
 
 
 
-
-
-
-  </View>:
-      
-    (this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) ?
-      <View style={styles.ImageView} >
-        {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-        <Video
-        source={{ uri: this.state.photo }}
-        rate={1.0}
-        volume={1.0}
-        isMuted={false}
-        resizeMode="cover"
-        shouldPlay={false}
-        isLooping={false}
-        useNativeControls
-        style={styles.video}
-  
-      />
-      </View>:
-      ((this.state.photo!=null&&(this.state.photo.toString().includes(".txt")||this.state.photo.toString().includes(".pdf")||this.state.photo.toString().includes(".xls"))) ?
-      ( 
-      
-      
-      
-      <View  style={styles.ImageView} >
-        
-      {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-        
-      <TouchableHighlight   style={styles.DocumentIcon} 
-        
-        onPress={()=>{this.openFile()}}> 
-      <MaterialCommunityIcons
-              name="file-document"                
-              size={70}
-            // style={styles.DocumentIcon} 
-            />
-       </TouchableHighlight>
-  
-  <Text style={{alignSelf:"center"}}>Document</Text>
-  
  
   </View>  ):null)}
  
-   
+
+  
   
         
         </ScrollView>
        
       
         <View >
+      
         <TouchableOpacity style={styles.inputIcon} onPress={() => this.CameraOptions.open()} > 
         <Image style={{width:60,
     height:60,}} source={Post_Add}/>
@@ -411,8 +412,8 @@ _clickVideo = async () => {
              <Text style={styles.TextStyle}>Share</Text> 
              </TouchableOpacity>
         </View>
-        
-
+          
+  
 
         <View>
        <TouchableOpacity style={styles.inputIconLeft} onPress={() => this.CameraOptions.open()} > 
@@ -428,7 +429,7 @@ _clickVideo = async () => {
         <Image style={{width:30,
     height:30}} source={Attach_Icon}/>
              
-             <Text style={styles.TextStyleRight}>Attach File</Text> 
+             <Text style={styles.TextStyleRight}>Attach PDF</Text> 
              </TouchableOpacity>  
         </View>
          
@@ -486,9 +487,18 @@ _clickVideo = async () => {
                 onPress={() => this._pickImage()}
               >
                 <MDIcon name="photo" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Choose Photo/Video</Text>
+                <Text style={styles.listLabelNewPost}>Choose Photo</Text>
               </TouchableOpacity>
 
+
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={() => this._pickVideo()}
+              >
+                <MDIcon name="photo" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Choose Video</Text>
+              </TouchableOpacity>
 
              
            

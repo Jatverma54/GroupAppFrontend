@@ -17,7 +17,7 @@ const { width, height } = Dimensions.get('window');
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 import ImageView from "react-native-image-viewing";
 
-export default class FbImages extends React.Component {
+export default class PostImagesJoinedGroup extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,6 +30,7 @@ export default class FbImages extends React.Component {
       ImageData:[],
       isVisible:'false',
       imageindex:null,
+     
     };
   }
 
@@ -100,7 +101,7 @@ export default class FbImages extends React.Component {
     const {images} = this.state;
     const {countFrom} = this.state;
     const conditionalRender = [2, 3].includes(images.length) || images.length > +countFrom && [2, 3].includes(+countFrom);
-console.log(conditionalRender)
+
 
 let index;
 let index1;
@@ -183,10 +184,11 @@ if(conditionalRender){
     );
   }
 
- getimageArray=()=>{
-  const {images} = this.state;
-  let a=1;
-  if(images.length>0){
+ flag=true;
+ getimageArray=(images)=>{
+ 
+
+  if(images.length>0&&this.flag){
 
    
     for(var i in images){
@@ -195,15 +197,7 @@ if(conditionalRender){
     }
 
    
-    // const imagsses = [
-    //     {
-    //       uri:  "https://lorempixel.com/400/200/nature/4/", 
-    //     }
-      
-          
-      
-    //   ];
-    a++;
+  this.flag=false;
     }
    
  }
@@ -213,12 +207,12 @@ if(conditionalRender){
     const {modal, index, countFrom,isVisible,imageindex} = this.state;
     const {images} = this.state;
     const imagesToShow = [...images];
-console.log(imagesToShow.length,"total images");
+
     if(countFrom && images.length > countFrom) {
       imagesToShow.length = countFrom;
     }
   
- this.getimageArray();
+ {isVisible!=true&&this.getimageArray(images)}
    
     
     return (
@@ -230,7 +224,7 @@ console.log(imagesToShow.length,"total images");
 
 
          
-          {isVisible===true&&
+          {isVisible&&
          
             <ImageView
   images={this.state.ImageData}

@@ -74,7 +74,7 @@ import colors from '../constants/colors';
                 <FontAwesome name="feed" color={color} size={size} />
               )}
               label='Public Groups Feed'
-              labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
+              labelStyle={{marginLeft:5, color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
               onPress={() => navigation.dispatch(DrawerActions.jumpTo('Public Groups Feed'))}
             />
             <DrawerItem
