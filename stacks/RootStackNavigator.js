@@ -15,6 +15,8 @@ import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigat
 import ProfessionalGroupRootStackNavigator from '../stacks/ProfessionalGroupRootStackNavigator';
 import DrawerContent from '../screens/DrawerContent';
 import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
+import StoryScreen from '../screens/StoryScreen';
+import GroupAppFeatures from '../screens/GroupAppFeatures';
 
 
 
@@ -56,6 +58,28 @@ return(
       name='SignupScreen' 
       component={SignupScreen}/>
 
+<RootMainStack.Screen  
+ options={{headerTitle: "Welcome to the Group APP",
+
+  headerTintColor: colors.StackheaderTintColor,
+  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+
+
+}}
+      name='StoryScreen' 
+      component={StoryScreen}/>
+
+
+<RootMainStack.Screen  
+ options={{headerTitle: "Group APP Features",
+
+  headerTintColor: colors.StackheaderTintColor,
+  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+
+
+}}
+      name='GroupAppFeatures' 
+      component={GroupAppFeatures}/>
 
 
 <RootMainStack.Screen  

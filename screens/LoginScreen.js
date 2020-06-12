@@ -46,19 +46,22 @@ return(
               underlineColorAndroid='transparent'/>
         </View>
      
-        <TouchableOpacity style={styles.restoreButtonContainer}>
-            <Text>Forgot?</Text>
-        </TouchableOpacity>
+       
        
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={()=>navigation.push('DrawerScreen')}   >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonContainer}>
-            <Text>Register</Text>
+
+        <TouchableOpacity style={styles.restoreButtonContainer}>
+            <Text style={{fontWeight:'bold',width:"100%",marginLeft:125}}>Forgot Password</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>{}}>
+        <TouchableOpacity style={styles.buttonSignupContainer} onPress={()=>navigation.push('SignupScreen')}   >
+            <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Click here for signup </Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>{}}>
 
 <Image 
  source={Facebook_login_Icon} 
@@ -82,7 +85,7 @@ return(
 
 <Text style={styles.TextStyle}> Login Using Google</Text>
 
-</TouchableOpacity>
+</TouchableOpacity> */}
       </View>
 
 );
@@ -128,9 +131,24 @@ const styles = StyleSheet.create({
     marginBottom:20,
     width:250,
     borderRadius:30,
+    alignSelf:'center'
+  },
+
+  buttonSignupContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+    alignSelf:'center',
+    marginLeft:10,
+   
   },
   loginButton: {
     backgroundColor: '#3498db',
+    marginTop:30
   },
   fabookButton: {
     backgroundColor: "#3b5998",
@@ -143,8 +161,10 @@ const styles = StyleSheet.create({
   },
   restoreButtonContainer:{
     width:250,
-    marginBottom:15,
-    alignItems: 'flex-end'
+    marginBottom:10,
+    marginTop:10,
+    alignItems: 'center'
+
   },
   socialButtonContent:{
     flexDirection: 'row',

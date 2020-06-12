@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet,TouchableOpacity } from 'react-native';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import {
   DrawerItem,
@@ -120,7 +120,7 @@ import colors from '../constants/colors';
          
          
            
-         
+          <TouchableOpacity  onPress={() => navigation.navigate('StoryScreen')}>
          <View style={styles.drawerSectionFooter}>
          <Avatar.Image
               source={FooterLogo}
@@ -131,7 +131,7 @@ import colors from '../constants/colors';
          </Paragraph>
          
        </View>
-         
+    </TouchableOpacity>
            
 
           

@@ -99,7 +99,7 @@ export default class SignupScreen extends Component {
    _pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
@@ -129,7 +129,7 @@ getCameraPermissionAsync = async () => {
  _clickImage = async () => {
   try {
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -197,7 +197,7 @@ getCameraPermissionAsync = async () => {
 <TouchableOpacity  onPress={() => this.CameraOptions.open()}>
               <View style={{ height: 100,padding:10 }}>
                               
-                <View style={{ flex: 3 ,backgroundColor:"#00b5ec" }}>
+                <View style={{ flex: 3 ,backgroundColor:"#3498db" }}>
                          
                       <View>
                    
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00b5ec',
+    backgroundColor: '#3498db',
   },
   inputContainer: {
       borderBottomColor: '#F5FCFF',

@@ -30,8 +30,8 @@ import { Video } from 'expo-av';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import PDFReader from 'rn-pdf-reader-js'
-
-
+import * as ScreenOrientation from 'expo-screen-orientation';
+import ImageBrowser from './ImageBrowser'
 
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -73,6 +73,7 @@ updateSize = (height) => {
 componentDidMount() {
   this.getPermissionAsync();
   this.getCameraPermissionAsync();
+  this.changeScreenOrientation();
 }
 
 
@@ -86,7 +87,9 @@ getPermissionAsync = async () => {
 };
 
 
-
+async changeScreenOrientation() {
+  await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+}
 
 _pickDocument = async () => {
   try {
@@ -257,11 +260,42 @@ _clickVideo = async () => {
  
 // }
 
+imageBrowserCallback = (callback) => {
+  callback.then((photo) => {
+  
+    this.setState({
+      imageBrowserOpen: false,
+      photo
+    })
+    
+    // console.log(this.state.photos[0].uri,"final")
+   //for
 
+
+
+  }).catch((e) => console.log(e))
+ 
+}
 
 
 
   render() {
+
+    if (this.state.imageBrowserOpen) {
+      return (
+        <ImageBrowser
+        max={101} // Maximum number of pickable image. default is None
+        headerCloseText={'Close '} // Close button text on header. default is 'Close'.
+        headerDoneText={'Done '} // Done button text on header. default is 'Done'.
+        headerButtonColor={'black'} // Button color on header.
+        headerSelectText={'Selected'} // Word when picking.  default is 'n selected'.
+     //   mediaSubtype={'screenshot'} // Only iOS, Filter by MediaSubtype. default is display all.
+        badgeColor={'black'} // Badge color when picking.
+        emptyText={'No Image'} // Empty Text
+     callback={this.imageBrowserCallback} // Callback functinon on press Done or Cancel Button. Argument is Asset Infomartion of the picked images wrapping by the Promise.
+          />
+      )
+    }
    
    
        const {photo,newValue,marginLeft,borderBottomColor,marginRight,flex,marginTop, width,height,fontWeight,fontSize} = this.state;
@@ -305,7 +339,7 @@ _clickVideo = async () => {
       <View style={styles.ImageView} >
       
         
-         {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: [],PhotoPresent:false })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+         {this.state.photo.length>0&&<TouchableOpacity onPress={() => this.setState({ photo: [],PhotoPresent:false })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
        
         
        
@@ -458,7 +492,7 @@ _clickVideo = async () => {
           height={330}
         >
           <View style={styles.listContainerNewPost}>
-            <Text style={styles.listTitleNewPost}>Create</Text>
+            <Text style={styles.listTitleNewPost}>Choose an Option</Text>
           
               <TouchableOpacity
                 
@@ -475,7 +509,7 @@ _clickVideo = async () => {
                 style={styles.listButtonNewPost}
                 onPress={() => this._clickVideo()}
               >
-                <MDIcon name="photo-camera" style={styles.listIconNewPost} />
+                <MaterialCommunityIcons name="video-vintage" style={styles.listIconNewPost} />
                 <Text style={styles.listLabelNewPost}>Take Video</Text>
               </TouchableOpacity>
 
@@ -484,7 +518,7 @@ _clickVideo = async () => {
               <TouchableOpacity
                 
                 style={styles.listButtonNewPost}
-                onPress={() => this._pickImage()}
+                onPress={() => this.setState({ imageBrowserOpen: true })}
               >
                 <MDIcon name="photo" style={styles.listIconNewPost} />
                 <Text style={styles.listLabelNewPost}>Choose Photo</Text>
@@ -496,8 +530,8 @@ _clickVideo = async () => {
                 style={styles.listButtonNewPost}
                 onPress={() => this._pickVideo()}
               >
-                <MDIcon name="photo" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Choose Video</Text>
+                <MaterialCommunityIcons name="library-video" style={styles.listIconNewVideoPost} />
+                <Text style={styles.listLabelVideoNewPost}>Choose Video</Text>
               </TouchableOpacity>
 
              
@@ -570,8 +604,19 @@ const styles = StyleSheet.create({
     color: "#666",
     width: 60
   },
+  listIconNewVideoPost: {
+    fontSize: 26,
+    color: "#666",
+    width: 50,
+    marginLeft:-22
+    
+  },
   listLabelNewPost: {
     fontSize: 16
+  },
+  listLabelVideoNewPost: {
+    fontSize: 16,
+    marginLeft:33
   },
   gridContainer: {
     flex: 1,
