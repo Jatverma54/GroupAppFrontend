@@ -3,19 +3,20 @@ import {
   StyleSheet,
   Text,
   View,
-
+TextInput,
+TouchableHighlight,
   Image,
   Alert,
   ScrollView,
   FlatList,
 } from 'react-native';
-
+import { ListItem, SearchBar } from "react-native-elements";
 export default class ViewMembers extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      calls: [
+      data: [
         {id:1,  name: "Mark Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
         {id:2,  name: "Clark Man",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
         {id:3,  name: "Jaden Boor",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
@@ -26,9 +27,48 @@ export default class ViewMembers extends Component {
         {id:9,  name: "John Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
         {id:10, name: "Fermod Doe",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
         {id:11, name: "Danny Doe",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
-      ]
+      ],
+      loading: false,   
+     
+      temp: [{id:1,  name: "Mark Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+      {id:2,  name: "Clark Man",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+      {id:3,  name: "Jaden Boor",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+      {id:4,  name: "Srick Tree",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+      {id:5,  name: "Erick Doe",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+      {id:6,  name: "Francis Doe", status:"active", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+      {id:8,  name: "Matilde Doe", status:"active", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+      {id:9,  name: "John Doe",    status:"active", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+      {id:10, name: "Fermod Doe",  status:"active", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+      {id:11, name: "Danny Doe",   status:"active", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
+      error: null,
+      search: null
     };
   }
+
+
+
+  // componentDidMount() {
+  //   this.getData();
+  // }
+
+  //  getData = async ()  => {
+  //   const url = `https://jsonplaceholder.typicode.com/users`;
+  //   this.setState({ loading: true });
+     
+  //    try {
+  //       const response = await fetch(url);
+  //       const json = await response.json();
+  //       this.setResult(json);
+  //    } catch (e) {
+  //       this.setState({ error: 'Error Loading content', loading: false });
+  //    }
+  // };
+
+
+
+
+
+
 
   renderItem = ({item}) => {
     return (
@@ -40,21 +80,69 @@ export default class ViewMembers extends Component {
               <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
              
             </View>
-            <View style={styles.msgContainer}>
+            {/* <View style={styles.msgContainer}>
               <Text style={styles.msgTxt}>{item.status}</Text>
-            </View>
+            </View> */}
           </View>
         </View>
      
     );
   }
 
+
+
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
+
+  renderHeader = () => {
+      return <SearchBar 
+      
+      placeholder="Search Here..."
+          lightTheme round editable={true}
+          value={this.state.search}
+          onChangeText={this.updateSearch} />; 
+  }; 
+
+  updateSearch = search => {
+        this.setState({ search }, () => {
+            if ('' == search) {
+                this.setState({
+                    data: [...this.state.temp]
+                });
+                return;
+            }
+            
+            this.state.data = this.state.temp.filter(function(item){
+                return item.name.includes(search);
+              }).map(function({id, name, image}){
+                return {id, name, image};
+            });
+        });
+  };
+
+
+
+
+
+
+
+
+
+
+
   render() {
     return(
       <View style={{ flex: 1 }} >
         <FlatList 
+         ListHeaderComponent={this.renderHeader}
           extraData={this.state}
-          data={this.state.calls}
+          data={this.state.data}
           keyExtractor = {(item) => {
             return item.id;
           }}
