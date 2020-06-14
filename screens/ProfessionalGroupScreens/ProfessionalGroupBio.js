@@ -85,7 +85,7 @@ export default class ProfessionalGroupBio extends Component {
      
                <View>
      
-     <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>{}}>
+               <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>{this.props.myHookValue.push("AddMembers")}}>
       <View>
       <View style={styles.bodyContentShare}  >
                 <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 

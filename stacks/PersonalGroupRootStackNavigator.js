@@ -18,7 +18,7 @@ import ViewMembers from '../components/ViewMembers';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 
-
+import AddMember from '../components/AddMember';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -132,10 +132,17 @@ const PersonalGroupRootStack = createStackNavigator();
    name='ViewMembers' 
    component={withMyHook(ViewMembers)}/>
      
+     <PersonalGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
 
 </PersonalGroupBioStack.Navigator>
      
-    
+     
     );
   };
 
@@ -310,12 +317,14 @@ const PersonalGroupRootStack = createStackNavigator();
 
 
 
+
 <PersonalGroupFeedScreenStack.Screen 
-options={{
+ 
+ options={{
    
-   headerTitle: "Start a conversation" }} 
-   name='CreateaTextPost' 
-   component={withMyHook(TextInputClass)}/>
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
 
 
 </PersonalGroupFeedScreenStack.Navigator>

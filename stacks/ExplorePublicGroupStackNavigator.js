@@ -157,10 +157,17 @@ const HeaderLeft = () => {
  
 
 <ExplorePublicGroupCategoryBasedStack.Screen 
- 
- options={{headerShown:false}} 
+options={{
+  
+  headerTitle: "Create a Public Group" ,
+  headerLeft:({})=><HeaderLeftCreateaPublicGroup/>,
+
+              }} 
+
+
+
   name='Create a Public Group' 
-  component={CreateaPublicGroupStackNavigator}/>
+  component={withMyHookCategory(CreateaPublicGroupScreen,title) }/>
 
 </ExplorePublicGroupCategoryBasedStack.Navigator>
 
@@ -168,64 +175,75 @@ const HeaderLeft = () => {
     );
   };
   
+  function withMyHookCategory(Component,title) {
+  
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props} Category={title} myHookValue={myHookValue} />;
+    }
+  }
 
 
-  const CreateaPublicGroupStack = createStackNavigator();
-  const CreateaPublicGroupStackNavigator =()=>{
-    
-    return (
+//   const CreateaPublicGroupStack = createStackNavigator();
+//   const CreateaPublicGroupStackNavigator= (title)=>{
+   
+//     return (
  
-        <CreateaPublicGroupStack.Navigator   headerMode='float' screenOptions={{ headerLeft:({})=><HeaderLeftCreateaPublicGroup/> ,cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
-        cardOverlayEnabled: true,
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 0.5, 0.9, 1],
-              outputRange: [0, 0.25, 0.7, 1],
-            }),
-          },
-          overlayStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 0.5],
-              extrapolate: 'clamp',
-            }),
-          },
-        }),     
-        headerTitleStyle: {
+//         <CreateaPublicGroupStack.Navigator   headerMode='float' screenOptions={{ headerLeft:({})=><HeaderLeftCreateaPublicGroup/> ,cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
+//         cardOverlayEnabled: true,
+//         cardStyleInterpolator: ({ current: { progress } }) => ({
+//           cardStyle: {
+//             opacity: progress.interpolate({
+//               inputRange: [0, 0.5, 0.9, 1],
+//               outputRange: [0, 0.25, 0.7, 1],
+//             }),
+//           },
+//           overlayStyle: {
+//             opacity: progress.interpolate({
+//               inputRange: [0, 1],
+//               outputRange: [0, 0.5],
+//               extrapolate: 'clamp',
+//             }),
+//           },
+//         }),     
+//         headerTitleStyle: {
         
-          marginTop:-25
-        },
-            headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
-          }} >
+//           marginTop:-25
+//         },
+//             headerTintColor: colors.StackheaderTintColor,
+//             headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
+//           }} >
   
-<CreateaPublicGroupStack.Screen 
+// <CreateaPublicGroupStack.Screen 
  
-options={{
+// options={{
   
-  headerTitle: "Create a Public Group" }} 
-  name='Create a Public Group' 
-  component={CreateaPublicGroupScreen}/>
+//   headerTitle: "Create a Public Group" }} 
+//   name='Create a Public Group' 
+//   component={withMyHookCategory(CreateaPublicGroupScreen,title)}/>
+
+// {/* //title */}
+
+// </CreateaPublicGroupStack.Navigator>
 
 
-
-</CreateaPublicGroupStack.Navigator>
-
-
-    );
-  };
+//     );
+//   };
 
   const HeaderLeftCreateaPublicGroup = () => {
     const navigation = useNavigation();
     return (
+     
+      <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
       <View style={styles.ImageHeader}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        
         <Image   style={styles.ImageIconStyle} 
          source={BackArrow}/>
        
-         </TouchableOpacity>
+        
       </View>
+       </TouchableOpacity>
+      
     );
   };
   
@@ -247,8 +265,8 @@ options={{
     }
   ,ImageIconStyle:{
     
-    padding: 10,
-    margin: 5,
+    //padding: 10,
+    margin: 10,
     height: 30,
     width: 50,
     resizeMode : 'stretch',

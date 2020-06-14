@@ -18,6 +18,7 @@ import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import ProfessionalGroupBio from  '../screens/ProfessionalGroupScreens/ProfessionalGroupBio';
 import ViewMembers from '../components/ViewMembers';
+import AddMember from '../components/AddMember';
 
 
 const HeaderLeft = () => {
@@ -129,11 +130,19 @@ const ProfessionalGroupRootStack = createStackNavigator();
    headerTitle: "Group Members" }} 
    name='ViewMembers' 
    component={withMyHook(ViewMembers)}/>
+
+   <ProfessionalGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
      
 
 </ProfessionalGroupBioStack.Navigator>
      
-    
+     
     );
   };
 
@@ -320,16 +329,10 @@ const ProfessionalGroupRootStack = createStackNavigator();
  
  options={{
    
-   headerTitle: "Create a New Post" }} 
-   name='CreateaImagePost' 
-   component={withMyHook(ImagePost)}/>
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
 
-<ProfessionalGroupFeedScreenStack.Screen 
-options={{
-   
-   headerTitle: "Start a conversation" }} 
-   name='CreateaTextPost' 
-   component={withMyHook(TextInputClass)}/>
 
 </ProfessionalGroupFeedScreenStack.Navigator>
      

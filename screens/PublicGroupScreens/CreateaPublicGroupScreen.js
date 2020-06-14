@@ -38,7 +38,8 @@ export default class CreateaPublicGroupScreen extends Component {
     super(props);
     this.state = {
       Value: false,
-   
+      selectedGroupCategoryValue:this.props.Category,
+     FirstGroupCategoryValue:this.props.Category
     }
   }
 
@@ -51,11 +52,41 @@ export default class CreateaPublicGroupScreen extends Component {
    
   }
 
+
+  handleChangeOption(itemValue) {
+    if (itemValue !== "0") {
+      
+    }
+  }
+
+   GroupCategoryPickerList() {
+    const {selectedGroupCategoryValue,FirstGroupCategoryValue} = this.state;
+   
+    return (
+     
+        <Picker
+          selectedValue={selectedGroupCategoryValue}
+          style={{ height: 50, width: "80%"}}
+          onValueChange={(itemValue, itemIndex) =>this.setState({selectedGroupCategoryValue: itemValue})}
+        >
+          <Picker.Item label={FirstGroupCategoryValue} value={FirstGroupCategoryValue} />
+          <Picker.Item label="JavaScript" value="js" />
+          <Picker.Item label="Java" value="Java" />
+          <Picker.Item label="Html" value="Html" />
+          <Picker.Item label="Php" value="Php" />
+          <Picker.Item label="C++" value="C++" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          
+        </Picker>
+     
+    );
+  }
+
   render() {
 
-    const {Value} = this.state;
-   
+    const {Value,selectedGroupCategoryValue} = this.state;
     
+   
     return (
         
           <View style={styles.container}>
@@ -94,7 +125,7 @@ export default class CreateaPublicGroupScreen extends Component {
 
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={Category}/>
-          <GroupCategoryPickerList/>
+          {this.GroupCategoryPickerList()}
         </View>
 
         {/* <View style={styles.inputContainer}>
@@ -122,27 +153,7 @@ export default class CreateaPublicGroupScreen extends Component {
   }
 }
 
-const GroupCategoryPickerList=()=> {
-  const [selectedGroupCategoryValue, setselectedGroupCategoryValue] = useState("");
-  return (
-   
-      <Picker
-        selectedValue={selectedGroupCategoryValue}
-        style={{ height: 50, width: "80%"}}
-        onValueChange={(itemValue, itemIndex) => setselectedGroupCategoryValue(itemValue)}
-      >
-        <Picker.Item label="Group Category" value="" />
-        <Picker.Item label="JavaScript" value="js" />
-        <Picker.Item label="Java" value="Java" />
-        <Picker.Item label="Html" value="Html" />
-        <Picker.Item label="Php" value="Php" />
-        <Picker.Item label="C++" value="C++" />
-        <Picker.Item label="JavaScript" value="JavaScript" />
-        
-      </Picker>
-     
-  );
-}
+
 
 const PrivacySettingsPickerList=()=> {
   const [selectedPrivacySettingsValue, setselectedPrivacySettingsValue] = useState("");

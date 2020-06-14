@@ -172,16 +172,12 @@ export default class JoinedGroupInsideGroupFeed extends Component {
           }}
          
 
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
+         
           ListHeaderComponent={
            this.PostScreen
            
        }
-
+      
           renderItem={(post) => {
             const item = post.item;
             return (

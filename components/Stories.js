@@ -128,7 +128,7 @@ showsHorizontalScrollIndicator={false}
 <View style={{ flex:1 }} >
  <View>
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("")}>
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("AddMembers")}>
   <View>
   <View style={styles.bodyContentInviteMember}  >
             <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 

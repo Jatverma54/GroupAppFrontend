@@ -21,6 +21,8 @@ import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
+import AddMember from '../components/AddMember';
+
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -86,11 +88,19 @@ import ViewMembers from '../components/ViewMembers';
    headerTitle: "Group Members" }} 
    name='ViewMembers' 
    component={withMyHook(ViewMembers)}/>
+
+<JoinedGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
      
 
 </JoinedGroupBioStack.Navigator>
      
-    
+     
     );
   };
 
@@ -245,9 +255,9 @@ import ViewMembers from '../components/ViewMembers';
  
  options={{
    
-   headerTitle: "Create a New Post" }} 
-   name='CreateaImagePost' 
-   component={withMyHook(ImagePost)}/>
+   headerTitle: "Add Members" }} 
+   name='AddMembers' 
+   component={withMyHook(AddMember)}/>
    
 <HomeFeedStack.Screen 
  

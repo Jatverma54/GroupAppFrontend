@@ -48,6 +48,7 @@
     "react-native-image-view": "^2.1.9",
     "react-native-image-viewing": "^0.2.0",
     "react-native-media-controls": "^2.0.3",
+    "react-native-multiple-select": "^0.5.5",
     "react-native-overlay": "^0.5.0",
     "react-native-paper": "^3.9.0",
     "react-native-raw-bottom-sheet": "^2.2.0",
