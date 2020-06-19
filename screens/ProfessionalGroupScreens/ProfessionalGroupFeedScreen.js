@@ -13,7 +13,7 @@ import {
   Modal,
   FlatList,
   Button,
-  Container, Content,  Thumbnail ,Share
+  Container, Content,  Thumbnail ,Share,Clipboard
 } from 'react-native';
 import {
   useTheme,
@@ -35,6 +35,8 @@ import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 import PDFReader from 'rn-pdf-reader-js'
+import ViewMoreText from 'react-native-view-more-text';
+
 export default class ProfessionalGroupFeedScreen extends Component {
 
   constructor(props) {
@@ -149,6 +151,24 @@ export default class ProfessionalGroupFeedScreen extends Component {
         
   }
 
+  copyText(item){
+
+    Clipboard.setString(item)
+  
+   alert('Copied to clipboard')
+   }
+   
+   renderViewMore(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+    )
+  }
+  renderViewLess(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+    )
+  }
+
   render() {
          
 
@@ -193,7 +213,18 @@ export default class ProfessionalGroupFeedScreen extends Component {
                 </View>
 
                 <View style={styles.cardContent}>             
-            <Text style={styles.title2}>{item.postMetaData}</Text>
+                <TouchableOpacity onPress={()=>this.copyText(item.postMetaData)}>
+                <ViewMoreText
+          numberOfLines={14}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          textStyle={styles.title2}
+        >   
+        
+            <Text   style={styles.title2}>{item.postMetaData}</Text>
+          
+            </ViewMoreText>   
+            </TouchableOpacity>
             
             </View>
                
@@ -286,11 +317,10 @@ export default class ProfessionalGroupFeedScreen extends Component {
   </View>  ):null)}
  
 
-      
-
-      
-       
-                <View style={styles.cardFooter}>
+  <View style={styles.cardFooter}>
+                  <View style={{height: 0.5,marginBottom:20,
+    width: "100%",
+    backgroundColor:"grey"}}>
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity style={styles.socialBarButton}>
@@ -308,8 +338,12 @@ export default class ProfessionalGroupFeedScreen extends Component {
                   </View>
 
                 </View>              
-                
+                </View>
               </View>
+
+      
+       
+                
             )           
           }}/>
         
@@ -416,7 +450,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-   
+   marginTop:20,
   },
   socialBarSection: {
     justifyContent: 'center',

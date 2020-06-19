@@ -176,8 +176,8 @@ if(conditionalRender){
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:4})}}>
           <Image style={styles.image} source={{uri: (conditionalRender) ? images[3] : images[4]}}/>
           <View style={styles.overlayContent}>
-            <View>
-              <Text style={styles.count}>  +{extra}</Text>
+          <View style={{ width:"100%"}}>
+              <Text style={styles.count}>+{extra}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -293,12 +293,13 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   count:{
-    fontSize:50,
+    fontSize:40,
     color: "#ffffff",
     fontWeight:'bold',
     textShadowColor: 'rgba(0, 0, 139, 1)',
     textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    textShadowRadius: 10,
+    marginLeft:25
   },
   ImageView:{
 

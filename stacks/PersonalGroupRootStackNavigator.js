@@ -306,6 +306,15 @@ const PersonalGroupRootStack = createStackNavigator();
                name='PersonalGroupFeed' 
                component={PersonalGroupInsideGroupTabStackNavigator}   />  
 
+
+<PersonalGroupFeedScreenStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Group Members" }} 
+   name='ViewMembers' 
+   component={withMyHook(ViewMembers)}/>
+
      
 <PersonalGroupFeedScreenStack.Screen 
  

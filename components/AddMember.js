@@ -230,7 +230,7 @@ render() {
   );
 }
  
-console.log(this.state.selected,"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+
  return (
    <View style={styles.container}>
      

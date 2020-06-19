@@ -28,24 +28,27 @@ import Comment from '../Pictures/Comment.png';
 import Post_Add from '../Pictures/Post_Add.png';
 import AddGroup from '../Pictures/AddGroup.png';
 import ShareIcon from '../Pictures/ShareIcon.png';
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import ImageView from "react-native-image-viewing";
 export default class Stories extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Add Story",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
+       
         {id:"2", title: "Jatin",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
         {id:"3", title: "Amit",        time:"2 minutes a go",   image:"https://lorempixel.com/400/200/nature/5/"} ,
-        {id:"4", title: "XYZ Name",     time:"3 hour a go",      image:"https://lorempixel.com/400/200/nature/4/"}, 
+        {id:"4", title: "first Namee",     time:"3 hour a go",      image:"https://lorempixel.com/400/200/nature/4/"}, 
         {id:"5", title: "XYZ Name",      time:"4 months a go",    image:"https://lorempixel.com/400/200/nature/6/"}, 
         {id:"6", title: "XYZ Name",      time:"5 weeks a go",     image:"https://lorempixel.com/400/200/sports/1/"}, 
         {id:"7", title: "XYZ Name",        time:"6 year a go",      image:"https://lorempixel.com/400/200/nature/8/"}, 
         {id:"8", title: "XYZ Name",    time:"7 minutes a go",   image:"https://lorempixel.com/400/200/nature/1/"}, 
         {id:"9", title: "XYZ Name",          time:"8 days a go",      image:"https://lorempixel.com/400/200/nature/3/"},
         {id:"10", title: "XYZ Name", time:"9 minutes a go",   image:"https://lorempixel.com/400/200/nature/4/"},
-      ]
+      ],
+      isVisible: false,
+      Groupimages:[]
     };
   }
 
@@ -71,6 +74,61 @@ export default class Stories extends Component {
     }
   };
 
+
+
+  AddStory(){
+
+return(
+
+  <View style={{ flex:1 }} >
+  <View style={{ height: 100,padding:10 }}>
+ 
+  
+  <View style={{ flex: 3 ,backgroundColor:"white" }}>
+           
+         
+        <View>
+        <TouchableOpacity onPress={()=>this.props.nav.myHookValue.push("ViewMembers")}>
+           <Avatar.Image 
+              style={{ marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
+               source={{uri:"https://lorempixel.com/400/200/nature/6/"}} size={60}/>
+          {/* <View style={styles.iconWrapper}>
+                            <Icon name='plus'  size={12} color='black' />
+                        </View> */}
+             <Text maxLength={0} style={{fontSize:12,alignSelf:"center",paddingTop:6}}>Members</Text>
+             </TouchableOpacity>
+        </View>                
+      
+  </View>
+              
+</View>
+
+
+ </View>
+
+)
+
+  }
+
+
+
+openGroupPic(item){
+  console.log(item,"itemmmm")
+  {this.setState({isVisible: true})}
+  const images = [
+    {
+      uri: item.image,
+    },
+  
+  ];
+
+  {this.setState({Groupimages: images})}
+
+  console.log(this.state.Groupimages,"visible")
+
+}
+
+
   render() {
          
 
@@ -95,7 +153,11 @@ showsHorizontalScrollIndicator={false}
               <View style={styles.separator}/>
             )
           }}
-         
+
+          ListHeaderComponent={
+            this.AddStory()
+            
+        }
           renderItem={(post) => {
             const item = post.item;
           
@@ -107,18 +169,35 @@ showsHorizontalScrollIndicator={false}
                 <View style={{ flex: 3 ,backgroundColor:"white" }}>
                          
                       <View>
-                       
+                      <TouchableOpacity  onPress={() => this.openGroupPic(item)}>
                          <Avatar.Image 
                             style={{ marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
                              source={{uri:item.image}} size={60}/>
-                       
+                            
+                       {!(item.title.length>9)?
                            <Text style={{fontSize:12,alignSelf:"center",paddingTop:6}}>{item.title}</Text>
+                           :<Text style={{fontSize:12,alignSelf:"center",paddingTop:6}}>{item.title.toString().substring(0,10)}..</Text>}
+                   
+                     </TouchableOpacity>
                       </View>                
                     
                 </View>
                             
               </View>
             
+
+            {this.state.isVisible&&
+            
+            <ImageView
+  images={this.state.Groupimages}
+  imageIndex={0}
+  visible={this.state.isVisible}
+  onRequestClose={() =>  {this.setState({isVisible: false})}}
+ 
+/>
+            
+            
+            }
          
                </View>
             )
@@ -136,7 +215,7 @@ showsHorizontalScrollIndicator={false}
             <View>
               
             <Image 
-                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                  style={{ marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
                    source={AddGroup} />
                    
               </View> 
@@ -153,7 +232,7 @@ showsHorizontalScrollIndicator={false}
            <View>
              
            <Image 
-                 style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                 style={{ marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
                   source={ShareIcon} />
                   
              </View> 
@@ -182,6 +261,8 @@ showsHorizontalScrollIndicator={false}
             </View>
           </TouchableOpacity> 
    </View> 
+
+   {this.props.data.length===0&&<View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
     </View>
     );
 
@@ -368,6 +449,16 @@ const styles = StyleSheet.create({
     width:"50%",
     borderRadius:30,
     backgroundColor: "white",
+  },
+  iconWrapper:{
+   marginTop: -10,
+        marginLeft:45,
+        borderRadius: 30,
+      //  height: 40,
+       // width: 40,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center'
   }
 
 });  

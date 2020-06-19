@@ -92,7 +92,25 @@ export default class CreateaPublicGroupScreen extends Component {
           <View style={styles.container}>
 
             
-          <Image  style={styles.Imagecontainer} source={AddGroup_Icon}/>
+<TouchableOpacity  onPress={() => this.CameraOptions.open()}>
+              <View style={{ height: 100,padding:10 }}>
+                              
+                <View style={{ flex: 3 ,backgroundColor:"#3498db" }}>
+                         
+                      <View>
+                   
+                        <Avatar.Image 
+                            style={{alignSelf:"center", marginTop:-70,marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
+                             source={{ uri: photo }} size={100}/>
+                         
+                         
+                           <Text style={{fontSize:12,alignSelf:"center",paddingTop:6,fontWeight:"bold",width:"100%"}}>Choose an Avatar</Text>
+                      </View>                
+                    
+                </View>
+                            
+              </View>
+              </TouchableOpacity>
          
         <View style={styles.inputContainer}>
         
@@ -135,7 +153,7 @@ export default class CreateaPublicGroupScreen extends Component {
       */}
        <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
             <View style={styles.preference}>
-              <Text style={{paddingRight:70,fontSize:20,marginTop:-3}}>Private</Text>
+              <Text style={{paddingRight:70,marginTop:1}}>Closed Group</Text>
               <View   pointerEvents="none">
                 <Switch value={Value} />
               </View>

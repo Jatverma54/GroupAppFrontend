@@ -5,10 +5,13 @@ import {
   View,
   FlatList,
   Dimensions,
-  Button,
+
   ActivityIndicator,
   SafeAreaView 
 } from 'react-native'
+import {
+  Button,
+} from 'react-native-paper';
 
 import * as MediaLibrary from 'expo-media-library'
 
@@ -105,19 +108,23 @@ export default class ImageBrowser extends React.Component {
     return (
       <SafeAreaView forceInset={{ top: 'always' }} style={{ height: 52 }}>
         <View style={styles.header}>
-
+          <View style={{marginLeft:0}}>
           <Button 
             color={headerButtonColor}
-            title={headerCloseText}
+            
             onPress={() => this.props.callback(Promise.resolve([]))}
-          />
+          >{headerCloseText}</Button>
+          </View>
+         <View style={{marginRight:100}}>
           <Text style={styles.headerText}>{headerText}</Text>
+          </View>
+          <View style={{marginRight:0}}>
           <Button 
             color={headerButtonColor}
-            title={headerDoneText}
+           
             onPress={() => this.prepareCallback()}
-          />
-
+          >{headerDoneText}</Button>
+</View>
         </View>
         </SafeAreaView>
     )

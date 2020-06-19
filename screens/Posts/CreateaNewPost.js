@@ -9,9 +9,11 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  Modal,TouchableHighlight, Linking, Platform,NativeMethods,Button
+  Modal,TouchableHighlight, Linking, Platform,NativeMethods,
   
 } from "react-native";
+
+
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";

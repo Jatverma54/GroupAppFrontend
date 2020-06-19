@@ -176,8 +176,8 @@ if(conditionalRender){
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:4})}}>
           <Image style={styles.image} source={{uri: (conditionalRender) ? images[3] : images[4]}}/>
           <View style={styles.overlayContent}>
-            <View>
-              <Text style={styles.count}>  +{extra}</Text>
+            <View style={{ width:"100%"}}>
+              <Text style={styles.count}>+{extra}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -267,19 +267,24 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor:'black',
     height:120, 
+   // resizeMode:'contain'
   },
   imageContent1:{
     width:'100%',
+  //  resizeMode:'contain'
   },
   imageContent2:{
     width:'50%',
+   // resizeMode:'contain'
   },
   imageContent3:{
     width:'33.33%',
+  //  resizeMode:'contain'
   },
   image:{
     width:'100%',
     height:'100%',
+   // resizeMode:'contain'
   },
   //overlay efect
   overlayContent: {
@@ -291,15 +296,18 @@ const styles = StyleSheet.create({
     height:'100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+   
   },
   count:{
-    fontSize:50,
+    fontSize:40,
     color: "#ffffff",
     fontWeight:'bold',
     textShadowColor: 'rgba(0, 0, 139, 1)',
     textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    textShadowRadius: 10,
+    marginLeft:25
+   
   },
   ImageView:{
 

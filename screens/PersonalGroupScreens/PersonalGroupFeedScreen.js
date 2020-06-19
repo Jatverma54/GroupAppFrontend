@@ -14,7 +14,7 @@ import {
   FlatList,
   Dimensions,
   Button,
-  Container, Content,  Thumbnail 
+  Container, Content,  Thumbnail ,Clipboard
 } from 'react-native';
 import {
   useTheme,
@@ -33,8 +33,8 @@ import Stories from '../../components/Stories';
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-
-
+import Close_icon from '../../Pictures/Close_icon.png';
+import ViewMoreText from 'react-native-view-more-text';
 export default class PersonalGroupFeedScreen extends Component {
 
   constructor(props) {
@@ -48,6 +48,7 @@ export default class PersonalGroupFeedScreen extends Component {
       ],
       isVisible: false,
       MaximizeImage:'',
+      Role:"admin", 
     };
   }
 
@@ -121,6 +122,68 @@ async changeScreenOrientation() {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
   }
 
+
+
+
+  copyText(item){
+
+    Clipboard.setString(item)
+  
+   alert('Copied to clipboard')
+   }
+   
+   renderViewMore(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+    )
+  }
+  renderViewLess(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+    )
+  }
+
+  delete(item){
+
+    Alert.alert(
+      "",
+      "Do you want to delete the post",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.deletearray(item)}
+      ],
+      { cancelable: false }
+    );
+  };
+  
+  deletearray(item){
+    
+    console.log(item.id, "first ")
+   
+    const index = this.state.data.findIndex(
+      items => item.id === items.id
+    );
+   
+     this.setState({
+      data: this.state.data.filter((x,i) => i != index) })
+    
+  
+   
+      
+    console.log(this.state.data,"updated")
+  }
+  
+
+
+
+
+
+
+
   render() {
          
 
@@ -141,7 +204,7 @@ async changeScreenOrientation() {
             )
           }}
           ListHeaderComponent={
-           <Stories  nav={this.props}/>
+           <Stories data={this.state.data} nav={this.props}/>
            
        }
           renderItem={(post) => {
@@ -161,10 +224,27 @@ async changeScreenOrientation() {
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
+
+
+                  {(this.state.Role.includes("admin")) && <TouchableOpacity onPress={()=>this.delete(item)}>
+<Image style={{height:20,width:20}} source={Close_icon} />
+</TouchableOpacity>}
+
                 </View>
 
                 <View style={styles.cardContent}>             
-            <Text style={styles.title2}>{item.postMetaData}</Text>
+                <TouchableOpacity onPress={()=>this.copyText(item.postMetaData)}>
+                <ViewMoreText
+          numberOfLines={14}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          textStyle={styles.title2}
+        >   
+        
+            <Text   style={styles.title2}>{item.postMetaData}</Text>
+          
+            </ViewMoreText>   
+            </TouchableOpacity>
             
             </View>
                
@@ -259,13 +339,10 @@ async changeScreenOrientation() {
   </View>  ):null)}
 
 
-
-
-
-
-
-                
-                <View style={styles.cardFooter}>
+  <View style={styles.cardFooter}>
+                  <View style={{height: 0.5,marginBottom:25,
+    width: "100%",
+    backgroundColor:"grey"}}>
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity style={styles.socialBarButton}>
@@ -283,8 +360,14 @@ async changeScreenOrientation() {
                   </View>
 
                 </View>              
-                
+                </View>
               </View>
+
+
+
+
+                
+                
             )           
           }}/>
        
@@ -373,8 +456,9 @@ const styles = StyleSheet.create({
    
   },
   title2:{
-    fontSize:18,
+    fontSize:16,
     flex:1,
+    flexDirection: 'row',
    
   },
   time2:{
@@ -394,7 +478,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-   
+   marginTop:25,
   },
   socialBarSection: {
     justifyContent: 'center',

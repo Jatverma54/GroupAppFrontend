@@ -125,7 +125,7 @@ return(
     <DrawerStack.Screen  name="Public Groups" component={PublicGroupStackNavigator} />
      <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator}/>
      <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator}/>
-     <DrawerStack.Screen name="Professional groups" component={ProfessionalGroupRootStackNavigator}/>
+     {/* <DrawerStack.Screen name="Professional groups" component={ProfessionalGroupRootStackNavigator}/> */}
      <DrawerStack.Screen name="Profile" component={ProfileScreenStackNavigator}/>
        
     </DrawerStack.Navigator>

@@ -90,7 +90,7 @@ import colors from '../constants/colors';
               onPress={() => navigation.dispatch(DrawerActions.jumpTo('Personal Groups'))}
             />
 
-              <DrawerItem
+              {/* <DrawerItem
               icon={({ color, size }) => (
                 <FontAwesome
                   name="suitcase"
@@ -101,7 +101,7 @@ import colors from '../constants/colors';
               label="Professional Groups"
               labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
               onPress={() =>  navigation.dispatch(DrawerActions.jumpTo('Professional groups'))}
-              />
+              /> */}
 
 
              <DrawerItem
@@ -188,7 +188,7 @@ import colors from '../constants/colors';
       paddingVertical: "100%",
       alignItems: 'center',
       marginRight: 15,
-      marginVertical:-10
+      marginVertical:50
     },
     paragraphfooter: {
       fontWeight: 'bold',

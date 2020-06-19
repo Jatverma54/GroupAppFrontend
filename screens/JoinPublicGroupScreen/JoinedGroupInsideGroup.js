@@ -6,24 +6,26 @@ import {
   TouchableOpacity,
   Image,
   BackHandler,
-
+  Clipboard ,
   TouchableHighlight,
   Modal,
   Alert,
   ScrollView,
   FlatList,
   Dimensions,
-  Button,
+
   Container, Content,  Thumbnail,Share
 } from 'react-native';
 import {
-  useTheme,
+  Button,
+  Paragraph, 
+  Menu,
+  Divider, 
+  Provider ,
   Avatar,
-  Title,
-  Card,
-  Caption,
-  Paragraph,
+ 
 } from 'react-native-paper';
+
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/PostImagesJoinedGroup';
 import Like from '../../Pictures/Like.png';
@@ -31,13 +33,12 @@ import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import ShareIcon from '../../Pictures/ShareIcon.png';
-
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
-
+import ViewMoreText from 'react-native-view-more-text';
 import PDFReader from 'rn-pdf-reader-js'
-
+import Close_icon from '../../Pictures/Close_icon.png';
 
 export default class JoinedGroupInsideGroupFeed extends Component {
 
@@ -45,16 +46,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
+        {id:"1", title: "Jatin",                 time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"2", title: "Amit",            time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
         {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
         {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
-
       ],
       isVisible: false,
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
+      numberOfLines:14,
+      Role:"user", 
+
     };
   }
 
@@ -81,13 +84,13 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             <View>
               
             <Image 
-                  style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                  style={{marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
                    source={AddGroup} />
                    
               </View> 
             </View>
           </TouchableOpacity>
-
+  
           <View>
 
 <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
@@ -98,7 +101,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
            <View>
              
            <Image 
-                 style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                 style={{marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
                   source={ShareIcon} />
                   
              </View> 
@@ -126,6 +129,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
               </View> 
             </View>
           </TouchableOpacity> 
+          {this.state.data.length===0&&<View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
    </View> 
     );
         
@@ -155,23 +159,77 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     }
   };
 
+ copyText(item){
+
+  Clipboard.setString(item)
+
+ alert('Copied to clipboard')
+ }
+ 
+ renderViewMore(onPress){
+  return(
+    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+  )
+}
+renderViewLess(onPress){
+  return(
+    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+  )
+}
+
+delete(item){
+
+  Alert.alert(
+    "",
+    "Do you want to delete the post",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Yes", onPress: () => this.deletearray(item)}
+    ],
+    { cancelable: false }
+  );
+};
+
+deletearray(item){
+  
+  console.log(item.id, "first ")
+ 
+  const index = this.state.data.findIndex(
+    items => item.id === items.id
+  );
+ 
+   this.setState({
+    data: this.state.data.filter((x,i) => i != index) })
+  
 
  
+    
+  console.log(this.state.data,"updated")
+}
+
 
   render() {
-         
+      try{   
 
     return (
-      
+    
       <View style={styles.container}>
-  
+   
      <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
             return item.id.toString();
           }}
          
-
+          ItemSeparatorComponent={() => {
+            return (
+              <View style={styles.separator}/>
+            )
+          }}
          
           ListHeaderComponent={
            this.PostScreen
@@ -180,25 +238,47 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       
           renderItem={(post) => {
             const item = post.item;
+          
             return (
 
               <View style={styles.card}>
-             
-          
+
+              
+         
                <View style={styles.cardHeader}>
+               
                   <View>
                   <Avatar.Image size={45}
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
-    
+                    
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.time}>{item.time}</Text>
+                   
                   </View>
+                
+
+                {(this.state.Role.includes("admin")) && <TouchableOpacity onPress={()=>this.delete(item)}>
+<Image style={{height:20,width:20}} source={Close_icon} />
+</TouchableOpacity>}
+
+
+
                 </View>
 
-                <View style={styles.cardContent}>             
-            <Text style={styles.title2}>{item.postMetaData}</Text>
-            
+                <View style={styles.cardContent}> 
+                <TouchableOpacity onPress={()=>this.copyText(item.postMetaData)}>
+                <ViewMoreText
+          numberOfLines={14}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          textStyle={styles.title2}
+        >   
+        
+            <Text   style={styles.title2}>{item.postMetaData}</Text>
+          
+            </ViewMoreText>   
+            </TouchableOpacity>
             </View>
               
          
@@ -257,10 +337,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
           uri: this.state.OpenDucumentUri,
 
         }}    />
-        
-   
-
-
+      
 
       <TouchableHighlight
         style={styles.overlayCancel}
@@ -282,28 +359,13 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     }   
       
 
-
-
-
- 
   </View>  ):null)}
  
 
-      
-   
-
-
-
-
-
-
-
-
-
-
-
-                
                 <View style={styles.cardFooter}>
+                  <View style={{height: 0.5,marginBottom:25,
+    width: "100%",
+    backgroundColor:"grey"}}>
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity style={styles.socialBarButton}>
@@ -321,14 +383,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
                   </View>
 
                 </View>              
-                
+                </View>
+               
               </View>
             )           
           }}/>
         
       </View>
-     
+
     );
+        }catch(e){
+            console.log(e);
+        }
   }
 }
 
@@ -347,7 +413,7 @@ const styles = StyleSheet.create({
     backgroundColor:"#E6E6E6",
   },
   separator: {
-   // marginTop: 0,
+    
   },
   /******** card **************/
   card:{
@@ -388,6 +454,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
+    
   },
   cardImage:{
     flex: 1,
@@ -410,9 +477,11 @@ const styles = StyleSheet.create({
    
   },
   title2:{
-    fontSize:18,
+    fontSize:16,
     flex:1,
+    flexDirection: 'row',
    
+ 
   },
   time2:{
     fontSize:13,
@@ -431,6 +500,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
+    marginTop:25
    
   },
   socialBarSection: {

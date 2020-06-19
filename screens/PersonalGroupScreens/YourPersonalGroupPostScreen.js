@@ -12,7 +12,7 @@ import {
   Dimensions,
   Modal,
   Button,
-  Container, Content,  Thumbnail 
+  Container, Content,  Thumbnail ,Clipboard
 } from 'react-native';
 import {
   useTheme,
@@ -29,8 +29,16 @@ import Comment from '../../Pictures/Comment.png';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
-
+import ViewMoreText from 'react-native-view-more-text';
 import PDFReader from 'rn-pdf-reader-js'
+import Close_icon from '../../Pictures/Close_icon.png';
+
+import Post_Add from '../../Pictures/Post_Add.png';
+import AddGroup from '../../Pictures/AddGroup.png';
+import ShareIcon from '../../Pictures/ShareIcon.png';
+import ExitIcon from '../../Pictures/ExitIcon.png';
+import Repor_Icon from '../../Pictures/Repor_Icon.png';
+
 
 export default class YourPersonalGroupPostScreen extends Component {
 
@@ -48,6 +56,7 @@ export default class YourPersonalGroupPostScreen extends Component {
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
+      
     };
   }
 
@@ -59,14 +68,134 @@ export default class YourPersonalGroupPostScreen extends Component {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
     }
 
+    copyText(item){
+
+      Clipboard.setString(item)
+    
+     alert('Copied to clipboard')
+     }
+     
+     renderViewMore(onPress){
+      return(
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+      )
+    }
+    renderViewLess(onPress){
+      return(
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+      )
+    }
+
+
+
+
+    delete(item){
+
+      Alert.alert(
+        "",
+        "Do you want to delete the post",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "Yes", onPress: () => this.deletearray(item)}
+        ],
+        { cancelable: false }
+      );
+    };
+    
+    deletearray(item){
+      
+      console.log(item.id, "first ")
+     
+      const index = this.state.data.findIndex(
+        items => item.id === items.id
+      );
+     
+       this.setState({
+        data: this.state.data.filter((x,i) => i != index) })
+      
+    
+     
+        
+      console.log(this.state.data,"updated")
+    }
+
+
+
+ReportorLeaveGroup(){
+
+
+return(
+
+
+<View style={{ flex:1 }} >
+ <View>
+
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("AddMembers")}>
+  <View>
+  <View style={styles.bodyContentInviteMember}  >
+            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Report Group</Text> 
+            </View>
+            <View>
+              
+            <Image 
+                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                   source={Repor_Icon} />
+                   
+              </View> 
+            </View>
+          </TouchableOpacity>
+
+          <View>
+
+<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
+ <View>
+ <View style={styles.bodyContentShare}  >
+           <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Leave Group</Text> 
+           </View>
+           <View>
+             
+           <Image 
+                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                  source={ExitIcon} />
+                  
+             </View> 
+           </View>
+         </TouchableOpacity>
+
+
+</View>
+
+
+
+ </View>
+
+</View>
+
+
+
+);
+
+
+
+
+
+
+}
+
+
 
   render() {
-         
+       
 
     return (
-      
+     
       <View style={styles.container}>
-    
+      {this.state.data.length!=0?
+      
         <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
@@ -78,6 +207,11 @@ export default class YourPersonalGroupPostScreen extends Component {
             )
           }}
 
+          ListHeaderComponent={
+            this.ReportorLeaveGroup()
+            
+        }
+          
           renderItem={(post) => {
             const item = post.item;
             return (
@@ -94,10 +228,29 @@ export default class YourPersonalGroupPostScreen extends Component {
                     <Text style={styles.title}>{item.title}</Text>
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
+                 
+
+                  <TouchableOpacity onPress={()=>this.delete(item)}>
+<Image style={{height:20,width:20}} source={Close_icon} />
+</TouchableOpacity>
+
+
+
                 </View>
 
                 <View style={styles.cardContent}>             
-            <Text style={styles.title2}>{item.postMetaData}</Text>
+                <TouchableOpacity onPress={()=>this.copyText(item.postMetaData)}>
+                <ViewMoreText
+          numberOfLines={14}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          textStyle={styles.title2}
+        >   
+        
+            <Text   style={styles.title2}>{item.postMetaData}</Text>
+          
+            </ViewMoreText>   
+            </TouchableOpacity>
             
             </View>
             
@@ -190,10 +343,10 @@ export default class YourPersonalGroupPostScreen extends Component {
   </View>  ):null)}
 
 
-
-
-                
-                <View style={styles.cardFooter}>
+  <View style={styles.cardFooter}>
+                  <View style={{height: 0.5,marginBottom:25,
+    width: "100%",
+    backgroundColor:"grey"}}>
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity style={styles.socialBarButton}>
@@ -211,10 +364,13 @@ export default class YourPersonalGroupPostScreen extends Component {
                   </View>
 
                 </View>              
-                
+                </View>
               </View>
-            )           
-          }}/>
+
+                
+                          )           
+                        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+         
           
       </View>
      
@@ -370,8 +526,9 @@ const styles = StyleSheet.create({
    
   },
   title2:{
-    fontSize:18,
+    fontSize:16,
     flex:1,
+    flexDirection: 'row',
    
   },
   time2:{
@@ -390,7 +547,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-   
+   marginTop:25
   },
   socialBarSection: {
     justifyContent: 'center',
@@ -439,4 +596,56 @@ const styles = StyleSheet.create({
     width: width,
     height: height / 3
   },
+
+
+  buttonContainerInviteMember: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom:10,
+    width:"50%",
+    borderRadius:30,
+    backgroundColor: "white",
+  },
+
+  
+  bodyContentShare: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+  buttonContainerShare: {
+    marginTop:-55,
+    height:45,
+    marginLeft:205,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom:10,
+    width:"50%",
+    borderRadius:30,
+    backgroundColor: "white",
+  },
+
+  
+  bodyContentInviteMember: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+   
+  bodyContentShare: {
+    flex: 2,
+    alignItems: 'center',
+   
+  // marginVertical:-5,
+ 
+  }, 
+
 });  

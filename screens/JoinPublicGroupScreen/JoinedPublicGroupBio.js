@@ -24,6 +24,7 @@ export default class JoinedGroupBio extends Component {
           image: "https://lorempixel.com/100/100/nature/1/", 
           name:"Group 1", 
           countMembers:51, 
+         
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -147,6 +148,7 @@ export default class JoinedGroupBio extends Component {
                 <Text style={styles.CountMember}>
                   Members: {item.countMembers}
                 </Text>
+               
                 {this.renderGroupMembers(item)}
             </View>
           
