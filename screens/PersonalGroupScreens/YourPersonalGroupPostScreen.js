@@ -46,7 +46,7 @@ export default class YourPersonalGroupPostScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                  time:"1 days ago", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"1", title: "Jatin jajajhjhjhjhhhjjhhjhhjajkaajkajakjkajkaakka",                  time:"1 days ago", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
         {id:"2", title: "Amit",             time:"2 minutes ago",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
         {id:"3", title: "XYZ Name",            time:"3 hour ago",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
         {id:"4", title: "XYZ Name",         time:"4 months ago",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]},  
@@ -124,6 +124,42 @@ export default class YourPersonalGroupPostScreen extends Component {
     }
 
 
+    ReportGroup(){
+
+
+      Alert.alert(
+        "",
+        "Do you want to report the group",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "Yes", onPress: () => this.ExitGroup()}
+        ],
+        { cancelable: false }
+      );
+    
+    }
+    
+    LeaveGroup(){
+    
+      Alert.alert(
+        "",
+        "Do you want to Leave the group",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "Yes", onPress: () => this.ExitGroup()}
+        ],
+        { cancelable: false }
+      );
+    
+    }
 
 ReportorLeaveGroup(){
 
@@ -134,7 +170,7 @@ return(
 <View style={{ flex:1 }} >
  <View>
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("AddMembers")}>
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.ReportGroup()}>
   <View>
   <View style={styles.bodyContentInviteMember}  >
             <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Report Group</Text> 
@@ -151,7 +187,7 @@ return(
 
           <View>
 
-<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
+<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.LeaveGroup()}>
  <View>
  <View style={styles.bodyContentShare}  >
            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Leave Group</Text> 
@@ -225,7 +261,10 @@ return(
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
     
-                    <Text style={styles.title}>{item.title}</Text>
+    {!(item.title.length>30)?
+                    <Text  style={styles.title}>{item.title}</Text>
+                    :<Text style={styles.title}>{item.title.toString().substring(0,30)}..</Text>}
+
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
                  
@@ -513,11 +552,13 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   title:{
-    fontSize:18,
+    fontSize:16,
+    fontWeight:'bold',
+    width:"100%",
     flex:1,
    marginLeft:60,
    marginTop:-45
-  
+
   },
   time:{
     fontSize:13,

@@ -5,11 +5,17 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
+import {
+ 
+  Button,
+ 
+} from 'react-native-paper';
 
 export default class JoinedGroupBio extends Component {
 
@@ -22,43 +28,37 @@ export default class JoinedGroupBio extends Component {
         {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
-          name:"Group 1", 
+          GroupName:"Group 1", 
           countMembers:51, 
-         
+          Privacy:"Closed Group",
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-          ]
+         
         },
        
         
-      ]
+      ],
+      Role:"admin",
     }
   }
 
 
-  renderGroupMembers = (item) => {
+  // renderGroupMembers = (item) => {
    
-    if(item.members) {
+  //   if(item.members) {
      
-      return (
-        <View style={styles.groupMembersContent}>
-          {item.members.map((prop, key) => {
+  //     return (
+  //       <View style={styles.groupMembersContent}>
+  //         {item.members.map((prop, key) => {
            
-            return (
-              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
-            );
-          })}
-        </View>
-      );
-    }
-    return null;
-  }
+  //           return (
+  //             <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
+  //           );
+  //         })}
+  //       </View>
+  //     );
+  //   }
+  //   return null;
+  // }
 
 
   addMemberorShare=()=>{
@@ -112,6 +112,37 @@ export default class JoinedGroupBio extends Component {
         
   }
 
+  DeleteGroup(item){
+
+    Alert.alert(
+      "",
+      "Do you want to delete "+this.props.GroupName+" group",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.deleteGroupfromDb(item)}
+      ],
+      { cancelable: false }
+    );
+
+  }
+
+
+  deleteGroupfromDb(item){
+
+    return(
+    this.props.myHookValue.navigate("JoinedPublicGroupsScreen")
+    )
+  }
+
+
+
+
+
+
 
 
  render() {
@@ -149,7 +180,19 @@ export default class JoinedGroupBio extends Component {
                   Members: {item.countMembers}
                 </Text>
                
-                {this.renderGroupMembers(item)}
+                <Text style={{ fontSize:15,
+    color:"#FFFFFF",
+    //padding:10,
+    marginLeft:5,
+    //fontWeight:'600',
+    width:"100%", 
+   alignSelf: 'center',marginTop:5}}>
+                {item.Privacy}
+                </Text>
+
+
+
+                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(item)} >Delete Group</Button>}
             </View>
           
 
@@ -258,8 +301,9 @@ const styles = StyleSheet.create({
   },
   groupMembersContent:{
     flexDirection:'row',
-    marginTop:10,
-    marginLeft:-150
+   // marginTop:10,
+    marginLeft:-230,
+    marginBottom:-20
   },
    mainContent: {
     marginRight: 60

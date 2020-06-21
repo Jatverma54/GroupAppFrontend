@@ -50,7 +50,10 @@ import AddMember from '../components/AddMember';
 
   const JoinedGroupBioStack = createStackNavigator();
  export const JoinedGroupBioStackNavigator =({route})=>{
-    const { name } = route.params;
+    const { GroupName } = route.params;
+
+  let name =GroupName;
+
     return ( 
        <JoinedGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -93,7 +96,7 @@ import AddMember from '../components/AddMember';
  
  options={{
    
-   headerTitle: "Add Members" }} 
+   headerTitle: "Invite Members" }} 
    name='AddMembers' 
    component={withMyHook(AddMember)}/>
      
@@ -201,7 +204,10 @@ import AddMember from '../components/AddMember';
   const HomeFeedStack = createStackNavigator();
   export const HomeFeedStackNavigator =({route})=>{
     
-    const { name } = route.params;
+    const { GroupName } = route.params;
+
+   
+    let groupname = GroupName.length>30?GroupName.toString().substring(0,30)+"..":GroupName;
     return (
   
     
@@ -238,7 +244,7 @@ import AddMember from '../components/AddMember';
 
 <HomeFeedStack.Screen  
      options={{        
-      headerTitle: name }} 
+      headerTitle: groupname }} 
      
             name='Group FEED' 
             component={JoinedGroupInsideGroupTabStackNavigator}/>  
@@ -255,7 +261,7 @@ import AddMember from '../components/AddMember';
  
  options={{
    
-   headerTitle: "Add Members" }} 
+   headerTitle: "Invite Members" }} 
    name='AddMembers' 
    component={withMyHook(AddMember)}/>
    

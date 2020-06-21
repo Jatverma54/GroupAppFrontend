@@ -156,7 +156,7 @@ const HeaderLeft = () => {
 <PublicFeedHomeFeedStack.Screen  
       options={{headerShown:false}} 
             name='Public Group FEED' 
-            component={PublicGroupFeedScreen}/>  
+            component={withMyHook(PublicGroupFeedScreen)}/>  
 
 </PublicFeedHomeFeedStack.Navigator>
      
@@ -164,6 +164,12 @@ const HeaderLeft = () => {
     );
   };
 
+  function withMyHook(Component) {
+    return function WrappedComponent(props) {
+      const myHookValue = useNavigation();
+      return <Component {...props}  myHookValue={myHookValue} />;
+    }
+  }
  
 
   const styles = StyleSheet.create({

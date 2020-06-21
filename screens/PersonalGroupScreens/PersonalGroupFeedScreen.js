@@ -41,14 +41,14 @@ export default class PersonalGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
         {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
         {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
         {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
       ],
       isVisible: false,
       MaximizeImage:'',
-      Role:"admin", 
+      Role:"user", 
     };
   }
 
@@ -170,19 +170,10 @@ async changeScreenOrientation() {
    
      this.setState({
       data: this.state.data.filter((x,i) => i != index) })
-    
-  
-   
-      
+
     console.log(this.state.data,"updated")
   }
   
-
-
-
-
-
-
 
   render() {
          
@@ -204,7 +195,7 @@ async changeScreenOrientation() {
             )
           }}
           ListHeaderComponent={
-           <Stories data={this.state.data} nav={this.props}/>
+           <Stories  Role={this.state.Role}  data={this.state.data} nav={this.props}/>
            
        }
           renderItem={(post) => {
@@ -221,7 +212,10 @@ async changeScreenOrientation() {
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
     
-                    <Text style={styles.title}>{item.title}</Text>
+    {!(item.title.length>35)?
+                    <Text  style={styles.title}>{item.title}</Text>
+                    :<Text style={styles.title}>{item.title.toString().substring(0,35)}..</Text>}
+
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
 
@@ -444,9 +438,11 @@ const styles = StyleSheet.create({
   title:{
     fontSize:16,
     fontWeight:'bold',
+    width:"100%",
     flex:1,
    marginLeft:60,
    marginTop:-45
+
   
   },
   time:{

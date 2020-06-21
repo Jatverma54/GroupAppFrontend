@@ -5,8 +5,17 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
+
+import {
+ 
+  Button,
+ 
+} from 'react-native-paper';
+
+
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
@@ -32,11 +41,10 @@ export default class PersonalGroupBio extends Component {
             "https://bootdey.com/img/Content/avatar/avatar7.png",
             "https://bootdey.com/img/Content/avatar/avatar3.png",
             "https://bootdey.com/img/Content/avatar/avatar4.png"
-          ]
-        },
-       
-        
-      ]
+          ],      
+        },    
+      ],
+      Role:"user",
     }
   }
 
@@ -111,7 +119,31 @@ export default class PersonalGroupBio extends Component {
         
   }
 
+  DeleteGroup(item){
 
+    Alert.alert(
+      "",
+      "Do you want to delete "+this.props.GroupName+" group",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.deleteGroupfromDb(item)}
+      ],
+      { cancelable: false }
+    );
+
+  }
+
+
+  deleteGroupfromDb(item){
+
+    return(
+    this.props.myHookValue.navigate("PersonalGroupsScreen")
+    )
+  }
 
  render() {
 
@@ -147,9 +179,11 @@ export default class PersonalGroupBio extends Component {
                 <Text style={styles.CountMember}>
                   Members: {item.countMembers}
                 </Text>
-                {this.renderGroupMembers(item)}
+             
+                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}  onPress={()=>this.DeleteGroup(item)} >Delete Group</Button>}
             </View>
           
+
 
           </View>
           {this.addMemberorShare()}
@@ -256,8 +290,9 @@ const styles = StyleSheet.create({
   },
   groupMembersContent:{
     flexDirection:'row',
-    marginTop:10,
-    marginLeft:-150
+   // marginTop:10,
+    marginLeft:-230,
+    marginBottom:-20
   },
    mainContent: {
     marginRight: 60

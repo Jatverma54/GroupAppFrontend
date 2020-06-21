@@ -40,10 +40,10 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
-        {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
-        {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
+        {id:"1", title: "Jatin ajhasasjhjsjjksjsjsjsjjsdjsdjsdjasjhasjhashjha",    GroupName:"Group 1",              time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"2", title: "Amit",      GroupName:"Multiple Myeloma story of hopes and insipiration",           time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
+        {id:"3", title: "XYZ Name",    GroupName:"Group 3",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
+        {id:"4", title: "XYZ Name",    GroupName:"Group 4",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
 
       ],
       isVisible: false,
@@ -141,8 +141,23 @@ export default class PublicGroupFeedScreen extends Component {
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
     
-                    <Text style={styles.title}>{item.title}</Text>
+
+    {!(item.title.length>40)?
+                    <Text  style={styles.title}>{item.title}</Text>
+                    :<Text style={styles.title}>{item.title.toString().substring(0,40)}..</Text>}
+
+                   <View > 
+
+                  <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("JoinedGroupInsideGroup",item)}>
+                   {!(item.GroupName.length>40)?
+                  <Text style={styles.GroupName}>{item.GroupName}</Text>
+                   :<Text style={styles.GroupName}>{item.GroupName.toString().substring(0,40)}..</Text>}
+                   </TouchableOpacity>   
+
+                   </View>
+                    <View>
                     <Text style={styles.time}>{item.time}</Text>
+                   </View>
                   </View>
                 </View>
 
@@ -399,12 +414,26 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   title:{
-    fontSize:18,
+    fontSize:16,
+    fontWeight:'bold',
     flex:1,
    marginLeft:60,
-   marginTop:-45
+   marginTop:-45,
+   width:"100%"
   
   },
+
+  GroupName:{
+    fontSize:13,
+    fontWeight:'bold',
+    flex:1,
+    marginLeft:60,
+   marginTop:2,
+   width:"100%"
+  
+  },
+
+
   time:{
     fontSize:13,
     color: "#808080",  

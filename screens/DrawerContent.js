@@ -122,6 +122,7 @@ import colors from '../constants/colors';
            
           <TouchableOpacity  onPress={() => navigation.navigate('StoryScreen')}>
          <View style={styles.drawerSectionFooter}>
+        
          <Avatar.Image
               source={FooterLogo}
               size={100}
@@ -129,9 +130,9 @@ import colors from '../constants/colors';
          <Paragraph style={[styles.paragraphfooter, styles.caption]}>
           Dedicated to all the Fathers
          </Paragraph>
-         
+       
        </View>
-    </TouchableOpacity>
+       </TouchableOpacity>
            
 
           

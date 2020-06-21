@@ -113,8 +113,8 @@ const Search=()=>{
   
   const PublicGroupBioStack = createStackNavigator();
    const PublicGroupBioStackNavigator =({route})=>{
-    const { name } = route.params;
-     
+    const { GroupName } = route.params;
+     let name=GroupName;
     return (
   
     
@@ -163,7 +163,7 @@ const Search=()=>{
  
  options={{
    
-   headerTitle: "Add Members" }} 
+   headerTitle: "Invite Members" }} 
    name='AddMembers' 
    component={withMyHook(AddMember)}/>
 

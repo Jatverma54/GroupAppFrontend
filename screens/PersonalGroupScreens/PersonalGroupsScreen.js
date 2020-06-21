@@ -26,7 +26,7 @@ export default class PersonalGroupsScreen extends Component {
         {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
-          name:"Group 1", 
+          GroupName:"Multiple Myeloma story of hope and courage", 
           countMembers:51,  
           members:[
             
@@ -42,7 +42,7 @@ export default class PersonalGroupsScreen extends Component {
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/2/", 
-          name:"Group 2", 
+          GroupName:"Group 2", 
           countMembers:10,  
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -52,7 +52,7 @@ export default class PersonalGroupsScreen extends Component {
         {
           id:3, 
           image: "https://lorempixel.com/100/100/nature/3/", 
-          name:"Group 3", 
+          GroupName:"Group 3", 
           countMembers:58,  
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -122,7 +122,7 @@ export default class PersonalGroupsScreen extends Component {
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
-                    <Text style={styles.groupName}>{Group.name}</Text>
+                    <Text style={styles.groupName}>{Group.GroupName}</Text>
                   </View>
                   <Text style={styles.countMembers}>
                     {Group.countMembers} members
@@ -130,7 +130,7 @@ export default class PersonalGroupsScreen extends Component {
                   <Text style={styles.timeAgo}>
                     Updated 2 months ago
                   </Text>
-                  {this.renderGroupMembers(Group)}
+                  {/* {this.renderGroupMembers(Group)} */}
                 </View>
               </View>
               </TouchableOpacity>    
@@ -177,7 +177,8 @@ flex:1
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    width:"90%"
   },
   avatar: {
     width:55,
@@ -187,7 +188,8 @@ flex:1
   text: {
     marginBottom: 5,
     flexDirection: 'row',
-    flexWrap:'wrap'
+    flexWrap:'wrap',
+  
   },
   content: {
     flex: 1,
@@ -217,7 +219,8 @@ flex:1
   },
   groupName:{
     fontSize:23,
-    color:"#1E90FF"
+    color:"#1E90FF",
+    
   },
   groupMembersContent:{
     flexDirection:'row',

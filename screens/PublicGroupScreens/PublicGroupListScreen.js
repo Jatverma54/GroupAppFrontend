@@ -28,7 +28,7 @@ export default class PublicGroupListScreen extends Component {
         {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
-          name:"Group 1", 
+          GroupName:"Group 1", 
           countMembers:51,  
           members:[
             
@@ -44,7 +44,7 @@ export default class PublicGroupListScreen extends Component {
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/2/", 
-          name:"Group 2", 
+          GroupName:"Group 2", 
           countMembers:10,  
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -54,7 +54,7 @@ export default class PublicGroupListScreen extends Component {
         {
           id:3, 
           image: "https://lorempixel.com/100/100/nature/3/", 
-          name:"Group 3", 
+          GroupName:"Group 3", 
           countMembers:58,  
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -122,7 +122,7 @@ export default class PublicGroupListScreen extends Component {
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
                   <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("PublicGroupBio",Group)}>
-                    <Text style={styles.groupName}>{Group.name}</Text>
+                    <Text style={styles.groupName}>{Group.GroupName}</Text>
                     </TouchableOpacity>
                   </View>
                  

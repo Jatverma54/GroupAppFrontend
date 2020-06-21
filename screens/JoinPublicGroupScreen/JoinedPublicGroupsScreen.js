@@ -20,13 +20,14 @@ export default class JoinedPublicGroupsScreen extends Component {
 
     this.state = {
       data:[
+
         {
-          GroupCategory:"Healthcare",
+          GroupCategory:"Your Groups",
           data:[
             {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
-          name:"Group 1", 
+          GroupName:"Multiple Myeloma story of hope and courage", 
           countMembers:51,  
           members:[
             
@@ -42,7 +43,50 @@ export default class JoinedPublicGroupsScreen extends Component {
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/1/", 
-          name:"Group 2", 
+          GroupName:"Group 2", 
+          countMembers:51,  
+          members:[
+            
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        },
+      
+      
+      
+      
+      ]
+          },
+
+
+        {
+          GroupCategory:"Healthcare",
+          data:[
+            {
+          id:1, 
+          image: "https://lorempixel.com/100/100/nature/1/", 
+          GroupName:"Group 1", 
+          countMembers:51,  
+          members:[
+            
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        },
+        {
+          id:2, 
+          image: "https://lorempixel.com/100/100/nature/1/", 
+          GroupName:"Group 2", 
           countMembers:51,  
           members:[
             
@@ -68,7 +112,7 @@ export default class JoinedPublicGroupsScreen extends Component {
               {
             id:1, 
             image: "https://lorempixel.com/100/100/nature/1/", 
-            name:"Group 1", 
+            GroupName:"Group 1", 
             countMembers:51,  
             members:[
               
@@ -155,7 +199,7 @@ export default class JoinedPublicGroupsScreen extends Component {
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
-                    <Text style={styles.groupName}>{Group.name}</Text>
+                    <Text style={styles.groupName}>{Group.GroupName}</Text>
                   </View>
                   <Text style={styles.countMembers}>
                     {Group.countMembers} members
@@ -163,7 +207,7 @@ export default class JoinedPublicGroupsScreen extends Component {
                   <Text style={styles.timeAgo}>
                     Updated 2 months ago
                   </Text>
-                  {this.renderGroupMembers(Group)}
+                  {/* {this.renderGroupMembers(Group)} */}
                 </View>
               </View>
               </TouchableOpacity>        
@@ -195,7 +239,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: "#FFFFFF",
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    width:"90%"
   },
   avatar: {
     width:55,

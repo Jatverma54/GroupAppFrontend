@@ -46,7 +46,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin",                 time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
+        {id:"1", title: "Jatin sjkjsksjaksjajasksjkasjkasjkasjkasjk",                 time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
         {id:"2", title: "Amit",            time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
         {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
         {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
@@ -76,7 +76,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       <View style={{ flex:1 }} >
  <View>
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.myHookValue.push("CreateaNewPost")}>
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.myHookValue.push("AddMembers")}>
   <View>
   <View style={styles.bodyContentInviteMember}  >
             <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Invite Members</Text> 
@@ -252,7 +252,9 @@ deletearray(item){
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
                     
-                    <Text style={styles.title}>{item.title}</Text>
+                    {!(item.title.length>40)?
+                    <Text  style={styles.title}>{item.title}</Text>
+                    :<Text style={styles.title}>{item.title.toString().substring(0,40)}..</Text>}
                     <Text style={styles.time}>{item.time}</Text>
                    
                   </View>
@@ -465,9 +467,11 @@ const styles = StyleSheet.create({
   title:{
     fontSize:16,
     fontWeight:'bold',
+    width:"100%",
     flex:1,
    marginLeft:60,
    marginTop:-45
+
   
   },
   time:{

@@ -94,7 +94,8 @@ const PersonalGroupRootStack = createStackNavigator();
 
   const PersonalGroupBioStack = createStackNavigator();
   const PersonalGroupBioStackNavigator =({route})=>{
-    const { name } = route.params;
+    const { GroupName } = route.params;
+
     return ( 
        <PersonalGroupBioStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -122,7 +123,7 @@ const PersonalGroupRootStack = createStackNavigator();
      options={{        
       headerTitle: "About Group" }} 
        name='CreateaPGroupBio' 
-       component={withMyHookBio(PersonalGroupBio,name)} />  
+       component={withMyHookBio(PersonalGroupBio,GroupName)} />  
 
 <PersonalGroupBioStack.Screen 
  
@@ -274,7 +275,10 @@ const PersonalGroupRootStack = createStackNavigator();
 
   const PersonalGroupFeedScreenStack = createStackNavigator();
   const PersonalGroupFeedScreenkNavigator =({route})=>{
-    const { name } = route.params;
+    const { GroupName } = route.params;
+
+    let groupname = GroupName.length>30?GroupName.toString().substring(0,30)+"..":GroupName;
+
     return ( 
        <PersonalGroupFeedScreenStack.Navigator  headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
@@ -302,7 +306,7 @@ const PersonalGroupRootStack = createStackNavigator();
 
 <PersonalGroupFeedScreenStack.Screen  
          options={{        
-          headerTitle: name }} 
+          headerTitle: groupname }} 
                name='PersonalGroupFeed' 
                component={PersonalGroupInsideGroupTabStackNavigator}   />  
 

@@ -37,7 +37,7 @@ export default class Stories extends Component {
     this.state = {
       data: [
        
-        {id:"2", title: "Jatin",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
+        {id:"2", title: "Jatin ajkasjkasasjkasjkajk",       time:"1 days a go",    image:"https://lorempixel.com/400/200/nature/6/"},
         {id:"3", title: "Amit",        time:"2 minutes a go",   image:"https://lorempixel.com/400/200/nature/5/"} ,
         {id:"4", title: "first Namee",     time:"3 hour a go",      image:"https://lorempixel.com/400/200/nature/4/"}, 
         {id:"5", title: "XYZ Name",      time:"4 months a go",    image:"https://lorempixel.com/400/200/nature/6/"}, 
@@ -129,6 +129,32 @@ openGroupPic(item){
 }
 
 
+AddMembers(){
+
+  if(this.props.Role==="admin"){
+    this.props.nav.myHookValue.push("AddMembers");
+  }
+  else{
+
+    Alert.alert(
+      "",
+      "You need to be admin to add members to the group",
+      [
+        {
+          text: "Ok",
+          onPress: () => console.log("Ok Pressed"),
+          style: "cancel"
+        },
+       
+      ],
+      { cancelable: false }
+    );
+
+  }
+
+
+}
+
   render() {
          
 
@@ -207,7 +233,7 @@ showsHorizontalScrollIndicator={false}
 <View style={{ flex:1 }} >
  <View>
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.props.nav.myHookValue.push("AddMembers")}>
+ <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.AddMembers()}>
   <View>
   <View style={styles.bodyContentInviteMember}  >
             <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Add Members</Text> 
