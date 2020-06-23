@@ -17,7 +17,8 @@ import CreateaNewPost from '../screens/Posts/CreateaNewPost';
 import ViewMembers from '../components/ViewMembers';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
-
+import Comments from '../components/Comment/Comments'
+import Likes from '../components/Comment/Likes'
 import AddMember from '../components/AddMember';
 
 const HeaderLeft = () => {
@@ -310,6 +311,21 @@ const PersonalGroupRootStack = createStackNavigator();
                name='PersonalGroupFeed' 
                component={PersonalGroupInsideGroupTabStackNavigator}   />  
 
+
+<PersonalGroupFeedScreenStack.Screen  
+     options={{        
+      headerTitle: "Comments" }} 
+     
+            name='Comments' 
+            component={Comments}/>  
+
+
+<PersonalGroupFeedScreenStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='Likes' 
+            component={Likes}/>  
 
 <PersonalGroupFeedScreenStack.Screen 
  

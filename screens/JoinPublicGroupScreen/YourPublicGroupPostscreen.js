@@ -19,6 +19,7 @@ import {
   Avatar,
   Title,
   Card,
+  Divider, 
   Caption,
   Paragraph,
 } from 'react-native-paper';
@@ -233,7 +234,7 @@ return(
 
 
   render() {
-         
+       
 
     return (
       
@@ -301,7 +302,11 @@ return(
 
             {(item.image!=null&&!item.image.toString().includes(".mp4")&&!item.image.toString().includes(".txt")&&!item.image.toString().includes(".pdf"))?
     
+    <View>
      <FbImages ShowPhotos={true} imagesdata={item.image}/>
+
+     <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>  
+     </View> 
 :
       
     (item.image!=null&&item.image.toString().includes(".mp4")) ?
@@ -319,6 +324,8 @@ return(
         style={styles.video}
   
       />
+<Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
+
       </View>: ((item.image!=null&&(item.image.toString().includes(".txt")||item.image.toString().includes(".pdf")||item.image.toString().includes(".xls"))) ?
       ( 
       
@@ -381,7 +388,7 @@ return(
 
 
 
-
+      <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
  
   </View>  ):null)}
 
@@ -390,9 +397,7 @@ return(
 
                 
   <View style={styles.cardFooter}>
-                  <View style={{height: 0.5,marginBottom:25,
-    width: "100%",
-    backgroundColor:"grey"}}>
+            
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity style={styles.socialBarButton}>
@@ -401,7 +406,8 @@ return(
                       </TouchableOpacity>
                     </View>
                     <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
+
+                      <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.props.navigation.push("Comments")}>
                         <Image style={styles.icon} source={Comment}/>
                         <Text style={styles.socialBarLabel}>25</Text>
                       </TouchableOpacity>
@@ -410,7 +416,7 @@ return(
                   </View>
 
                 </View>              
-                </View>
+               
               </View>
             )           
           }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
@@ -543,8 +549,8 @@ const styles = StyleSheet.create({
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 10,
-    paddingBottom: 25,
+    paddingTop: 6,
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -592,13 +598,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-   marginTop:25,
+    marginTop:6,
+
   },
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
     flex: 1,
-   
+  
   },
   socialBarlabel: {
     marginLeft: 8,

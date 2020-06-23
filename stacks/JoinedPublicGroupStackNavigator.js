@@ -22,7 +22,7 @@ import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
 import AddMember from '../components/AddMember';
-
+ import Comments from '../components/Comment/Comments'
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -248,6 +248,13 @@ import AddMember from '../components/AddMember';
      
             name='Group FEED' 
             component={JoinedGroupInsideGroupTabStackNavigator}/>  
+
+<HomeFeedStack.Screen  
+     options={{        
+      headerTitle: "Comments" }} 
+     
+            name='Comments' 
+            component={Comments}/>  
 
 <HomeFeedStack.Screen 
  

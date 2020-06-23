@@ -10,6 +10,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
+import Comments from '../components/Comment/Comments'
+
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
@@ -55,7 +57,12 @@ const HeaderLeft = () => {
             name='PublicGroupFeedScreen' 
             component={PublicGroupFeedTabStackNavigator}   />
 
-
+<PublicFeedHomeFeedStack.Screen  
+    
+      options={{headerShown:false}} 
+     
+            name='Comments' 
+            component={CommentStackNavigator}/>  
          
         </PublicGroupFeedStack.Navigator>
     
@@ -63,6 +70,52 @@ const HeaderLeft = () => {
     );
   };
 
+
+
+  const CommentStack = createStackNavigator();
+  const CommentStackNavigator =()=>{
+    
+    return (
+  
+    
+        <CommentStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),     
+            headerTintColor: colors.StackheaderTintColor,
+            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+          }}>
+         
+
+
+<CommentStack.Screen  
+     options={{        
+      headerTitle: "Comments" 
+    
+    
+    }} 
+     
+            name='Comments' 
+            component={Comments}/>  
+         
+        </CommentStack.Navigator>
+    
+    
+    );
+  };
 
   const PublicGroupFeedTabStack = createMaterialTopTabNavigator();
   const PublicGroupFeedTabStackNavigator =(props)=>{
@@ -120,13 +173,25 @@ const HeaderLeft = () => {
     );
   };
 
+  const HeaderLeftFeed = () => {
+    const navigation = useNavigation();
+    return (
+      <View style={styles.ImageHeader}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+        <Image   style={styles.ImageIconStyleFeed} 
+         source={require('../Pictures/BackArrow.png')}/>
+         </TouchableOpacity>
+      </View>
+    );
+  };
+
 
 
   const PublicFeedHomeFeedStack = createStackNavigator();
   const PublicFeedHomeFeedStackNavigator =()=>{
     
     return ( 
-       <PublicFeedHomeFeedStack.Navigator  headerMode='screen' screenOptions={{  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+       <PublicFeedHomeFeedStack.Navigator  headerMode='screen' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -158,6 +223,8 @@ const HeaderLeft = () => {
             name='Public Group FEED' 
             component={withMyHook(PublicGroupFeedScreen)}/>  
 
+
+
 </PublicFeedHomeFeedStack.Navigator>
      
     
@@ -185,7 +252,21 @@ const HeaderLeft = () => {
     height: 30,
     width: 50,
     resizeMode : 'stretch',
-  }
+  },
+
+
+  ImageIconStyleFeed:{
+    padding: 10,
+    margin: 5,
+    height: 30,
+    width: 50,
+    resizeMode : 'stretch',
+  },
+  ImageHeader:{
+    padding: 5,
+    marginLeft:7,
+      justifyContent:'flex-end'
+  },
   });
   
   export default PublicGroupFeedStackNavigator;

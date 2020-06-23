@@ -13,14 +13,15 @@ import {
   Modal,
   FlatList,
   Dimensions,
-  Button,
+  
   Container, Content,  Thumbnail ,Clipboard
 } from 'react-native';
 import {
   useTheme,
   Avatar,
   Title,
-  Card,
+  Button,
+  Divider, 
   Caption,
   Paragraph,
 } from 'react-native-paper';
@@ -41,18 +42,102 @@ export default class PersonalGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",                  time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",             time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
-        {id:"3", title: "XYZ Name",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
-        {id:"4", title: "XYZ Name",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        LikePictures:[
+          
+              
+               //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+              // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              // "https://bootdey.com/img/Content/avatar/avatar2.png",
+              // "https://bootdey.com/img/Content/avatar/avatar7.png",
+              // "https://bootdey.com/img/Content/avatar/avatar3.png",
+             // "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+            ]
+          },
+       
+      
+      
+    
+        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        LikePictures:[
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              // "https://bootdey.com/img/Content/avatar/avatar7.png",
+              // "https://bootdey.com/img/Content/avatar/avatar3.png",
+              // "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+          
+          
+        ]} ,
+        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+      
+      
+        LikePictures:[
+         
+              
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+        ]
+          },
+       
+      
+     
+        {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,    time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+      
+        LikePictures:[
+         
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+            ]
+          }, 
+      
       ],
       isVisible: false,
       MaximizeImage:'',
       Role:"user", 
+      
+      
     };
   }
 
 
+  renderGroupMembers = (item) => {
+    
+    if(item.LikePictures.length>0) {
+      return (
+        <View>
+           <TouchableOpacity  onPress={()=>this.props.navigation.push("Likes")}>
+        <View style={styles.groupMembersContent}>
+          {item.LikePictures.map((prop, key) => {
+            return (
+              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
+            );
+          })}
+
+
+        </View>
+        </TouchableOpacity>
+          <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+        </View>
+      );
+    }
+    return <View>
+      <View style={styles.groupMembersContent}><Text>Be the first one to like</Text>
+    </View>
+    <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+     </View>
+  }
 
   
  
@@ -248,7 +333,12 @@ async changeScreenOrientation() {
 
             {(item.image!=null&&!item.image.toString().includes(".mp4")&&!item.image.toString().includes(".txt")&&!item.image.toString().includes(".pdf"))?
     
+    <View>
      <FbImages ShowPhotos={true} imagesdata={item.image}/>
+
+<Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>  
+     </View> 
+
 :
       
     (item.image!=null&&item.image.toString().includes(".mp4")) ?
@@ -266,6 +356,8 @@ async changeScreenOrientation() {
         style={styles.video}
   
       />
+    <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
+
       </View>: ((item.image!=null&&(item.image.toString().includes(".txt")||item.image.toString().includes(".pdf")||item.image.toString().includes(".xls"))) ?
       ( 
       
@@ -327,40 +419,56 @@ async changeScreenOrientation() {
       
 
 
-
+      <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
 
  
   </View>  ):null)}
 
+  { this.renderGroupMembers(item)}
 
   <View style={styles.cardFooter}>
-                  <View style={{height: 0.5,marginBottom:25,
-    width: "100%",
-    backgroundColor:"grey"}}>
-                  <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Like}/>
-                        <Text style={styles.socialBarLabel}>78</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Comment}/>
-                        <Text style={styles.socialBarLabel}>25</Text>
-                      </TouchableOpacity>
-                    </View>
-                    
-                  </View>
+  
 
-                </View>              
-                </View>
-              </View>
-
-
-
-
+                  <View style={styles.socialBarContainer}>             
                 
+                    <View style={styles.socialBarSection}>
+
+                  
+                    {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
+                     
+                   
+                    <TouchableOpacity style={styles.socialBarButton} >
+                        
+                        <Image style={styles.icon} source={Like}/>
+                       
+                       
+                        <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
+                        </TouchableOpacity>
+                    </View> 
+                    
+                    
+                   
+                    <View style={styles.socialBarSection}>
+                     
+                    <TouchableOpacity      onPress={()=>this.props.navigation.push("Comments")}>
+                      <View style={styles.socialBarButton}>
+                        <Image style={{  width:25,
+    height:25,
+    
+   marginLeft:200}} source={Comment}/>
+  
+                        <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+                        </View>
+                        </TouchableOpacity> 
+                    </View>
+                 
+                        
+                    
+                  </View> 
+
+                </View>      
+                
+              </View>               
                 
             )           
           }}/>
@@ -423,8 +531,8 @@ const styles = StyleSheet.create({
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 10,
-    paddingBottom: 25,
+    paddingTop: -5,
+    paddingBottom: 15,//15
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -466,7 +574,8 @@ const styles = StyleSheet.create({
   icon: {
     width:25,
     height:25,
-    marginRight:5
+    
+  marginLeft:180
   },
   /******** social bar ******************/
   socialBarContainer: {
@@ -474,13 +583,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-   marginTop:25,
+    alignSelf:"center",
+   marginTop:10,//50
+   // marginLeft:-60
   },
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf:"center",
+alignItems:"center",
     flex: 1,
-   
+   // marginLeft:-70,
+    
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -491,9 +605,9 @@ const styles = StyleSheet.create({
   },
   socialBarButton:{
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-   
+    alignSelf:"center",
+  alignItems:"center",
+  marginLeft:-150
   },
   bodyContent: {
     flex: 2,
@@ -542,4 +656,19 @@ const styles = StyleSheet.create({
     width: width,
     height: height / 3
   },
+
+
+
+  groupMembersContent:{
+    flexDirection:'row',
+   marginTop:4,
+   marginLeft:20
+  },
+  memberImage: {
+    height: 20,
+    width: 20,
+    marginRight:4,
+    borderRadius:10,
+  },
+
 });  

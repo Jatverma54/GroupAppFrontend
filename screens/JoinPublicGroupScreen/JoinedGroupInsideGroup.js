@@ -1,4 +1,4 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -39,6 +39,8 @@ import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-i
 import ViewMoreText from 'react-native-view-more-text';
 import PDFReader from 'rn-pdf-reader-js'
 import Close_icon from '../../Pictures/Close_icon.png';
+// import Comments from '../../components/Comment/Comments'
+
 
 export default class JoinedGroupInsideGroupFeed extends Component {
 
@@ -57,7 +59,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       OpenDucumentUri:'',
       numberOfLines:14,
       Role:"user", 
-
+     
     };
   }
 
@@ -285,8 +287,11 @@ deletearray(item){
               
          
             {(item.image!=null&&!item.image.toString().includes(".mp4")&&!item.image.toString().includes(".txt")&&!item.image.toString().includes(".pdf"))?
-    
+    <View>
      <FbImages imagesdata={item.image}/>
+
+     <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>  
+     </View> 
 :
       
     (item.image!=null&&item.image.toString().includes(".mp4")) ?
@@ -304,6 +309,8 @@ deletearray(item){
         style={styles.video}
   
       />
+      <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
+
       </View>: ((item.image!=null&&(item.image.toString().includes(".txt")||item.image.toString().includes(".pdf")||item.image.toString().includes(".xls"))) ?
       ( 
       
@@ -359,35 +366,42 @@ deletearray(item){
     
     
     }   
+   <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
       
-
   </View>  ):null)}
  
 
                 <View style={styles.cardFooter}>
-                  <View style={{height: 0.5,marginBottom:25,
-    width: "100%",
-    backgroundColor:"grey"}}>
+                {/* height: 0.5,marginBottom:25, width: "100%",backgroundColor:"grey",zIndex:1 */}
+             {/* <Divider style={{height: 0.5,marginBottom:25, width: "100%",backgroundColor:"grey"}}/> */}
                   <View style={styles.socialBarContainer}>
+                 
                     <View style={styles.socialBarSection}>
+                      
                       <TouchableOpacity style={styles.socialBarButton}>
+                      
                         <Image style={styles.icon} source={Like}/>
                         <Text style={styles.socialBarLabel}>78</Text>
+                       
                       </TouchableOpacity>
                     </View>
                     <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
+                     
+                      <TouchableOpacity   style={styles.socialBarButton}   onPress={()=>this.props.myHookValue.push("Comments")}>
+                     
                         <Image style={styles.icon} source={Comment}/>
                         <Text style={styles.socialBarLabel}>25</Text>
+                       
                       </TouchableOpacity>
+                     
                     </View>
                     
                   </View>
 
-                </View>              
-                </View>
-               
-              </View>
+                </View> 
+                </View>             
+              
+             
             )           
           }}/>
         
@@ -451,13 +465,15 @@ const styles = StyleSheet.create({
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 10,
-    paddingBottom: 25,
+    paddingTop: 6,
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    
+  
   },
+
+
   cardImage:{
     flex: 1,
     height: 300,
@@ -504,14 +520,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    marginTop:25
-   
+    marginTop:6,
+
   },
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
     flex: 1,
-   
+  
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -523,7 +539,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-   
+ 
   },
   bodyContent: {
     flex: 2,
