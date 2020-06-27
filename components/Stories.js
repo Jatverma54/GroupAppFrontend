@@ -81,7 +81,7 @@ export default class Stories extends Component {
 return(
 
   <View style={{ flex:1 }} >
-  <View style={{ height: 100,padding:10 }}>
+  <View style={{ height: 90,padding:10 }}>
  
   
   <View style={{ flex: 3 ,backgroundColor:"white" }}>
@@ -91,7 +91,7 @@ return(
         <TouchableOpacity onPress={()=>this.props.nav.myHookValue.push("ViewMembers")}>
            <Avatar.Image 
               style={{ marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
-               source={{uri:"https://lorempixel.com/400/200/nature/6/"}} size={60}/>
+               source={{uri:"https://lorempixel.com/400/200/nature/6/"}} size={53}/>
           {/* <View style={styles.iconWrapper}>
                             <Icon name='plus'  size={12} color='black' />
                         </View> */}
@@ -189,7 +189,7 @@ showsHorizontalScrollIndicator={false}
           
             return (
                 <View style={{ flex:1 }} >
-                <View style={{ height: 100,padding:10 }}>
+                <View style={{ height: 90,padding:10 }}>
                
                 
                 <View style={{ flex: 3 ,backgroundColor:"white" }}>
@@ -198,7 +198,7 @@ showsHorizontalScrollIndicator={false}
                       <TouchableOpacity  onPress={() => this.openGroupPic(item)}>
                          <Avatar.Image 
                             style={{ marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
-                             source={{uri:item.image}} size={60}/>
+                             source={{uri:item.image}} size={53}/>
                             
                        {!(item.title.length>9)?
                            <Text style={{fontSize:12,alignSelf:"center",paddingTop:6}}>{item.title}</Text>

@@ -48,7 +48,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
         LikePictures:[
           
               
@@ -126,6 +126,31 @@ export default class JoinedGroupInsideGroupFeed extends Component {
   async changeScreenOrientation() {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
     }
+
+
+
+
+    Likes() {
+      if (this.state.msg.length > 0) {
+        var data = this.state.data;
+        data.push({
+          id:Math.floor((Math.random() * 99999999999999999) + 1),
+          name: "example",
+          comment: this.state.msg,
+          image:'https://www.bootdey.com/img/Content/avatar/avatar1.png'
+        });
+        this.setState({data:data,msg:'',height:40});
+      //   setTimeout(() => {
+      //     this.reply();
+      //   }, 2000);
+      }
+    }
+  
+
+
+
+
+
 
   PostScreen=()=>{
  
@@ -339,9 +364,9 @@ deletearray(item){
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
                     
-                    {!(item.title.length>40)?
+                    {!(item.title.length>38)?
                     <Text  style={styles.title}>{item.title}</Text>
-                    :<Text style={styles.title}>{item.title.toString().substring(0,40)}..</Text>}
+                    :<Text style={styles.title}>{item.title.toString().substring(0,38)}..</Text>}
                     <Text style={styles.time}>{item.time}</Text>
                    
                   </View>
@@ -467,8 +492,8 @@ deletearray(item){
                 
                   {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
                    
-                 
-                  <TouchableOpacity style={styles.socialBarButton}   >
+                  
+                  <TouchableOpacity style={styles.socialBarButton}   onPress={()=>this.Likes()}>
                       
                       <Image style={styles.icon} source={Like}/>
                      

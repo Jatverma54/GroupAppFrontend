@@ -9,6 +9,7 @@ import {
   Alert,
   Image,
   Picker,
+  ScrollView
   
 } from 'react-native';
 
@@ -50,7 +51,8 @@ export default class CreateaPublicGroupScreen extends Component {
       Value: false,
       selectedGroupCategoryValue:this.props.Category,
      FirstGroupCategoryValue:this.props.Category,
-     photo:null
+     photo:null,
+     height:45,
     }
   }
 
@@ -63,6 +65,14 @@ export default class CreateaPublicGroupScreen extends Component {
    
   }
 
+  updateSize = (height) => {
+
+    if(height<200){
+    this.setState({
+      height
+    });
+  }
+  }
 
   handleChangeOption(itemValue) {
     if (itemValue !== "0") {
@@ -209,8 +219,10 @@ getCameraPermissionAsync = async () => {
           <Image style={[styles.icon, styles.inputIcon]} source={Group_Name}/>
           <TextInput style={styles.inputs}
               placeholder="Group Name"
-            
-              keyboardType="email-address"
+              multiline={true}
+              maxLength={75}
+              editable={true}
+              //keyboardType="email-address"
               underlineColorAndroid='transparent'
               />
              
@@ -219,16 +231,38 @@ getCameraPermissionAsync = async () => {
  
  
 
-        <View style={styles.inputContainer}>
+      
+        <View style={{
+   borderBottomColor: '#F5FCFF',
+   backgroundColor: '#FFFFFF',
+   borderRadius:30,
+   borderBottomWidth: 1,
+   width:300,
+   height:this.state.height,
+   marginBottom:19,
+   flexDirection: 'row',
+
+
+        }}>
         
         <Image style={[styles.icon, styles.inputIcon]} source={GroupBio}/>
+
+        <ScrollView>
         <TextInput style={styles.inputs}
             placeholder="Group Bio"
-          
-            keyboardType="email-address"
-            underlineColorAndroid='transparent'/>
-           
+            multiline={true}
+            editable={true}
+           // keyboardType="email-address"
+            underlineColorAndroid='transparent'
+             onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+             multiline style={{
+              width: '100%',height:this.state.height,marginLeft:10, fontSize:16,padding:10}}
+
+             />
+           </ScrollView>
+
       </View>
+
 
      
 
@@ -340,6 +374,7 @@ const styles = StyleSheet.create({
       marginLeft:16,
       borderBottomColor: '#FFFFFF',
       flex:1,
+      fontSize:16
   },
   icon:{
     width:30,
