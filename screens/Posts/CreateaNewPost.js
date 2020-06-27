@@ -315,10 +315,10 @@ imageBrowserCallback = (callback) => {
        
           <TextInput style={styles.inputs}
           //maxLength={500}
-              placeholder="Click and Type your thoughts here :)"
+              placeholder="Click and Type your thoughts here.."
              // placeholderTextColor="black"
-              keyboardType="email-address"
-              underlineColorAndroid='transparent'
+             // keyboardType="email-address"
+              //underlineColorAndroid='transparent'
               autoCapitalize="none"
               style={[newStyle]}
               editable={true}
@@ -329,7 +329,7 @@ imageBrowserCallback = (callback) => {
               
                multiline style={{
                     ...styles.editor, fontSize: 22,
-                    textAlign: 'center', color: "black", 
+                    color: "black", 
              }}>
                       
               </TextInput> 
@@ -792,7 +792,7 @@ marginLeft:9,
     color: 'white',
   },
   editor: {
-    justifyContent: 'center',
+   // justifyContent: 'center',
     height: '100%',
     width: '100%'
 },

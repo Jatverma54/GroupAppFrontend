@@ -244,6 +244,9 @@ render() {
    showsHorizontalScrollIndicator={false}
    
              data={this.state.selected}
+
+
+
              keyExtractor= {(item) => {
                return item.id;
              }}
@@ -351,8 +354,10 @@ const styles = StyleSheet.create({
    },
   line: {
     height: 0.5,
-    width: "100%",
-    backgroundColor:"grey"
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:80
+
   },
   icon: {
     position: "absolute",  
@@ -385,5 +390,14 @@ const styles = StyleSheet.create({
    //paddingStart: 5,
     // paddingEnd: 5,
    },
+
+   separator: {
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:80
+
+  },
+
 
   });

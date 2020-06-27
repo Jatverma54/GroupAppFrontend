@@ -41,11 +41,66 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin ajhasasjhjsjjksjsjsjsjjsdjsdjsdjasjhasjhashjha",    GroupName:"Group 1",              time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",      GroupName:"Multiple Myeloma story of hopes and insipiration",           time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
-        {id:"3", title: "XYZ Name",    GroupName:"Group 3",            time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
-        {id:"4", title: "XYZ Name",    GroupName:"Group 4",         time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]}, 
-
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   GroupName:"Multiple Myeloma Story of hopes and inspiration",    countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
+        LikePictures:[
+          
+              
+               //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+              // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              // "https://bootdey.com/img/Content/avatar/avatar2.png",
+              // "https://bootdey.com/img/Content/avatar/avatar7.png",
+              // "https://bootdey.com/img/Content/avatar/avatar3.png",
+             // "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+            ]
+          },
+       
+      
+      
+    
+        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,   GroupName:"Group 2",    time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        LikePictures:[
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              // "https://bootdey.com/img/Content/avatar/avatar7.png",
+              // "https://bootdey.com/img/Content/avatar/avatar3.png",
+              // "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+          
+          
+        ]} ,
+        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" , GroupName:"Group 3",       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+      
+      
+        LikePictures:[
+         
+              
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+        ]
+          },
+       
+      
+     
+        {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,  GroupName:"Group 4",   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+      
+        LikePictures:[
+         
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+              
+            ]
+          }, 
+      
       ],
       isVisible: false,
       MaximizeImage:'',
@@ -53,6 +108,35 @@ export default class PublicGroupFeedScreen extends Component {
       OpenDucumentUri:'',
     };
    
+  }
+
+
+
+  renderGroupMembers = (item) => {
+    
+    if(item.LikePictures.length>0) {
+      return (
+        <View>
+           <TouchableOpacity  onPress={()=>this.props.navigation.push("Likes")}>
+        <View style={styles.groupMembersContent}>
+          {item.LikePictures.map((prop, key) => {
+            return (
+              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
+            );
+          })}
+
+
+        </View>
+        </TouchableOpacity>
+          <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+        </View>
+      );
+    }
+    return <View>
+      <View style={styles.groupMembersContent}><Text>Be the first one to like</Text>
+    </View>
+    <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+     </View>
   }
 
   componentDidMount(){
@@ -116,7 +200,8 @@ export default class PublicGroupFeedScreen extends Component {
     return (
       
       <View style={styles.container}>
-    
+      {this.state.data.length!=0?
+
         <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
@@ -143,9 +228,9 @@ export default class PublicGroupFeedScreen extends Component {
                      source={DrawerLogo}/>
     
 
-    {!(item.title.length>40)?
+    {!(item.title.length>38)?
                     <Text  style={styles.title}>{item.title}</Text>
-                    :<Text style={styles.title}>{item.title.toString().substring(0,40)}..</Text>}
+                    :<Text style={styles.title}>{item.title.toString().substring(0,38)}..</Text>}
 
                    <View > 
 
@@ -275,49 +360,55 @@ export default class PublicGroupFeedScreen extends Component {
 
 
      
+ { this.renderGroupMembers(item)}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-             
-
-
-{/* </View> */}
 <View style={styles.cardFooter}>
-               
-                  <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Like}/>
-                        <Text style={styles.socialBarLabel}>78</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}   >
-                      <TouchableOpacity style={styles.socialBarButton} onPress={()=>this.props.navigation.push("Comments")}>
-                        <Image style={styles.icon} source={Comment}/>
-                        <Text style={styles.socialBarLabel}>25</Text>
-                      </TouchableOpacity>
-                    </View>
-                    
-                  </View>
 
-                </View>              
+
+                <View style={styles.socialBarContainer}>             
               
-              </View>
-            )           
-          }}/>
+                  <View style={styles.socialBarSection}>
+
+                
+                  {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
+                   
+                 
+                  <TouchableOpacity style={styles.socialBarButton}   >
+                      
+                      <Image style={styles.icon} source={Like}/>
+                     
+                     
+                      <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
+                      </TouchableOpacity>
+                  </View> 
+                  
+                  
+                 
+                  <View style={styles.socialBarSection}>
+                   
+                  <TouchableOpacity      onPress={()=>this.props.navigation.push("Comments")}>
+                    <View style={styles.socialBarButton}>
+                      <Image style={{  width:25,
+  height:25,
+  
+ marginLeft:200}} source={Comment}/>
+
+                      <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+                      </View>
+                      </TouchableOpacity> 
+                  </View>
+               
+                      
+                  
+                </View> 
+
+              </View>      
+              
+            </View>               
+              
+          )           
+        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+     
           
       </View>
      
@@ -404,11 +495,12 @@ const styles = StyleSheet.create({
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 6,
-    paddingBottom: 15,
+    paddingTop: -5,
+    paddingBottom: 15,//15
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
+
   },
   cardImage:{
     flex: 1,
@@ -458,7 +550,7 @@ const styles = StyleSheet.create({
   icon: {
     width:25,
     height:25,
-    marginRight:5
+  marginLeft:180
   },
   /******** social bar ******************/
   socialBarContainer: {
@@ -466,15 +558,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    marginTop:6,
-
+    alignSelf:"center",
+   marginTop:10,//50
+   // marginLeft:-60
   },
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf:"center",
+alignItems:"center",
     flex: 1,
-  
+   // marginLeft:-70,
+    
   },
+
   socialBarlabel: {
     marginLeft: 8,
     alignSelf: 'flex-end',
@@ -483,8 +580,21 @@ const styles = StyleSheet.create({
   },
   socialBarButton:{
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-   
-  }
+    alignSelf:"center",
+  alignItems:"center",
+  marginLeft:-150
+  },
+
+  groupMembersContent:{
+    flexDirection:'row',
+   marginTop:4,
+   marginLeft:20
+  },
+  memberImage: {
+    height: 20,
+    width: 20,
+    marginRight:4,
+    borderRadius:10,
+  },
+
 });  

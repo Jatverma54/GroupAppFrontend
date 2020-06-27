@@ -302,7 +302,7 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
 
 
 
-
+  FlatListItemSeparator = () => <View style={styles.separator} />;
 
 
 
@@ -315,6 +315,7 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
          ListHeaderComponent={this.renderHeader}
           extraData={this.state}
           data={this.state.data}
+          ItemSeparatorComponent={this.FlatListItemSeparator}
           keyExtractor = {(item) => {
             return item.id;
           }}
@@ -328,9 +329,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#DCDCDC',
+    //borderColor: '#DCDCDC',
     backgroundColor: 'white',
-    borderBottomWidth: 1,
+   // borderBottomWidth: 1,
     padding: 10,
    
   },
@@ -344,8 +345,8 @@ const styles = StyleSheet.create({
   },
   pic: {
     borderRadius: 30,
-    width: 60,
-    height: 60,
+    width: 45,
+    height: 45,
   },
   nameContainer: {
     flexDirection: 'row',
@@ -414,4 +415,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft:33
   },
+  separator: {
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:60
+
+  },
+
 }); 

@@ -18,7 +18,7 @@ import ViewMembers from '../components/ViewMembers';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 import Comments from '../components/Comment/Comments'
-import Likes from '../components/Comment/Likes'
+import Likes from '../components/Comment/Likes';
 import AddMember from '../components/AddMember';
 
 const HeaderLeft = () => {

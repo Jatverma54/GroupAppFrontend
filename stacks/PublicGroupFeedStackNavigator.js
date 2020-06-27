@@ -10,7 +10,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
-import Comments from '../components/Comment/Comments'
+import Comments from '../components/Comment/Comments';
+import Likes from '../components/Comment/Likes';
+
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -57,12 +59,21 @@ const HeaderLeft = () => {
             name='PublicGroupFeedScreen' 
             component={PublicGroupFeedTabStackNavigator}   />
 
-<PublicFeedHomeFeedStack.Screen  
+<PublicGroupFeedStack.Screen  
     
       options={{headerShown:false}} 
      
             name='Comments' 
             component={CommentStackNavigator}/>  
+
+
+<PublicGroupFeedStack.Screen  
+    
+      options={{headerShown:false}} 
+     
+            name='Likes' 
+            component={LikeStackNavigator}/>  
+
          
         </PublicGroupFeedStack.Navigator>
     
@@ -70,6 +81,47 @@ const HeaderLeft = () => {
     );
   };
 
+  const LikeStack = createStackNavigator();
+  const LikeStackNavigator =()=>{
+    
+    return (
+  
+    
+        <LikeStack.Navigator headerMode='float' screenOptions={{ headerLeft: ({}) => <HeaderLeftFeed/>,  cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),     
+            headerTintColor: colors.StackheaderTintColor,
+            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+          }}>
+         
+
+
+<LikeStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='Likes' 
+            component={Likes}/>   
+         
+        </LikeStack.Navigator>
+    
+    
+    );
+  };
 
 
   const CommentStack = createStackNavigator();
@@ -110,6 +162,8 @@ const HeaderLeft = () => {
      
             name='Comments' 
             component={Comments}/>  
+
+ 
          
         </CommentStack.Navigator>
     

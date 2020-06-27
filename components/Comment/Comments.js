@@ -17,6 +17,7 @@ import {
   Divider, 
  
 } from 'react-native-paper';
+import { MaterialCommunityIcons} from '@expo/vector-icons';
 
 export default class Comments extends Component {
 
@@ -34,6 +35,12 @@ export default class Comments extends Component {
       ],
       msg: '',
      
+     
+      height: 40,
+      //fontWeight
+    
+
+
     }
     this.send = this.send.bind(this);
    
@@ -77,14 +84,28 @@ return(
         comment: this.state.msg,
         image:'https://www.bootdey.com/img/Content/avatar/avatar1.png'
       });
-      this.setState({data:data,msg:''});
+      this.setState({data:data,msg:'',height:40});
     //   setTimeout(() => {
     //     this.reply();
     //   }, 2000);
     }
   }
 
+  updateSize = (height) => {
+
+    if(height<200){
+    this.setState({
+      height
+    });
+  }
+  }
+ 
+
   render() {
+
+   
+    const {height} = this.state;
+
     return (
         <KeyboardAvoidingView  style={styles.keyboard}>
       <FlatList
@@ -121,7 +142,7 @@ return(
                   </Text>
                 </View>
               
-                <Text rkType='primary3 mediumLine'>{Notification.comment}</Text>
+                <Text style={{fontWeight:"900",fontSize:14}} rkType='primary3 mediumLine'>{Notification.comment}</Text>
               </View>
 
            
@@ -129,21 +150,108 @@ return(
           );
         }}/>
 
-<View style={styles.input}>
+
+
+<View style={{
+
+flexDirection: 'row',
+alignSelf: 'flex-end',
+padding: 10,
+height: height,
+// width: width - 20,
+marginRight:80,
+backgroundColor: 'white',
+margin: 10,
+shadowColor: '#3d3d3d',
+shadowRadius: 2,
+shadowOpacity: 0.5,
+shadowOffset: {
+  height: 1,
+},
+borderColor:'#696969',
+borderWidth:1,
+borderRadius:30,
+borderBottomWidth: 1,
+
+
+
+
+
+
+}}>
+  <ScrollView>
               <TextInput
-                style={{flex: 1 }}
+               style={{flex:1, height:height, 
+                width:"100%",
+               
+               
+                flex:1,
+              }}
+
+                editable={true}
+                placeholder="Type a message"
+                multiline={true}
                 value={this.state.msg}
-                placeholderTextColor = "#696969"
+               // placeholderTextColor = "#696969"
+                placeholderfontsi
                 onChangeText={msg => this.setState({ msg })}
                 blurOnSubmit={false}
                 onSubmitEditing={() => this.send()}
-                placeholder="Type a message"
-                returnKeyType="send"/>
-            </View>
+               
+                returnKeyType="send"
+                onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              
+                multiline style={{
+                  width: '100%',height:height, marginTop:-10,fontSize:18,padding:10
+                 
+           }}
+
+                />
+</ScrollView>
+
+          {/* <TextInput style={{flex:1}}
+          //maxLength={500}
+              placeholder="Type a message"
+             // placeholderTextColor="black"
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              autoCapitalize="none"
+              style={[newStyle]}
+              editable={true}
+              multiline={true}
+              value={newValue}
+              onChangeText={(newValue) => this.setState({newValue})}             
+              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+              
+               multiline style={{
+                    ...styles.editor, fontSize: 26,
+                    textAlign: 'center', color: "black", 
+             }}>
+                      
+              </TextInput> */}
+             
+          
+           </View>
+
+           
+           
+           <View style={styles.sendIcon}>
+           <TouchableOpacity onPress={() => this.send()}>
+            <MaterialCommunityIcons
+                  name="send"
+                //  color={color}
+                  size={40}
+                />
+                </TouchableOpacity>
+                </View>
+
               </KeyboardAvoidingView>
+            
     );
   }
 }
+
+
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   root: {
@@ -156,13 +264,20 @@ const styles = StyleSheet.create({
    backgroundColor:"white"
   },
 
-
+  editor: {
+   // justifyContent: 'center',
+   height:"100%",
+    width: '100%',
+   // fontSize:5,
+   // marginTop:-70
+},
   input: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
     padding: 10,
     height: 40,
-    width: width - 20,
+   // width: width - 20,
+    marginRight:80,
     backgroundColor: 'white',
     margin: 10,
     shadowColor: '#3d3d3d',
@@ -176,10 +291,28 @@ const styles = StyleSheet.create({
    
   },
 
+sendIcon:{
+
+  flexDirection: 'row',
+    alignSelf: 'flex-end',
+    padding: 10,
+   // height: 40,
+   // width: width - 20,
+    //marginRight:80,
+    marginTop:-62,
+    marginRight:10,
+    backgroundColor: 'white',
+   // margin: 10,
+   
+  
+
+
+},
+
   container: {
     //paddingLeft: ,
     paddingRight: 5,
-    paddingVertical: 12,
+   paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'flex-start'
   },
@@ -190,24 +323,28 @@ const styles = StyleSheet.create({
   contentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 6
+  //  marginBottom: 3
   },
   separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC"
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:60
+
   },
+
   image:{
-    width:45,
-    height:45,
+    width:40,
+    height:40,
     borderRadius:20,
-    marginLeft:20
+    marginLeft:10
   },
   time:{
     fontSize:11,
     color:"#808080",
   },
-  name:{
-    fontSize:16,
+   name:{
+    fontSize:13,
     fontWeight:"bold",
   },
 });  

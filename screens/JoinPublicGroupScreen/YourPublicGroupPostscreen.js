@@ -42,18 +42,101 @@ export default class YourPublicGroupPostscreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {id:"1", title: "xc asasjhasjhjhasjhashasjasjhasjhjjjjjj",  time:"1 days ago", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4"},
-        {id:"2", title: "Amit",             time:"2 minutes ago",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} ,
-        {id:"3", title: "XYZ Name",            time:"3 hour ago",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ]}, 
-        {id:"4", title: "XYZ Name",         time:"4 months ago",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"]},  
-      
-      ],
+      data: [ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+      LikePictures:[
+        
+            
+             //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+            // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            // "https://bootdey.com/img/Content/avatar/avatar2.png",
+            // "https://bootdey.com/img/Content/avatar/avatar7.png",
+            // "https://bootdey.com/img/Content/avatar/avatar3.png",
+           // "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        },
+     
+    
+    
+  
+      {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      LikePictures:[
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            // "https://bootdey.com/img/Content/avatar/avatar7.png",
+            // "https://bootdey.com/img/Content/avatar/avatar3.png",
+            // "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+        
+        
+      ]} ,
+      {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+    
+    
+      LikePictures:[
+       
+            
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+      ]
+        },
+     
+    
+   
+      {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,    time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+    
+      LikePictures:[
+       
+            "https://bootdey.com/img/Content/avatar/avatar6.png", 
+            "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            "https://bootdey.com/img/Content/avatar/avatar2.png",
+            "https://bootdey.com/img/Content/avatar/avatar7.png",
+            "https://bootdey.com/img/Content/avatar/avatar3.png",
+            "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        }, 
+    
+    ],
       isVisible: false,
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
     };
+  }
+
+
+
+  renderGroupMembers = (item) => {
+    
+    if(item.LikePictures.length>0) {
+      return (
+        <View>
+           <TouchableOpacity  onPress={()=>this.props.navigation.push("Likes")}>
+        <View style={styles.groupMembersContent}>
+          {item.LikePictures.map((prop, key) => {
+            return (
+              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
+            );
+          })}
+
+
+        </View>
+        </TouchableOpacity>
+          <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+        </View>
+      );
+    }
+    return <View>
+      <View style={styles.groupMembersContent}><Text>Be the first one to like</Text>
+    </View>
+    <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+     </View>
   }
 
   componentDidMount(){
@@ -396,30 +479,55 @@ return(
 
 
                 
-  <View style={styles.cardFooter}>
-            
-                  <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={Like}/>
-                        <Text style={styles.socialBarLabel}>78</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}>
+  { this.renderGroupMembers(item)}
 
-                      <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.props.navigation.push("Comments")}>
-                        <Image style={styles.icon} source={Comment}/>
-                        <Text style={styles.socialBarLabel}>25</Text>
+<View style={styles.cardFooter}>
+
+
+                <View style={styles.socialBarContainer}>             
+              
+                  <View style={styles.socialBarSection}>
+
+                
+                  {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
+                   
+                 
+                  <TouchableOpacity style={styles.socialBarButton}   >
+                      
+                      <Image style={styles.icon} source={Like}/>
+                     
+                     
+                      <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
                       </TouchableOpacity>
-                    </View>
-                    
+                  </View> 
+                  
+                  
+                 
+                  <View style={styles.socialBarSection}>
+                   
+                  <TouchableOpacity      onPress={()=>this.props.navigation.push("Comments")}>
+                    <View style={styles.socialBarButton}>
+                      <Image style={{  width:25,
+  height:25,
+  
+ marginLeft:200}} source={Comment}/>
+
+                      <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+                      </View>
+                      </TouchableOpacity> 
                   </View>
-
-                </View>              
                
-              </View>
-            )           
-          }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+                      
+                  
+                </View> 
+
+              </View>      
+              
+            </View>               
+              
+          )                
+                        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+         
           
       </View>
      
@@ -427,80 +535,6 @@ return(
   }
 }
 
-var NumberOfRun=1;
-const Stories=(Number_of_run)=>{
- 
-  if(NumberOfRun === 1){
-    NumberOfRun=NumberOfRun+1;  
-  
-    return(
- 
-      <View style={{ height: 100 }}>
-     
-      
-      <View style={{ flex: 3 }}>
-          <ScrollView
-             
-             horizontal={true}
-             showsHorizontalScrollIndicator={false}
-             contentContainerStyle={{
-                 alignItems: 'center',
-                 paddingStart: 5,
-                 paddingEnd: 5,
-              
-             }}
-    
-          >
-            
-               <Avatar.Image 
-                  style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-              <Avatar.Image
-               style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-               <Avatar.Image
-                style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-     <Avatar.Image
-      style={{ marginHorizontal: 5, borderColor: 'pink', borderWidth: 2 }}
-    source={DrawerLogo}
-    size={90}
-    />
-          </ScrollView>
-
-          
-      </View>
-    </View>
-    
-    );
-   
-     }else{
-return(null);
-        }
-      
-        
-}
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -549,11 +583,12 @@ const styles = StyleSheet.create({
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 6,
-    paddingBottom: 15,
+    paddingTop: -5,
+    paddingBottom: 15,//15
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
+
   },
   cardImage:{
     flex: 1,
@@ -591,6 +626,8 @@ const styles = StyleSheet.create({
   icon: {
     width:25,
     height:25,
+    
+  marginLeft:180
   },
   /******** social bar ******************/
   socialBarContainer: {
@@ -598,14 +635,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    marginTop:6,
-
+    alignSelf:"center",
+   marginTop:10,//50
+   // marginLeft:-60
   },
+
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf:"center",
+alignItems:"center",
     flex: 1,
-  
+   // marginLeft:-70,
+    
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -615,10 +657,11 @@ const styles = StyleSheet.create({
   },
   socialBarButton:{
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-   
+    alignSelf:"center",
+  alignItems:"center",
+  marginLeft:-150
   },
+
   ImageView:{
 
     flex:1,
@@ -698,4 +741,18 @@ const styles = StyleSheet.create({
   // marginVertical:-5,
  
   }, 
+
+  
+  groupMembersContent:{
+    flexDirection:'row',
+   marginTop:4,
+   marginLeft:20
+  },
+  memberImage: {
+    height: 20,
+    width: 20,
+    marginRight:4,
+    borderRadius:10,
+  },
+  
 });  

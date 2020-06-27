@@ -181,8 +181,8 @@ flex:1
     width:"90%"
   },
   avatar: {
-    width:55,
-    height:55,
+    width:53,
+    height:53,
     borderRadius:25,
   },
   text: {
@@ -206,9 +206,13 @@ flex:1
     borderRadius:10,
   },
   separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC"
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:80
+
   },
+
   countMembers:{
     color:"#20B2AA"
   },
@@ -218,7 +222,7 @@ flex:1
     color:"#696969"
   },
   groupName:{
-    fontSize:23,
+    fontSize:19,
     color:"#1E90FF",
     
   },

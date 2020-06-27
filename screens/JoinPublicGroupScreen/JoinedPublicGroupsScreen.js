@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     width:"90%"
   },
   avatar: {
-    width:55,
-    height:55,
+    width:53,
+    height:53,
     borderRadius:25,
   },
   text: {
@@ -267,8 +267,11 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
   separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC"
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:80
+
   },
   countMembers:{
     color:"#20B2AA"
@@ -278,8 +281,8 @@ const styles = StyleSheet.create({
     color:"#696969"
   },
   groupName:{
-    fontSize:23,
-    color:"#1E90FF"
+    fontSize:19,
+    color:"#1E90FF",
   },
   groupMembersContent:{
     flexDirection:'row',

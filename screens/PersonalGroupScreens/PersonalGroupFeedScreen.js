@@ -105,6 +105,9 @@ export default class PersonalGroupFeedScreen extends Component {
       ],
       isVisible: false,
       MaximizeImage:'',
+      isDocumentVisible: false,
+      OpenDucumentUri:'',
+      numberOfLines:14,
       Role:"user", 
       
       
@@ -266,7 +269,7 @@ async changeScreenOrientation() {
     return (
       
       <View style={styles.container}>
-        
+         {this.state.data.length!=0?
           
            
         <FlatList style={styles.list}
@@ -437,7 +440,7 @@ async changeScreenOrientation() {
                     {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
                      
                    
-                    <TouchableOpacity style={styles.socialBarButton} >
+                    <TouchableOpacity style={styles.socialBarButton}   >
                         
                         <Image style={styles.icon} source={Like}/>
                        
@@ -471,7 +474,7 @@ async changeScreenOrientation() {
               </View>               
                 
             )           
-          }}/>
+          }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
        
       </View>
      

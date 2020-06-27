@@ -22,7 +22,8 @@ import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
 import AddMember from '../components/AddMember';
- import Comments from '../components/Comment/Comments'
+ import Comments from '../components/Comment/Comments';
+ import Likes from '../components/Comment/Likes';
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -255,6 +256,13 @@ import AddMember from '../components/AddMember';
      
             name='Comments' 
             component={Comments}/>  
+
+<HomeFeedStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='Likes' 
+            component={Likes}/>    
 
 <HomeFeedStack.Screen 
  

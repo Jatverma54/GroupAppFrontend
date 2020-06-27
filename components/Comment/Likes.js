@@ -209,6 +209,14 @@ export default class Likes extends Component {
          ListHeaderComponent={this.renderHeader}
           extraData={this.state}
           data={this.state.data}
+
+          // ItemSeparatorComponent={() => {
+          //   return (
+          //     <View style={styles.separator}/>
+          //   )
+          // }}
+
+
           keyExtractor = {(item) => {
             return item.id;
           }}
@@ -222,10 +230,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#DCDCDC',
+  //  borderColor: '#DCDCDC',
     backgroundColor: 'white',
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     padding: 10,
+
+    
    
   },
   TouchableOpacityStyle:{
@@ -308,4 +318,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft:33
   },
+
+  separator: {
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"80%",
+    marginLeft:50
+
+  },
+
+
 }); 
