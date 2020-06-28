@@ -34,6 +34,8 @@ import PDFReader from 'rn-pdf-reader-js';
 import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ViewMoreText from 'react-native-view-more-text';
+import ParsedText from 'react-native-parsed-text';
+import * as Linking from 'expo-linking';
 
 export default class PublicGroupFeedScreen extends Component {
 
@@ -41,7 +43,7 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   GroupName:"Multiple Myeloma Story of hopes and inspiration",    countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   GroupName:"Multiple Myeloma Story of hopes and inspiration",    countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an  https://facebook.com example post",   image:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
         LikePictures:[
           
               
@@ -70,7 +72,7 @@ export default class PublicGroupFeedScreen extends Component {
           
           
         ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" , GroupName:"Group 3",       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" , GroupName:"Group 3",       time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -110,6 +112,32 @@ export default class PublicGroupFeedScreen extends Component {
    
   }
 
+
+  handleUrlPress(url) {
+    console.log(`url: ${url} has been pressed!`);
+    Linking.openURL(url);
+  }
+  
+  handlePhonePress(phone) {
+    console.log(`phone ${phone} has been pressed!`);
+  }
+  
+  handleNamePress(name) {
+    console.log(`Hello ${name}`);
+  }
+  
+  handleEmailPress(email) {
+    console.log(`send email to ${email}`);
+    Linking.openURL("mailto:"+email);
+  }
+  
+  renderText(matchingString, matches) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /@(\w+)/;
+    let match = matchingString.match(pattern);
+    return `^^${match[1]}^^`;
+  }
+  
 
 
   renderGroupMembers = (item) => {
@@ -256,7 +284,34 @@ export default class PublicGroupFeedScreen extends Component {
           textStyle={styles.title2}
         >   
         
-            <Text   style={styles.title2}>{item.postMetaData}</Text>
+        <ParsedText   style={styles.title2}           parse={[
+            { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+            {
+              type: 'phone',
+              style: styles.phone,
+              onPress: this.handlePhonePress,
+            },
+            {
+              type: 'email',
+              style: styles.email,
+              onPress: this.handleEmailPress,
+            },
+            {
+              pattern: /Bob|David/,
+              style: styles.name,
+              onPress: this.handleNamePress,
+            },
+            {
+              pattern: /@(\w+)/,
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            { pattern: /42/, style: styles.magicNumber },
+            { pattern: /#(\w+)/, style: styles.hashTag },
+          ]}   
+          
+          >{item.postMetaData}</ParsedText>
           
             </ViewMoreText>   
             </TouchableOpacity>
@@ -597,4 +652,44 @@ alignItems:"center",
     borderRadius:10,
   },
 
+
+  url: {
+    color: '#1E90FF',
+    textDecorationLine: 'underline',
+  },
+
+  email: {
+    textDecorationLine: 'underline',
+    color: '#1E90FF',
+  },
+
+  text: {
+    color: 'black',
+    fontSize: 16,
+  },
+
+  phone: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+  },
+
+  name: {
+    color: 'black',
+    fontWeight:"bold"
+  },
+
+  username: {
+    color: 'black',
+    fontWeight: 'bold',
+  },
+
+  magicNumber: {
+    fontSize: 42,
+    color: 'pink',
+  },
+
+  hashTag: {
+    fontStyle: 'italic',
+    color: '#1E90FF',
+  },
 });  

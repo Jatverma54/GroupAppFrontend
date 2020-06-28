@@ -36,6 +36,9 @@ import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import Close_icon from '../../Pictures/Close_icon.png';
 import ViewMoreText from 'react-native-view-more-text';
+import ParsedText from 'react-native-parsed-text';
+import * as Linking from 'expo-linking';
+
 export default class PersonalGroupFeedScreen extends Component {
 
   constructor(props) {
@@ -59,7 +62,7 @@ export default class PersonalGroupFeedScreen extends Component {
       
       
     
-        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -71,7 +74,7 @@ export default class PersonalGroupFeedScreen extends Component {
           
           
         ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -114,6 +117,31 @@ export default class PersonalGroupFeedScreen extends Component {
     };
   }
 
+  handleUrlPress(url) {
+    console.log(`url: ${url} has been pressed!`);
+    Linking.openURL(url);
+  }
+  
+  handlePhonePress(phone) {
+    console.log(`phone ${phone} has been pressed!`);
+  }
+  
+  handleNamePress(name) {
+    console.log(`Hello ${name}`);
+  }
+  
+  handleEmailPress(email) {
+    console.log(`send email to ${email}`);
+    Linking.openURL("mailto:"+email);
+  }
+  
+  renderText(matchingString, matches) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /@(\w+)/;
+    let match = matchingString.match(pattern);
+    return `^^${match[1]}^^`;
+  }
+  
 
   renderGroupMembers = (item) => {
     
@@ -323,7 +351,34 @@ async changeScreenOrientation() {
           textStyle={styles.title2}
         >   
         
-            <Text   style={styles.title2}>{item.postMetaData}</Text>
+        <ParsedText   style={styles.title2}           parse={[
+            { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+            {
+              type: 'phone',
+              style: styles.phone,
+              onPress: this.handlePhonePress,
+            },
+            {
+              type: 'email',
+              style: styles.email,
+              onPress: this.handleEmailPress,
+            },
+            {
+              pattern: /Bob|David/,
+              style: styles.name,
+              onPress: this.handleNamePress,
+            },
+            {
+              pattern: /@(\w+)/,
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            { pattern: /42/, style: styles.magicNumber },
+            { pattern: /#(\w+)/, style: styles.hashTag },
+          ]}   
+          
+          >{item.postMetaData}</ParsedText>
           
             </ViewMoreText>   
             </TouchableOpacity>
@@ -674,4 +729,45 @@ alignItems:"center",
     borderRadius:10,
   },
 
+
+
+  url: {
+    color: '#1E90FF',
+    textDecorationLine: 'underline',
+  },
+
+  email: {
+    textDecorationLine: 'underline',
+    color: '#1E90FF',
+  },
+
+  text: {
+    color: 'black',
+    fontSize: 16,
+  },
+
+  phone: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+  },
+
+  name: {
+    color: 'black',
+    fontWeight:"bold"
+  },
+
+  username: {
+    color: 'black',
+    fontWeight: 'bold',
+  },
+
+  magicNumber: {
+    fontSize: 42,
+    color: 'pink',
+  },
+
+  hashTag: {
+    fontStyle: 'italic',
+    color: '#1E90FF',
+  },
 });  

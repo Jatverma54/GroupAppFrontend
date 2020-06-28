@@ -19,14 +19,16 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
-
+import Like from '../../Pictures/Like.png';
+import ParsedText from 'react-native-parsed-text';
+import * as Linking from 'expo-linking';
 export default class Comments extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data:[
-        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:"1",   comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:"1",   comment:"Lorem ipsum dolor sit amet, www.facebook.com consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
         {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name:"John DoeLink",    likeCount:"1", comment:"Lorem ipsum dolor sit amet."},
         {id:3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", name:"March SoulLaComa",likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
         {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name:"Finn DoRemiFaso", likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
@@ -118,6 +120,37 @@ return(
   }
  
 
+  handleUrlPress(url) {
+    console.log(`url: ${url} has been pressed!`);
+   
+    Linking.openURL(url);
+  }
+  
+  handlePhonePress(phone) {
+    console.log(`phone ${phone} has been pressed!`);
+  }
+  
+  handleNamePress(name) {
+    console.log(`Hello ${name}`);
+  }
+  
+  handleEmailPress(email) {
+    console.log(`send email to ${email}`);
+    Linking.openURL("mailto:"+email);
+  }
+  
+  renderText(matchingString, matches) {
+  
+
+   // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /@(\w+)/;
+    let match = matchingString.match(pattern);
+    return `${match[1]}`;
+
+  }
+  
+
+
   render() {
 
    
@@ -165,14 +198,52 @@ return(
           textStyle={styles.title2}
         >   
 
-                    <Text style={styles.content}>{Notification.comment}</Text>
+<ParsedText   style={styles.content}           parse={[
+            { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+            {
+              type: 'phone',
+              style: styles.phone,
+              onPress: this.handlePhonePress,
+            },
+            {
+              type: 'email',
+              style: styles.email,
+              onPress: this.handleEmailPress,
+            },
+            {
+              pattern: /Bob|David/,
+              style: styles.name,
+              onPress: this.handleNamePress,
+            },
+            {
+              pattern: /@(\w+)/,   
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            { pattern: /42/, style: styles.magicNumber },
+            { pattern: /#(\w+)/, style: styles.hashTag },
+          ]}   
+       
+          >{Notification.comment}</ParsedText>
+
+
+
+
+
                     </ViewMoreText>
                 </View>
                
                 <View style={styles.LikesContainer}>
                    
          
-           <TouchableOpacity style={styles.likeBtn}><Text style={{fontWeight:"bold",color:"grey"}}>Like</Text></TouchableOpacity>
+           <TouchableOpacity style={styles.likeBtn}>
+             {/* <Text style={{fontWeight:"bold",color:"grey"}}>Like</Text> */}
+             <Image style={{ width:15,height:15}} source={Like}/>
+             </TouchableOpacity>
+
+
+          
            <Text style={{fontSize:12,marginLeft:80}} >{Notification.likeCount} {(parseInt(Notification.likeCount)>1)?"Likes":"Like"}</Text>  
                     {/* <TouchableOpacity style={styles.replyBtn}><Text>Reply</Text></TouchableOpacity> */}
                 </View>
@@ -212,60 +283,26 @@ borderBottomWidth: 1,
 }}>
   <ScrollView>
               <TextInput
-               style={{flex:1, height:height, 
-                width:"100%",
-               
-               
-                flex:1,
-              }}
-
+               style={{flex:1, height:height,width:"100%" }}
                 editable={true}
                 placeholder="Type a message"
                 multiline={true}
                 value={this.state.msg}
-               // placeholderTextColor = "#696969"
-               
+               // placeholderTextColor = "#696969"            
                 onChangeText={msg => this.setState({ msg })}
-                blurOnSubmit={false}
-                onSubmitEditing={() => this.send()}
-               
-                returnKeyType="send"
-                onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-              
+              //  blurOnSubmit={true}
+                onSubmitEditing={() => this.send()}            
+              //  returnKeyType="send"
+                onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}             
                 multiline style={{
-                  width: '100%',height:height, marginTop:-10,fontSize:18,padding:10
-                 
+                  width: '100%',height:height, marginTop:-10,fontSize:18,padding:10               
            }}
 
                 />
 </ScrollView>
 
-          {/* <TextInput style={{flex:1}}
-          //maxLength={500}
-              placeholder="Type a message"
-             // placeholderTextColor="black"
-              keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              autoCapitalize="none"
-              style={[newStyle]}
-              editable={true}
-              multiline={true}
-              value={newValue}
-              onChangeText={(newValue) => this.setState({newValue})}             
-              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-              
-               multiline style={{
-                    ...styles.editor, fontSize: 26,
-                    textAlign: 'center', color: "black", 
-             }}>
-                      
-              </TextInput> */}
-             
-          
            </View>
 
-           
-           
            <View style={styles.sendIcon}>
            <TouchableOpacity onPress={() => this.send()}>
             <MaterialCommunityIcons
@@ -477,8 +514,46 @@ sendIcon:{
     replyBtn: {
         textAlign: 'center',
         flex: 1
-    }
+    },
 
-
+    url: {
+      color: '#1E90FF',
+      textDecorationLine: 'underline',
+    },
+  
+    email: {
+      textDecorationLine: 'underline',
+      color: '#1E90FF',
+    },
+  
+    text: {
+      color: 'black',
+      fontSize: 16,
+    },
+  
+    phone: {
+      color: 'blue',
+      textDecorationLine: 'underline',
+    },
+  
+    name: {
+      color: 'black',
+      fontWeight:"bold"
+    },
+  
+    username: {
+      color: 'black',
+      fontWeight: 'bold',
+    },
+  
+    magicNumber: {
+      fontSize: 42,
+      color: 'pink',
+    },
+  
+    hashTag: {
+      fontStyle: 'italic',
+      color: '#1E90FF',
+    },
 
 });  
