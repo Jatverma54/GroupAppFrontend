@@ -52,8 +52,8 @@ return(
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
 
-
-        <TouchableOpacity style={styles.restoreButtonContainer}>
+        
+        <TouchableOpacity style={styles.restoreButtonContainer}  onPress={()=>navigation.push('ForgotPassword')}   >
             <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Forgot your Password?Get help</Text>
         </TouchableOpacity>
 

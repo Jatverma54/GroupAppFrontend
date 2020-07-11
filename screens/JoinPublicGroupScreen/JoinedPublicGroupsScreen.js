@@ -30,32 +30,14 @@ export default class JoinedPublicGroupsScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Multiple Myeloma story of hope and courage", 
           countMembers:51,  
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+          GroupCategory:"HealthCare"
         },
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 2", 
           countMembers:51,  
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+          GroupCategory:"Entertainment"
         },
       
       
@@ -73,32 +55,14 @@ export default class JoinedPublicGroupsScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 1", 
           countMembers:51,  
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+          GroupCategory:"HealthCare"
         },
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 2", 
           countMembers:51,  
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+          GroupCategory:"HealthCare"
         },
       
       
@@ -115,16 +79,7 @@ export default class JoinedPublicGroupsScreen extends Component {
             image: "https://lorempixel.com/100/100/nature/1/", 
             GroupName:"Group 1", 
             countMembers:51,  
-            members:[
-              
-              "https://bootdey.com/img/Content/avatar/avatar6.png", 
-              "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              "https://bootdey.com/img/Content/avatar/avatar2.png",
-              "https://bootdey.com/img/Content/avatar/avatar7.png",
-              "https://bootdey.com/img/Content/avatar/avatar3.png",
-              "https://bootdey.com/img/Content/avatar/avatar4.png"
-              
-            ]
+            GroupCategory:"Entertainment",
           }]
             },
         

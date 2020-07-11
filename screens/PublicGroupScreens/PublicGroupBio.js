@@ -27,7 +27,7 @@ export default class PublicGroupBio extends Component {
           countMembers:51, 
           Privacy:"Closed Group",
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
-         
+          GroupCategory:"HealthCare"
         },
        
         
@@ -47,7 +47,7 @@ export default class PublicGroupBio extends Component {
       <View style={{ flex:1 }} >
       <View>
       {/* this.props.myHookValue.push("ViewMembers") */}
-      <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>{this.props.myHookValue.push("ViewMembers") }}>
+      <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>{this.props.navigation.push("ViewMembers") }}>
        <View>
        <View style={styles.bodyContentInviteMember}  >
                  <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>View Members</Text> 
@@ -94,6 +94,8 @@ export default class PublicGroupBio extends Component {
 
 
  render() {
+
+
   const {image,
     id,
   
@@ -135,7 +137,7 @@ export default class PublicGroupBio extends Component {
 /> }
 
                 <Text style={styles.name}>
-                  {this.props.GroupName}
+                  {this.props.GroupName.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {countMembers}
@@ -149,6 +151,20 @@ export default class PublicGroupBio extends Component {
    alignSelf: 'center',marginTop:5}}>
                 {Privacy}
                 </Text>
+
+
+                <Text style={{
+fontSize:15,
+color:"#FFFFFF",
+//padding:10,
+marginLeft:5,
+//fontWeight:'600',
+width:"100%", 
+alignSelf: 'center',marginTop:5,
+
+
+                }}>Group Category: {this.props.GroupName.GroupCategory}</Text>
+                
                
             </View>
           

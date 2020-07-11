@@ -17,7 +17,7 @@ import DrawerContent from '../screens/DrawerContent';
 import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
 import StoryScreen from '../screens/StoryScreen';
 import GroupAppFeatures from '../screens/GroupAppFeatures';
-
+import ForgotPassword from './ForgotPassword';
 
 
 
@@ -52,6 +52,11 @@ return(
  options={{headerShown:false}}
       name='LoginScreen' 
       component={LoginScreen}/>
+
+<RootMainStack.Screen  
+ options={{headerTitle: "Password Assistance"}}
+      name='ForgotPassword' 
+      component={ForgotPassword}/>
 
 <RootMainStack.Screen  
  options={{headerShown:false}}

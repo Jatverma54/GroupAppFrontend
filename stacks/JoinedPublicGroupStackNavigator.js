@@ -25,6 +25,9 @@ import AddMember from '../components/AddMember';
  import Comments from '../components/Comment/Comments';
  import Likes from '../components/Comment/Likes';
  import CommentLikes from '../components/Comment/LikesComments';
+import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen/UpdatePublicGroupAccountInfoScreen';
+
+
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -83,7 +86,7 @@ import AddMember from '../components/AddMember';
      options={{        
       headerTitle: "About Group" }} 
        name='JoinedPGroupBio' 
-       component={withMyHookBio(JoinedPublicGroupBio,name)} />  
+       component={withMyHookBio(JoinedPublicGroupBio,route.params)} />  
 
 
 <JoinedGroupBioStack.Screen 
@@ -103,6 +106,16 @@ import AddMember from '../components/AddMember';
    component={withMyHook(AddMember)}/>
      
 
+     <JoinedGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Edit Group Information" }} 
+   name='UpdatePublicGroupAccountInfoScreen' 
+   component={UpdatePublicGroupAccountInfoScreen}/>
+
+
+     
 </JoinedGroupBioStack.Navigator>
      
      

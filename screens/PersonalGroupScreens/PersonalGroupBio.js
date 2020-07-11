@@ -300,7 +300,7 @@ getCameraPermissionAsync = async () => {
           <View>
           <View style={styles.header}>
           
-          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>this.DeleteGroup(id)} >
+          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePersonalGroupAccountInfoScreen",this.state.data)}} >
                        
           <MaterialCommunityIcons
                   name='account-edit'                
@@ -344,7 +344,7 @@ getCameraPermissionAsync = async () => {
  
 /> }
                 <Text style={styles.name}>
-                  {this.props.GroupName}
+                  {this.props.GroupName.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {countMembers}

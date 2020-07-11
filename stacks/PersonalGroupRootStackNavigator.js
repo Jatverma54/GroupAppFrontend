@@ -21,7 +21,7 @@ import Comments from '../components/Comment/Comments'
 import Likes from '../components/Comment/Likes';
 import AddMember from '../components/AddMember';
 import CommentLikes from '../components/Comment/LikesComments';
-
+import UpdatePersonalGroupAccountInfoScreen from '../screens/PersonalGroupScreens/UpdatePersonalGroupAccountInfoScreen'
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
@@ -125,7 +125,7 @@ const PersonalGroupRootStack = createStackNavigator();
      options={{        
       headerTitle: "About Group" }} 
        name='CreateaPGroupBio' 
-       component={withMyHookBio(PersonalGroupBio,GroupName)} />  
+       component={withMyHookBio(PersonalGroupBio,route.params)} />  
 
 <PersonalGroupBioStack.Screen 
  
@@ -142,6 +142,15 @@ const PersonalGroupRootStack = createStackNavigator();
    headerTitle: "Add Members" }} 
    name='AddMembers' 
    component={withMyHook(AddMember)}/>
+
+
+<PersonalGroupBioStack.Screen 
+ 
+ options={{
+   
+   headerTitle: "Edit Group Information" }} 
+   name='UpdatePersonalGroupAccountInfoScreen' 
+   component={UpdatePersonalGroupAccountInfoScreen}/>
 
 </PersonalGroupBioStack.Navigator>
      

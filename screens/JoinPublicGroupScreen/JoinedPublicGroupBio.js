@@ -44,10 +44,11 @@ export default class JoinedGroupBio extends Component {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 1", 
+          GroupCategory:"HealthCare",
           countMembers:51, 
           Privacy:"Closed Group",
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences.", 
-         
+          
         },
        
         
@@ -98,6 +99,7 @@ export default class JoinedGroupBio extends Component {
       countMembers,
       Privacy,
       Bio,
+      GroupCategory
     } = this.state.data;
     
     try {
@@ -116,6 +118,7 @@ export default class JoinedGroupBio extends Component {
           GroupName:GroupName, 
           countMembers:countMembers, 
           Privacy: Privacy,
+          GroupCategory:GroupCategory,
           Bio:Bio,    
         };
 
@@ -148,6 +151,7 @@ getCameraPermissionAsync = async () => {
     countMembers,
     Privacy,
     Bio,
+    GroupCategory
   } = this.state.data;
   try {
     let result = await ImagePicker.launchCameraAsync({
@@ -166,6 +170,7 @@ getCameraPermissionAsync = async () => {
         countMembers:countMembers, 
         Privacy: Privacy,
         Bio:Bio,    
+        GroupCategory:GroupCategory,
       };
 
       this.setState({ data: Data });
@@ -275,6 +280,7 @@ getCameraPermissionAsync = async () => {
     countMembers,
     Privacy,
     Bio,
+    GroupCategory
   } = this.state.data;
 
 
@@ -292,7 +298,7 @@ getCameraPermissionAsync = async () => {
           <View>
           <View style={styles.header}>
           
-          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>this.DeleteGroup(id)} >
+          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen",this.state.data)}} >
                        
           <MaterialCommunityIcons
                   name='account-edit'                
@@ -336,7 +342,7 @@ getCameraPermissionAsync = async () => {
  
 /> }
                 <Text style={styles.name}>
-                  {this.props.GroupName}
+                  {this.props.GroupName.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
                   Members: {countMembers}
@@ -352,7 +358,17 @@ getCameraPermissionAsync = async () => {
                 {Privacy}
                 </Text>
 
+                <Text style={{
+fontSize:15,
+color:"#FFFFFF",
+//padding:10,
+marginLeft:5,
+//fontWeight:'600',
+width:"100%", 
+alignSelf: 'center',marginTop:5
 
+
+                }}>Group Category: {this.props.GroupName.GroupCategory}</Text>
 
                 {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
             </View>

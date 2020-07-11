@@ -33,16 +33,7 @@ export default class PublicGroupListScreen extends Component {
           countMembers:51, 
           isJoined: true ,
           isReuquested: false,
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+          GroupCategory:"HealthCare"
         },
         {
           id:2, 
@@ -51,10 +42,7 @@ export default class PublicGroupListScreen extends Component {
           countMembers:10,  
           isJoined: true ,
           isReuquested: false,
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-          ]
+          GroupCategory:"HealthCare"
         },
         {
           id:3, 
@@ -63,11 +51,7 @@ export default class PublicGroupListScreen extends Component {
           isJoined: false ,
           isReuquested: false, 
           countMembers:58,  
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png"
-          ]
+          GroupCategory:"HealthCare"
         },
     
         
