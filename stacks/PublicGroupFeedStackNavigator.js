@@ -12,7 +12,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import NotificationScreen from '../screens/NotificationScreen';
 import Comments from '../components/Comment/Comments';
 import Likes from '../components/Comment/Likes';
-
+import CommentLikes from '../components/Comment/LikesComments';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -51,6 +51,11 @@ const HeaderLeft = () => {
         }),     
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+            headerTitleStyle: {
+              fontSize: 18,
+             // fontWeight: "200",//colors.TabLabelStylefontWeight,
+             width:colors.TabLabelStylewidth
+            },  
           }}>
          
 
@@ -163,6 +168,13 @@ const HeaderLeft = () => {
             name='Comments' 
             component={Comments}/>  
 
+
+<CommentStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='CommentLikes' 
+            component={CommentLikes}/>  
  
          
         </CommentStack.Navigator>

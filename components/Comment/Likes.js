@@ -5,7 +5,7 @@ import {
   View,
 TouchableOpacity,
   Image,
- 
+  RefreshControl,
   FlatList,
 } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements";
@@ -47,21 +47,12 @@ export default class Likes extends Component {
       {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
       {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
 
-      internal:[{id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-      {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-      {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-      {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-      {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-      {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-      {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-      {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
+    
 
       error: null,
       search: null,
       Role:"admin", 
-     
+      isFetching:false,
     };
   }
 
@@ -84,9 +75,38 @@ export default class Likes extends Component {
   //    }
   // };
 
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
 
-
-
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
+  }
 
 
 
@@ -209,6 +229,9 @@ export default class Likes extends Component {
          ListHeaderComponent={this.renderHeader}
           extraData={this.state}
           data={this.state.data}
+          refreshControl={
+            <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+          }
 
           // ItemSeparatorComponent={() => {
           //   return (
@@ -292,7 +315,8 @@ const styles = StyleSheet.create({
   listTitleNewPost: {
     fontSize: 16,
     marginBottom: 20,
-    color: "#666"
+    color: "#666",
+    fontWeight:"bold"
   },
   listButtonNewPost: {
     flexDirection: "row",

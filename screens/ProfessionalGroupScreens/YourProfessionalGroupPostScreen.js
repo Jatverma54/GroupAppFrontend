@@ -163,7 +163,7 @@ export default class YourProfessionalGroupPostScreen extends Component {
       <TouchableHighlight   style={{ marginTop:10,
     alignSelf:"center"}} 
         
-        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:item.image})}}}> 
+        onPress={()=>Linking.openURL(item.image)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -174,7 +174,7 @@ export default class YourProfessionalGroupPostScreen extends Component {
   <Text style={{alignSelf:"center"}}>PDF</Text>
   
 
-  {this.state.isDocumentVisible===true&&
+  {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -209,7 +209,7 @@ export default class YourProfessionalGroupPostScreen extends Component {
     
     
     }   
-      
+       */}
 
 
 

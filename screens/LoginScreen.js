@@ -54,11 +54,11 @@ return(
 
 
         <TouchableOpacity style={styles.restoreButtonContainer}>
-            <Text style={{fontWeight:'bold',width:"100%",marginLeft:125}}>Forgot Password</Text>
+            <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Forgot your Password?Get help</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonSignupContainer} onPress={()=>navigation.push('SignupScreen')}   >
-            <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Click here for signup </Text>
+            <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Don't have an account?signup </Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>{}}>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius:30,
     alignSelf:'center',
     marginLeft:10,
-   
+    marginLeft:-50
   },
   loginButton: {
     backgroundColor: '#3498db',
@@ -163,8 +163,8 @@ const styles = StyleSheet.create({
     width:250,
     marginBottom:10,
     marginTop:10,
-    alignItems: 'center'
-
+    alignItems: 'center',
+    marginLeft:-50
   },
   socialButtonContent:{
     flexDirection: 'row',

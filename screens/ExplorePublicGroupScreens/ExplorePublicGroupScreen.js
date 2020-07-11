@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+ 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {DrawerActions} from '@react-navigation/native';
@@ -30,7 +31,8 @@ export default class ExplorePublicGroupScreen extends Component {
         {id:"8", title: "World",    color:"#20B2AA", Groups:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
         {id:"9", title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
         {id:"10", title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
-      ]
+      ],
+    
     };
     
   }
@@ -38,6 +40,8 @@ export default class ExplorePublicGroupScreen extends Component {
   clickEventListener(item) {
     Alert.Alert(item.title)
   }
+
+ 
  
   render() {
     
@@ -50,6 +54,7 @@ export default class ExplorePublicGroupScreen extends Component {
         data={this.state.data}
         horizontal={false}
         numColumns={2}
+       
         keyExtractor= {(item) => {
           return item.id;
         }}

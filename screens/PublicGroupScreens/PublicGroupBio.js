@@ -5,11 +5,13 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
+import ImageView from "react-native-image-viewing";
 
 export default class PublicGroupBio extends Component {
 
@@ -18,47 +20,24 @@ export default class PublicGroupBio extends Component {
     super(props);
 
     this.state = {
-      data:[
+      data:
         {
           id:1, 
-          image: "https://lorempixel.com/100/100/nature/1/", 
-        
+          image: "https://lorempixel.com/100/100/nature/1/",         
           countMembers:51, 
           Privacy:"Closed Group",
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-          ]
+         
         },
        
         
-      ]
-    }
-  }
-
-
-  renderGroupMembers = (item) => {
-   
-    if(item.members) {
      
-      return (
-        <View style={styles.groupMembersContent}>
-          {item.members.map((prop, key) => {
-           
-            return (
-              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
-            );
-          })}
-        </View>
-      );
+      isVisible:false
     }
-    return null;
+  
   }
+
+
 
 
   addMemberorShare=()=>{
@@ -82,7 +61,7 @@ export default class PublicGroupBio extends Component {
                    </View> 
                  </View>
                </TouchableOpacity>
-     
+{/*      
                <View>
      
                <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>{this.props.myHookValue.push("AddMembers")}}>
@@ -100,7 +79,7 @@ export default class PublicGroupBio extends Component {
                 </View>
               </TouchableOpacity>
          
-     </View>
+     </View> */}
     
       </View>
               
@@ -115,38 +94,51 @@ export default class PublicGroupBio extends Component {
 
 
  render() {
- 
+  const {image,
+    id,
+  
+    countMembers,
+    Privacy,
+    Bio,
+  } = this.state.data;
+
+  const images = [
+    {
+      uri: image,
+    },
+  
+  ];
 
     return (
       <View style={styles.container}>
 
-
-   <FlatList style={styles.list}
-          data={this.state.data}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          extraData={this.state}
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
-        
-          renderItem={(post) => {
-            const item = post.item;
-
+<ScrollView >
+  
            
-        return(
+      
           <View>
           <View style={styles.header}>
             <View style={styles.headerContent}>
-                <Image style={styles.avatar} source={{uri: item.image}}/>
+
+            <TouchableOpacity  onPress={() => this.setState({isVisible:true})}>
+                <Image style={styles.avatar} source={{uri: image}}/>
+                </TouchableOpacity>
+
+                {this.state.isVisible&&
+            
+            <ImageView
+  images={images}
+  imageIndex={0}
+  visible={this.state.isVisible}
+  onRequestClose={() =>  this.setState({isVisible:false})}
+ 
+/> }
+
                 <Text style={styles.name}>
                   {this.props.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
-                  Members: {item.countMembers}
+                  Members: {countMembers}
                 </Text>
                 <Text style={{ fontSize:15,
     color:"#FFFFFF",
@@ -155,9 +147,9 @@ export default class PublicGroupBio extends Component {
     //fontWeight:'600',
     width:"100%", 
    alignSelf: 'center',marginTop:5}}>
-                {item.Privacy}
+                {Privacy}
                 </Text>
-                {this.renderGroupMembers(item)}
+               
             </View>
           
 
@@ -165,15 +157,13 @@ export default class PublicGroupBio extends Component {
           {this.addMemberorShare()}
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.description}>{item.Bio}</Text>
+              <Text style={styles.description}>{Bio}</Text>
               
           </View>
         </View>
       </View>
-        )
-
-      }}/>
-     
+      </ScrollView>
+    
       </View>
     
     

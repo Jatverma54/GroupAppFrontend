@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  RefreshControl,
   FlatList
 } from 'react-native';
 
@@ -21,8 +22,43 @@ export default class NotificationScreen extends Component {
         {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name:"Frank Odalthh",    text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:"https://lorempixel.com/100/100/nature/4/"},
         {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name:"Clark June Boom!", text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
         {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name:"The googler",      text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
-      ]
+      ],
+      isFetching:false,
     }
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
+  
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
   }
 
   render() {
@@ -31,6 +67,12 @@ export default class NotificationScreen extends Component {
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
+        
+ refreshControl={
+  <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+}
+
+
         ItemSeparatorComponent={() => {
           return (
             <View style={styles.separator}/>

@@ -3,20 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-TextInput,
-TouchableHighlight,
 TouchableOpacity,
   Image,
-  Alert,
-  ScrollView,
+  RefreshControl,
   FlatList,
-  RefreshControl
 } from 'react-native';
 import { ListItem, SearchBar } from "react-native-elements";
-import deleteButton from '../Pictures/deleteButton.png';
-import { Button } from 'react-native-paper';
-import RBSheet from "react-native-raw-bottom-sheet";
-
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
@@ -25,43 +17,21 @@ import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
-export default class ViewMembers extends Component {
+export default class LikesComments extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-        {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-        {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-        {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-        {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-        {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-        {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
-      ],
+      data:this.props.route.params,
       loading: false,   
      
-      temp: [{id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-      {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-      {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-      {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-      {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-      {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-      {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-      {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
+      temp: this.props.route.params,
 
-     
+    
 
       error: null,
       search: null,
       Role:"admin", 
-      searchStarted:"false",
-      AdminTab:'',
       isFetching:false,
     };
   }
@@ -88,8 +58,7 @@ export default class ViewMembers extends Component {
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.searchRandomUser() });
   }
-  
-  
+
   searchRandomUser = async () =>
   {
     //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
@@ -114,83 +83,19 @@ export default class ViewMembers extends Component {
    ]
         this.setState({
             data:data2,
-            temp:data2,
-            internal:data2,
             isFetching: false
         })
   
   }
 
 
-  delete(item){
-
-    Alert.alert(
-      "",
-      "Do you want to remove "+item.name+" from the group",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => this.deletearray(item)}
-      ],
-      { cancelable: false }
-    );
-  };
-  
-  deletearray(item){
-    
-    //console.log(item.id, "first ")
-   
-    const index = this.state.temp.findIndex(
-      items => item.id === items.id
-    );
- 
-
-let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filter((x,i) => i != index);
-
-     this.setState({
-     
-      data:newArrayDeleted,
-      temp:this.state.temp.filter((x,i) => i != index),  
-    })
-    
-  {(this.state.searchStarted===true)?null:
-    this.AdminOptions.close()}
-      
-  //  console.log(this.state.data,"updated")
-   // console.log(this.state.internal,"updated")
-  }
-  
-  makeAdmin(item){
-
-    Alert.alert(
-      "",
-      "Do you want to make "+item.name+" admin",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => console.log("Make Admin")}
-      ],
-      { cancelable: false }
-    );
 
 
 
-
-
-
-
-
-
-  };
 
 
   renderItem = ({item}) => {
+   
     return (
      
         <View  style={styles.row}>
@@ -227,44 +132,7 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
          
 
 
-  <RBSheet
-          ref={ref => {
-            this.AdminOptions = ref;
-          }}
-          height={330}
-         
-        >
-          <View style={styles.listContainerNewPost}>
-            <Text style={styles.listTitleNewPost}>Admin Options</Text>
-
-            {(this.state.Role.includes("admin")) ?
-            <View>
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this.delete(this.state.AdminTab)}
-              >
-                <MDIcon name="delete" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Delete User</Text>
-              </TouchableOpacity>
-
-                
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this.makeAdmin(this.state.AdminTab)}
-              >
-                <FontAwesome name="user-secret" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Make Admin</Text>
-              </TouchableOpacity></View>: <Text style={styles.listTitleNewPost}>You need to be Admin to view Admin Options</Text>}
-
-
-
-            
-           
-          </View>
-        </RBSheet>
-        
+  
 
         </View>
         
@@ -329,27 +197,35 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
 
 
 
-  FlatListItemSeparator = () => <View style={styles.separator} />;
+
 
 
 
 
 
   render() {
+
+    
     return(
       <View style={{ flex: 1 ,  backgroundColor: 'white',}} >
         <FlatList 
          ListHeaderComponent={this.renderHeader}
           extraData={this.state}
           data={this.state.data}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
-          keyExtractor = {(item) => {
-            return item.id;
-          }}
           refreshControl={
             <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
           }
-      
+
+          // ItemSeparatorComponent={() => {
+          //   return (
+          //     <View style={styles.separator}/>
+          //   )
+          // }}
+
+
+          keyExtractor = {(item) => {
+            return item.id;
+          }}
           renderItem={this.renderItem}/>
       </View>
     );
@@ -360,10 +236,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    //borderColor: '#DCDCDC',
+  //  borderColor: '#DCDCDC',
     backgroundColor: 'white',
-   // borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     padding: 10,
+
+    
    
   },
   TouchableOpacityStyle:{
@@ -376,8 +254,8 @@ const styles = StyleSheet.create({
   },
   pic: {
     borderRadius: 30,
-    width: 45,
-    height: 45,
+    width: 30,
+    height: 30,
   },
   nameContainer: {
     flexDirection: 'row',
@@ -447,12 +325,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft:33
   },
+
   separator: {
     height: 0.5,
     backgroundColor: "#CCCCCC",
-    width:"78%",
-    marginLeft:60
+    width:"80%",
+    marginLeft:50
 
   },
+
 
 }); 

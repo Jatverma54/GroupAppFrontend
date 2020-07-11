@@ -11,7 +11,7 @@ import {
   FlatList,
   Dimensions,
   Modal,
-  
+  RefreshControl,
   Container, Content,  Thumbnail ,Clipboard
 } from 'react-native';
 import {
@@ -31,7 +31,7 @@ import Close_icon from '../../Pictures/Close_icon.png';
 
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,FontAwesome,AntDesign } from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
 import PDFReader from 'rn-pdf-reader-js'
 import ExitIcon from '../../Pictures/ExitIcon.png';
@@ -44,71 +44,59 @@ export default class YourPublicGroupPostscreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an  https://facebook.com  example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-      LikePictures:[
+      data: [
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        LikePictures:[] },
         
-            
-             //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-            // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            // "https://bootdey.com/img/Content/avatar/avatar2.png",
-            // "https://bootdey.com/img/Content/avatar/avatar7.png",
-            // "https://bootdey.com/img/Content/avatar/avatar3.png",
-           // "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
-        },
-     
-    
-    
-  
-      {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an jatinv2395@gmail.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      LikePictures:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            // "https://bootdey.com/img/Content/avatar/avatar7.png",
-            // "https://bootdey.com/img/Content/avatar/avatar3.png",
-            // "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-        
-        
-      ]} ,
-      {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
-    
-    
-      LikePictures:[
+        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        LikePictures:[
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              // "https://bootdey.com/img/Content/avatar/avatar7.png",
+              // "https://bootdey.com/img/Content/avatar/avatar3.png",
+              // "https://bootdey.com/img/Content/avatar/avatar4.png"
+                    
+        ]} ,
+        {id:"3", title: "XYZ Name",     countLikes:2,   countcomments:2 ,   isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+      
+      
+        LikePictures:[
+         
+              
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png"
+        ]
+          },
        
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-      ]
-        },
+      
      
-    
-   
-      {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,    time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
-    
-      LikePictures:[
-       
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
-        }, 
-    
-    ],
+        {id:"4", title: "XYZ Name",   countLikes:3,  countcomments:21 , isLiked:false,   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+      
+        LikePictures:[
+         
+              "https://bootdey.com/img/Content/avatar/avatar6.png", 
+              "https://bootdey.com/img/Content/avatar/avatar1.png", 
+              "https://bootdey.com/img/Content/avatar/avatar2.png",
+              "https://bootdey.com/img/Content/avatar/avatar7.png",
+              "https://bootdey.com/img/Content/avatar/avatar3.png",
+              "https://bootdey.com/img/Content/avatar/avatar4.png",
+              
+              
+            ]
+          }, 
+      
+      ],
+      
       isVisible: false,
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
+      isFetching:false,
     };
   }
 
@@ -150,7 +138,39 @@ export default class YourPublicGroupPostscreen extends Component {
     }
 
 
-
+    onRefresh() {
+      this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+    }
+    
+    
+    searchRandomUser = async () =>
+    {
+      //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+      //  const APIValue = await RandomAPI.json();
+      //   const APIResults = APIValue.results
+      //     console.log(APIResults[0].email);
+    
+    
+      data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+      LikePictures:[
+        
+            
+             //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+            // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+            // "https://bootdey.com/img/Content/avatar/avatar2.png",
+            // "https://bootdey.com/img/Content/avatar/avatar7.png",
+            // "https://bootdey.com/img/Content/avatar/avatar3.png",
+           // "https://bootdey.com/img/Content/avatar/avatar4.png"
+            
+          ]
+        },
+     ]
+          this.setState({
+              data:data2,
+              isFetching: false
+          })
+    
+    }
 
     copyText(item){
 
@@ -190,7 +210,7 @@ export default class YourPublicGroupPostscreen extends Component {
     
     deletearray(item){
       
-      console.log(item.id, "first ")
+     // console.log(item.id, "first ")
      
       const index = this.state.data.findIndex(
         items => item.id === items.id
@@ -202,7 +222,7 @@ export default class YourPublicGroupPostscreen extends Component {
     
      
         
-      console.log(this.state.data,"updated")
+      //console.log(this.state.data,"updated")
     }
 
 
@@ -245,20 +265,20 @@ LeaveGroup(){
 
 
 handleUrlPress(url) {
-  console.log(`url: ${url} has been pressed!`);
+  //console.log(`url: ${url} has been pressed!`);
   Linking.openURL(url);
 }
 
 handlePhonePress(phone) {
-  console.log(`phone ${phone} has been pressed!`);
+ // console.log(`phone ${phone} has been pressed!`);
 }
 
 handleNamePress(name) {
-  console.log(`Hello ${name}`);
+//  console.log(`Hello ${name}`);
 }
 
 handleEmailPress(email) {
-  console.log(`send email to ${email}`);
+ // console.log(`send email to ${email}`);
   Linking.openURL("mailto:"+email);
 }
 
@@ -314,7 +334,9 @@ return(
            </View>
          </TouchableOpacity>
 
-
+         {(this.state.data.length===0) &&
+             
+             <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
 </View>
 
 
@@ -334,7 +356,50 @@ return(
 
 }
 
+Likes(data) {
+     
+     
+  data.item.isLiked = !data.item.isLiked;
+  data.item.countLikes= data.item.isLiked ?(parseInt(data.item.countLikes)+1):(parseInt(data.item.countLikes)-1)
 
+ data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
+   : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
+ 
+  const index = this.state.data.findIndex(
+    item => data.item.id === item.id
+  );
+
+
+  this.state.data[index] = data.item;
+  
+
+
+  this.setState({
+    data: this.state.data,
+  
+ 
+  });
+
+ //console.log(this.state.data)
+ 
+
+}
+
+
+
+openDocument (url) {
+ 
+  Linking.canOpenURL(url)
+      .then((supported) => {
+          if (!supported) {
+              alert("File type is not supported")
+          } else {
+            //  console.log("Supported!")
+              return Linking.openURL(url);
+          }
+      })
+      .catch((err) => console.error('An error occurred', err));
+};
 
 
 
@@ -350,12 +415,15 @@ return(
     return (
       
       <View style={styles.container}>
-      {this.state.data.length!=0?
+     
         <FlatList style={styles.list}
           data={this.state.data}
           keyExtractor= {(item) => {
             return item.id;
           }}
+          refreshControl={
+            <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+          }
           ItemSeparatorComponent={() => {
             return (
               <View style={styles.separator}/>
@@ -374,6 +442,7 @@ return(
 
               <View style={styles.card}>
              
+
              {/* <Stories Number_of_run={this.state.Number_of_run}/>                   */}
                <View style={styles.cardHeader}>
                   <View>
@@ -421,6 +490,12 @@ return(
             },
             {
               pattern: /@(\w+)/,
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            {
+              pattern: /@(\w+)_(\w+)/,   
               style: styles.username,
               onPress: this.handleNamePress,
               renderText: this.renderText,
@@ -476,7 +551,7 @@ return(
       <TouchableHighlight   style={{ marginTop:10,
     alignSelf:"center"}} 
         
-        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:item.image})}}}> 
+        onPress={()=>this.openDocument(item.image)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -487,7 +562,7 @@ return(
   <Text style={{alignSelf:"center"}}>PDF</Text>
   
 
-  {this.state.isDocumentVisible===true&&
+  {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -522,7 +597,7 @@ return(
     
     
     }   
-      
+       */}
 
 
 
@@ -547,12 +622,25 @@ return(
                   {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
                    
                  
-                  <TouchableOpacity style={styles.socialBarButton}   >
+                  <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.Likes(post)}>
+
                       
-                      <Image style={styles.icon} source={Like}/>
+                  {post.item.isLiked?
+                      <AntDesign
+              name="like1"                
+             size={25}
+             color="#1E90FF"
+             style={styles.icon} 
+            />:<AntDesign
+            name="like1"                
+           size={25}
+           color="black"
+           style={styles.icon} 
+          />}                     
                      
                      
-                      <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
+<Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{(parseInt(post.item.countLikes)===0)?"":post.item.countLikes} {(parseInt(post.item.countLikes)>1)?"Likes":"Like"}</Text>
+
                       </TouchableOpacity>
                   </View> 
                   
@@ -567,7 +655,7 @@ return(
   
  marginLeft:200}} source={Comment}/>
 
-                      <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+<Text  style={{marginLeft:5,color:"grey",}} >{(parseInt(post.item.countcomments)===0)?"":post.item.countcomments} {(parseInt(post.item.countcomments)>1)?"Comments":"Comment"}</Text>
                       </View>
                       </TouchableOpacity> 
                   </View>
@@ -581,7 +669,7 @@ return(
             </View>               
               
           )                
-                        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+                        }}/>
          
           
       </View>

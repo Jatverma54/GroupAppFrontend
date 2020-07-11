@@ -20,6 +20,7 @@ import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 import Comments from '../components/Comment/Comments'
 import Likes from '../components/Comment/Likes';
 import AddMember from '../components/AddMember';
+import CommentLikes from '../components/Comment/LikesComments';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -300,6 +301,11 @@ const PersonalGroupRootStack = createStackNavigator();
     }),     
         headerTintColor: colors.StackheaderTintColor,
         headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+        headerTitleStyle: {
+          fontSize: 18,
+         // fontWeight: "200",//colors.TabLabelStylefontWeight,
+         width:colors.TabLabelStylewidth
+        },   
       }}>
         
 
@@ -318,6 +324,14 @@ const PersonalGroupRootStack = createStackNavigator();
      
             name='Comments' 
             component={Comments}/>  
+
+
+<PersonalGroupFeedScreenStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='CommentLikes' 
+            component={CommentLikes}/>  
 
 
 <PersonalGroupFeedScreenStack.Screen  

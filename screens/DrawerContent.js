@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet,TouchableOpacity } from 'react-native';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import {
@@ -20,10 +20,18 @@ import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-i
 import DrawerLogo from '../Pictures/DrawerLogo.png';
 import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
-
+import ImageView from "react-native-image-viewing";
 
   const DrawerContent=(props)=> {
     const navigation = useNavigation();
+    const [isVisible, setisVisible] = useState(false);
+
+    const images = [
+      {
+        uri: "https://www.bootdey.com/img/Content/avatar/avatar1.png",
+      },
+    
+    ];
     return (
       
       // <DrawerContentScrollView {...props}>
@@ -33,10 +41,29 @@ import colors from '../constants/colors';
           }
         >
           <View style={styles.userInfoSection}>
+
+            <TouchableOpacity  onPress={() => setisVisible(true)}>
             <Avatar.Image
               source={DrawerLogo}
               size={90}
             />
+            </TouchableOpacity>
+
+
+            {isVisible&&
+            
+            <ImageView
+  images={images}
+  imageIndex={0}
+  visible={isVisible}
+  onRequestClose={() =>  setisVisible(false)}
+ 
+/>
+            
+            
+            }
+
+
             <Title style={styles.title}>Jatin Verma</Title>
             <Paragraph style={[styles.paragraph, styles.caption]}>
                   Groups App

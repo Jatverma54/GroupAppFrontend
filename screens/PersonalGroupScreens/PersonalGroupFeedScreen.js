@@ -13,7 +13,7 @@ import {
   Modal,
   FlatList,
   Dimensions,
-  
+  RefreshControl,
   Container, Content,  Thumbnail ,Clipboard
 } from 'react-native';
 import {
@@ -31,13 +31,20 @@ import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
 import Stories from '../../components/Stories';
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,FontAwesome,AntDesign } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import Close_icon from '../../Pictures/Close_icon.png';
 import ViewMoreText from 'react-native-view-more-text';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
+import RBSheet from "react-native-raw-bottom-sheet";
+
+import FAIcon from "react-native-vector-icons/FontAwesome";
+import MDIcon from "react-native-vector-icons/MaterialIcons";
+
+FAIcon.loadFont();
+MDIcon.loadFont();
 
 export default class PersonalGroupFeedScreen extends Component {
 
@@ -45,24 +52,10 @@ export default class PersonalGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-        LikePictures:[
-          
-              
-               //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-              // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              // "https://bootdey.com/img/Content/avatar/avatar2.png",
-              // "https://bootdey.com/img/Content/avatar/avatar7.png",
-              // "https://bootdey.com/img/Content/avatar/avatar3.png",
-             // "https://bootdey.com/img/Content/avatar/avatar4.png"
-              
-            ]
-          },
-       
-      
-      
-    
-        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,      time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        LikePictures:[] },
+        
+        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -70,11 +63,9 @@ export default class PersonalGroupFeedScreen extends Component {
               // "https://bootdey.com/img/Content/avatar/avatar7.png",
               // "https://bootdey.com/img/Content/avatar/avatar3.png",
               // "https://bootdey.com/img/Content/avatar/avatar4.png"
-              
-          
-          
+                    
         ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" ,       time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",     countLikes:2,   countcomments:2 ,   isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -91,7 +82,7 @@ export default class PersonalGroupFeedScreen extends Component {
        
       
      
-        {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,    time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+        {id:"4", title: "XYZ Name",   countLikes:3,  countcomments:21 , isLiked:false,   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
       
         LikePictures:[
          
@@ -100,38 +91,42 @@ export default class PersonalGroupFeedScreen extends Component {
               "https://bootdey.com/img/Content/avatar/avatar2.png",
               "https://bootdey.com/img/Content/avatar/avatar7.png",
               "https://bootdey.com/img/Content/avatar/avatar3.png",
-              "https://bootdey.com/img/Content/avatar/avatar4.png"
+              "https://bootdey.com/img/Content/avatar/avatar4.png",
+              
               
             ]
           }, 
       
       ],
+      
       isVisible: false,
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
       numberOfLines:14,
-      Role:"user", 
-      
+      Role:"admin", 
+      isFetching:false,
+      AdminTab:'',
+      PostUsertitle:'',
       
     };
   }
 
   handleUrlPress(url) {
-    console.log(`url: ${url} has been pressed!`);
+   // console.log(`url: ${url} has been pressed!`);
     Linking.openURL(url);
   }
   
   handlePhonePress(phone) {
-    console.log(`phone ${phone} has been pressed!`);
+   // console.log(`phone ${phone} has been pressed!`);
   }
   
   handleNamePress(name) {
-    console.log(`Hello ${name}`);
+  //  console.log(`Hello ${name}`);
   }
   
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
+ //   console.log(`send email to ${email}`);
     Linking.openURL("mailto:"+email);
   }
   
@@ -172,6 +167,39 @@ export default class PersonalGroupFeedScreen extends Component {
 
   
  
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
+  
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
+  }
   // Stories=()=>{
     
   //      return(
@@ -263,7 +291,7 @@ async changeScreenOrientation() {
 
     Alert.alert(
       "",
-      "Do you want to delete the post",
+      "Do you want to delete the post from "+this.state.PostUsertitle,
       [
         {
           text: "Cancel",
@@ -286,10 +314,93 @@ async changeScreenOrientation() {
    
      this.setState({
       data: this.state.data.filter((x,i) => i != index) })
-
-    console.log(this.state.data,"updated")
+     // console.log(this.state.data,"updated")
+  
+      this.AdminOptions.close();
+      
+     
+   // console.log(this.state.data,"updated")
   }
   
+  
+  deletePostandUserfromGroup(item){
+  
+    Alert.alert(
+      "",
+      "Do you want to delete the post and remove "+this.state.PostUsertitle+" from the group",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.deletePostandUserfromGrouparray(item)}
+      ],
+      { cancelable: false }
+    );
+  };
+  
+  deletePostandUserfromGrouparray(item){
+    
+    //console.log(item.id, "first ")
+   
+    const index = this.state.data.findIndex(
+      items => item.id === items.id
+    );
+   
+     this.setState({
+      data: this.state.data.filter((x,i) => i != index) })
+    
+      this.AdminOptions.close();
+   
+      
+   // console.log(this.state.data,"updated")
+  }
+  
+  openDocument (url) {
+ 
+    Linking.canOpenURL(url)
+        .then((supported) => {
+            if (!supported) {
+                alert("File type is not supported")
+            } else {
+              //  console.log("Supported!")
+                return Linking.openURL(url);
+            }
+        })
+        .catch((err) => console.error('An error occurred', err));
+  };
+  
+
+  Likes(data) {
+     
+     
+    data.item.isLiked = !data.item.isLiked;
+    data.item.countLikes= data.item.isLiked ?(parseInt(data.item.countLikes)+1):(parseInt(data.item.countLikes)-1)
+
+   data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
+     : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
+   
+    const index = this.state.data.findIndex(
+      item => data.item.id === item.id
+    );
+  
+  
+    this.state.data[index] = data.item;
+    
+
+
+    this.setState({
+      data: this.state.data,
+    
+   
+    });
+
+  // console.log(this.state.data)
+   
+  
+  }
+
 
   render() {
          
@@ -297,7 +408,7 @@ async changeScreenOrientation() {
     return (
       
       <View style={styles.container}>
-         {this.state.data.length!=0?
+        
           
            
         <FlatList style={styles.list}
@@ -305,11 +416,14 @@ async changeScreenOrientation() {
           keyExtractor= {(item) => {
             return item.id;
           }}
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
+          refreshControl={
+            <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+          }
+          // ItemSeparatorComponent={() => {
+          //   return (
+          //     <View style={styles.separator}/>
+          //   )
+          // }}
           ListHeaderComponent={
            <Stories  Role={this.state.Role}  data={this.state.data} nav={this.props}/>
            
@@ -318,26 +432,38 @@ async changeScreenOrientation() {
             const item = post.item;
           
             return (
-             
+           
               <View style={styles.card}>
              
-                    
+             {(this.state.data.length===0) &&
+             
+              <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+
                <View style={styles.cardHeader}>
                   <View>
                   <Avatar.Image size={45}
                   style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
                      source={DrawerLogo}/>
     
-    {!(item.title.length>35)?
+    {!(item.title.length>30)?
                     <Text  style={styles.title}>{item.title}</Text>
-                    :<Text style={styles.title}>{item.title.toString().substring(0,35)}..</Text>}
+                    :<Text style={styles.title}>{item.title.toString().substring(0,30)}..</Text>}
 
                     <Text style={styles.time}>{item.time}</Text>
                   </View>
 
 
-                  {(this.state.Role.includes("admin")) && <TouchableOpacity onPress={()=>this.delete(item)}>
-<Image style={{height:20,width:20}} source={Close_icon} />
+                  {(this.state.Role.includes("admin")) && <TouchableOpacity onPress={()=> {this.AdminOptions.open(); this.setState({AdminTab: post,PostUsertitle: post.item.title.length>15?post.item.title.toString().substring(0,15)+"..":post.item.title})}}> 
+{/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+
+
+<FontAwesome
+              name="ellipsis-v"                
+              size={20}
+              style={{height:20,width:20}}
+            />
+
+
 </TouchableOpacity>}
 
                 </View>
@@ -370,6 +496,12 @@ async changeScreenOrientation() {
             },
             {
               pattern: /@(\w+)/,
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            {
+              pattern: /@(\w+)_(\w+)/,   
               style: styles.username,
               onPress: this.handleNamePress,
               renderText: this.renderText,
@@ -428,7 +560,7 @@ async changeScreenOrientation() {
       <TouchableHighlight   style={{ marginTop:10,
     alignSelf:"center"}} 
         
-        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:item.image})}}}> 
+        onPress={()=>this.openDocument(item.image)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -439,7 +571,7 @@ async changeScreenOrientation() {
   <Text style={{alignSelf:"center"}}>PDF</Text>
   
 
-  {this.state.isDocumentVisible===true&&
+  {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -474,7 +606,7 @@ async changeScreenOrientation() {
     
     
     }   
-      
+       */}
 
 
       <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
@@ -495,12 +627,24 @@ async changeScreenOrientation() {
                     {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
                      
                    
-                    <TouchableOpacity style={styles.socialBarButton}   >
+                    <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.Likes(post)}>
                         
-                        <Image style={styles.icon} source={Like}/>
+                    {post.item.isLiked?
+                      <AntDesign
+              name="like1"                
+             size={25}
+             color="#1E90FF"
+             style={styles.icon} 
+            />:<AntDesign
+            name="like1"                
+           size={25}
+           color="black"
+           style={styles.icon} 
+          />}
                        
                        
-                        <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
+                        <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{(parseInt(post.item.countLikes)===0)?"":post.item.countLikes} {(parseInt(post.item.countLikes)>1)?"Likes":"Like"}</Text>
+
                         </TouchableOpacity>
                     </View> 
                     
@@ -515,7 +659,7 @@ async changeScreenOrientation() {
     
    marginLeft:200}} source={Comment}/>
   
-                        <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+  <Text  style={{marginLeft:5,color:"grey",}} >{(parseInt(post.item.countcomments)===0)?"":post.item.countcomments} {(parseInt(post.item.countcomments)>1)?"Comments":"Comment"}</Text>
                         </View>
                         </TouchableOpacity> 
                     </View>
@@ -524,12 +668,54 @@ async changeScreenOrientation() {
                     
                   </View> 
 
-                </View>      
-                
-              </View>               
+                </View>     
+               
+              </View>           
                 
             )           
-          }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+          }}/>
+
+
+        <RBSheet
+          ref={ref => {
+            this.AdminOptions = ref;
+          }}
+          height={330}
+         
+        >
+          <View style={styles.listContainerNewPost}>
+         
+            <Text style={styles.listTitleNewPost}>Admin Options</Text>
+
+            {(this.state.Role.includes("admin")) ?
+            <View>
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={()=>this.delete(this.state.AdminTab.item)}
+              >
+                <MDIcon name="delete" style={styles.listIconNewPost} />
+        <Text style={styles.listLabelNewPost}>Delete post from {this.state.PostUsertitle}</Text>
+              </TouchableOpacity>
+
+                
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={() => this.deletePostandUserfromGroup(this.state.AdminTab.item)}
+              >
+                <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
+              </TouchableOpacity></View>: <Text style={styles.listTitleNewPost}>You need to be Admin to view Admin Options</Text>}
+
+
+
+            
+           
+          </View>
+        </RBSheet>
+
+
        
       </View>
      
@@ -769,5 +955,49 @@ alignItems:"center",
   hashTag: {
     fontStyle: 'italic',
     color: '#1E90FF',
+  },
+
+
+
+  listContainerNewPost: {
+    flex: 1,
+    padding: 25
+  },
+  listTitleNewPost: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: "#666",
+    fontWeight:"bold"
+  },
+  listButtonNewPost: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10
+  },
+  listIconNewPost: {
+    fontSize: 26,
+    color: "#666",
+    width: 60
+  },
+  listIconNewVideoPost: {
+    fontSize: 26,
+    color: "#666",
+    width: 50,
+    marginLeft:-22
+    
+  },
+  listLabelNewPost: {
+    fontSize: 16
+  },
+  listLabelVideoNewPost: {
+    fontSize: 16,
+    marginLeft:33
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:60
+
   },
 });  

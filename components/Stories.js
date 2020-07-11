@@ -113,7 +113,7 @@ return(
 
 
 openGroupPic(item){
-  console.log(item,"itemmmm")
+  //console.log(item,"itemmmm")
   {this.setState({isVisible: true})}
   const images = [
     {
@@ -124,7 +124,7 @@ openGroupPic(item){
 
   {this.setState({Groupimages: images})}
 
-  console.log(this.state.Groupimages,"visible")
+  //console.log(this.state.Groupimages,"visible")
 
 }
 

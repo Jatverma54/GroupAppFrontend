@@ -100,7 +100,7 @@ export default class FbImages extends React.Component {
     const {images} = this.state;
     const {countFrom} = this.state;
     const conditionalRender = [2, 3].includes(images.length) || images.length > +countFrom && [2, 3].includes(+countFrom);
-console.log(conditionalRender)
+//console.log(conditionalRender)
 
 let index;
 let index1;
@@ -213,7 +213,7 @@ if(conditionalRender){
     const {modal, index, countFrom,isVisible,imageindex} = this.state;
     const {images} = this.state;
     const imagesToShow = [...images];
-console.log(imagesToShow.length,"total images");
+//console.log(imagesToShow.length,"total images");
     if(countFrom && images.length > countFrom) {
       imagesToShow.length = countFrom;
     }

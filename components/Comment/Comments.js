@@ -9,47 +9,85 @@ import {
   FlatList,
   Dimensions,
   KeyboardAvoidingView,
-  TextInput,
+  TextInput,  
+  RefreshControl,
+  Alert
 } from 'react-native';
 
 import {
  
   Divider, 
+  Button
  
 } from 'react-native-paper';
-import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { MaterialCommunityIcons,AntDesign} from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
 import Like from '../../Pictures/Like.png';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
+import Close_icon from '../../Pictures/Close_icon.png';
+import MDIcon from "react-native-vector-icons/MaterialIcons";
+
+
+MDIcon.loadFont();
+
 export default class Comments extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data:[
-        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:"1",   comment:"Lorem ipsum dolor sit amet, www.facebook.com consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name:"John DoeLink",    likeCount:"1", comment:"Lorem ipsum dolor sit amet."},
-        {id:3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", name:"March SoulLaComa",likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name:"Finn DoRemiFaso", likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name:"Maria More More", likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name:"Clark June Boom!",likeCount:"1", comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name:"The googler",    likeCount:"2",  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png",OnwerId:"abc" ,  LikedBy:[{id:"1",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"8",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}], isLiked:false,  name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:0,   comment:"Lorem ipsum dolor sit amet, www.facebook.com consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", OnwerId:"abcs" , LikedBy:[{id:"2",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"9",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],    isLiked:false,  name:"John DoeLink",    likeCount:1, comment:"Lorem ipsum dolor sit amet."},
+        {id:3, image: "https://bootdey.com/img/Content/avatar/avatar7.png",  OnwerId:"abcd" ,LikedBy:[{id:"3",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"10",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],    isLiked:false, name:"March SoulLaComa",likeCount:99, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png",  OnwerId:"abce" , LikedBy:[{id:"4",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"11",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],   isLiked:false,  name:"Finn DoRemiFaso", likeCount:3, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", OnwerId:"abcf" , LikedBy:[{id:"5",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"12",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false, name:"Maria More More", likeCount:4, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png",  OnwerId:"abcg" ,LikedBy:[{id:"6",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"13",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false, name:"Clark June Boom!",likeCount:5, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png",  OnwerId:"abch" ,LikedBy:[{id:"15",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"14",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false,  name:"The googler",    likeCount:6,  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
       ],
       msg: '',
-     
-     
+      Role:"admin",
+      currentUserOnwerId:"abcd", 
       height: 40,
       //fontWeight
     
-
+      isFetching:false,
 
     }
     this.send = this.send.bind(this);
    
   }
 
+  Likes(data) {
+     
+     
+    data.item.isLiked = !data.item.isLiked;
+    data.item.likeCount= data.item.isLiked ?(parseInt(data.item.likeCount)+1):(parseInt(data.item.likeCount)-1)
 
+   data.item.isLiked ? data.item.LikedBy.push({id:"7",name:"NewLike",username:"userNew", image:"https://bootdey.com/img/Content/avatar/avatar1.png"})
+     : data.item.LikedBy=data.item.LikedBy.filter(item => item.id !== "7");
+   
+  
+  
+     const index = this.state.data.findIndex(
+      item => data.item.id === item.id
+    );
+  
+  
+    this.state.data[index] = data.item;
+    
+
+
+    this.setState({
+      data: this.state.data,
+    
+   
+    });
+
+  // console.log(this.state.data)
+   
+  
+  }
 
   renderViewMore(onPress){
     return(
@@ -62,7 +100,39 @@ export default class Comments extends Component {
     )
   }
 
-
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
+  
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
+  }
 
 
 
@@ -98,10 +168,14 @@ return(
     if (this.state.msg.length > 0) {
       var data = this.state.data;
       data.push({
-        id:Math.floor((Math.random() * 99999999999999999) + 1),
+        id:Math.floor((Math.random() * 999999999999999) + 1),
         name: "example",
+        likeCount:0,
+        LikedBy:[],
         comment: this.state.msg,
-        image:'https://www.bootdey.com/img/Content/avatar/avatar1.png'
+        isLiked:false,
+        image:'https://www.bootdey.com/img/Content/avatar/avatar1.png',
+        OnwerId:"abcd"
       });
       this.setState({data:data,msg:'',height:40});
     //   setTimeout(() => {
@@ -119,23 +193,57 @@ return(
   }
   }
  
+  delete(item){
+   
+    Alert.alert(
+      "",
+      "Do you want to delete the comment",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.deletearray(item.item)}
+      ],
+      { cancelable: false }
+    );
+  };
+
+  deletearray(item){
+    
+  
+    const index = this.state.data.findIndex(
+      items => item.id === items.id
+    );
+   
+     this.setState({
+      data: this.state.data.filter((x,i) => i != index) })
+     // console.log(this.state.data,"updated")
+  
+    
+      
+     
+    console.log(this.state.data,"updated")
+  }
+  
 
   handleUrlPress(url) {
-    console.log(`url: ${url} has been pressed!`);
+    //console.log(`url: ${url} has been pressed!`);
    
     Linking.openURL(url);
   }
   
   handlePhonePress(phone) {
-    console.log(`phone ${phone} has been pressed!`);
+    //console.log(`phone ${phone} has been pressed!`);
   }
   
   handleNamePress(name) {
-    console.log(`Hello ${name}`);
+   // console.log(`Hello ${name}`);
   }
   
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
+  //  console.log(`send email to ${email}`);
     Linking.openURL("mailto:"+email);
   }
   
@@ -162,7 +270,9 @@ return(
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
-
+        refreshControl={
+          <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+        }
       //   ListHeaderComponent={
       //    this.LikesScreen()
           
@@ -179,9 +289,16 @@ return(
         renderItem={(item) => {
           const Notification = item.item;
           return(
+         
             <View style={styles.container}>
+
             <Image style={styles.avatar} source={{ uri: Notification.image }}></Image>
+
+      
             <View style={styles.ContainerAtCenter}>
+
+                    
+          
                 <View style={styles.contentContainer}>
                   
 
@@ -189,6 +306,8 @@ return(
                     <Text  style={styles.name}>{Notification.name}</Text>
                     :<Text style={styles.name}>{Notification.name.toString().substring(0,38)}..</Text>}
                   
+               
+
                     <Text style={styles.Time}>2w</Text>
 
                     <ViewMoreText
@@ -221,6 +340,12 @@ return(
               onPress: this.handleNamePress,
               renderText: this.renderText,
             },
+            {
+              pattern: /@(\w+)_(\w+)/,   
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
             { pattern: /42/, style: styles.magicNumber },
             { pattern: /#(\w+)/, style: styles.hashTag },
           ]}   
@@ -237,15 +362,49 @@ return(
                 <View style={styles.LikesContainer}>
                    
          
-           <TouchableOpacity style={styles.likeBtn}>
+           <TouchableOpacity style={styles.likeBtn}  onPress={()=>this.Likes(item)}>
              {/* <Text style={{fontWeight:"bold",color:"grey"}}>Like</Text> */}
-             <Image style={{ width:15,height:15}} source={Like}/>
+             {/* <Image style={{ width:15,height:15}} source={Like}/> */}
+
+             {Notification.isLiked?
+                      <AntDesign
+              name="like1"                
+             size={15}
+             color="#1E90FF"
+             style={{ width:15,height:15}} 
+            />:<AntDesign
+            name="like1"                
+           size={15}
+           color="black"
+           style={{ width:15,height:15}}
+          />}
+
              </TouchableOpacity>
 
 
-          
-           <Text style={{fontSize:12,marginLeft:80}} >{Notification.likeCount} {(parseInt(Notification.likeCount)>1)?"Likes":"Like"}</Text>  
+             <TouchableOpacity style={styles.likeBtn} onPress={()=>this.props.navigation.navigate("CommentLikes",Notification.LikedBy)}>
+           <Text style={{fontSize:12,marginLeft:80}} >{(parseInt(Notification.likeCount)===0)?"":Notification.likeCount} {(parseInt(Notification.likeCount)>1)?"Likes":"Like"}</Text>  
                     {/* <TouchableOpacity style={styles.replyBtn}><Text>Reply</Text></TouchableOpacity> */}
+                    </TouchableOpacity>
+
+                    {(Notification.OnwerId===this.state.currentUserOnwerId) &&   
+                    
+                    // <Button style={{height:15,width:15,flex: 1,
+                    //   marginLeft:310,
+                    //   marginTop:-20}} >DEL</Button>
+
+                    <TouchableOpacity onPress={()=>this.delete(item)}>
+
+<MDIcon name="delete" size={15} style={{height:15,width:15,}}/>
+{/* <Image style={{height:15,width:15,flex: 1,marginLeft:310,}} source={Close_icon} /> */}
+
+</TouchableOpacity>
+
+}
+
+
+
+
                 </View>
             </View>
         </View>

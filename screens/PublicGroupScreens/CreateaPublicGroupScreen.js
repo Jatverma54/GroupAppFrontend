@@ -135,7 +135,7 @@ export default class CreateaPublicGroupScreen extends Component {
         this.CameraOptions.close(); 
       }
 
-      console.log(result);
+      //console.log(result);
     } catch (E) {
       console.log(E);
     }
@@ -165,7 +165,7 @@ getCameraPermissionAsync = async () => {
       this.CameraOptions.close(); 
     }
 
-    console.log(result);
+  //  console.log(result);
   } catch (E) {
     console.log(E);
   }
@@ -297,7 +297,7 @@ getCameraPermissionAsync = async () => {
           height={330}
         >
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Create</Text>
+            <Text style={styles.listTitle}>Upload Group Avatar</Text>
           
               <TouchableOpacity
                 
@@ -452,7 +452,8 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
-    color: "#666"
+    color: "#666",
+    fontWeight:"bold"
   },
   listButton: {
     flexDirection: "row",

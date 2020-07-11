@@ -24,6 +24,7 @@ import ViewMembers from '../components/ViewMembers';
 import AddMember from '../components/AddMember';
  import Comments from '../components/Comment/Comments';
  import Likes from '../components/Comment/Likes';
+ import CommentLikes from '../components/Comment/LikesComments';
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -217,6 +218,7 @@ import AddMember from '../components/AddMember';
        ,
        
        cardStyle: { backgroundColor: colors.cardStyleBackgroundColor},
+
     cardOverlayEnabled: true,
     cardStyleInterpolator: ({ current: { progress } }) => ({
       cardStyle: {
@@ -240,7 +242,24 @@ import AddMember from '../components/AddMember';
     // },
         headerTintColor: colors.StackheaderTintColor,
         headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
-      }}>
+        headerTitleStyle: {
+          fontSize: 18,
+         // fontWeight: "200",//colors.TabLabelStylefontWeight,
+         width:colors.TabLabelStylewidth
+        },   
+        
+      
+      }}
+      
+    
+        
+       
+  
+       
+      
+      
+      
+      >
         
 
 <HomeFeedStack.Screen  
@@ -256,6 +275,13 @@ import AddMember from '../components/AddMember';
      
             name='Comments' 
             component={Comments}/>  
+
+<HomeFeedStack.Screen  
+     options={{        
+      headerTitle: "Likes" }} 
+     
+            name='CommentLikes' 
+            component={CommentLikes}/>  
 
 <HomeFeedStack.Screen  
      options={{        

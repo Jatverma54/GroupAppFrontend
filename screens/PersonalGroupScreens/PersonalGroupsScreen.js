@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList
+  FlatList,
+  RefreshControl,
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionButtonPersonal';
@@ -66,7 +67,39 @@ export default class PersonalGroupsScreen extends Component {
     }
   }
  
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
   
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
+  }
 
   renderGroupMembers = (group) => {
     
@@ -96,6 +129,10 @@ export default class PersonalGroupsScreen extends Component {
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
+        refreshControl={
+          <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+        }
+    
         ItemSeparatorComponent={() => {
           return (
             <View style={styles.separator}/>
@@ -157,7 +194,7 @@ const FloatingActionButton =()=>{
   actions={actions}
   onPressItem={name => {
     navigation.push('CreateaPersonalGroup');
-     console.log(`selected button: ${name}`);
+   //  console.log(`selected button: ${name}`);
   }}/>   
   )
 }

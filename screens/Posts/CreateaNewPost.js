@@ -9,7 +9,7 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  Modal,TouchableHighlight, Linking, Platform,NativeMethods,
+  Modal,TouchableHighlight, Platform,NativeMethods,
   
 } from "react-native";
 
@@ -34,7 +34,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PDFReader from 'rn-pdf-reader-js'
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ImageBrowser from './ImageBrowser'
-
+import * as Linking from 'expo-linking';
+import * as FileSystem from 'expo-file-system';
+import * as IntentLauncher from 'expo-intent-launcher';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -45,7 +47,7 @@ export default class CreateaNewPost extends Component {
   this.state = {   
      photo: [],
      video: null,
-     pdf: null,   
+     document: null,   
      newValue: '',
      height: 40,
      //fontWeight
@@ -61,7 +63,7 @@ export default class CreateaNewPost extends Component {
      isDocumentVisible: false,
      OpenDucumentUri:'',
      PhotoPresent:false,
-
+     downloadProgress:null,
      photos: []
   };
 }
@@ -101,9 +103,9 @@ _pickDocument = async () => {
   });
   
   if (!result.cancelled) {
-    this.setState({ pdf: result.uri });
+    this.setState({ document: result.uri });
   }
-  console.log(result);
+ // console.log(result);
  
 
 } catch (E) {
@@ -135,7 +137,7 @@ _pickDocument = async () => {
      // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
    
-    console.log(result);
+   // console.log(result);
   } catch (E) {
     console.log(E);
   }
@@ -159,7 +161,7 @@ _pickVideo = async () => {
      // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
 
-    console.log(result);
+   // console.log(result);
   } catch (E) {
     console.log(E);
   }
@@ -195,7 +197,7 @@ getCameraPermissionAsync = async () => {
     //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
 
-    console.log(result);
+  //  console.log(result);
   } catch (E) {
     console.log(E);
   }
@@ -218,7 +220,7 @@ _clickVideo = async () => {
     //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
     }
 
-    console.log(result);
+  //  console.log(result);
     
   } catch (E) {
     console.log(E);
@@ -278,6 +280,21 @@ imageBrowserCallback = (callback) => {
   }).catch((e) => console.log(e))
  
 }
+
+
+async openDocument (url) {
+
+ FileSystem.getContentUriAsync(url).then(cUri => {
+  
+  IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+    data: cUri,
+    flags: 1,
+  });
+ 
+});
+
+ 
+};
 
 
 
@@ -367,18 +384,18 @@ imageBrowserCallback = (callback) => {
   
       />
       </View>:
-      ((this.state.pdf) ?
+      ((this.state.document) ?
       ( 
       
       
       
       <View  style={styles.ImageView} >
         
-      {this.state.pdf&&<TouchableOpacity onPress={() => this.setState({ pdf: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+      {this.state.document&&<TouchableOpacity onPress={() => this.setState({ document: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
         
       <TouchableHighlight   style={styles.DocumentIcon} 
         
-        onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:this.state.pdf})}}}> 
+        onPress={()=>this.openDocument(this.state.document)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -389,7 +406,7 @@ imageBrowserCallback = (callback) => {
   <Text style={{alignSelf:"center"}}>PDF</Text>
   
 
-  {this.state.isDocumentVisible===true&&
+  {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -424,7 +441,7 @@ imageBrowserCallback = (callback) => {
     
     
     }   
-      
+       */}
 
 
 
@@ -594,7 +611,8 @@ const styles = StyleSheet.create({
   listTitleNewPost: {
     fontSize: 16,
     marginBottom: 20,
-    color: "#666"
+    color: "#666",
+    fontWeight:"bold"
   },
   listButtonNewPost: {
     flexDirection: "row",

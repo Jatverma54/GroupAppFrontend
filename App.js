@@ -6,6 +6,7 @@ import RootMainStackNavigator from './stacks/RootStackNavigator';
 import {NavigationContainer,DrawerActions,Header} from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
+//console.disableYellowBox = true;
 
 export default function App() {
 

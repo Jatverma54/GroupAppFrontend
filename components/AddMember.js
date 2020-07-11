@@ -1,6 +1,6 @@
 
 import React from "react";
-import{StyleSheet,View,ActivityIndicator,FlatList,Text,TouchableOpacity,Image, Alert} from "react-native";
+import{StyleSheet,View,ActivityIndicator,FlatList,Text,TouchableOpacity,Image, Alert,RefreshControl} from "react-native";
 import { Icon } from "react-native-elements";
 import {
  
@@ -18,7 +18,7 @@ export default class AddMembers extends React.Component {
    
 
       data: [
-        {id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png",isSelect:false, selectedClass:  {
+        {id:1,  name: "Jatin",    username:"user1ghjkldndgusnksyh", image:"https://bootdey.com/img/Content/avatar/avatar7.png",isSelect:false, selectedClass:  {
           "alignItems": "center",
           "backgroundColor": "white",
           "flexDirection": "row",
@@ -52,7 +52,7 @@ export default class AddMembers extends React.Component {
      
 
       dataSearch:[
-        {id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png",isSelect:false, selectedClass:  {
+        {id:1,  name: "Jatin",    username:"user1ghjkldndgusnksyh", image:"https://bootdey.com/img/Content/avatar/avatar7.png",isSelect:false, selectedClass:  {
           "alignItems": "center",
           "backgroundColor": "white",
           "flexDirection": "row",
@@ -83,7 +83,7 @@ export default class AddMembers extends React.Component {
       ],
       error: null,
       search: null,
-     
+      isFetching:false,
 
       
       selected:[]
@@ -130,6 +130,46 @@ selectItem = data => {
    selected: this.state.data.filter(item => item.isSelect)
   });
 };
+
+
+onRefresh() {
+  this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+}
+
+
+searchRandomUser = async () =>
+{
+  //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+  //  const APIValue = await RandomAPI.json();
+  //   const APIResults = APIValue.results
+  //     console.log(APIResults[0].email);
+
+
+  data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+  LikePictures:[
+    
+        
+         //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+        // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+        // "https://bootdey.com/img/Content/avatar/avatar2.png",
+        // "https://bootdey.com/img/Content/avatar/avatar7.png",
+        // "https://bootdey.com/img/Content/avatar/avatar3.png",
+       // "https://bootdey.com/img/Content/avatar/avatar4.png"
+        
+      ]
+    },
+ ]
+      this.setState({
+          data:data2,
+          dataSearch:data2,
+          selected:[],
+          isFetching: false
+      })
+
+}
+
+
+
 
 getSelectedArray(){
 
@@ -251,7 +291,8 @@ render() {
                return item.id;
              }}
            
-            
+           
+
              renderItem={(data) => {
                //const item = post.item;
              
@@ -271,7 +312,10 @@ render() {
                                style={{ marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
                                 source={{uri:data.item.image}} size={60}/>
                           
+                          {!(data.item.name.length>9)?
                               <Text style={{fontSize:12,alignSelf:"center",paddingTop:6 }}>{data.item.name}</Text>
+                              : <Text style={{fontSize:12,alignSelf:"center",paddingTop:6 }}>{data.item.name.toString().substring(0,10)}..</Text>}
+                              
                          </View>                
                        
                    </View>
@@ -294,6 +338,9 @@ render() {
     ListHeaderComponent={this.renderHeader}
     renderItem={item => this.renderItem(item)}
     keyExtractor={item => item.id.toString()}
+    refreshControl={
+      <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+    }
     extraData={this.state}
    />
 

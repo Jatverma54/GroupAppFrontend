@@ -8,6 +8,8 @@ import {
   FlatList,
   Alert
 } from 'react-native';
+
+
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
@@ -16,6 +18,19 @@ import {
   Button,
  
 } from 'react-native-paper';
+import ImageView from "react-native-image-viewing";
+import { ScrollView } from 'react-native-gesture-handler';
+import { MaterialIcons,MaterialCommunityIcons } from '@expo/vector-icons';
+import RBSheet from "react-native-raw-bottom-sheet";
+import FAIcon from "react-native-vector-icons/FontAwesome";
+import MDIcon from "react-native-vector-icons/MaterialIcons";
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+
+FAIcon.loadFont();
+MDIcon.loadFont();
 
 export default class JoinedGroupBio extends Component {
 
@@ -24,20 +39,21 @@ export default class JoinedGroupBio extends Component {
     super(props);
 
     this.state = {
-      data:[
+      data:
         {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 1", 
           countMembers:51, 
           Privacy:"Closed Group",
-          Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
+          Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences.", 
          
         },
        
         
-      ],
+    
       Role:"admin",
+      isVisible:false
     }
   }
 
@@ -59,6 +75,112 @@ export default class JoinedGroupBio extends Component {
   //   }
   //   return null;
   // }
+
+  componentDidMount() {
+    this.getPermissionAsync();
+    this.getCameraPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+
+
+   _pickImage = async () => {
+    const {
+      id,
+      GroupName,
+      countMembers,
+      Privacy,
+      Bio,
+    } = this.state.data;
+    
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        
+      var  Data=
+        {
+          id:id, 
+          image: result.uri, 
+          GroupName:GroupName, 
+          countMembers:countMembers, 
+          Privacy: Privacy,
+          Bio:Bio,    
+        };
+
+        this.setState({ data: Data });
+        this.CameraOptions.close(); 
+      }
+
+    
+    } catch (E) {
+      console.log(E);
+    }
+ 
+};
+
+getCameraPermissionAsync = async () => {
+  if (Constants.platform.ios) {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+  }
+};
+
+
+ _clickImage = async () => {
+
+  const {
+    id,
+    GroupName,
+    countMembers,
+    Privacy,
+    Bio,
+  } = this.state.data;
+  try {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+
+      var  Data=
+      {
+        id:id, 
+        image: result.uri, 
+        GroupName:GroupName, 
+        countMembers:countMembers, 
+        Privacy: Privacy,
+        Bio:Bio,    
+      };
+
+      this.setState({ data: Data });
+
+
+     
+      this.CameraOptions.close(); 
+    }
+
+   // console.log(result);
+  } catch (E) {
+    console.log(E);
+  }
+
+};
 
 
   addMemberorShare=()=>{
@@ -146,38 +268,78 @@ export default class JoinedGroupBio extends Component {
 
 
  render() {
- 
+
+  const {image,
+    id,
+    GroupName,
+    countMembers,
+    Privacy,
+    Bio,
+  } = this.state.data;
+
+
+  const images = [
+    {
+      uri: image,
+    },
+  
+  ];
 
     return (
       <View style={styles.container}>
-
-
-   <FlatList style={styles.list}
-          data={this.state.data}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          extraData={this.state}
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
-        
-          renderItem={(post) => {
-            const item = post.item;
-
-           
-        return(
+    <ScrollView >
+       
           <View>
           <View style={styles.header}>
+          
+          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>this.DeleteGroup(id)} >
+                       
+          <MaterialCommunityIcons
+                  name='account-edit'                
+                //  color={color}
+                  size={20}
+                />     
+            </Button>}
             <View style={styles.headerContent}>
-                <Image style={styles.avatar} source={{uri: item.image}}/>
+
+     
+            <TouchableOpacity  onPress={() => this.setState({isVisible:true})}>
+                <Image style={styles.avatar} source={{uri: image}}/>
+
+                </TouchableOpacity>
+            
+              
+                {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:120,marginTop:-30,marginBottom:10}}   onPress={() => this.CameraOptions.open()}>
+                  <MaterialIcons
+                  name='edit'
+                  
+                //  color={color}
+                  size={20}
+                /></Button>}
+                {/* <MaterialIcons
+                  name='edit'
+                  style={{marginLeft:120,marginTop:-30,marginBottom:10}}
+                //  color={color}
+                  size={20}
+                /> */}
+
+            
+
+
+                {this.state.isVisible&&
+            
+            <ImageView
+  images={images}
+  imageIndex={0}
+  visible={this.state.isVisible}
+  onRequestClose={() =>  this.setState({isVisible:false})}
+ 
+/> }
                 <Text style={styles.name}>
                   {this.props.GroupName}
                 </Text>
                 <Text style={styles.CountMember}>
-                  Members: {item.countMembers}
+                  Members: {countMembers}
                 </Text>
                
                 <Text style={{ fontSize:15,
@@ -187,28 +349,77 @@ export default class JoinedGroupBio extends Component {
     //fontWeight:'600',
     width:"100%", 
    alignSelf: 'center',marginTop:5}}>
-                {item.Privacy}
+                {Privacy}
                 </Text>
 
 
 
-                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(item)} >Delete Group</Button>}
+                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
             </View>
           
 
           </View>
           {this.addMemberorShare()}
+        
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.description}>{item.Bio}</Text>
-              
+          
+              <Text style={styles.description}>{Bio}</Text>
+             
           </View>
         </View>
+      
       </View>
-        )
+        
 
-      }}/>
      
+      </ScrollView>
+
+
+
+      <RBSheet
+          ref={ref => {
+            this.CameraOptions = ref;
+          }}
+          height={330}
+        >
+          <View style={styles.listContainer}>
+            <Text style={styles.listTitle}>Change Group Avatar</Text>
+          
+              <TouchableOpacity
+                
+                style={styles.listButton}
+                onPress={() => this._clickImage()}
+              >
+                <MDIcon name="photo-camera" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Take photo</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                
+                style={styles.listButton}
+                onPress={() => this._pickImage()}
+              >
+                <MDIcon name="photo" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Choose image</Text>
+              </TouchableOpacity>
+           
+          </View>
+        </RBSheet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </View>
     
     
@@ -353,6 +564,29 @@ const styles = StyleSheet.create({
     width:"50%",
     borderRadius:30,
     backgroundColor: "#0489B1",
-  }
+  },
+
+  listTitle: {
+    fontSize: 16,
+    marginBottom: 20,
+    marginLeft:10,
+    color: "#666",
+    fontWeight:"bold",
+    marginTop:10
+  },
+  listButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    marginLeft:10,
+  },
+  listIcon: {
+    fontSize: 26,
+    color: "#666",
+    width: 60
+  },
+  listLabel: {
+    fontSize: 16
+  },
 });
  

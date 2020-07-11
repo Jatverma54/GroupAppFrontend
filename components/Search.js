@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, Button } from "react-native";
+import { View, Text, FlatList, Button,TouchableOpacity } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
 
 class SearchFunctionality extends Component {
@@ -9,8 +9,8 @@ class SearchFunctionality extends Component {
  
     this.state = { 
       loading: false,   
-      data: [],
-      temp: [],
+      data: [{id:"1",GroupName:"Group 1", groupId:"123",title:"Healthcare",joined:false,groupIcon:"https://lorempixel.com/100/100/nature/1/"}],
+      temp:  [{id:"1",GroupName:"Group 1", groupId:"123",title:"Healthcare",joined:false,groupIcon:"https://lorempixel.com/100/100/nature/1/"}],
       error: null,
       search: null
     };
@@ -21,16 +21,16 @@ class SearchFunctionality extends Component {
   }
 
    getData = async ()  => {
-    const url = `https://jsonplaceholder.typicode.com/users`;
-    this.setState({ loading: true });
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
      
-     try {
-        const response = await fetch(url);
-        const json = await response.json();
-        this.setResult(json);
-     } catch (e) {
-        this.setState({ error: 'Error Loading content', loading: false });
-     }
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
   };
 
   setResult = (res) => {
@@ -82,13 +82,29 @@ class SearchFunctionality extends Component {
         <FlatList
             ListHeaderComponent={this.renderHeader}
             data={this.state.data}
-            keyExtractor={item => item.email}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => (
+          
+              item.joined?
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate("JoinedGroupInsideGroup",item)}>
             <ListItem
-                roundAvatar
-                title={`${item.name}`}
-                subtitle={item.email}
+               // roundAvatar groupIcon
+              
+                title={`${item.GroupName}`}
+                subtitle={item.title}
+             
             />
+        </TouchableOpacity>:
+
+<TouchableOpacity onPress={()=>this.props.navigation.navigate("ExplorePublicGroupCategoryBased",item)}>
+<ListItem
+   // roundAvatar groupIcon
+  
+    title={`${item.GroupName}`}
+    subtitle={item.title}
+ 
+/>
+</TouchableOpacity>
         )}
       />
     );

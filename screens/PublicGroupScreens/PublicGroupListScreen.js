@@ -8,7 +8,8 @@ import {
   Modal,
   Button,
   Image,
-  FlatList
+  FlatList,
+  RefreshControl,
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
@@ -29,7 +30,9 @@ export default class PublicGroupListScreen extends Component {
           id:1, 
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Group 1", 
-          countMembers:51,  
+          countMembers:51, 
+          isJoined: true ,
+          isReuquested: false,
           members:[
             
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -46,6 +49,8 @@ export default class PublicGroupListScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/2/", 
           GroupName:"Group 2", 
           countMembers:10,  
+          isJoined: true ,
+          isReuquested: false,
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
             "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -54,7 +59,9 @@ export default class PublicGroupListScreen extends Component {
         {
           id:3, 
           image: "https://lorempixel.com/100/100/nature/3/", 
-          GroupName:"Group 3", 
+          GroupName:"Group 3",
+          isJoined: false ,
+          isReuquested: false, 
           countMembers:58,  
           members:[
             "https://bootdey.com/img/Content/avatar/avatar6.png", 
@@ -64,10 +71,47 @@ export default class PublicGroupListScreen extends Component {
         },
     
         
-      ]
+      ],
+      isFetching:false,
+      
+
     }
   }
  
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
+  
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false,
+
+        })
+  
+  }
   
 
   renderGroupMembers = (group) => {
@@ -86,7 +130,33 @@ export default class PublicGroupListScreen extends Component {
     return null;
   }
 
+  SendJoinRequest(data){
+
+    data.item.isReuquested = !data.item.isReuquested;
+  
+
+  //  data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
+  //    : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
    
+    const index = this.state.data.findIndex(
+      item => data.item.id === item.id
+    );
+  
+  
+    this.state.data[index] = data.item;
+    
+
+
+    this.setState({
+      data: this.state.data,
+    
+   
+    });
+
+
+
+
+  }
 
   render() {
     
@@ -98,6 +168,10 @@ export default class PublicGroupListScreen extends Component {
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
+        refreshControl={
+          <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+        }
+    
         ItemSeparatorComponent={() => {
           return (
             <View style={styles.separator}/>
@@ -131,7 +205,18 @@ export default class PublicGroupListScreen extends Component {
                   </Text>
                   
                   <View style={styles.ButtonContainer}>
-              <View style={styles.button}><Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor}  /></View>
+              <View style={styles.button}>
+
+              {Group.isJoined?
+                <Button title="Joined"  onPress={()=>this.SendJoinRequest(item)} />
+
+              : (Group.isReuquested)?
+              <Button title="Requested" color="grey" onPress={()=>this.SendJoinRequest(item)} />
+
+              :<Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={()=>this.SendJoinRequest(item)} />
+              }
+                
+                </View>
               </View> 
                 </View>
                 
@@ -158,7 +243,7 @@ const FloatingActionButton =()=>{
   actions={actions}
   onPressItem={name => {
     navigation.push('Create a Public Group');
-     console.log(`selected button: ${name}`);
+   //  console.log(`selected button: ${name}`);
   }}/>   
   )
 }

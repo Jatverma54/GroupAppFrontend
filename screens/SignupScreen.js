@@ -29,7 +29,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
+import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
 
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -46,11 +46,12 @@ export default class SignupScreen extends Component {
       password: '',
       confirmPassword: '',
        photo: null,
-       full_name: '',
+       First_name: '',
+       Last_name: '',
        date: new Date(1590842927000),
        mode: 'date',
        show: false,
-      
+       datechanged:false,
     };
 
   
@@ -60,7 +61,7 @@ export default class SignupScreen extends Component {
      
       this.setState({show: Platform.OS === 'ios'});
      
-      this.setState({date: currentDate});
+      this.setState({date: currentDate,datechanged:true});
     };
   
      showMode = currentMode => {
@@ -109,7 +110,7 @@ export default class SignupScreen extends Component {
         this.CameraOptions.close(); 
       }
 
-      console.log(result);
+     // console.log(result);
     } catch (E) {
       console.log(E);
     }
@@ -139,63 +140,159 @@ getCameraPermissionAsync = async () => {
       this.CameraOptions.close(); 
     }
 
-    console.log(result);
+   // console.log(result);
   } catch (E) {
     console.log(E);
   }
 
 };
   
+ 
 
 
   signUp = async () => {
-      alert("****inside sign up");
-    const { userName, password, email, full_name,confirmPassword,date,photo } = this.state
-    console.log(this.DOB,"ffff");
+
+ 
+     
+    const { userName, password, email, First_name,Last_name,confirmPassword,date,photo ,datechanged,} = this.state
+  
+  let emailValidation= this.EmailValidation(email)  
+
+  let PasswordValidation= this.PasswordValidation(password)  
+
+    if(datechanged&&password===confirmPassword&&userName&&password&&email&&First_name&&Last_name&&emailValidation&&PasswordValidation){
+    
     try {
         var data = {
             username: userName,
             password: password,
-            email: email,
-            profile:{
-              full_name: full_name,
-             
-              dob:date.toDateString(),
-              profile_pic:photo,
-            }
+            emailId: email,
+            firstName: First_name,
+            lastName: Last_name,
+            enabled: true,
+            role:"user",
+            phoneNumber:"123456789"
+             // dob:date.toDateString(),
+            
+            
         }
-        const response = await fetch("http://192.168.0.101:3000/users/", {
+        const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/user/register", {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
+          
         'Content-Type': 'application/json'
+        
         // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
-        
+       
         
     });
+    //console.log(JSON.stringify(data),"data")
    
+   
+
     let responseJson = await response.json();
-    alert("Successfully Singed up");
-    console.log(responseJson);
-    this.props.navigation.navigate('LoginScreen');
+
+       //console.log(response.status)
+    if(responseJson.ok){
+
+    Alert.alert(
+
+      "Thank you! Welcome to the Group",
+      "Successfully Singed up",
+      [
+        { text: "Ok", onPress: () => this.props.navigation.navigate('LoginScreen')}
+      ],
+      { cancelable: false }
+    );
+    }
+    else{
+      
+   let errorstring= responseJson.errors.toString().replace(",","\n")
+    alert(errorstring )
+  //  console.log(responseJson);
+    }
 
     } catch (err) {
       console.log('error signing up: ', err)
     }
+  }else{
+   
+    if(!userName){
+      alert("Please enter an Username");
+    }
+    else if(!password){
+      alert("Please enter Password");
+    }
+    else if(!email){
+      alert("Please enter an Email Id");
+    }
+    else if(!First_name){
+      alert("Please enter the First Name");
+    }
+    else if(!Last_name){
+      alert("Please enter the Last Name");
+    }
+    else if(!datechanged){
+    alert("Please Select the D.O.B");
+    }else if (!(password===confirmPassword)){
+      alert("Password Missmatch");
+    
+  }else if (!emailValidation){
+    alert("Enter a valid Email Id");
+  }
+else if (!PasswordValidation){
+ 
+  
+  Alert.alert(
+
+    "Password must contain",
+    "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
+    [
+      { text: "Ok", onPress: () => null}
+    ],
+    { cancelable: false }
+  );
+
+
+}
+    
+  }
  
   }
-  
-  
- 
 
+  EmailValidation(matchingString) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let match = matchingString.match(pattern);
+ return   match?true:false  ;
+   
+  }
+  
+  PasswordValidation(matchingString) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+    
+    let match = matchingString.match(pattern);
+ return   match?true:false  ;
+   
+  }
+  
+  // let pattern = /@(\w+)/;
+  // let match = matchingString.match(pattern);
+  // return `${match[1]}`;
+ 
+  
    render() {
+   
+
     let { photo,date ,show,mode} = this.state;
     return (
       <View style={styles.container}>
 
 <TouchableOpacity  onPress={() => this.CameraOptions.open()}>
-              <View style={{ height: 100,padding:10 }}>
+              <View style={{ height: 100,padding:10,marginTop:50 }}>
                               
                 <View style={{ flex: 3 ,backgroundColor:"#3498db" }}>
                          
@@ -215,10 +312,11 @@ getCameraPermissionAsync = async () => {
               </TouchableOpacity>
    
         <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={Email_Icon}/>
+          {/* <Image style={styles.inputIcon} source={Email_Icon}/> */}
+          <FontAwesome name="users" size={25} style={styles.inputIconUsername} />
           <TextInput style={styles.inputs}
               placeholder="Username"
-            
+            maxLength={21}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(userName) => this.setState({userName})}/>
@@ -238,11 +336,22 @@ getCameraPermissionAsync = async () => {
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={person}/>
           <TextInput style={styles.inputs}
-              placeholder="Full Name"
-            
+              placeholder="First Name"
+              maxLength={15}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
-              onChangeText={(full_name) => this.setState({full_name})}/>
+              onChangeText={(First_name) => this.setState({First_name})}/>
+        </View>
+
+
+        <View style={styles.inputContainer}>
+          <Image style={styles.inputIcon} source={person}/>
+          <TextInput style={styles.inputs}
+              placeholder="Last Name"
+              maxLength={15}
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              onChangeText={(Last_name) => this.setState({Last_name})}/>
         </View>
 
        
@@ -307,7 +416,9 @@ getCameraPermissionAsync = async () => {
           <Text style={styles.signUpText}>Sign up</Text>
         </TouchableHighlight>
 
-
+        <TouchableOpacity style={styles.buttonSignupContainer} onPress={()=>this.props.navigation.push('LoginScreen')}   >
+            <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Already have an account?Log in</Text>
+        </TouchableOpacity>
 
 
  {/* List Menu */}
@@ -318,7 +429,7 @@ getCameraPermissionAsync = async () => {
           height={330}
         >
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Create</Text>
+            <Text style={styles.listTitle}>Upload Group Avatar</Text>
           
               <TouchableOpacity
                 
@@ -380,9 +491,28 @@ const styles = StyleSheet.create({
       borderBottomColor: '#FFFFFF',
       flex:1,
   },
+
+  buttonSignupContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+    alignSelf:'center',
+    marginLeft:-65,
+   
+  },
+
   inputIcon:{
     width:30,
     height:30,
+    marginLeft:15,
+    justifyContent: 'center'
+  },
+  inputIconUsername:{
+  
     marginLeft:15,
     justifyContent: 'center'
   },
@@ -409,7 +539,8 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
-    color: "#666"
+    color: "#666",
+    fontWeight:"bold"
   },
   listButton: {
     flexDirection: "row",

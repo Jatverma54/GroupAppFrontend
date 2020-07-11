@@ -67,7 +67,7 @@ export default class ProfileScreen extends Component {
           this.CameraOptions.close(); 
         }
   
-        console.log(result);
+       // console.log(result);
       } catch (E) {
         console.log(E);
       }
@@ -97,7 +97,7 @@ export default class ProfileScreen extends Component {
         this.CameraOptions.close(); 
       }
   
-      console.log(result);
+      //console.log(result);
     } catch (E) {
       console.log(E);
     }
@@ -148,7 +148,7 @@ export default class ProfileScreen extends Component {
           height={330}
         >
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Create</Text>
+            <Text style={styles.listTitle}>Change Profile Picture</Text>
           
               <TouchableOpacity
                 
@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
-    color: "#666"
+    color: "#666",
+    fontWeight:"bold"
   },
   listButton: {
     flexDirection: "row",

@@ -7,7 +7,7 @@ import {
   Image,
   Dimensions,
   Alert,
- 
+  RefreshControl,
   ScrollView,
   FlatList,
   TouchableHighlight,
@@ -31,7 +31,7 @@ import Comment from '../../Pictures/Comment.png';
 import { Video } from 'expo-av';
 import Icon from  'react-native-vector-icons/Ionicons';
 import PDFReader from 'rn-pdf-reader-js';
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,FontAwesome,AntDesign } from '@expo/vector-icons';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ViewMoreText from 'react-native-view-more-text';
 import ParsedText from 'react-native-parsed-text';
@@ -43,24 +43,10 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   GroupName:"Multiple Myeloma Story of hopes and inspiration",    countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an  https://facebook.com example post",   image:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
-        LikePictures:[
-          
-              
-               //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-              // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              // "https://bootdey.com/img/Content/avatar/avatar2.png",
-              // "https://bootdey.com/img/Content/avatar/avatar7.png",
-              // "https://bootdey.com/img/Content/avatar/avatar3.png",
-             // "https://bootdey.com/img/Content/avatar/avatar4.png"
-              
-            ]
-          },
-       
-      
-      
-    
-        {id:"2", title: "Amit",     countLikes:"",     countcomments:"" ,   GroupName:"Group 2",    time:"2 minutes a go",  postMetaData:"This is an example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", GroupName:"Falt and Flatmate Story of hope and inspiration" ,  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        LikePictures:[] },
+        
+        {id:"2", title: "Amit",    GroupName:"Group 2",   countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -68,11 +54,9 @@ export default class PublicGroupFeedScreen extends Component {
               // "https://bootdey.com/img/Content/avatar/avatar7.png",
               // "https://bootdey.com/img/Content/avatar/avatar3.png",
               // "https://bootdey.com/img/Content/avatar/avatar4.png"
-              
-          
-          
+                    
         ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:"1",   countcomments:"2" , GroupName:"Group 3",       time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",  GroupName:"Group 3",     countLikes:2,   countcomments:2 ,   isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -89,7 +73,7 @@ export default class PublicGroupFeedScreen extends Component {
        
       
      
-        {id:"4", title: "XYZ Name",   countLikes:"51",  countcomments:"21" ,  GroupName:"Group 4",   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+        {id:"4", title: "XYZ Name", GroupName:"Group 4",   countLikes:3,  countcomments:21 , isLiked:false,   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
       
         LikePictures:[
          
@@ -98,36 +82,39 @@ export default class PublicGroupFeedScreen extends Component {
               "https://bootdey.com/img/Content/avatar/avatar2.png",
               "https://bootdey.com/img/Content/avatar/avatar7.png",
               "https://bootdey.com/img/Content/avatar/avatar3.png",
-              "https://bootdey.com/img/Content/avatar/avatar4.png"
+              "https://bootdey.com/img/Content/avatar/avatar4.png",
+              
               
             ]
           }, 
       
       ],
+      
       isVisible: false,
       MaximizeImage:'',
       isDocumentVisible: false,
       OpenDucumentUri:'',
+      isFetching:false,
     };
    
   }
 
 
   handleUrlPress(url) {
-    console.log(`url: ${url} has been pressed!`);
+   // console.log(`url: ${url} has been pressed!`);
     Linking.openURL(url);
   }
   
   handlePhonePress(phone) {
-    console.log(`phone ${phone} has been pressed!`);
+  //  console.log(`phone ${phone} has been pressed!`);
   }
   
   handleNamePress(name) {
-    console.log(`Hello ${name}`);
+   // console.log(`Hello ${name}`);
   }
   
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
+  //  console.log(`send email to ${email}`);
     Linking.openURL("mailto:"+email);
   }
   
@@ -141,8 +128,9 @@ export default class PublicGroupFeedScreen extends Component {
 
 
   renderGroupMembers = (item) => {
-    
+  
     if(item.LikePictures.length>0) {
+     
       return (
         <View>
            <TouchableOpacity  onPress={()=>this.props.navigation.push("Likes")}>
@@ -204,6 +192,41 @@ export default class PublicGroupFeedScreen extends Component {
    
   // }
 
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+  }
+  
+  
+  searchRandomUser = async () =>
+  {
+    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+    //  const APIValue = await RandomAPI.json();
+    //   const APIResults = APIValue.results
+    //     console.log(APIResults[0].email);
+  
+  
+    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+    LikePictures:[
+      
+          
+           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+          // "https://bootdey.com/img/Content/avatar/avatar2.png",
+          // "https://bootdey.com/img/Content/avatar/avatar7.png",
+          // "https://bootdey.com/img/Content/avatar/avatar3.png",
+         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+          
+        ]
+      },
+   ]
+        this.setState({
+            data:data2,
+            isFetching: false
+        })
+  
+  }
+
   copyText(item){
 
     Clipboard.setString(item)
@@ -221,6 +244,54 @@ export default class PublicGroupFeedScreen extends Component {
       <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
     )
   }
+  Likes(data) {
+     
+     
+    data.item.isLiked = !data.item.isLiked;
+    data.item.countLikes= data.item.isLiked ?(parseInt(data.item.countLikes)+1):(parseInt(data.item.countLikes)-1)
+
+   data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
+     : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
+   
+    const index = this.state.data.findIndex(
+      item => data.item.id === item.id
+    );
+  
+  
+    this.state.data[index] = data.item;
+    
+
+
+    this.setState({
+      data: this.state.data,
+    
+   
+    });
+
+  // console.log(this.state.data)
+   
+  
+  }
+
+
+  openDocument (url) {
+ 
+    Linking.canOpenURL(url)
+        .then((supported) => {
+            if (!supported) {
+                alert("File type is not supported")
+            } else {
+              //  console.log("Supported!")
+                return Linking.openURL(url);
+            }
+        })
+        .catch((err) => console.error('An error occurred', err));
+  };
+  
+
+
+
+
 
   render() {
          
@@ -235,6 +306,10 @@ export default class PublicGroupFeedScreen extends Component {
           keyExtractor= {(item) => {
             return item.id;
           }}
+          refreshControl={
+            <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+          }
+      
           ItemSeparatorComponent={() => {
             return (
               <View style={styles.separator}/>
@@ -256,16 +331,17 @@ export default class PublicGroupFeedScreen extends Component {
                      source={DrawerLogo}/>
     
 
-    {!(item.title.length>38)?
+    {!(item.title.length>30)?
                     <Text  style={styles.title}>{item.title}</Text>
-                    :<Text style={styles.title}>{item.title.toString().substring(0,38)}..</Text>}
+                    :<Text style={styles.title}>{item.title.toString().substring(0,30)}..</Text>}
 
-                   <View > 
+                   <View style={{flex: 1,
+          flexDirection: 'row',}}> 
 
                   <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("JoinedGroupInsideGroup",item)}>
-                   {!(item.GroupName.length>40)?
+                 
                   <Text style={styles.GroupName}>{item.GroupName}</Text>
-                   :<Text style={styles.GroupName}>{item.GroupName.toString().substring(0,40)}..</Text>}
+                  
                    </TouchableOpacity>   
 
                    </View>
@@ -303,6 +379,12 @@ export default class PublicGroupFeedScreen extends Component {
             },
             {
               pattern: /@(\w+)/,
+              style: styles.username,
+              onPress: this.handleNamePress,
+              renderText: this.renderText,
+            },
+            {
+              pattern: /@(\w+)_(\w+)/,   
               style: styles.username,
               onPress: this.handleNamePress,
               renderText: this.renderText,
@@ -359,7 +441,7 @@ export default class PublicGroupFeedScreen extends Component {
      <TouchableHighlight   style={{ marginTop:10,
    alignSelf:"center"}} 
        
-       onPress={()=>{{this.setState({isDocumentVisible: true,OpenDucumentUri:item.image})}}}> 
+       onPress={()=>this.openDocument(item.image)}> 
      <MaterialCommunityIcons
              name="file-document"                
              size={70}
@@ -370,7 +452,7 @@ export default class PublicGroupFeedScreen extends Component {
  <Text style={{alignSelf:"center"}}>PDF</Text>
  
 
- {this.state.isDocumentVisible===true&&
+ {/* {this.state.isDocumentVisible===true&&
    
    <Modal>
   
@@ -404,7 +486,7 @@ export default class PublicGroupFeedScreen extends Component {
    </Modal>
    
    
-   }   
+   }    */}
      
      <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
 
@@ -428,12 +510,24 @@ export default class PublicGroupFeedScreen extends Component {
                   {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
                    
                  
-                  <TouchableOpacity style={styles.socialBarButton}   >
+                  <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.Likes(post)}>
                       
-                      <Image style={styles.icon} source={Like}/>
+                  {post.item.isLiked?
+                      <AntDesign
+              name="like1"                
+             size={25}
+             color="#1E90FF"
+             style={styles.icon} 
+            />:<AntDesign
+            name="like1"                
+           size={25}
+           color="black"
+           style={styles.icon} 
+          />}
+
                      
                      
-                      <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{item.countLikes} {(parseInt(item.countLikes)>1)?"Likes":"Like"}</Text>
+                      <Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{(parseInt(post.item.countLikes)===0)?"":post.item.countLikes} {(parseInt(post.item.countLikes)>1)?"Likes":"Like"}</Text>
                       </TouchableOpacity>
                   </View> 
                   
@@ -448,7 +542,7 @@ export default class PublicGroupFeedScreen extends Component {
   
  marginLeft:200}} source={Comment}/>
 
-                      <Text  style={{marginLeft:5,color:"grey",}} >{item.countcomments} {(parseInt(item.countcomments)>1)?"Comments":"Comment"}</Text>
+<Text  style={{marginLeft:5,color:"grey",}} >{(parseInt(post.item.countcomments)===0)?"":post.item.countcomments} {(parseInt(post.item.countcomments)>1)?"Comments":"Comment"}</Text>
                       </View>
                       </TouchableOpacity> 
                   </View>
@@ -462,7 +556,7 @@ export default class PublicGroupFeedScreen extends Component {
             </View>               
               
           )           
-        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
+        }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >Join public groups to see a post</Text></View>}
      
           
       </View>
@@ -479,6 +573,7 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     //marginTop:5,
+    backgroundColor:"white"
   },
   ImageView:{
 
@@ -575,12 +670,21 @@ const styles = StyleSheet.create({
 
   GroupName:{
     fontSize:13,
-    fontWeight:'bold',
-    flex:1,
+    //fontWeight:'bold',
+    //flex:1,
     marginLeft:60,
    marginTop:2,
-   width:"100%"
-  
+   //width:"70%",
+  // flexDirection:"row",
+  // flexWrap:'wrap',
+   color:"#808080",
+  fontWeight: "900",
+   flexDirection: "row",
+      //  alignItems: 'center',
+      //  height: 50,
+       // paddingHorizontal: 10,
+        width: width - 30 - 20 - 70,
+
   },
 
 
