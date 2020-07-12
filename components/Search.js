@@ -62,6 +62,7 @@ class SearchFunctionality extends Component {
       
       placeholder="Type a group name..."
           lightTheme round editable={true}
+        
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 

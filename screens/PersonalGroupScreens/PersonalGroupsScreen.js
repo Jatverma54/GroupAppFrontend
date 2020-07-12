@@ -112,14 +112,25 @@ export default class PersonalGroupsScreen extends Component {
 
   renderHeader = () => {
       return <SearchBar 
-      
+      // height: 0.5,
+      // backgroundColor: "#CCCCCC",
+      // width:"78%",
+      // marginLeft:80
+  
       placeholder="Type a group name.."
          lightTheme  round editable={true}
-          containerStyle={{height:35,paddingBottom:40,}}
+         // containerStyle={{height:35,paddingBottom:40,}}
+         containerStyle={{
+         borderBottomColor:"#CCCCCC",
+         borderBottomWidth:0.5,
+         borderBottomStartRadius:170,
+         borderBottomEndRadius:40,     
+         }}
+         platform="android"
           inputStyle={{color:"black"}}
           value={this.state.search}
         
-          
+         
           onChangeText={this.updateSearch} />; 
   }; 
 

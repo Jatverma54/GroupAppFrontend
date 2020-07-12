@@ -283,8 +283,16 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
       
       placeholder="Type a name or username"
           lightTheme round editable={true}
-          containerStyle={{height:35,paddingBottom:40,}}
+         // containerStyle={{height:35,paddingBottom:40,}}
+         containerStyle={{
+          borderBottomColor:"#CCCCCC",
+          borderBottomWidth:0.5,
+          borderBottomStartRadius:170,
+          borderBottomEndRadius:40,     
+          }}
+          platform="android"
           inputStyle={{color:"black"}}
+          platform="android"
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 
