@@ -1,5 +1,6 @@
+import 'react-native-gesture-handler';
 import  React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Button } from 'react-native';
 
 
 import colors from '../constants/colors';

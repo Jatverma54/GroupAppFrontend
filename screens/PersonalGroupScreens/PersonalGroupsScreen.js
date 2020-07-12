@@ -12,7 +12,7 @@ import {
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionButtonPersonal';
 import { useNavigation } from '@react-navigation/native';
-
+import {  SearchBar } from "react-native-elements";
 
 
 export default class PersonalGroupsScreen extends Component {
@@ -29,41 +29,41 @@ export default class PersonalGroupsScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/1/", 
           GroupName:"Multiple Myeloma story of hope and courage", 
           countMembers:51,  
-          members:[
-            
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png",
-            "https://bootdey.com/img/Content/avatar/avatar7.png",
-            "https://bootdey.com/img/Content/avatar/avatar3.png",
-            "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
         },
         {
           id:2, 
           image: "https://lorempixel.com/100/100/nature/2/", 
           GroupName:"Group 2", 
           countMembers:10,  
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-          ]
         },
         {
           id:3, 
           image: "https://lorempixel.com/100/100/nature/3/", 
           GroupName:"Group 3", 
           countMembers:58,  
-          members:[
-            "https://bootdey.com/img/Content/avatar/avatar6.png", 
-            "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            "https://bootdey.com/img/Content/avatar/avatar2.png"
-          ]
+          },      
+      ],
+
+      temp:[
+        {
+          id:1, 
+          image: "https://lorempixel.com/100/100/nature/1/", 
+          GroupName:"Multiple Myeloma story of hope and courage", 
+          countMembers:51,  
         },
-    
-        
-      ]
+        {
+          id:2, 
+          image: "https://lorempixel.com/100/100/nature/2/", 
+          GroupName:"Group 2", 
+          countMembers:10,  
+        },
+        {
+          id:3, 
+          image: "https://lorempixel.com/100/100/nature/3/", 
+          GroupName:"Group 3", 
+          countMembers:58,  
+          },      
+      ],
     }
   }
  
@@ -101,21 +101,63 @@ export default class PersonalGroupsScreen extends Component {
   
   }
 
-  renderGroupMembers = (group) => {
-    
-    if(group.members) {
-      return (
-        <View style={styles.groupMembersContent}>
-          {group.members.map((prop, key) => {
-            return (
-              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
-            );
-          })}
-        </View>
-      );
-    }
-    return null;
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
   }
+
+  renderHeader = () => {
+      return <SearchBar 
+      
+      placeholder="Type a group name.."
+         lightTheme  round editable={true}
+          containerStyle={{height:35,paddingBottom:40,}}
+          inputStyle={{color:"black"}}
+          value={this.state.search}
+        
+          
+          onChangeText={this.updateSearch} />; 
+  }; 
+
+  updateSearch = search => {
+        this.setState({ search }, () => {
+            if ('' == search) {
+
+              
+                this.setState({
+                    data: [...this.state.temp],
+                   
+                });
+                return;
+            }
+           
+            this.setState({
+     
+              searchStarted:true
+             
+            
+            })
+
+            this.state.data = this.state.temp.filter(function(item){
+                return item.GroupName.includes(search);
+              }).map(function({id, GroupName, image,countMembers}){
+                return {id, GroupName, image,countMembers};
+            });
+        });
+
+        this.setState({
+     
+          searchStarted:false
+         
+        
+        })
+  };
+
+
 
    //PersonalGroupFeed
 
@@ -129,6 +171,7 @@ export default class PersonalGroupsScreen extends Component {
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
+        ListHeaderComponent={this.renderHeader}
         refreshControl={
           <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
         }

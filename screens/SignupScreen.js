@@ -1,10 +1,10 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
   TouchableHighlight,
   TouchableOpacity,
   Image,
@@ -16,21 +16,17 @@ import {
   Avatar,
  
 } from 'react-native-paper';
-
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
 import person from '../Pictures/person.png';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
-
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
-
+import { FontAwesome} from '@expo/vector-icons';
 FAIcon.loadFont();
 MDIcon.loadFont();
 

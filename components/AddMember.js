@@ -1,13 +1,11 @@
-
+import 'react-native-gesture-handler';
 import React from "react";
 import{StyleSheet,View,ActivityIndicator,FlatList,Text,TouchableOpacity,Image, Alert,RefreshControl} from "react-native";
 import { Icon } from "react-native-elements";
 import {
- 
   Avatar,
- 
 } from 'react-native-paper';
-import { ListItem, SearchBar } from "react-native-elements";
+import { SearchBar } from "react-native-elements";
 import Close_icon from'../Pictures/Close_icon.png'
 
 export default class AddMembers extends React.Component { 
@@ -217,6 +215,8 @@ renderHeader = () => {
     
     placeholder="Type a name or username"
         lightTheme round editable={true}
+        containerStyle={{height:35,paddingBottom:40,}}
+          inputStyle={{color:"black"}}
         value={this.state.search}
         onChangeText={this.updateSearch} />;
 

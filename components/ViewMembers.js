@@ -1,25 +1,21 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-TextInput,
-TouchableHighlight,
 TouchableOpacity,
   Image,
   Alert,
-  ScrollView,
   FlatList,
   RefreshControl
 } from 'react-native';
-import { ListItem, SearchBar } from "react-native-elements";
-import deleteButton from '../Pictures/deleteButton.png';
-import { Button } from 'react-native-paper';
+import {  SearchBar } from "react-native-elements";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
+import {  FontAwesome} from '@expo/vector-icons';
 
 
 FAIcon.loadFont();
@@ -287,6 +283,8 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
       
       placeholder="Type a name or username"
           lightTheme round editable={true}
+          containerStyle={{height:35,paddingBottom:40,}}
+          inputStyle={{color:"black"}}
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 

@@ -6,31 +6,16 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
   Picker,
   ScrollView
 } from 'react-native';
 
 import {
-  useTheme,
   Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  
-  TouchableRipple,
-  Switch,
 } from 'react-native-paper';
-
-import lock_Icon from '../../Pictures/lock.png';
-import AddGroup_Icon from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 import GroupBio from '../../Pictures/GroupBio.png';
-import lock from '../../Pictures/lock.png';
-import Category from '../../Pictures/Category.png';
-
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";

@@ -1,37 +1,24 @@
 import 'react-native-gesture-handler';
-import React, { useState , Component } from 'react';
+import React, {   Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
-  Image,
-  Picker,
-  ScrollView
-  
+ Image,  
 } from 'react-native';
+import lock_Icon from '../Pictures/lock.png';
 
-import {
- 
-  
-  TouchableRipple,
-  Switch,
-} from 'react-native-paper';
-
-
-import Email_Icon from '../Pictures/Email.png';
-
-
-export default class ForgotPassword extends Component {
+export default class ChangePassword extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
     
      
-     Email:""
+     Password:"",
+     ConfirmPassword:""
 
     }
   }
@@ -48,23 +35,34 @@ export default class ForgotPassword extends Component {
          
         <View style={styles.inputContainer}>
         
-          <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon}/>
+          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon}/>
           <TextInput style={styles.inputs}
-              placeholder="Email"
-              multiline={true}
-            //  value={this.state.Email}
-              maxLength={75}
-              editable={true}
-              onChangeText={(Email) => this.setState({Email})}
+              placeholder="Password"
+           
+            //  value={this.state.Email}             
+            
+              onChangeText={(Password) => this.setState({Password})}
               //keyboardType="email-address"
               underlineColorAndroid='transparent'
               />
              
         </View>
+
+        <View style={styles.inputContainer}>
+        
+        <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon}/>
+        <TextInput style={styles.inputs}
+              placeholder="Confirm Password"
+            
+              secureTextEntry={true}
+              underlineColorAndroid='transparent'
+              onChangeText={(ConfirmPassword) => this.setState({ConfirmPassword})}/>
+           
+      </View>
  
      
       <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
-          <Text style={styles.loginText}>Send Password in email</Text>
+          <Text style={styles.loginText}>Change Password</Text>
         </TouchableOpacity>
 
       

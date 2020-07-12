@@ -1,25 +1,14 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-TextInput,
-TouchableHighlight,
-TouchableOpacity,
   Image,
-  Alert,
-  ScrollView,
   FlatList,
   RefreshControl
 } from 'react-native';
-import { ListItem, SearchBar } from "react-native-elements";
-
-import { Button } from 'react-native-paper';
-
-
-
-
-
+import {  SearchBar } from "react-native-elements";
 
 export default class ViewMembersPublicGroup extends Component {
 
@@ -169,6 +158,8 @@ export default class ViewMembersPublicGroup extends Component {
       
       placeholder="Type a name or username"
           lightTheme round editable={true}
+          containerStyle={{height:35,paddingBottom:40,}}
+          inputStyle={{color:"black"}}
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 

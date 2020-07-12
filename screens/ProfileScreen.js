@@ -1,27 +1,25 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Image,
+  Image, 
 } from 'react-native';
 
+import { 
+  Button,
+} from 'react-native-paper';
 
-import Email_Icon from '../Pictures/Email.png';
-import lock_Icon from '../Pictures/lock.png';
-import person from '../Pictures/person.png';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import ImageView from "react-native-image-viewing";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
-
+import { MaterialIcons,MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
-
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -35,7 +33,7 @@ export default class ProfileScreen extends Component {
 
   state = {    
        photo: null,
-       
+       isVisible:false
     };
 
     componentDidMount() {
@@ -108,19 +106,63 @@ export default class ProfileScreen extends Component {
 
 
   render() {
+
+    const images = [
+      {
+        uri: this.state.photo,
+      },
+  
+    ];
+  
+
+
+
     return (
+
+
       <View style={styles.container}>
           <View style={styles.header}>
-          <TouchableOpacity  onPress={() => this.CameraOptions.open()}>
+
+          <Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.navigation.navigate("ChangePassword")}} >
+                       
+                       <MaterialCommunityIcons
+                               name='account-edit'                
+                             //  color={color}
+                               size={20}
+                             />     
+                         </Button>
+
+         
             <View style={styles.headerContent}>
+            <TouchableOpacity  onPress={() => this.setState({isVisible:true})}>
                 <Image style={styles.avatar}
                   source={{uri: this.state.photo}}/>
+
+<Button color="white" style={{marginLeft:90,marginTop:-30,marginBottom:10}}   onPress={() => this.CameraOptions.open()}>
+                  <MaterialIcons
+                  name='edit'
+                  
+                //  color={color}
+                  size={20}
+                /></Button>
+
+
+{this.state.isVisible&&
+            
+            <ImageView
+  images={images}
+  imageIndex={0}
+  visible={this.state.isVisible}
+  onRequestClose={() =>  this.setState({isVisible:false})}
+ 
+/> }
 
                 <Text style={styles.name}>
                   Jatin Verma
                 </Text>
+                </TouchableOpacity>
             </View>
-            </TouchableOpacity>
+           
           </View>
 
           <View style={styles.body}>
@@ -129,10 +171,10 @@ export default class ProfileScreen extends Component {
                 johndoe@gmail.com
               </Text>
           
-              <Text style={styles.textInfo}>
-                Following: 244
-              </Text>
-            
+              
+                {/* <Button   color="white" style={{marginTop:20,width:"100%"}} onPress={() => {this.props.navigation.navigate("ChangePassword")}}>Change Password</Button>
+              */}
+                     
              
             </View>
         </View>
@@ -207,6 +249,7 @@ const styles = StyleSheet.create({
     fontSize:22,
     color:"#FFFFFF",
     fontWeight:'600',
+    alignSelf:"center"
   },
   bodyContent: {
     flex: 1,

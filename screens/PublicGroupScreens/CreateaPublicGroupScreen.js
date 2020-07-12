@@ -6,7 +6,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
   Picker,
   ScrollView
@@ -14,22 +13,14 @@ import {
 } from 'react-native';
 
 import {
-  useTheme,
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  
+  Avatar,  
   TouchableRipple,
   Switch,
 } from 'react-native-paper';
 
-import lock_Icon from '../../Pictures/lock.png';
-import AddGroup_Icon from '../../Pictures/AddGroup.png';
+
 import Group_Name from '../../Pictures/Group_Name.png';
 import GroupBio from '../../Pictures/GroupBio.png';
-import lock from '../../Pictures/lock.png';
 import Category from '../../Pictures/Category.png';
 import * as Permissions from 'expo-permissions';
 import FAIcon from "react-native-vector-icons/FontAwesome";

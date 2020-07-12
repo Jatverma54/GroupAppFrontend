@@ -1,20 +1,13 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { 
   StyleSheet, 
   Text, 
   View, 
-  FlatList, 
-  Dimensions,
   TouchableOpacity,
   Image,
-  Modal,
-  ScrollView,
-  Alert,
- 
-  TouchableHighlight
 } from 'react-native';
-const { width, height } = Dimensions.get('window');
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+
 import ImageView from "react-native-image-viewing";
 
 export default class PostImagesPersonalGroup extends React.Component {

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -8,12 +9,9 @@ TouchableOpacity,
   RefreshControl,
   FlatList,
 } from 'react-native';
-import { ListItem, SearchBar } from "react-native-elements";
+import {  SearchBar } from "react-native-elements";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-import { MaterialCommunityIcons ,FontAwesome} from '@expo/vector-icons';
-
-
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -155,6 +153,8 @@ export default class LikesComments extends Component {
       
       placeholder="Type a name or username"
           lightTheme round editable={true}
+          containerStyle={{height:35,paddingBottom:40,}}
+          inputStyle={{color:"black"}}
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 

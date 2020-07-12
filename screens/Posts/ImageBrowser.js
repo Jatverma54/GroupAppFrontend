@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react'
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   View,
   FlatList,
   Dimensions,
-
   ActivityIndicator,
   SafeAreaView 
 } from 'react-native'

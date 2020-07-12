@@ -1,8 +1,4 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Button } from 'react-native';
-import colors from '../constants/colors';
-import OverideBackButton from './OverideBackButton';
-import { FloatingAction } from "react-native-floating-action";
+import 'react-native-gesture-handler';
 import Floating_Button from '../Pictures/Floating_Button.png';
 
 

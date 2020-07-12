@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -5,12 +6,9 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList,
   Alert
 } from 'react-native';
 
-
-import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 import {

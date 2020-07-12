@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -5,30 +6,23 @@ import {
   View,
   TouchableOpacity,
   Image,
-  BackHandler,
   Clipboard ,
-  TouchableHighlight,
-  Modal,
-  Alert,
-  ScrollView,
+  TouchableHighlight,  
+  Alert, 
   FlatList,
   Dimensions,
   RefreshControl,
   Share
 } from 'react-native';
 import {
-  Button,
-  Paragraph, 
-  Menu,
+
   Divider, 
-  Provider ,
   Avatar,
  
 } from 'react-native-paper';
 
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/PostImagesJoinedGroup';
-import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
@@ -37,13 +31,9 @@ import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons,AntDesign,FontAwesome } from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
-import PDFReader from 'rn-pdf-reader-js'
-import Close_icon from '../../Pictures/Close_icon.png';
-// import Comments from '../../components/Comment/Comments'
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
 import RBSheet from "react-native-raw-bottom-sheet";
-
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 

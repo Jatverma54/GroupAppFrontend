@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -7,33 +8,23 @@ import {
   Image,
   TouchableHighlight,
   Alert,
-  ScrollView,
   FlatList,
   Dimensions,
-  Modal,
   RefreshControl,
-  Container, Content,  Thumbnail ,Clipboard
+  Clipboard
 } from 'react-native';
 import {
-  Button,
   Avatar,
-  Title,
-  Card,
   Divider, 
-  Caption,
-  Paragraph,
 } from 'react-native-paper';
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/YourPostImagesJoinedGroup';
-import Like from '../../Pictures/Like.png';
 import Comment from '../../Pictures/Comment.png';
 import Close_icon from '../../Pictures/Close_icon.png';
-
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { MaterialCommunityIcons,FontAwesome,AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
-import PDFReader from 'rn-pdf-reader-js'
 import ExitIcon from '../../Pictures/ExitIcon.png';
 import Repor_Icon from '../../Pictures/Repor_Icon.png';
 import ParsedText from 'react-native-parsed-text';

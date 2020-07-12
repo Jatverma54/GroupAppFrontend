@@ -1,9 +1,6 @@
-import React,{ useEffect } from 'react';
-import { StyleSheet, Text, View, Modal,BackHandler, Image, Button } from 'react-native';
-import { FloatingAction } from "react-native-floating-action";
-
-
-
+import 'react-native-gesture-handler';
+import React from 'react';
+import { StyleSheet, Text, View} from 'react-native';
 
 const FeedDetails = ({navigation}) => {
   

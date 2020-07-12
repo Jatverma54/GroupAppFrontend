@@ -6,7 +6,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
   Picker,
   ScrollView
@@ -14,14 +13,7 @@ import {
 } from 'react-native';
 
 import {
-  useTheme,
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  
-  TouchableRipple,
+ TouchableRipple,
   Switch,
 } from 'react-native-paper';
 

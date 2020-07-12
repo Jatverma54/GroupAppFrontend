@@ -8,7 +8,6 @@ import { StyleSheet,TouchableOpacity, View,  Image } from 'react-native';
 import {DrawerActions} from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 import Comments from '../components/Comment/Comments';
 import Likes from '../components/Comment/Likes';

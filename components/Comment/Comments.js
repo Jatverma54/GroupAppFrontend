@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -16,19 +17,14 @@ import {
 
 import {
  
-  Divider, 
-  Button
+  Divider,
  
 } from 'react-native-paper';
 import { MaterialCommunityIcons,AntDesign} from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
-import Like from '../../Pictures/Like.png';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
-import Close_icon from '../../Pictures/Close_icon.png';
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-
-
 MDIcon.loadFont();
 
 export default class Comments extends Component {

@@ -1,22 +1,18 @@
+import 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { View, StyleSheet,TouchableOpacity } from 'react-native';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import {
   DrawerItem,
-  DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {
-  useTheme,
   Avatar,
   Title,
   Caption,
   Paragraph,
   Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
 } from 'react-native-paper';
-import { MaterialCommunityIcons,FontAwesome,MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons,FontAwesome } from '@expo/vector-icons';
 import DrawerLogo from '../Pictures/DrawerLogo.png';
 import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';

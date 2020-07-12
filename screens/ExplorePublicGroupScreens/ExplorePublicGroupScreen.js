@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -6,12 +7,9 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  ScrollView,
   FlatList,
  
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import {DrawerActions} from '@react-navigation/native';
 
 
 export default class ExplorePublicGroupScreen extends Component {

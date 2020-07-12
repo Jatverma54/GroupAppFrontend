@@ -3,21 +3,19 @@ import React from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet,TouchableOpacity, View, Image, Modal,  } from 'react-native';
+import { StyleSheet,TouchableOpacity, View, Image,  } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import colors from '../constants/colors';
 import PersonalGroupRootStackNavigator from '../stacks/PersonalGroupRootStackNavigator';
 import PublicGroupStackNavigator from '../stacks/PublicGroupStackNavigator';
-import NotificatioStackNavigator from '../stacks/NotificatioStackNavigator';
 import PublicGroupFeedStackNavigator from '../stacks/PublicGroupFeedStackNavigator';
-import ProfessionalGroupRootStackNavigator from '../stacks/ProfessionalGroupRootStackNavigator';
 import DrawerContent from '../screens/DrawerContent';
 import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
 import StoryScreen from '../screens/StoryScreen';
 import GroupAppFeatures from '../screens/GroupAppFeatures';
-import ForgotPassword from './ForgotPassword';
+import ForgotPassword from '../screens/ForgotPassword';
 
 
 

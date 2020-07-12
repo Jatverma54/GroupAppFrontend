@@ -1,28 +1,12 @@
-import React, { Component } from 'react';
+import 'react-native-gesture-handler';
+import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TextInput,
   Button,
-  TouchableHighlight,
-  TouchableOpacity,
-  Image,
-  Platform,
   ScrollView,
-  Alert
 } from 'react-native';
-import {
- 
-  Avatar,
- 
-} from 'react-native-paper';
 
-import Email_Icon from '../Pictures/Email.png';
-import lock_Icon from '../Pictures/lock.png';
-import person from '../Pictures/person.png';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
-import { useNavigation } from '@react-navigation/native';
 
 
 

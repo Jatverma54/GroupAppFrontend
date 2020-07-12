@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -5,30 +6,16 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TextInput,
   Alert,
-  ScrollView,
   FlatList,
   Share,
-  Button,
-  Container, Content,  Thumbnail 
 } from 'react-native';
 import {
-  useTheme,
   Avatar,
-  Title,
-  Card,
-  Caption,
-  Paragraph,
 } from 'react-native-paper';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
-//import FbImages from '../components/FacebookPostImage';
-import Like from '../Pictures/Like.png';
-import Comment from '../Pictures/Comment.png';
 import Post_Add from '../Pictures/Post_Add.png';
 import AddGroup from '../Pictures/AddGroup.png';
 import ShareIcon from '../Pictures/ShareIcon.png';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImageView from "react-native-image-viewing";
 export default class Stories extends Component {
 

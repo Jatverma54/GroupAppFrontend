@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList,
   SectionList,
   RefreshControl,
 } from 'react-native';

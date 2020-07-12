@@ -3,7 +3,6 @@ import * as React from 'react'
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet,TouchableOpacity, Text, View,  Image } from 'react-native';
@@ -14,8 +13,7 @@ import YourPersonalGroupPostScreen from '../screens/PersonalGroupScreens/YourPer
 import NotificationScreen from '../screens/NotificationScreen';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
-import ViewMembers from '../components/ViewMembers';
-import TextInputClass from '../screens/Posts/TextInputClass';
+import ViewMembers from '../components/ViewMembers';;
 import PersonalGroupBio from '../screens/PersonalGroupScreens/PersonalGroupBio';
 import Comments from '../components/Comment/Comments'
 import Likes from '../components/Comment/Likes';

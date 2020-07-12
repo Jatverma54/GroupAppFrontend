@@ -1,24 +1,21 @@
+import 'react-native-gesture-handler';
 import React, { Component } from "react";
 import {
   View,
   ScrollView,
-  DatePickerIOS,
   TouchableOpacity,
   Text,
   Image,
   TextInput,
   StyleSheet,
   Dimensions,
-  Modal,TouchableHighlight, Platform,NativeMethods,
+  TouchableHighlight
   
 } from "react-native";
-
-
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
 import FbImages from '../Posts/NewPostImagesTile';
-     
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -26,15 +23,10 @@ import * as DocumentPicker from 'expo-document-picker';
 import Post_Add from '../../Pictures/Post_Add.png';
 import Attach_Icon from '../../Pictures/Attach_Icon.png';
 import Camera_Icon from '../../Pictures/Camera_Icon.png';
-
-
 import { Video } from 'expo-av';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-import PDFReader from 'rn-pdf-reader-js'
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ImageBrowser from './ImageBrowser'
-import * as Linking from 'expo-linking';
 import * as FileSystem from 'expo-file-system';
 import * as IntentLauncher from 'expo-intent-launcher';
 FAIcon.loadFont();

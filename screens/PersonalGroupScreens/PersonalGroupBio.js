@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList,
   Alert
 } from 'react-native';
 
@@ -20,7 +20,6 @@ import { MaterialIcons,MaterialCommunityIcons } from '@expo/vector-icons';
 import RBSheet from "react-native-raw-bottom-sheet";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -28,7 +27,6 @@ import * as Permissions from 'expo-permissions';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
-import Post_Add from '../../Pictures/Post_Add.png';
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 

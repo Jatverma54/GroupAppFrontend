@@ -1,5 +1,6 @@
+import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import {View, Button,Text, Platform,TouchableOpacity} from 'react-native';
+import {View, Text, Platform,TouchableOpacity} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const DatePicker = () => {

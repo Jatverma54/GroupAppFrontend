@@ -1,4 +1,4 @@
-
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -6,11 +6,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image
 } from 'react-native';
-import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
-import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
+// import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
+// import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
 import { useNavigation } from '@react-navigation/native';

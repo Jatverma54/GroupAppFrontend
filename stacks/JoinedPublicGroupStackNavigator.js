@@ -1,23 +1,17 @@
 import 'react-native-gesture-handler';
-import React ,{ useState } from 'react';
+import React  from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, Text,Left,StatusBar ,View, ImageBackground, Image, Button, Modal } from 'react-native';
-import {NavigationContainer,DrawerActions} from '@react-navigation/native';
+import { StyleSheet,TouchableOpacity, Text,View,  Image, } from 'react-native';
 import JoinedPublicGroupsScreen from '../screens/JoinPublicGroupScreen/JoinedPublicGroupsScreen';
 import JoinedGroupInsideGroupFeed from '../screens/JoinPublicGroupScreen/JoinedGroupInsideGroup';
-import { Appbar, Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
-import FeedDetails from '../components/FeedDetails';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
-import ImagePost from '../screens/Posts/ImagePost';
 import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
@@ -368,7 +362,8 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
     
       backgroundColor: colors.rootscreenColor,
     }
-  ,ImageIconStyle:{
+  ,
+  ImageIconStyle:{
   
     padding: 10,
     margin: 5,
