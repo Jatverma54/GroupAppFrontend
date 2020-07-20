@@ -20,7 +20,7 @@ import AddMember from '../components/AddMember';
  import Likes from '../components/Comment/Likes';
  import CommentLikes from '../components/Comment/LikesComments';
 import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen/UpdatePublicGroupAccountInfoScreen';
-
+import ReplyComments from '../components/Comment/ReplyComments';
 
 
   const JoinedPublicGroupStack = createStackNavigator();
@@ -217,6 +217,7 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
 
    
     let groupname = GroupName.length>30?GroupName.toString().substring(0,30)+"..":GroupName;
+
     return (
   
     
@@ -256,15 +257,7 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
         },   
         
       
-      }}
-      
-    
-        
-       
-  
-       
-      
-      
+      }}   
       
       >
         
@@ -282,6 +275,15 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
      
             name='Comments' 
             component={Comments}/>  
+
+
+
+<HomeFeedStack.Screen  
+     options={{        
+      headerTitle: "Replying to "}} 
+     
+            name='ReplyComments' 
+            component={ReplyComments}/>  
 
 <HomeFeedStack.Screen  
      options={{        

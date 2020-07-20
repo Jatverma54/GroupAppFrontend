@@ -1,22 +1,67 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React,{ useState } from 'react';
 import {
   StyleSheet,
   View,
   Button,
   ScrollView,
+  ActivityIndicator
 } from 'react-native';
 
 
 
 
   const StoryScreen =({navigation})=> {
-  
+    const [error, seterror] = useState(null);
+    const [loading, setloading] = useState(false);
+    const [Story, setStory] = useState('');
   
     
+    getData = async ()  => {
+      // const url = `https://jsonplaceholder.typicode.com/users`;
+      // this.setState({ loading: true });
+       
+      //  try {
+      //     const response = await fetch(url);
+      //     const json = await response.json();
+      //     this.setResult(json);
+      //  } catch (e) {
+      //     this.setState({ error: 'Error Loading content', loading: false });
+      //  }
+    };
+  
+    setResult = (res) => {
+     
+      setuserimageUrl(res);
+        seterror(res.error || null);
+        setloading(false);
+     
+    }
+
+  
    
-   
+
+ 
+    if (loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+ 
     return (
+      error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+            () => {
+              this.getData();
+            }
+          } title="Reload" />
+      </View> :
       <View style={styles.container}>
      <ScrollView>
     
@@ -47,6 +92,7 @@ import {
 
       </View>
     );
+      
   }
 
 

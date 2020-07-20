@@ -6,7 +6,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -47,7 +48,10 @@ export default class PersonalGroupBio extends Component {
        
       },
       Role:"admin",
-      isVisible:false
+      isVisible:false,
+      loading: false,   
+      error: null,
+    
     }
   }
 
@@ -65,6 +69,30 @@ export default class PersonalGroupBio extends Component {
       }
     }
   };
+
+
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
 
 
    _pickImage = async () => {
@@ -275,6 +303,16 @@ getCameraPermissionAsync = async () => {
 
  render() {
 
+  if (this.state.loading) {return (
+    <View style={{ flex: 1, 
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff"}}>
+     <ActivityIndicator size="large" color="black" />
+    </View>
+  );
+}
+
   const {image,
     id,
     GroupName,
@@ -292,6 +330,18 @@ getCameraPermissionAsync = async () => {
   ];
 
     return (
+      
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+        </Button>
+      </View> :
       <View style={styles.container}>
     <ScrollView >
        

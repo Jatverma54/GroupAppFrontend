@@ -7,12 +7,16 @@ import {
 } from 'react-native-paper';
 import { SearchBar } from "react-native-elements";
 import Close_icon from'../Pictures/Close_icon.png'
+import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { 
+  Button,
+} from 'react-native-paper';
+
 
 export default class AddMembers extends React.Component { 
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
    
 
       data: [
@@ -45,7 +49,7 @@ export default class AddMembers extends React.Component {
         },} ,
         
       ],
-      loading: false,   
+     
      
      
 
@@ -82,8 +86,7 @@ export default class AddMembers extends React.Component {
       error: null,
       search: null,
       isFetching:false,
-
-      
+      loading: false,
       selected:[]
      };
   }
@@ -109,6 +112,35 @@ export default class AddMembers extends React.Component {
   //   }).catch(error => {this.setState({loading: false});
   //  });
   // };// ADD group id/Name with 
+
+
+
+
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      dataSearch: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
+
+
+
 
 FlatListItemSeparator = () => <View style={styles.line} />;
 
@@ -201,14 +233,7 @@ renderItem = data =>
 
 
 
-setResult = (res) => {
-  this.setState({
-    data: [...this.state.data, ...res],
-    temp: [...this.state.temp, ...res],
-    error: res.error || null,
-    loading: false
-  });
-}
+
 
 renderHeader = () => {
     return  <SearchBar 
@@ -271,7 +296,10 @@ render() {
   const itemNumber = this.state.data.filter(item => item.isSelect).length;
  
   if (this.state.loading) {return (
-    <View style={styles.loader}>
+    <View style={{ flex: 1, 
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff"}}>
      <ActivityIndicator size="large" color="black" />
     </View>
   );
@@ -279,6 +307,18 @@ render() {
  
 
  return (
+
+  this.state.error != null ?
+  <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+    <Text>{this.state.error}</Text>
+    <Button onPress={
+      () => {
+        this.getData();
+      }
+    }  >
+      <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+    </Button>
+  </View> :
    <View style={styles.container}>
      
    {this.state.selected.length>0&&

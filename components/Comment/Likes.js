@@ -8,7 +8,12 @@ TouchableOpacity,
   Image,
   RefreshControl,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
+import { 
+  Button,
+} from 'react-native-paper';
+import { MaterialCommunityIcons} from '@expo/vector-icons';
 import {  SearchBar } from "react-native-elements";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
@@ -32,7 +37,7 @@ export default class Likes extends Component {
         {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
         {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
       ],
-      loading: false,   
+         
      
       temp: [{id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
       {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
@@ -45,8 +50,7 @@ export default class Likes extends Component {
       {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
       {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
 
-    
-
+      loading: false,
       error: null,
       search: null,
       Role:"admin", 
@@ -107,8 +111,28 @@ export default class Likes extends Component {
   }
 
 
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
 
 
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
 
 
 
@@ -230,7 +254,29 @@ export default class Likes extends Component {
 
 
   render() {
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
     return(
+
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+        </Button>
+      </View> :
       <View style={{ flex: 1 ,  backgroundColor: 'white',}} >
         <FlatList 
          ListHeaderComponent={this.renderHeader}

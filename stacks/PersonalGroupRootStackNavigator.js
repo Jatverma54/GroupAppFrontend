@@ -19,7 +19,9 @@ import Comments from '../components/Comment/Comments'
 import Likes from '../components/Comment/Likes';
 import AddMember from '../components/AddMember';
 import CommentLikes from '../components/Comment/LikesComments';
-import UpdatePersonalGroupAccountInfoScreen from '../screens/PersonalGroupScreens/UpdatePersonalGroupAccountInfoScreen'
+import UpdatePersonalGroupAccountInfoScreen from '../screens/PersonalGroupScreens/UpdatePersonalGroupAccountInfoScreen';
+import ReplyComments from '../components/Comment/ReplyComments';
+
 const HeaderLeft = () => {
     const navigation = useNavigation();
     return (
@@ -332,7 +334,14 @@ const PersonalGroupRootStack = createStackNavigator();
             name='Comments' 
             component={Comments}/>  
 
+<PersonalGroupFeedScreenStack.Screen  
+     options={{        
+      headerTitle: "Replying to "}} 
+     
+            name='ReplyComments' 
+            component={ReplyComments}/>  
 
+            
 <PersonalGroupFeedScreenStack.Screen  
      options={{        
       headerTitle: "Likes" }} 

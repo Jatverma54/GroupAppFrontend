@@ -8,9 +8,12 @@ import {
   Image,
   Alert,
   FlatList,
- 
+  ActivityIndicator
 } from 'react-native';
-
+import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { 
+  Button,
+} from 'react-native-paper';
 
 export default class ExplorePublicGroupScreen extends Component {
 
@@ -30,6 +33,9 @@ export default class ExplorePublicGroupScreen extends Component {
         {id:"9", title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
         {id:"10", title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
       ],
+      loading: false,   
+      error: null,
+    
     
     };
     
@@ -39,12 +45,54 @@ export default class ExplorePublicGroupScreen extends Component {
     Alert.Alert(item.title)
   }
 
- 
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
+
  
   render() {
     
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
     return (  
       
+      this.state.error != null ?
+        <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+          </Button>
+        </View> :
       <View style={styles.container}>
      
       <FlatList style={styles.list}
@@ -52,12 +100,13 @@ export default class ExplorePublicGroupScreen extends Component {
         data={this.state.data}
         horizontal={false}
         numColumns={2}
-       
+      
         keyExtractor= {(item) => {
           return item.id;
         }}
         
         renderItem={({item}) => {
+       
           return (
             <TouchableOpacity style={[styles.card, {backgroundColor:item.color}]} onPress={()=>this.props.myHookValue.navigate("ExplorePublicGroupCategoryBased",item)}>
               <View style={styles.cardHeader}>

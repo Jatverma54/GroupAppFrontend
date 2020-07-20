@@ -9,9 +9,10 @@ import {DrawerActions} from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NotificationScreen from '../screens/NotificationScreen';
-import Comments from '../components/Comment/Comments';
+import Comments from '../screens/PublicGroupScreens/Comments';
 import Likes from '../components/Comment/Likes';
 import CommentLikes from '../components/Comment/LikesComments';
+import ReplyComments from '../screens/PublicGroupScreens/ReplyComments';
 
 const HeaderLeft = () => {
     const navigation = useNavigation();
@@ -85,6 +86,7 @@ const HeaderLeft = () => {
     );
   };
 
+ 
   const LikeStack = createStackNavigator();
   const LikeStackNavigator =()=>{
     
@@ -110,6 +112,11 @@ const HeaderLeft = () => {
         }),     
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+            headerTitleStyle: {
+              fontSize: 18,
+             // fontWeight: "200",//colors.TabLabelStylefontWeight,
+             width:colors.TabLabelStylewidth
+            },  
           }}>
          
 
@@ -129,7 +136,7 @@ const HeaderLeft = () => {
 
 
   const CommentStack = createStackNavigator();
-  const CommentStackNavigator =()=>{
+  function CommentStackNavigator({route}){
     
     return (
   
@@ -153,6 +160,11 @@ const HeaderLeft = () => {
         }),     
             headerTintColor: colors.StackheaderTintColor,
             headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+            headerTitleStyle: {
+              fontSize: 18,
+             // fontWeight: "200",//colors.TabLabelStylefontWeight,
+             width:colors.TabLabelStylewidth
+            },  
           }}>
          
 
@@ -165,7 +177,7 @@ const HeaderLeft = () => {
     }} 
      
             name='Comments' 
-            component={Comments}/>  
+            component={withMyHookComment(Comments,route.params)}/>  
 
 
 <CommentStack.Screen  
@@ -174,6 +186,14 @@ const HeaderLeft = () => {
      
             name='CommentLikes' 
             component={CommentLikes}/>  
+
+            
+<CommentStack.Screen  
+     options={{        
+      headerTitle: "Replying to "}} 
+     
+            name='ReplyComments' 
+            component={ReplyComments}/>  
  
          
         </CommentStack.Navigator>
@@ -181,6 +201,15 @@ const HeaderLeft = () => {
     
     );
   };
+  
+
+  function withMyHookComment(Component,routeData) {
+    return function WrappedComponent(props) {
+    
+      return <Component {...props}  routeData={routeData} />;
+    }
+  }
+ 
 
   const PublicGroupFeedTabStack = createMaterialTopTabNavigator();
   const PublicGroupFeedTabStackNavigator =(props)=>{

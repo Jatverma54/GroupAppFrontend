@@ -27,6 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome} from '@expo/vector-icons';
+import mime from "mime";
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -44,10 +45,11 @@ export default class SignupScreen extends Component {
        photo: null,
        First_name: '',
        Last_name: '',
-       date: new Date(1590842927000),
+       date: new Date("2020-07-15"),
        mode: 'date',
        show: false,
        datechanged:false,
+       ImageFormData: null
     };
 
   
@@ -95,15 +97,23 @@ export default class SignupScreen extends Component {
 
    _pickImage = async () => {
     try {
+    
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
+       // base64:true,
         quality: 1,
       });
       if (!result.cancelled) {
-        this.setState({ photo: result.uri });
+
+        // let imageUri = pickerResult ?     `data:image/jpg;base64,${pickerResult.base64}` : null
+        // this.setState({ photo: result });
+        this.setState({ photo: result.uri,ImageFormData: result });
         this.CameraOptions.close(); 
+       
+        console.log(result)
+      
       }
 
      // console.log(result);
@@ -129,10 +139,11 @@ getCameraPermissionAsync = async () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
+    //  base64:true,
       quality: 1,
     });
     if (!result.cancelled) {
-      this.setState({ photo: result.uri });
+      this.setState({ photo: result.uri,ImageFormData: result });
       this.CameraOptions.close(); 
     }
 
@@ -150,7 +161,7 @@ getCameraPermissionAsync = async () => {
 
  
      
-    const { userName, password, email, First_name,Last_name,confirmPassword,date,photo ,datechanged,} = this.state
+    const { userName, password, email, First_name,Last_name,confirmPassword,date,ImageFormData ,datechanged,} = this.state
   
   let emailValidation= this.EmailValidation(email)  
 
@@ -159,7 +170,7 @@ getCameraPermissionAsync = async () => {
     if(datechanged&&password===confirmPassword&&userName&&password&&email&&First_name&&Last_name&&emailValidation&&PasswordValidation){
     
     try {
-        var data = {
+        var personInfo  = {
             username: userName,
             password: password,
             emailId: email,
@@ -167,30 +178,61 @@ getCameraPermissionAsync = async () => {
             lastName: Last_name,
             enabled: true,
             role:"user",
-            phoneNumber:"123456789"
-             // dob:date.toDateString(),
+            phoneNumber:"123456789",
+           dob:this.formatDate(date),
+         //  profilePic:photo 
             
             
         }
-        const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/user/register", {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          
-        'Content-Type': 'application/json'
+     
+        var img=''
+        if(ImageFormData){
+        let  mediaUrl_string = ImageFormData.uri.trim().split("/");
+				let mediaUrl_Length = mediaUrl_string.length - 1;
+        let Media_Name = ImageFormData.uri.split("/")[mediaUrl_Length];
         
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
+         img =  {
+          uri : ImageFormData.uri,
+          name: Media_Name,
+          type: mime.getType(ImageFormData.uri)
+      }
+    }
+    
+        var fdata = new FormData();
+fdata.append('userDetails', 
+ JSON.stringify(personInfo)
+    
+);
+
+ImageFormData?fdata.append('file', img):fdata.append('file',null);
+
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "multipart/form-data");
+myHeaders.append("Accept", "application/json");
+
+var formdata = new FormData();
+formdata.append("file",  img);
+formdata.append("userDetails", JSON.stringify(personInfo));
+console.log(formdata)
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
+
+ 
+
+        const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/user/register", requestOptions
+       
        
         
-    });
-    //console.log(JSON.stringify(data),"data")
-   
-   
+    );
 
     let responseJson = await response.json();
-
-       //console.log(response.status)
+    console.log(responseJson,"Data to be sent")
+       console.log(response.status)
     if(responseJson.ok){
 
     Alert.alert(
@@ -278,12 +320,36 @@ else if (!PasswordValidation){
   // let pattern = /@(\w+)/;
   // let match = matchingString.match(pattern);
   // return `${match[1]}`;
- 
+   formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
+
+
+
+
+
+
   
    render() {
    
 
     let { photo,date ,show,mode} = this.state;
+    // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
+    // imageUri && console.log({uri: imageUri.slice(0, 100)});
+   
+    
     return (
       <View style={styles.container}>
 
@@ -361,8 +427,8 @@ else if (!PasswordValidation){
       
         <Image style={styles.inputIcon} source={person}/>
             <Text style={{marginLeft:60,marginTop:-22,color:'grey'}}>
-             DOB: 
-             <Text style={{color:'black'}}>{date.toDateString()} </Text>
+             DOB:
+             <Text style={{color:'black'}}>{this.formatDate(date)}</Text>
             
              
             </Text>

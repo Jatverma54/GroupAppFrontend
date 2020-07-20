@@ -1,7 +1,11 @@
 import 'react-native-gesture-handler';
 import React, { Component } from "react";
-import { View, Text, FlatList, Button,TouchableOpacity } from "react-native";
+import { View, Text, FlatList,TouchableOpacity,ActivityIndicator } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
+import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { 
+  Button,
+} from 'react-native-paper';
 
 class SearchFunctionality extends Component {
 
@@ -9,7 +13,7 @@ class SearchFunctionality extends Component {
     super(props); 
  
     this.state = { 
-      loading: false,   
+    
       data: [
         {id:"1",GroupName:"Group 1", groupId:"123",title:"Healthcare",joined:false,groupIcon:"https://lorempixel.com/100/100/nature/1/"},
         {id:"2",GroupName:"Group 2", groupId:"123",title:"Family",joined:false,groupIcon:"https://lorempixel.com/100/100/nature/1/"},
@@ -27,7 +31,8 @@ class SearchFunctionality extends Component {
     
     ],
       error: null,
-      search: null
+      search: null,
+      loading: false,   
     };
   }
  
@@ -62,7 +67,7 @@ class SearchFunctionality extends Component {
       
       placeholder="Type a group name..."
           lightTheme round editable={true}
-        
+          inputStyle={{color:"black"}}
           value={this.state.search}
           onChangeText={this.updateSearch} />; 
   }; 
@@ -92,6 +97,16 @@ class SearchFunctionality extends Component {
     }} />;
 
   render() {
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
@@ -100,7 +115,9 @@ class SearchFunctionality extends Component {
             () => {
               this.getData();
             }
-          } title="Reload" />
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+          </Button>
         </View> : 
         <FlatList
             ListHeaderComponent={this.renderHeader}

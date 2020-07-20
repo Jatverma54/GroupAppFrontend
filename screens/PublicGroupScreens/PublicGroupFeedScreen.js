@@ -10,11 +10,13 @@ import {
   RefreshControl,
   FlatList,
   TouchableHighlight,
-  Clipboard
+  Clipboard,
+  ActivityIndicator
 } from 'react-native';
 import {
   Avatar,
   Divider,
+  Button
 } from 'react-native-paper';
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../PublicGroupScreens/PostImagesPublicGroup';
@@ -32,10 +34,10 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", GroupName:"Falt and Flatmate Story of hope and inspiration" ,  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", GroupName:"Falt and Flatmate Story of hope and inspiration" , PostOwnerId:"abc", isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
         LikePictures:[] },
         
-        {id:"2", title: "Amit",    GroupName:"Group 2",   countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",    GroupName:"Group 2",   countLikes:1,     countcomments:0 ,  isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -45,7 +47,7 @@ export default class PublicGroupFeedScreen extends Component {
               // "https://bootdey.com/img/Content/avatar/avatar4.png"
                     
         ]} ,
-        {id:"3", title: "XYZ Name",  GroupName:"Group 3",     countLikes:2,   countcomments:2 ,   isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",  GroupName:"Group 3",     countLikes:2,   countcomments:2 ,  PostOwnerId:"abc", isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -62,7 +64,7 @@ export default class PublicGroupFeedScreen extends Component {
        
       
      
-        {id:"4", title: "XYZ Name", GroupName:"Group 4",   countLikes:3,  countcomments:21 , isLiked:false,   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+        {id:"4", title: "XYZ Name", GroupName:"Group 4",   countLikes:3,  countcomments:21 , isLiked:false,PostOwnerId:"abc",   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
       
         LikePictures:[
          
@@ -84,10 +86,35 @@ export default class PublicGroupFeedScreen extends Component {
       isDocumentVisible: false,
       OpenDucumentUri:'',
       isFetching:false,
+      loading: false,   
+      error: null,
+    
     };
    
   }
 
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
 
   handleUrlPress(url) {
    // console.log(`url: ${url} has been pressed!`);
@@ -283,10 +310,29 @@ export default class PublicGroupFeedScreen extends Component {
 
 
   render() {
-         
+
+ if (this.state.loading) {return (
+    <View style={{ flex: 1, 
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff"}}>
+     <ActivityIndicator size="large" color="black" />
+    </View>
+  );
+} 
 
     return (
-      
+      this.state.error != null ?
+        <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+          </Button>
+        </View> :
       <View style={styles.container}>
       {this.state.data.length!=0?
 
@@ -524,7 +570,7 @@ export default class PublicGroupFeedScreen extends Component {
                  
                   <View style={styles.socialBarSection}>
                    
-                  <TouchableOpacity      onPress={()=>this.props.navigation.push("Comments")}>
+                  <TouchableOpacity      onPress={()=>this.props.navigation.navigate("Comments",post.item)}>
                     <View style={styles.socialBarButton}>
                       <Image style={{  width:25,
   height:25,

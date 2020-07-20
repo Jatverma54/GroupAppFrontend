@@ -8,10 +8,16 @@ TouchableOpacity,
   Image,
   RefreshControl,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
 import {  SearchBar } from "react-native-elements";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
+import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { 
+  Button,
+} from 'react-native-paper';
+
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -21,12 +27,12 @@ export default class LikesComments extends Component {
     super(props);
     this.state = {
       data:this.props.route.params,
-      loading: false,   
+       
      
       temp: this.props.route.params,
 
     
-
+      loading: false, 
       error: null,
       search: null,
       Role:"admin", 
@@ -34,6 +40,28 @@ export default class LikesComments extends Component {
     };
   }
 
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
 
 
   // componentDidMount() {
@@ -139,15 +167,6 @@ export default class LikesComments extends Component {
 
 
 
-  setResult = (res) => {
-    this.setState({
-      data: [...this.state.data, ...res],
-      temp: [...this.state.temp, ...res],
-      error: res.error || null,
-      loading: false
-    });
-  }
-
   renderHeader = () => {
       return <SearchBar 
       
@@ -212,8 +231,29 @@ export default class LikesComments extends Component {
 
   render() {
 
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
     
     return(
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+        </Button>
+      </View> :
       <View style={{ flex: 1 ,  backgroundColor: 'white',}} >
         <FlatList 
          ListHeaderComponent={this.renderHeader}

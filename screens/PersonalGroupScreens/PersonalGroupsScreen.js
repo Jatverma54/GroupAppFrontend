@@ -109,7 +109,7 @@ export default class PersonalGroupsScreen extends Component {
       loading: false
     });
   }
-
+d
   renderHeader = () => {
       return <SearchBar 
       // height: 0.5,

@@ -9,11 +9,15 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  ActivityIndicator,
+  button
 } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../constants/colors';
+import {  SearchBar } from "react-native-elements";
+
 
 
 export default class PublicGroupListScreen extends Component {
@@ -55,12 +59,75 @@ export default class PublicGroupListScreen extends Component {
     
         
       ],
+
+
+      temp:[
+        {
+          id:1, 
+          image: "https://lorempixel.com/100/100/nature/1/", 
+          GroupName:"Group 1", 
+          countMembers:51, 
+          isJoined: true ,
+          isReuquested: false,
+          GroupCategory:"HealthCare"
+        },
+        {
+          id:2, 
+          image: "https://lorempixel.com/100/100/nature/2/", 
+          GroupName:"Group 2", 
+          countMembers:10,  
+          isJoined: true ,
+          isReuquested: false,
+          GroupCategory:"HealthCare"
+        },
+        {
+          id:3, 
+          image: "https://lorempixel.com/100/100/nature/3/", 
+          GroupName:"Group 3",
+          isJoined: false ,
+          isReuquested: false, 
+          countMembers:58,  
+          GroupCategory:"HealthCare"
+        },
+    
+        
+      ],
+
+
+
       isFetching:false,
       
-
+      loading: false,   
+      error: null,
+    
     }
   }
  
+
+
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+ setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
+
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.searchRandomUser() });
   }
@@ -141,16 +208,118 @@ export default class PublicGroupListScreen extends Component {
 
   }
 
+
+
+
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
+d
+  renderHeader = () => {
+      return <SearchBar 
+      // height: 0.5,
+      // backgroundColor: "#CCCCCC",
+      // width:"78%",
+      // marginLeft:80
+  
+      placeholder="Type a group name.."
+         lightTheme  round editable={true}
+         // containerStyle={{height:35,paddingBottom:40,}}
+         containerStyle={{
+         borderBottomColor:"#CCCCCC",
+         borderBottomWidth:0.5,
+         borderBottomStartRadius:170,
+         borderBottomEndRadius:40,     
+         }}
+         platform="android"
+          inputStyle={{color:"black"}}
+          value={this.state.search}
+        
+         
+          onChangeText={this.updateSearch} />; 
+  }; 
+
+  updateSearch = search => {
+        this.setState({ search }, () => {
+            if ('' == search) {
+
+              
+                this.setState({
+                    data: [...this.state.temp],
+                   
+                });
+                return;
+            }
+           
+            this.setState({
+     
+              searchStarted:true
+             
+            
+            })
+
+            this.state.data = this.state.temp.filter(function(item){
+                return item.GroupName.includes(search);
+              }).map(function({id, GroupName, image,countMembers,isJoined,isReuquested,GroupCategory}){
+                return {id, GroupName, image,countMembers,isJoined,isReuquested,GroupCategory};
+            });
+        });
+      
+     
+        this.setState({
+     
+          searchStarted:false
+         
+        
+        })
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
   render() {
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
     
     return (
-   
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+            () => {
+              this.getData();
+            }
+          } title="Reload" />
+      </View> :
    <View  style={styles.FloatButtonPlacement} > 
 
       <FlatList 
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
+        ListHeaderComponent={this.renderHeader}
         refreshControl={
           <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
         }

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { View, StyleSheet,TouchableOpacity } from 'react-native';
+import { View, StyleSheet,TouchableOpacity,ActivityIndicator } from 'react-native';
 import {DrawerActions,useNavigation} from '@react-navigation/native';
 import {
   DrawerItem,
@@ -11,6 +11,7 @@ import {
   Caption,
   Paragraph,
   Drawer,
+  Button
 } from 'react-native-paper';
 import { MaterialCommunityIcons,FontAwesome } from '@expo/vector-icons';
 import DrawerLogo from '../Pictures/DrawerLogo.png';
@@ -18,18 +19,68 @@ import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
 import ImageView from "react-native-image-viewing";
 
+
+
   const DrawerContent=(props)=> {
     const navigation = useNavigation();
     const [isVisible, setisVisible] = useState(false);
-
+    const [error, seterror] = useState(null);
+    const [loading, setloading] = useState(false);
+    const [userimageUrl, setuserimageUrl] = useState('');
+    
+    getData = async ()  => {
+      // const url = `https://jsonplaceholder.typicode.com/users`;
+      // this.setState({ loading: true });
+       
+      //  try {
+      //     const response = await fetch(url);
+      //     const json = await response.json();
+      //     this.setResult(json);
+      //  } catch (e) {
+      //     this.setState({ error: 'Error Loading content', loading: false });
+      //  }
+    };
+  
+    setResult = (res) => {
+     
+      setuserimageUrl(res);
+        seterror(res.error || null);
+        setloading(false);
+     
+    }
+    if (loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  } 
+  
+  
     const images = [
       {
-        uri: "https://www.bootdey.com/img/Content/avatar/avatar1.png",
+        uri: userimageUrl,
       },
     
     ];
+
+  
+ 
+   
     return (
-      
+      error != null ?
+      <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+        </Button>
+      </View> :
       // <DrawerContentScrollView {...props}>
         <View {...props}
           style={
@@ -162,6 +213,7 @@ import ImageView from "react-native-image-viewing";
         </View>
       /* </DrawerContentScrollView> */
     );
+              
   }
   
   const styles = StyleSheet.create({

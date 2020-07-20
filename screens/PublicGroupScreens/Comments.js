@@ -12,8 +12,8 @@ import {
   KeyboardAvoidingView,
   TextInput,  
   RefreshControl,
-  ActivityIndicator,
-  Alert
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -35,13 +35,13 @@ export default class Comments extends Component {
     super(props);
     this.state = {
       data:[
-        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png",   OnwerId:"abc" ,  LikedBy:[{id:"1",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"8",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}], ReplyCount:0,  isLiked:false,  name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:0,   comment:"Lorem ipsum dolor sit amet, www.facebook.com consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png",   OnwerId:"abcs" , LikedBy:[{id:"2",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"9",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}], ReplyCount:1,   isLiked:false,  name:"John DoeLink",    likeCount:1, comment:"Lorem ipsum dolor sit amet."},
-        {id:3, image: "https://bootdey.com/img/Content/avatar/avatar7.png",  OnwerId:"abcd" ,LikedBy:[{id:"3",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"10",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],  ReplyCount:7,  isLiked:false, name:"March SoulLaComa",likeCount:99, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png",  OnwerId:"abce" , LikedBy:[{id:"4",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"11",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],  ReplyCount:7, isLiked:false,  name:"Finn DoRemiFaso", likeCount:3, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png",  OnwerId:"abcf" , LikedBy:[{id:"5",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"12",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],  ReplyCount:7,    isLiked:false, name:"Maria More More", likeCount:4, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png",  OnwerId:"abcg" ,LikedBy:[{id:"6",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"13",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],  ReplyCount:7,    isLiked:false, name:"Clark June Boom!",likeCount:5, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
-        {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png",  OnwerId:"abch" ,LikedBy:[{id:"15",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"14",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}], ReplyCount:7,     isLiked:false,  name:"The googler",    likeCount:6,  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png",   ReplyCount:0, OnwerId:"abc" ,  LikedBy:[{id:"1",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"8",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}], isLiked:false,  name:"Jatin Vremakklkkklklkjkjkjkjkjkjkl jhjhjhjhjhhjjh", likeCount:0,   comment:"Lorem ipsum dolor sit amet, www.facebook.com consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", ReplyCount:1,  OnwerId:"abcs" , LikedBy:[{id:"2",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"9",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],    isLiked:false,  name:"John DoeLink",    likeCount:1, comment:"Lorem ipsum dolor sit amet."},
+        {id:3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", ReplyCount:7,  OnwerId:"abcd" ,LikedBy:[{id:"3",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"10",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],    isLiked:false, name:"March SoulLaComa",likeCount:99, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", ReplyCount:7,  OnwerId:"abce" , LikedBy:[{id:"4",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"11",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],   isLiked:false,  name:"Finn DoRemiFaso", likeCount:3, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", ReplyCount:7,  OnwerId:"abcf" , LikedBy:[{id:"5",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"12",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false, name:"Maria More More", likeCount:4, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", ReplyCount:7,  OnwerId:"abcg" ,LikedBy:[{id:"6",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"13",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false, name:"Clark June Boom!",likeCount:5, comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
+        {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", ReplyCount:7,  OnwerId:"abch" ,LikedBy:[{id:"15",name:"Jatin", username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},{id:"14",name:"Amit",image:"https://bootdey.com/img/Content/avatar/avatar1.png", username:"user1",}],      isLiked:false,  name:"The googler",    likeCount:6,  comment:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor."},
       ],
       msg: '',
       Role:"admin",
@@ -53,11 +53,11 @@ export default class Comments extends Component {
       loading: false,   
       error: null,
     
+
     }
     this.send = this.send.bind(this);
    
   }
-
 
 
 
@@ -78,16 +78,11 @@ export default class Comments extends Component {
  setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false
     });
   }
-
-
-
-
-
-
 
 
 
@@ -294,8 +289,6 @@ return(
 
   render() {
 
-   
-    const {height} = this.state;
     if (this.state.loading) {return (
       <View style={{ flex: 1, 
         justifyContent: "center",
@@ -306,8 +299,9 @@ return(
     );
   } 
   
+    const {height} = this.state;
+
     return (
-      
       this.state.error != null ?
       <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
         <Text>{this.state.error}</Text>
@@ -435,10 +429,9 @@ return(
 
              </TouchableOpacity>
 
-             
 
-             <TouchableOpacity  onPress={()=>this.props.navigation.navigate("ReplyComments",{CommentJson:Notification,PostOwnerId:this.props.route.params.PostOwnerId})}>
-           <Text style={{fontSize:12,marginLeft:60}} >{(parseInt(Notification.ReplyCount)===0)?"":Notification.ReplyCount} {(parseInt(Notification.ReplyCount)>1)?"Replies":"Reply"}</Text>  
+             <TouchableOpacity  onPress={()=>this.props.navigation.navigate("ReplyComments",{CommentJson:Notification,PostOwnerId:this.props.routeData.PostOwnerId})}>
+             <Text style={{fontSize:12,marginLeft:60}} >{(parseInt(Notification.ReplyCount)===0)?"":Notification.ReplyCount} {(parseInt(Notification.ReplyCount)>1)?"Replies":"Reply"}</Text>  
                   
                     </TouchableOpacity>
 
@@ -448,7 +441,7 @@ return(
                     {/* <TouchableOpacity style={styles.replyBtn}><Text>Reply</Text></TouchableOpacity> */}
                     </TouchableOpacity>
                   
-                    {(Notification.OnwerId===this.state.currentUserOnwerId||this.props.route.params.PostOwnerId===this.state.currentUserOnwerId) &&   
+                    {(Notification.OnwerId===this.state.currentUserOnwerId||this.props.routeData.PostOwnerId===this.state.currentUserOnwerId) &&   
                     
                     // <Button style={{height:15,width:15,flex: 1,
                     //   marginLeft:310,

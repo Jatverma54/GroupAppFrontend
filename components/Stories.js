@@ -9,14 +9,18 @@ import {
   Alert,
   FlatList,
   Share,
+  ActivityIndicator
 } from 'react-native';
 import {
   Avatar,
+  Button
 } from 'react-native-paper';
 import Post_Add from '../Pictures/Post_Add.png';
 import AddGroup from '../Pictures/AddGroup.png';
 import ShareIcon from '../Pictures/ShareIcon.png';
 import ImageView from "react-native-image-viewing";
+import { MaterialCommunityIcons} from '@expo/vector-icons';
+
 export default class Stories extends Component {
 
   constructor(props) {
@@ -35,7 +39,10 @@ export default class Stories extends Component {
         {id:"10", title: "XYZ Name", time:"9 minutes a go",   image:"https://lorempixel.com/400/200/nature/4/"},
       ],
       isVisible: false,
-      Groupimages:[]
+      Groupimages:[],
+      loading: false,   
+      error: null,
+    
     };
   }
 
@@ -61,6 +68,28 @@ export default class Stories extends Component {
     }
   };
 
+  getData = async ()  => {
+    // const url = `https://jsonplaceholder.typicode.com/users`;
+    // this.setState({ loading: true });
+     
+    //  try {
+    //     const response = await fetch(url);
+    //     const json = await response.json();
+    //     this.setResult(json);
+    //  } catch (e) {
+    //     this.setState({ error: 'Error Loading content', loading: false });
+    //  }
+  };
+
+
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+      temp: [...this.state.temp, ...res],
+      error: res.error || null,
+      loading: false
+    });
+  }
 
 
   AddStory(){
@@ -144,9 +173,28 @@ AddMembers(){
 
   render() {
          
-
+    if (this.state.loading) {return (
+      <View style={{ flex: 1, 
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"}}>
+       <ActivityIndicator size="large" color="black" />
+      </View>
+    );
+  }
     return (
       
+      this.state.error != null ?
+        <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+          </Button>
+        </View> :
       <View style={styles.container}>
         
           
