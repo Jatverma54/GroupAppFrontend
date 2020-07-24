@@ -10,7 +10,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import {  SearchBar } from "react-native-elements";
-import { MaterialCommunityIcons} from '@expo/vector-icons';
+import { MaterialCommunityIcons,FontAwesome} from '@expo/vector-icons';
 import { 
   Button,
 } from 'react-native-paper';
@@ -21,29 +21,31 @@ export default class ViewMembersPublicGroup extends Component {
     super(props);
     this.state = {
       data: [
-        {id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-        {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-        {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-        {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-        {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-        {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-        {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
+        {id:"abc",  name: "Mark Doe",  GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        {id:"abcd",  name: "Clark Man", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+        {id:3,  name: "Jaden Boor",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+        {id:4,  name: "Srick Tree", GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:5,  name: "Erick Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+        {id:6,  name: "Francis Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+        {id:8,  name: "Matilde Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+        {id:9,  name: "John Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:10, name: "Fermod Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+        {id:11, name: "Danny Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
       ],
       loading: false,   
      
-      temp: [{id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-      {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-      {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-      {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-      {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-      {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-      {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-      {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
+      temp: [
+        {id:"abc",  name: "Mark Doe",  GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        {id:"abcd",  name: "Clark Man", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+        {id:3,  name: "Jaden Boor",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+        {id:4,  name: "Srick Tree", GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:5,  name: "Erick Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+        {id:6,  name: "Francis Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+        {id:8,  name: "Matilde Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+        {id:9,  name: "John Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:10, name: "Fermod Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+        {id:11, name: "Danny Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
+    ],
 
      
 
@@ -164,6 +166,13 @@ export default class ViewMembersPublicGroup extends Component {
               <Text style={styles.msgTxt}>{item.username}</Text>
             </View>
            
+            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:300}}>
+            <FontAwesome name="user-secret" size={15} style={{
+            
+               color: "#666",
+              
+            }} />
+            </View>}
            
             
           </View>
@@ -219,8 +228,8 @@ export default class ViewMembersPublicGroup extends Component {
 
             this.state.data = this.state.temp.filter(function(item){
                 return item.name.includes(search)||item.username.includes(search);
-              }).map(function({id, name, image,username}){
-                return {id, name, image,username};
+              }).map(function({id, name, image,username,GroupAdmin}){
+                return {id, name, image,username,GroupAdmin};
             });
         });
 

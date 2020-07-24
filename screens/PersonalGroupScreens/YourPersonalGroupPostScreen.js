@@ -484,7 +484,7 @@ Likes(data) {
                  
 
                   <TouchableOpacity onPress={()=>this.delete(item)}>
-<Image style={{height:20,width:20}} source={Close_icon} />
+                  <MaterialCommunityIcons name="delete-outline" size={15} style={{height:15,width:15,}}/>
 </TouchableOpacity>
 
 
@@ -673,7 +673,7 @@ Likes(data) {
                  
                   <View style={styles.socialBarSection}>
                    
-                  <TouchableOpacity      onPress={()=>this.props.navigation.push("Comments")}>
+                  <TouchableOpacity      onPress={()=>this.props.navigation.navigate("Comments",post.item)}>
                     <View style={styles.socialBarButton}>
                       <Image style={{  width:25,
   height:25,

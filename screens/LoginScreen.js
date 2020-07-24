@@ -6,57 +6,131 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Image
+  Image,
+  Alert,
+  Keyboard
 } from 'react-native';
 // import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
 // import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
-import { useNavigation } from '@react-navigation/native';
-
+import APIPasswordCollection from '../constants/APIPasswordCollection';
+import { encode } from "base-64";
 export default class CreateaPublicGroupScreen extends Component {
 
-  render() {
-    return (
-      <PublicScreenLogic/>
-        );
-  }
-}
+  constructor(props) {
+    super(props);
 
-const PublicScreenLogic=()=>{
-  const navigation = useNavigation();
-return(
-  <View style={styles.container}>
+    this.state = {
+      userName:'',
+      Password:''
+    };
+  }
+
+  login = async () => {
+    Keyboard.dismiss();
+    
+    const { userName, password} = this.state
+
+    if(userName&&password){
+    
+    try {
+       
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+
+console.log(myHeaders,"headers")
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+ 
+
+};
+
+    const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/secure/login", requestOptions
+          
+        
+    );
+      
+
+    if(response.ok){
+      let responseJson = await response.json(); 
+    Alert.alert(
+
+      "Welcome to the Group App "+responseJson.firstName,
+      "Login Successful",
+      [
+        { text: "Ok", onPress: () =>  this.props.navigation.push('DrawerScreen')}
+      ],
+      { cancelable: false }
+    );
+    }
+    else{
+
+    alert("Unauthorized! Check your Username and Password")
+  //  console.log(responseJson);
+    }
+
+    } catch (err) {
+      console.log('error signing up: ', err)
+    }
+  }else{
+   
+    if(!userName){
+      alert("Please enter an Username");
+    }
+    else if(!password){
+      alert("Please enter Password");
+    }
+    
+  }
+ 
+  }
+
+
+  render() {
+
+    const { userName, password} = this.state
+    return (
+      
+      <View style={styles.container}>
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon}/>
           <TextInput style={styles.inputs}
-              placeholder="Email"
-            
+              placeholder="Username"
+              value={userName}
               keyboardType="email-address"
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              onChangeText={(userName) => this.setState({userName})}
+              />
+
         </View>
         
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Password"
-            
+              value={password}
               secureTextEntry={true}
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              onChangeText={(password) => this.setState({password})}
+              />
         </View>
      
        
        
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={()=>navigation.push('DrawerScreen')}   >
-          <Text style={styles.loginText}>Login</Text>
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={this.login }   >
+          <Text style={styles.loginText} >Login</Text>
         </TouchableOpacity>
 
         
-        <TouchableOpacity style={styles.restoreButtonContainer}  onPress={()=>navigation.push('ForgotPassword')}   >
+        <TouchableOpacity style={styles.restoreButtonContainer}  onPress={()=>this.props.navigation.push('ForgotPassword')}   >
             <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Forgot your Password?Get help</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonSignupContainer} onPress={()=>navigation.push('SignupScreen')}   >
+        <TouchableOpacity style={styles.buttonSignupContainer} onPress={()=>this.props.navigation.push('SignupScreen')}   >
             <Text style={{fontWeight:'bold',width:"100%",marginLeft:100}}>Don't have an account?signup </Text>
         </TouchableOpacity>
 
@@ -87,8 +161,11 @@ return(
 </TouchableOpacity> */}
       </View>
 
-);
+        );
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

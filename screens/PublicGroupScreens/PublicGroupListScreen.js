@@ -17,7 +17,7 @@ import actions from '../../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../constants/colors';
 import {  SearchBar } from "react-native-elements";
-
+import DialogInput from 'react-native-dialog-input';
 
 
 export default class PublicGroupListScreen extends Component {
@@ -43,8 +43,8 @@ export default class PublicGroupListScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/2/", 
           GroupName:"Group 2", 
           countMembers:10,  
-          isJoined: true ,
-          isReuquested: false,
+          isJoined: false ,
+          isReuquested: true,
           GroupCategory:"HealthCare"
         },
         {
@@ -76,8 +76,8 @@ export default class PublicGroupListScreen extends Component {
           image: "https://lorempixel.com/100/100/nature/2/", 
           GroupName:"Group 2", 
           countMembers:10,  
-          isJoined: true ,
-          isReuquested: false,
+          isJoined: false ,
+          isReuquested: true,
           GroupCategory:"HealthCare"
         },
         {
@@ -99,7 +99,9 @@ export default class PublicGroupListScreen extends Component {
       
       loading: false,   
       error: null,
-    
+      isDialogVisible: false,
+      inputText:'',
+      itemData:''
     }
   }
  
@@ -181,10 +183,16 @@ export default class PublicGroupListScreen extends Component {
   }
 
   SendJoinRequest(data){
-
-    data.item.isReuquested = !data.item.isReuquested;
   
-
+    data.item.isReuquested = !data.item.isReuquested;
+    
+    
+   
+    if (!data.item.isReuquested)
+    {
+      data.item.JoiningReason=  'Delete Join Request';
+    }
+  
   //  data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
   //    : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
    
@@ -204,11 +212,44 @@ export default class PublicGroupListScreen extends Component {
     });
 
 
-
+    console.log(this.state.data,"dddddddddddddddddddddddddd")
 
   }
 
+  SendJoinRequestPopUp(data,inputText){
+  
+    data.item.isReuquested = !data.item.isReuquested;
+    
+     
+    // data.item.isReuquested?this.showDialog(true):this.showDialog(false)
+   
+    if (data.item.isReuquested)
+    {
+      data.item.JoiningReason=  inputText;
+    }
+  
+  //  data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
+  //    : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
+   
+    const index = this.state.data.findIndex(
+      item => data.item.id === item.id
+    );
+  
+  
+    this.state.data[index] = data.item;
+    
 
+
+    this.setState({
+      data: this.state.data,
+    
+   
+    });
+
+
+console.log(this.state.data,"Ccccccccccccccccccccccc")
+
+  }
 
 
   setResult = (res) => {
@@ -219,7 +260,7 @@ export default class PublicGroupListScreen extends Component {
       loading: false
     });
   }
-d
+
   renderHeader = () => {
       return <SearchBar 
       // height: 0.5,
@@ -282,6 +323,15 @@ d
 
 
 
+  showDialog(isShow,item){
+    this.setState({isDialogVisible: isShow,itemData:item});
+  }
+  
+  sendInput(inputText){
+
+     this.showDialog(false)
+    this.SendJoinRequestPopUp( this.state.itemData,inputText)
+  }
 
 
 
@@ -315,6 +365,16 @@ d
       </View> :
    <View  style={styles.FloatButtonPlacement} > 
 
+
+<DialogInput isDialogVisible={this.state.isDialogVisible}
+                    title={"Why do you want to be a group member"}
+                    message={"Let admin know the reason"}
+                    hintInput ={"Please Type here.."}
+                    submitInput={ (inputText) => {this.sendInput(inputText)} }
+                    closeDialog={ () => {this.showDialog(false)}}>
+        </DialogInput>
+
+
       <FlatList 
         style={styles.root}
         data={this.state.data}
@@ -341,13 +401,14 @@ d
           return(
            
             <View style={styles.container}>
+
                 <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("PublicGroupBio",Group)}>
               <Image source={{uri:Group.image}} style={styles.avatar}/>
               </TouchableOpacity>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
-                  <TouchableOpacity onPress={()=>this.props.myHookValue.navigate("PublicGroupBio",Group)}>
+                  <TouchableOpacity onPress={()=>Group.isJoined?this.props.myHookValue.navigate("JoinedGroupInsideGroup",Group):this.props.myHookValue.navigate("PublicGroupBio",Group)}>
                     <Text style={styles.groupName}>{Group.GroupName}</Text>
                     </TouchableOpacity>
                   </View>
@@ -360,12 +421,12 @@ d
               <View style={styles.button}>
 
               {Group.isJoined?
-                <Button title="Joined"  onPress={()=>this.SendJoinRequest(item)} />
+                <Button title="Joined"  />
 
               : (Group.isReuquested)?
               <Button title="Requested" color="grey" onPress={()=>this.SendJoinRequest(item)} />
 
-              :<Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={()=>this.SendJoinRequest(item)} />
+              :<Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={()=>this.showDialog(true,item)} />
               }
                 
                 </View>

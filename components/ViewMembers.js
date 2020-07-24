@@ -31,39 +31,40 @@ export default class ViewMembers extends Component {
     super(props);
     this.state = {
       data: [
-        {id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-        {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-        {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-        {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-        {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-        {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-        {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
+        {id:"abc",  name: "Mark Doe",  GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        {id:"abcd",  name: "Clark Man", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+        {id:3,  name: "Jaden Boor",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+        {id:4,  name: "Srick Tree", GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:5,  name: "Erick Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+        {id:6,  name: "Francis Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+        {id:8,  name: "Matilde Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+        {id:9,  name: "John Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],   username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:10, name: "Fermod Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+        {id:11, name: "Danny Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
       ],
     
-      temp: [{id:1,  name: "Mark Doe",    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-      {id:2,  name: "Clark Man",   username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-      {id:3,  name: "Jaden Boor",  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-      {id:4,  name: "Srick Tree",  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:5,  name: "Erick Doe",   username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-      {id:6,  name: "Francis Doe", username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-      {id:8,  name: "Matilde Doe", username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-      {id:9,  name: "John Doe",    username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-      {id:10, name: "Fermod Doe",  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-      {id:11, name: "Danny Doe",   username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
+      temp: [{id:"abc",  name: "Mark Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"],    username:"user1", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+      {id:"abcd",  name: "Clark Man",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user2", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+      {id:3,  name: "Jaden Boor",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user3", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+      {id:4,  name: "Srick Tree",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user4", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+      {id:5,  name: "Erick Doe", GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user5", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+      {id:6,  name: "Francis Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user6", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
+      {id:8,  name: "Matilde Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user7", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
+      {id:9,  name: "John Doe",  GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user8", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+      {id:10, name: "Fermod Doe",GroupName:"Group 2",GroupAdmin:["abcd","abc"],  username:"user9", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
+      {id:11, name: "Danny Doe",  GroupName:"Group 2",GroupAdmin:["abcd","abc"], username:"user10", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},],
 
      
 
       error: null,
       search: null,
-      Role:"admin", 
+      Role:'', 
       searchStarted:"false",
       AdminTab:'',
       isFetching:false,
       loading: false,   
       error: null,
+      currentUserOnwerId:'abcd',
     };
   }
 
@@ -216,17 +217,27 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
     return (
      
         <View  style={styles.row}>
-            <TouchableOpacity   style={styles.TouchableOpacityStyle}  onPress={()=> {this.AdminOptions.open(); this.setState({AdminTab:item})}}>    
+            <TouchableOpacity   style={styles.TouchableOpacityStyle}  onPress={()=> {this.AdminOptions.open(); this.setState({Role:item.GroupAdmin.includes(this.state.currentUserOnwerId)?"admin":"user",AdminTab:item})}}>    
           <Image source={{ uri: item.image }} style={styles.pic} />
           <View>
             <View style={styles.nameContainer}>
               <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
-             
+              
+              
+
             </View>
             <View style={styles.msgContainer}>
               <Text style={styles.msgTxt}>{item.username}</Text>
             </View>
            
+            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:300}}>
+            <FontAwesome name="user-secret" size={15} style={{
+            
+               color: "#666",
+              
+            }} />
+            </View>}
+
             {/* {(this.state.Role.includes("admin")) &&  
             <View style={{flex:1, marginLeft:300}}>
             <TouchableOpacity onPress={()=>this.delete(item)}>  
@@ -344,8 +355,8 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
 
             this.state.data = this.state.temp.filter(function(item){
                 return item.name.includes(search)||item.username.includes(search);
-              }).map(function({id, name, image,username}){
-                return {id, name, image,username};
+              }).map(function({id, name, image,username,GroupAdmin}){
+                return {id, name, image,username,GroupAdmin};
             });
         });
 

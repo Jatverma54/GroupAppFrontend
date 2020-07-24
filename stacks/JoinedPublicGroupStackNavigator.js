@@ -21,7 +21,7 @@ import AddMember from '../components/AddMember';
  import CommentLikes from '../components/Comment/LikesComments';
 import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen/UpdatePublicGroupAccountInfoScreen';
 import ReplyComments from '../components/Comment/ReplyComments';
-
+import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinPublicGroupRequestScreen';
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -200,7 +200,7 @@ import ReplyComments from '../components/Comment/ReplyComments';
       
       
       name='Notification' 
-      component={NotificationScreen}/>
+      component={NotificationGroupTabStackNavigator}/>
   
         </JoinedGroupInsideGroupTabStack.Navigator>
     
@@ -208,6 +208,69 @@ import ReplyComments from '../components/Comment/ReplyComments';
     );
   };
   
+
+
+
+
+  const NotificationGroupTabStack = createMaterialTopTabNavigator();
+  const NotificationGroupTabStackNavigator =(props)=>{
+    
+    
+    return (
+  
+     
+        <NotificationGroupTabStack.Navigator   initialRouteName="Notification" 
+        activeTintColor="black"  
+        inactiveTintColor="Grey"
+       barStyle={{ backgroundColor: 'white' }}
+
+       
+      
+       tabBarOptions={{
+        
+        indicatorStyle:{
+          backgroundColor: colors.StackheaderStyleBackgroundColor
+        },
+  
+        labelStyle: {
+          fontSize: colors.TabLabelStylefontSize,
+          fontWeight: colors.TabLabelStylefontWeight,
+         width:colors.TabLabelStylewidth
+        },   
+        
+      }}
+      
+    >        
+        <NotificationGroupTabStack.Screen  options={{        
+            tabBarLabel: 'Group Requests' }} 
+      
+            name='GroupRequests' 
+            component={withMyHook(JoinPublicGroupRequestScreen)}/>
+
+
+
+<NotificationGroupTabStack.Screen  options={{
+         tabBarLabel: 'Notifications'
+        }}
+      
+      
+      name='Notification' 
+      component={NotificationScreen}/>
+  
+        </NotificationGroupTabStack.Navigator>
+    
+      
+    );
+  };
+
+
+
+
+
+
+
+
+
 
 
   const HomeFeedStack = createStackNavigator();

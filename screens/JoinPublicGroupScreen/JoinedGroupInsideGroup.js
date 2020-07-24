@@ -50,10 +50,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", PostOwnerId:"abc",  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",  GroupName:"Group 2",GroupAdmin:["abc"],  PostOwnerId:"abc",  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
         LikePictures:[] },
         
-        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 , GroupName:"Group 2",GroupAdmin:["abc"],   isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -63,7 +63,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
               // "https://bootdey.com/img/Content/avatar/avatar4.png"
                     
         ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:2,   countcomments:2 , PostOwnerId:"abc",  isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",     countLikes:2,  GroupName:"Group 2",GroupAdmin:["abc"], countcomments:2 , PostOwnerId:"abc",  isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -80,7 +80,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
        
       
      
-        {id:"4", title: "XYZ Name",   countLikes:3,  countcomments:21 , isLiked:false, PostOwnerId:"abc",  time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+        {id:"4", title: "XYZ Name",   countLikes:3,GroupName:"Group 2",GroupAdmin:["abc"],   countcomments:21 , isLiked:false, PostOwnerId:"abc",  time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
       
         LikePictures:[
          
@@ -104,12 +104,13 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       isDocumentVisible: false,
       OpenDucumentUri:'',
       numberOfLines:14,
-      Role:"user", 
       isFetching:false,
       AdminTab:'',
       PostUsertitle:'',
       loading: false,   
       error: null,
+      currentUserOnwerId:'abc',
+      GroupAdmin:''
     
     };
   }
@@ -537,9 +538,9 @@ openDocument (url) {
                   </View>
                 
 
-                {(this.state.Role.includes("admin")) && 
+                {(post.item.GroupAdmin.includes(this.state.currentUserOnwerId)||post.item.PostOwnerId===this.state.currentUserOnwerId) && 
                 
-                <TouchableOpacity  onPress={()=> {this.AdminOptions.open(); this.setState({AdminTab: post,PostUsertitle: post.item.title.length>15?post.item.title.toString().substring(0,15)+"..":post.item.title})}}> 
+                <TouchableOpacity  onPress={()=> {this.AdminOptions.open(); this.setState({GroupAdmin:post.item.GroupAdmin,  AdminTab: post,PostUsertitle: post.item.title.length>15?post.item.title.toString().substring(0,15)+"..":post.item.title})}}> 
 
                 <FontAwesome
               name="ellipsis-v"                
@@ -759,7 +760,7 @@ openDocument (url) {
          
             <Text style={styles.listTitleNewPost}>Admin Options</Text>
 
-            {(this.state.Role.includes("admin")) ?
+            {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
             <View>
               <TouchableOpacity
                 
@@ -778,7 +779,19 @@ openDocument (url) {
               >
                 <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
                 <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
-              </TouchableOpacity></View>: <Text style={styles.listTitleNewPost}>You need to be Admin to view Admin Options</Text>}
+              </TouchableOpacity></View>: 
+               <View>
+               <TouchableOpacity
+                 
+                 style={styles.listButtonNewPost}
+                 onPress={()=>this.delete(this.state.AdminTab.item)}
+               >
+                 <MDIcon name="delete" style={styles.listIconNewPost} />
+         <Text style={styles.listLabelNewPost}>Delete your post</Text>
+               </TouchableOpacity>
+               </View>
+              
+              }
 
 
 

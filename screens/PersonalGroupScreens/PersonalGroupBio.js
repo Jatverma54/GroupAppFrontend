@@ -45,13 +45,13 @@ export default class PersonalGroupBio extends Component {
         GroupName:"Group 1", 
         countMembers:51, 
         Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences.", 
-       
+        GroupAdminName:['Mark',"Doe"]
       },
-      Role:"admin",
+      Role:"user",//update role
       isVisible:false,
       loading: false,   
       error: null,
-    
+      currentUserOnwerId:'abc',
     }
   }
 
@@ -100,7 +100,7 @@ export default class PersonalGroupBio extends Component {
       id,
       GroupName,
       countMembers,
-     
+      GroupAdminName,
       Bio,
     } = this.state.data;
     
@@ -119,7 +119,8 @@ export default class PersonalGroupBio extends Component {
           image: result.uri, 
           GroupName:GroupName, 
           countMembers:countMembers,
-          Bio:Bio,    
+          Bio:Bio,   
+          GroupAdminName:GroupAdminName 
         };
 
         this.setState({ data: Data });
@@ -149,7 +150,7 @@ getCameraPermissionAsync = async () => {
     id,
     GroupName,
     countMembers,
-   
+    GroupAdminName,
     Bio,
   } = this.state.data;
   try {
@@ -167,7 +168,7 @@ getCameraPermissionAsync = async () => {
         image: result.uri, 
         GroupName:GroupName, 
         countMembers:countMembers, 
-      
+        GroupAdminName:GroupAdminName,
         Bio:Bio,    
       };
 
@@ -317,7 +318,7 @@ getCameraPermissionAsync = async () => {
     id,
     GroupName,
     countMembers,
-   
+    GroupAdminName,
     Bio,
   } = this.state.data;
 
@@ -397,8 +398,10 @@ getCameraPermissionAsync = async () => {
                 <Text style={styles.CountMember}>
                   Members: {countMembers}
                 </Text>
-               
-
+                <Text style={styles.GroupAdminName}>
+                  Group Admin: {GroupAdminName.join(" , ")}
+                </Text>
+              
 
 
                 {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
@@ -496,6 +499,16 @@ const styles = StyleSheet.create({
     //fontWeight:'600',
     width:"100%", 
    alignSelf: 'center',
+  },
+  GroupAdminName:{
+    fontSize:15,
+    color:"#FFFFFF",
+    //padding:10,
+    marginLeft:5,
+    //fontWeight:'600',
+    width:"100%", 
+   alignSelf: 'center',
+   marginTop:5
   },
   profileDetail:{
     alignSelf: 'center',

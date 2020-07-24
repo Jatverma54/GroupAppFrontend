@@ -22,11 +22,18 @@ import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../PublicGroupScreens/PostImagesPublicGroup';
 import Comment from '../../Pictures/Comment.png';
 import { Video } from 'expo-av';
-import { MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons,AntDesign,FontAwesome } from '@expo/vector-icons';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import ViewMoreText from 'react-native-view-more-text';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
+import RBSheet from "react-native-raw-bottom-sheet";
+import FAIcon from "react-native-vector-icons/FontAwesome";
+import MDIcon from "react-native-vector-icons/MaterialIcons";
+
+FAIcon.loadFont();
+MDIcon.loadFont();
+
 
 export default class PublicGroupFeedScreen extends Component {
 
@@ -34,10 +41,10 @@ export default class PublicGroupFeedScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", GroupName:"Falt and Flatmate Story of hope and inspiration" , PostOwnerId:"abc", isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", GroupName:"Falt and Flatmate Story of hope and inspiration",GroupAdmin:["abce"] , PostOwnerId:"abc", isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
         LikePictures:[] },
         
-        {id:"2", title: "Amit",    GroupName:"Group 2",   countLikes:1,     countcomments:0 ,  isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",    GroupName:"Group 2", GroupAdmin:["abc"]  ,  countLikes:1,     countcomments:0 ,  isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -47,7 +54,7 @@ export default class PublicGroupFeedScreen extends Component {
               // "https://bootdey.com/img/Content/avatar/avatar4.png"
                     
         ]} ,
-        {id:"3", title: "XYZ Name",  GroupName:"Group 3",     countLikes:2,   countcomments:2 ,  PostOwnerId:"abc", isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
+        {id:"3", title: "XYZ Name",  GroupName:"Group 3",GroupAdmin:["abce"] ,     countLikes:2,   countcomments:2 ,  PostOwnerId:"abcd", isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
       
       
         LikePictures:[
@@ -64,7 +71,7 @@ export default class PublicGroupFeedScreen extends Component {
        
       
      
-        {id:"4", title: "XYZ Name", GroupName:"Group 4",   countLikes:3,  countcomments:21 , isLiked:false,PostOwnerId:"abc",   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
+        {id:"4", title: "XYZ Name", GroupName:"Group 4",  GroupAdmin:["abcd"] , countLikes:3,  countcomments:21 , isLiked:false,PostOwnerId:"abcd",   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
       
         LikePictures:[
          
@@ -88,7 +95,10 @@ export default class PublicGroupFeedScreen extends Component {
       isFetching:false,
       loading: false,   
       error: null,
-    
+      currentUserOnwerId:'abc',
+      AdminTab:'',
+      PostUsertitle:'',
+      GroupAdmin:''
     };
    
   }
@@ -384,6 +394,22 @@ export default class PublicGroupFeedScreen extends Component {
                     <Text style={styles.time}>{item.time}</Text>
                    </View>
                   </View>
+
+
+                  {( item.GroupAdmin.includes(this.state.currentUserOnwerId) ||item.PostOwnerId===this.state.currentUserOnwerId) && 
+                
+                <TouchableOpacity  onPress={()=> {this.AdminOptions.open(); this.setState({GroupAdmin:item.GroupAdmin ,AdminTab: post,PostUsertitle: item.title.length>15?item.title.toString().substring(0,15)+"..":item.title})}}> 
+
+                <FontAwesome
+              name="ellipsis-v"                
+              size={20}
+              style={{height:20,width:20}}
+            />
+
+{/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+</TouchableOpacity>}
+
+
                 </View>
 
                 <View style={styles.cardContent}>             
@@ -593,7 +619,65 @@ export default class PublicGroupFeedScreen extends Component {
           )           
         }}/>: <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >Join public groups to see a post</Text></View>}
      
-          
+
+
+
+        <RBSheet
+          ref={ref => {
+            this.AdminOptions = ref;
+          }}
+          height={330}
+         
+        >
+          <View style={styles.listContainerNewPost}>
+         
+            <Text style={styles.listTitleNewPost}>Admin Options</Text>
+
+            {( this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
+            <View>
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={()=>this.delete(this.state.AdminTab.item)}
+              >
+                <MDIcon name="delete" style={styles.listIconNewPost} />
+        <Text style={styles.listLabelNewPost}>Delete post from {this.state.PostUsertitle}</Text>
+              </TouchableOpacity>
+
+                
+              <TouchableOpacity
+                
+                style={styles.listButtonNewPost}
+                onPress={() => this.deletePostandUserfromGroup(this.state.AdminTab.item)}
+              >
+                <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
+                <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
+              </TouchableOpacity></View>: 
+               <View>
+               <TouchableOpacity
+                 
+                 style={styles.listButtonNewPost}
+                 onPress={()=>this.delete(this.state.AdminTab.item)}
+               >
+                 <MDIcon name="delete" style={styles.listIconNewPost} />
+         <Text style={styles.listLabelNewPost}>Delete your post</Text>
+               </TouchableOpacity>
+               </View>
+              
+              }
+
+
+
+            
+           
+          </View>
+        </RBSheet>
+
+
+  
+
+
+
       </View>
      
     );
@@ -830,5 +914,49 @@ alignItems:"center",
   hashTag: {
     fontStyle: 'italic',
     color: '#1E90FF',
+  },
+
+
+  
+  listContainerNewPost: {
+    flex: 1,
+    padding: 25
+  },
+  listTitleNewPost: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: "#666",
+    fontWeight:"bold"
+  },
+  listButtonNewPost: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10
+  },
+  listIconNewPost: {
+    fontSize: 26,
+    color: "#666",
+    width: 60
+  },
+  listIconNewVideoPost: {
+    fontSize: 26,
+    color: "#666",
+    width: 50,
+    marginLeft:-22
+    
+  },
+  listLabelNewPost: {
+    fontSize: 16
+  },
+  listLabelVideoNewPost: {
+    fontSize: 16,
+    marginLeft:33
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: "#CCCCCC",
+    width:"78%",
+    marginLeft:60
+
   },
 });  

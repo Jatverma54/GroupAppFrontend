@@ -29,7 +29,8 @@ export default class PublicGroupBio extends Component {
           countMembers:51, 
           Privacy:"Closed Group",
           Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences. The true measure of your paragraphs should be ideas.", 
-          GroupCategory:"HealthCare"
+          GroupCategory:"HealthCare",
+          GroupAdminName:['Mark',"Doe"]
         },
        
         
@@ -141,6 +142,7 @@ export default class PublicGroupBio extends Component {
     countMembers,
     Privacy,
     Bio,
+    GroupAdminName
   } = this.state.data;
 
   const images = [
@@ -215,6 +217,9 @@ alignSelf: 'center',marginTop:5,
 
                 }}>Group Category: {this.props.GroupName.GroupCategory}</Text>
                 
+                <Text style={styles.GroupAdminName}>
+                  Group Admin: {GroupAdminName.join(" , ")}
+                </Text>
                
             </View>
           
@@ -371,6 +376,17 @@ const styles = StyleSheet.create({
     width:"50%",
     borderRadius:30,
     backgroundColor: "#0489B1",
-  }
+  },
+
+  GroupAdminName:{
+    fontSize:15,
+    color:"#FFFFFF",
+    //padding:10,
+    marginLeft:5,
+    //fontWeight:'600',
+    width:"100%", 
+   alignSelf: 'center',
+   marginTop:5
+  },
 });
  

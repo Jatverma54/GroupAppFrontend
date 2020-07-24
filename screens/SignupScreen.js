@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Image,
   Platform,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 import {
  
@@ -35,9 +36,8 @@ export default class SignupScreen extends Component {
   
   constructor(props) {
     super(props);
-  }
 
-  state = {
+    this.state = {
       userName: '',
       email   : '',
       password: '',
@@ -51,6 +51,9 @@ export default class SignupScreen extends Component {
        datechanged:false,
        ImageFormData: null
     };
+  }
+
+
 
   
      onChange = (event, selectedDate) => {
@@ -159,13 +162,13 @@ getCameraPermissionAsync = async () => {
 
   signUp = async () => {
 
- 
+    Keyboard.dismiss();
      
     const { userName, password, email, First_name,Last_name,confirmPassword,date,ImageFormData ,datechanged,} = this.state
   
   let emailValidation= this.EmailValidation(email)  
 
-  let PasswordValidation= this.PasswordValidation(password)  
+ let PasswordValidation= this.PasswordValidation(password)  
 
     if(datechanged&&password===confirmPassword&&userName&&password&&email&&First_name&&Last_name&&emailValidation&&PasswordValidation){
     
@@ -198,28 +201,24 @@ getCameraPermissionAsync = async () => {
       }
     }
     
-        var fdata = new FormData();
-fdata.append('userDetails', 
- JSON.stringify(personInfo)
-    
-);
 
-ImageFormData?fdata.append('file', img):fdata.append('file',null);
+
 
 
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "multipart/form-data");
 myHeaders.append("Accept", "application/json");
+myHeaders.append("Accept", "text/plain");
 
 var formdata = new FormData();
-formdata.append("file",  img);
+ImageFormData?formdata.append("file", img):formdata.append("file",null);
 formdata.append("userDetails", JSON.stringify(personInfo));
 console.log(formdata)
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
   body: formdata,
-  redirect: 'follow'
+  //redirect: 'follow'
 };
 
  
@@ -229,11 +228,8 @@ var requestOptions = {
        
         
     );
-
-    let responseJson = await response.json();
-    console.log(responseJson,"Data to be sent")
-       console.log(response.status)
-    if(responseJson.ok){
+  
+    if(response.ok){
 
     Alert.alert(
 
@@ -246,9 +242,9 @@ var requestOptions = {
     );
     }
     else{
-      
+  let responseJson = await response.json();
    let errorstring= responseJson.errors.toString().replace(",","\n")
-    alert(errorstring )
+   alert(errorstring )
   //  console.log(responseJson);
     }
 
@@ -345,7 +341,8 @@ else if (!PasswordValidation){
    render() {
    
 
-    let { photo,date ,show,mode} = this.state;
+    let { photo,date ,show,mode,userName, password, email, First_name,Last_name,confirmPassword,} = this.state;
+   
     // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
     // imageUri && console.log({uri: imageUri.slice(0, 100)});
    
@@ -380,6 +377,7 @@ else if (!PasswordValidation){
               placeholder="Username"
             maxLength={21}
               keyboardType="email-address"
+              value={userName}
               underlineColorAndroid='transparent'
               onChangeText={(userName) => this.setState({userName})}/>
         </View>
@@ -388,7 +386,7 @@ else if (!PasswordValidation){
           <Image style={styles.inputIcon} source={Email_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Email"
-            
+              value={email}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(email) => this.setState({email})}/>
@@ -400,6 +398,7 @@ else if (!PasswordValidation){
           <TextInput style={styles.inputs}
               placeholder="First Name"
               maxLength={15}
+              value={First_name}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(First_name) => this.setState({First_name})}/>
@@ -411,6 +410,7 @@ else if (!PasswordValidation){
           <TextInput style={styles.inputs}
               placeholder="Last Name"
               maxLength={15}
+              value={Last_name}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(Last_name) => this.setState({Last_name})}/>
@@ -458,7 +458,7 @@ else if (!PasswordValidation){
           <Image style={styles.inputIcon} source={lock_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Password"
-            
+              value={password}
               secureTextEntry={true}
               underlineColorAndroid='transparent'
               onChangeText={(password) => this.setState({password})}/>
@@ -468,7 +468,7 @@ else if (!PasswordValidation){
           <Image style={styles.inputIcon} source={lock_Icon}/>
           <TextInput style={styles.inputs}
               placeholder="Confirm Password"
-            
+              value={confirmPassword}
               secureTextEntry={true}
               underlineColorAndroid='transparent'
               onChangeText={(confirmPassword) => this.setState({confirmPassword})}/>
@@ -491,7 +491,7 @@ else if (!PasswordValidation){
           height={330}
         >
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Upload Group Avatar</Text>
+            <Text style={styles.listTitle}>Upload an Avatar</Text>
           
               <TouchableOpacity
                 
