@@ -9,7 +9,7 @@ import {
   RefreshControl,
   FlatList
 } from 'react-native';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default class NotificationScreen extends Component {
 
   constructor(props) {
@@ -25,8 +25,11 @@ export default class NotificationScreen extends Component {
         {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name:"The googler",      text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
       ],
       isFetching:false,
+     
     }
   }
+
+  
 
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.searchRandomUser() });
@@ -62,7 +65,19 @@ export default class NotificationScreen extends Component {
   
   }
 
+
   render() {
+
+  //  this.state.Seen?this.props.navigation.setOptions({
+     
+  //     tabBarLabel: ({focused, tintColor:color}) => (
+  //       <MaterialCommunityIcons name="bell" color="black"  size={26} /> 
+  //       ),
+  //   }):null
+
+
+  
+  
     return (
       <FlatList
         style={styles.root}

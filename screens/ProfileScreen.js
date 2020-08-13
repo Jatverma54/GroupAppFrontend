@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   Image, 
+  Dimensions
 } from 'react-native';
 
 import { 
@@ -23,7 +24,7 @@ import * as Permissions from 'expo-permissions';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
-
+const { width, height } = Dimensions.get('window');
 export default class ProfileScreen extends Component {
 
 
@@ -123,7 +124,7 @@ export default class ProfileScreen extends Component {
       <View style={styles.container}>
           <View style={styles.header}>
 
-          <Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.navigation.navigate("ChangePassword")}} >
+          <Button color="white" style={{marginLeft:width-30-30}}   onPress={()=>{this.props.navigation.navigate("ChangePassword")}} >
                        
                        <MaterialCommunityIcons
                                name='account-edit'                
@@ -158,7 +159,7 @@ export default class ProfileScreen extends Component {
 /> }
 
                 <Text style={styles.name}>
-                  Jatin Verma
+                  Jatin
                 </Text>
                 </TouchableOpacity>
             </View>
@@ -244,12 +245,14 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: "white",
     marginBottom:10,
+    alignSelf:"center"
   },
   name:{
     fontSize:22,
     color:"#FFFFFF",
     fontWeight:'600',
-    alignSelf:"center"
+    alignSelf:"center",
+    //marginRight:20
   },
   bodyContent: {
     flex: 1,

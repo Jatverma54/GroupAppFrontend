@@ -139,7 +139,7 @@ const Search=()=>{
     }),     
     
         headerTintColor: colors.StackheaderTintColor,
-        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:80},
       }}>
         
 

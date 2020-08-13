@@ -10,6 +10,7 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
+import ViewMoreText from 'react-native-view-more-text';
 
 export default class JoinPublicGroupRequestScreen extends Component {
 
@@ -17,7 +18,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
     super(props);
     this.state = {
       data:[
-        {id:3,  image: "https://bootdey.com/img/Content/avatar/avatar7.png", name:"March SoulLaComa", text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", },
+        {id:3,  image: "https://bootdey.com/img/Content/avatar/avatar7.png", name:"March SoulLaComa", text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", },
         {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name:"John DoeLink",     text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", },
         {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name:"Finn DoRemiFaso",  text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", },
         {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name:"Maria More More",  text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", },
@@ -63,6 +64,19 @@ export default class JoinPublicGroupRequestScreen extends Component {
   
   }
 
+
+
+  renderViewMore(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
+    )
+  }
+  renderViewLess(onPress){
+    return(
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
+    )
+  }
+
   render() {
     return (
       <FlatList
@@ -105,7 +119,15 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
                     <View style={styles.text}>
                                         <Text style={styles.name}>{Notification.name}</Text>
+
+                                        <ViewMoreText
+          numberOfLines={5}
+          renderViewMore={this.renderViewMore}
+          renderViewLess={this.renderViewLess}
+          textStyle={styles.text}
+        >   
                                         <Text>{Notification.text}</Text>
+                                 </ViewMoreText>
                                         </View>
 
                                         <View style={styles.btnActionsWrapper}>

@@ -31,7 +31,7 @@ import ExitIcon from '../../Pictures/ExitIcon.png';
 import Repor_Icon from '../../Pictures/Repor_Icon.png';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
-
+const { width, height } = Dimensions.get('window');
 export default class YourPublicGroupPostscreen extends Component {
 
   constructor(props) {
@@ -199,12 +199,12 @@ export default class YourPublicGroupPostscreen extends Component {
      
      renderViewMore(onPress){
       return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
       )
     }
     renderViewLess(onPress){
       return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
       )
     }
 
@@ -328,7 +328,7 @@ return(
             <View>
               
             <Image 
-                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
                    source={Repor_Icon} />
                    
               </View> 
@@ -345,7 +345,7 @@ return(
            <View>
              
            <Image 
-                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
                   source={ExitIcon} />
                   
              </View> 
@@ -716,7 +716,7 @@ openDocument (url) {
   }
 }
 
-const { width, height } = Dimensions.get('window');
+
 
 const styles = StyleSheet.create({
   container:{
@@ -896,7 +896,7 @@ alignItems:"center",
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

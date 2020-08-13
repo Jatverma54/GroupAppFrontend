@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React  from 'react';
+import React, { useState ,useEffect}  from 'react';
 import {createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +22,9 @@ import AddMember from '../components/AddMember';
 import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen/UpdatePublicGroupAccountInfoScreen';
 import ReplyComments from '../components/Comment/ReplyComments';
 import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinPublicGroupRequestScreen';
+import {
+  Button,
+} from 'react-native-paper';
 
   const JoinedPublicGroupStack = createStackNavigator();
   const JoinedPublicGroupStackNavigator =(props)=>{
@@ -136,18 +139,19 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
 
 
 
- 
-
   const JoinedGroupInsideGroupTabStack = createMaterialTopTabNavigator();
-  const JoinedGroupInsideGroupTabStackNavigator =(props)=>{
+  const JoinedGroupInsideGroupTabStackNavigator =()=>{
     
-    
+  
+const [notification,setnotification] =useState(true)
+
     return (
   
      
         <JoinedGroupInsideGroupTabStack.Navigator   initialRouteName="Feed" 
         activeTintColor="black"  
         inactiveTintColor="Grey"
+       
        barStyle={{ backgroundColor: 'white' }}
 
        
@@ -169,7 +173,7 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
     >        
         <JoinedGroupInsideGroupTabStack.Screen  options={{
            tabBarLabel: ({focused, tintColor:color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+         <MaterialCommunityIcons name="home" color="black" size={26} />
           ),
         }}
       
@@ -181,7 +185,9 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
 
 <JoinedGroupInsideGroupTabStack.Screen  options={{ tabBarLabel: 'Your Posts',
           tabBarIcon: ({ color }) => (
+            
             <MaterialIcons name="local-post-office" color={color} size={26} />
+         
           ),
           labelStyle:{fontWeight:"bold"}
         }}
@@ -192,15 +198,34 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
 
 
 
-<JoinedGroupInsideGroupTabStack.Screen  options={{
-         tabBarLabel: ({focused, tintColor:color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
+<JoinedGroupInsideGroupTabStack.Screen options= {({navigation}) => ({
+   
+   
+        tabBarLabel: ({focused, tintColor:color}) => {
+        
+      console.log(navigation.isFocused(),"dddddddddddd")
+       
+        if (navigation.isFocused()) {
+          setnotification(false)
+          console.log("entered")
+        } 
+
+       return notification?
+          <MaterialCommunityIcons name="bell-ring" color="black"  size={26} />:
+          <MaterialCommunityIcons name="bell" color="black"  size={26} />
+       
       
-      
+        },
+    
+        
+        })}
+    
+     
       name='Notification' 
       component={NotificationGroupTabStackNavigator}/>
+
+
+   
   
         </JoinedGroupInsideGroupTabStack.Navigator>
     
@@ -312,7 +337,7 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
       
     // },
         headerTintColor: colors.StackheaderTintColor,
-        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+        headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:80},
         headerTitleStyle: {
           fontSize: 18,
          // fontWeight: "200",//colors.TabLabelStylefontWeight,
@@ -335,7 +360,7 @@ import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinP
 <HomeFeedStack.Screen  
      options={{        
       headerTitle: "Comments" }} 
-     
+   
             name='Comments' 
             component={Comments}/>  
 

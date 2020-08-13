@@ -370,6 +370,7 @@ console.log(this.state.data,"Ccccccccccccccccccccccc")
                     title={"Why do you want to be a group member"}
                     message={"Let admin know the reason"}
                     hintInput ={"Please Type here.."}
+                  
                     submitInput={ (inputText) => {this.sendInput(inputText)} }
                     closeDialog={ () => {this.showDialog(false)}}>
         </DialogInput>

@@ -198,7 +198,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             <View>
               
             <Image 
-                  style={{marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
+                  style={{marginHorizontal: 5,height:25,width:30,marginLeft:width/2-30-20,marginTop:-35}}
                    source={AddGroup} />
                    
               </View> 
@@ -215,7 +215,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
            <View>
              
            <Image 
-                 style={{marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
+                 style={{marginHorizontal: 5,height:25,width:30,marginLeft:width/2-30-20,marginTop:-35}}
                   source={ShareIcon} />
                   
              </View> 
@@ -310,12 +310,12 @@ export default class JoinedGroupInsideGroupFeed extends Component {
  
  renderViewMore(onPress){
   return(
-    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
   )
 }
 renderViewLess(onPress){
   return(
-    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+    <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
   )
 }
 
@@ -966,7 +966,7 @@ alignItems:"center",
 
 
   bodyContentInviteMember: {
-    flex: 2,
+    flex: 1,
     alignItems: 'center',
    
   // marginVertical:-5,
@@ -980,13 +980,13 @@ alignItems:"center",
     alignItems: 'flex-start',
     marginBottom:10,
     width:"50%",
-    borderRadius:30,
+    borderRadius:30, 
     backgroundColor: "white",
   },
 
   
   bodyContentShare: {
-    flex: 2,
+    flex: 1,
     alignItems: 'center',
    
   // marginVertical:-5,
@@ -995,7 +995,7 @@ alignItems:"center",
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

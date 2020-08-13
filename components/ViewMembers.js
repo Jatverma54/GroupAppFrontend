@@ -9,7 +9,8 @@ TouchableOpacity,
   Alert,
   FlatList,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import {  SearchBar } from "react-native-elements";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -21,7 +22,7 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import { MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons';
 
-
+const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -230,7 +231,7 @@ let newArrayDeleted = (this.state.searchStarted===true)?[]:this.state.data.filte
               <Text style={styles.msgTxt}>{item.username}</Text>
             </View>
            
-            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:300}}>
+            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:width-100}}>
             <FontAwesome name="user-secret" size={15} style={{
             
                color: "#666",

@@ -199,12 +199,12 @@ export default class YourPersonalGroupPostScreen extends Component {
      
      renderViewMore(onPress){
       return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
       )
     }
     renderViewLess(onPress){
       return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
       )
     }
 
@@ -325,7 +325,7 @@ return(
             <View>
               
             <Image 
-                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
                    source={Repor_Icon} />
                    
               </View> 
@@ -342,7 +342,7 @@ return(
            <View>
              
            <Image 
-                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:160,marginTop:-35}}
+                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
                   source={ExitIcon} />
                   
              </View> 
@@ -963,7 +963,7 @@ alignItems:"center",
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

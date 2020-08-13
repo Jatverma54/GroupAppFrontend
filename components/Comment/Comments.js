@@ -124,12 +124,12 @@ export default class Comments extends Component {
 
   renderViewMore(onPress){
     return(
-      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
     )
   }
   renderViewLess(onPress){
     return(
-      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
     )
   }
 
@@ -722,8 +722,9 @@ sendIcon:{
     },
     Time: {
         flex: 1,
-        marginLeft:300,
-        marginTop:-20
+       marginLeft:width-30-79,
+        marginTop:-20,
+       
     },
     likeBtn: {
         textAlign: 'center',

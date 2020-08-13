@@ -7,13 +7,15 @@ import {
   Image,
   FlatList,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import {  SearchBar } from "react-native-elements";
 import { MaterialCommunityIcons,FontAwesome} from '@expo/vector-icons';
 import { 
   Button,
 } from 'react-native-paper';
+const { width, height } = Dimensions.get('window');
 
 export default class ViewMembersPublicGroup extends Component {
 
@@ -166,7 +168,7 @@ export default class ViewMembersPublicGroup extends Component {
               <Text style={styles.msgTxt}>{item.username}</Text>
             </View>
            
-            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:300}}>
+            {(item.GroupAdmin.includes(item.id)) && <View style={{ marginTop:-20,marginLeft:width-100}}>
             <FontAwesome name="user-secret" size={15} style={{
             
                color: "#666",

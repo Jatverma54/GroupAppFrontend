@@ -9,7 +9,8 @@ import {
   Alert,
   FlatList,
   Share,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import {
   Avatar,
@@ -276,7 +277,7 @@ showsHorizontalScrollIndicator={false}
             <View>
               
             <Image 
-                  style={{ marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
+                  style={{ marginHorizontal: 5,height:25,width:30,marginLeft:width/2-30-20,marginTop:-35}}
                    source={AddGroup} />
                    
               </View> 
@@ -293,7 +294,7 @@ showsHorizontalScrollIndicator={false}
            <View>
              
            <Image 
-                 style={{ marginHorizontal: 5,height:25,width:30,marginLeft:150,marginTop:-35}}
+                 style={{ marginHorizontal: 5,height:25,width:30,marginLeft:width/2-30-20,marginTop:-35}}
                   source={ShareIcon} />
                   
              </View> 
@@ -333,7 +334,7 @@ showsHorizontalScrollIndicator={false}
 
 
  
-
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container:{
@@ -502,7 +503,7 @@ const styles = StyleSheet.create({
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

@@ -121,7 +121,8 @@ var requestOptions = {
      
        
        
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={this.login }   >
+       
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={ this.props.navigation.push('DrawerScreen')}   >
           <Text style={styles.loginText} >Login</Text>
         </TouchableOpacity>
 

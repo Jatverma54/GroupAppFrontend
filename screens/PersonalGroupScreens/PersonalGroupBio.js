@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 
 import {
@@ -27,7 +28,7 @@ import * as Permissions from 'expo-permissions';
 
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+const { width, height } = Dimensions.get('window');
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 
@@ -45,9 +46,9 @@ export default class PersonalGroupBio extends Component {
         GroupName:"Group 1", 
         countMembers:51, 
         Bio:"Various educators teach rules governing the length of paragraphs. They may say that a paragraph should be 100 to 200 words long, or be no more than five or six sentences. But a good paragraph should not be measured in characters, words, or sentences.", 
-        GroupAdminName:['Mark',"Doe"]
+        GroupAdminName:['abc',"Doe"]
       },
-      Role:"user",//update role
+      Role:"admin",//update role
       isVisible:false,
       loading: false,   
       error: null,
@@ -240,7 +241,7 @@ getCameraPermissionAsync = async () => {
                  <View>
                    
                  <Image 
-                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:width/2-30-20,marginTop:-40}}
                         source={Group_Name} />
                         
                    </View> 
@@ -257,7 +258,7 @@ getCameraPermissionAsync = async () => {
                 <View>
                   
                 <Image 
-                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:width/2-30-20,marginTop:-40}}
                        source={AddGroup} />
                        
                   </View> 
@@ -349,7 +350,9 @@ getCameraPermissionAsync = async () => {
           <View>
           <View style={styles.header}>
           
-          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePersonalGroupAccountInfoScreen",this.state.data)}} >
+          {(this.state.Role.includes("admin")) &&<Button color="black" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
+
+          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:width-30-30,marginTop:-20}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePersonalGroupAccountInfoScreen",this.state.data)}} >
                        
           <MaterialCommunityIcons
                   name='account-edit'                
@@ -404,7 +407,7 @@ getCameraPermissionAsync = async () => {
               
 
 
-                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
+               
             </View>
           
 
@@ -559,8 +562,8 @@ const styles = StyleSheet.create({
   },
   groupMembersContent:{
     flexDirection:'row',
-   // marginTop:10,
-    marginLeft:-230,
+    marginTop:10,
+   // marginLeft:-230,
     marginBottom:-20
   },
    mainContent: {
@@ -603,7 +606,7 @@ const styles = StyleSheet.create({
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

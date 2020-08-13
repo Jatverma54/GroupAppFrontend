@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import { 
   Button,
@@ -15,6 +16,8 @@ import {
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 import ImageView from "react-native-image-viewing";
 import Group_Name from '../../Pictures/Group_Name.png';
+const { width, height } = Dimensions.get('window');
+
 export default class PublicGroupBio extends Component {
 
   constructor(props) {
@@ -85,7 +88,7 @@ export default class PublicGroupBio extends Component {
                  <View>
                    
                  <Image 
-                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:width/2-30-20,marginTop:-40}}
                         source={Group_Name} />
                         
                    </View> 

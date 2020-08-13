@@ -160,12 +160,12 @@ export default class ProfessionalGroupFeedScreen extends Component {
    
    renderViewMore(onPress){
     return(
-      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View more</Text>
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
     )
   }
   renderViewLess(onPress){
     return(
-      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>View less</Text>
+      <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
     )
   }
 

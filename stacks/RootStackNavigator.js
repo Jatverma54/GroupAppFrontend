@@ -65,7 +65,7 @@ return(
  options={{headerTitle: "Welcome to the Group APP",
 
   headerTintColor: colors.StackheaderTintColor,
-  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:80},
 
 
 }}
@@ -77,7 +77,7 @@ return(
  options={{headerTitle: "Group APP Features",
 
   headerTintColor: colors.StackheaderTintColor,
-  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:85 },
+  headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:80},
 
 
 }}

@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 
 import AddGroup from '../../Pictures/AddGroup.png';
@@ -233,7 +234,7 @@ getCameraPermissionAsync = async () => {
                  <View>
                    
                  <Image 
-                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                       style={{ marginHorizontal: 5,height:30,width:35,marginLeft:width/2-30-20,marginTop:-40}}
                         source={Group_Name} />
                         
                    </View> 
@@ -250,7 +251,7 @@ getCameraPermissionAsync = async () => {
                 <View>
                   
                 <Image 
-                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
+                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:width/2-30-20,marginTop:-40}}
                        source={AddGroup} />
                        
                   </View> 
@@ -273,7 +274,7 @@ getCameraPermissionAsync = async () => {
 
     Alert.alert(
       "",
-      "Do you want to delete "+this.props.GroupName+" group",
+      "Do you want to delete "+this.props.GroupName.GroupName+" group",
       [
         {
           text: "Cancel",
@@ -351,8 +352,9 @@ getCameraPermissionAsync = async () => {
        
           <View>
           <View style={styles.header}>
-          
-          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:350}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen",this.state.data)}} >
+          {(this.state.Role.includes("admin")) &&<Button color="black" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
+
+          {(this.state.Role.includes("admin")) &&<Button color="white" style={{marginLeft:width-30-30,marginTop:-20}}   onPress={()=>{this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen",this.state.data)}} >
                        
           <MaterialCommunityIcons
                   name='account-edit'                
@@ -428,8 +430,7 @@ alignSelf: 'center',marginTop:5
                   Group Admin: {GroupAdminName.join(" , ")}
                 </Text>
 
-                {(this.state.Role.includes("admin")) &&<Button color="white" style={styles.groupMembersContent}   onPress={()=>this.DeleteGroup(id)} >Delete Group</Button>}
-            </View>
+                           </View>
           
 
           </View>
@@ -501,7 +502,7 @@ alignSelf: 'center',marginTop:5
       );
   }
 }
-
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   header:{
     backgroundColor: "#0489B1",
@@ -596,8 +597,8 @@ const styles = StyleSheet.create({
   },
   groupMembersContent:{
     flexDirection:'row',
-   // marginTop:10,
-    marginLeft:-230,
+    marginTop:10,
+    //marginLeft:-230,
     marginBottom:-20
   },
    mainContent: {
@@ -640,7 +641,7 @@ const styles = StyleSheet.create({
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:205,
+    marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

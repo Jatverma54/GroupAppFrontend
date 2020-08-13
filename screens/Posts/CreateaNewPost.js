@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
   width:120,
     
   //alignSelf:"center",
-  marginLeft:175,
+  marginLeft:width/2-37,
 
   marginBottom:30,
   paddingTop:20
@@ -847,7 +847,7 @@ marginBottom:10
     width:120,
  // alignSelf:"center",
 
- marginLeft:330,
+ marginLeft:width-80,
  marginTop:-59
   },
   

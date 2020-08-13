@@ -159,7 +159,7 @@ const HeaderLeft = () => {
           },
         }),     
             headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+            headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor,height:80 },
             headerTitleStyle: {
               fontSize: 18,
              // fontWeight: "200",//colors.TabLabelStylefontWeight,
@@ -252,7 +252,7 @@ const HeaderLeft = () => {
 
 <PublicGroupFeedTabStack.Screen  options={{
           tabBarLabel: ({focused, tintColor:color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            focused?<MaterialCommunityIcons name="bell" color={color} size={26} />: <MaterialCommunityIcons name="bell-ring" color="black"  size={26} /> 
           ),
         }}
       
