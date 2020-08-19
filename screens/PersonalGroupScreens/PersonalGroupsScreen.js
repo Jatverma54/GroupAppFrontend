@@ -22,6 +22,15 @@ export default class PersonalGroupsScreen extends Component {
   
     super(props);
 
+       
+    // this.didFocusSubscription =props.navigation.addListener(
+    //   'focus',
+    //   () => {
+      
+    //      this.changeScreenOrientation();
+    //   });
+    
+
     this.state = {
       data:[
         {
@@ -66,7 +75,16 @@ export default class PersonalGroupsScreen extends Component {
       ],
     }
   }
- 
+
+  componentDidMount(){
+   // this.changeScreenOrientation();
+   
+  }
+
+  // async changeScreenOrientation() {
+  //   await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  // }
+
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.searchRandomUser() });
   }

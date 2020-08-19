@@ -39,10 +39,10 @@ export default class YourPersonalGroupPostScreen extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   video:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
         LikePictures:[] },
         
-        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", document:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -94,6 +94,8 @@ export default class YourPersonalGroupPostScreen extends Component {
       loading: false,   
   error: null,
 
+  OrientationStatus : '',
+  Width_Layout : Dimensions.get('window').width
     };
   }
 
@@ -183,12 +185,63 @@ export default class YourPersonalGroupPostScreen extends Component {
   }
 
   componentDidMount(){
-    this.changeScreenOrientation();
+
+    this.DetectOrientation();
   }
   
-  async changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+  DetectOrientation(){
+
+    if(this.state.Width_Layout > this.state.Height_Layout)
+    {
+
+      // Write Your own code here, which you want to execute on Landscape Mode.
+
+        this.setState({
+        OrientationStatus : 'Landscape Mode'
+        });
     }
+    else{
+
+      // Write Your own code here, which you want to execute on Portrait Mode.
+
+        this.setState({
+        OrientationStatus : 'Portrait Mode'
+        });
+    }
+
+  }
+
+  
+
+
+  onFullscreenUpdate = ({fullscreenUpdate, status}) => {
+  
+    switch (fullscreenUpdate) {
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT: 
+      
+        this.changeScreenOrientationLandscape();
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT: 
+     
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS: 
+       
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS: 
+       
+        this.changeScreenOrientation();
+    }
+  }
+  
+  
+   async changeScreenOrientation() {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      }
+  
+      async changeScreenOrientationLandscape() {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+      }
+  
 
     copyText(item){
 
@@ -334,7 +387,7 @@ return(
 
           <View>
 
-<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.LeaveGroup()}>
+<TouchableOpacity style={{...styles.buttonContainerShare, marginLeft:this.state.Width_Layout/2,}}  onPress={()=>this.LeaveGroup()}>
  <View>
  <View style={styles.bodyContentShare}  >
            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Leave Group</Text> 
@@ -439,7 +492,10 @@ Likes(data) {
           <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
         </Button>
       </View> :
-      <View style={styles.container}>
+      <View style={styles.container}  onLayout={(event) => this.setState({
+        Width_Layout : event.nativeEvent.layout.width,
+       
+       }, ()=> this.DetectOrientation())}>
       
       
         <FlatList style={styles.list}
@@ -542,7 +598,7 @@ Likes(data) {
             
 
 
-            {(item.image!=null&&!item.image.toString().includes(".mp4")&&!item.image.toString().includes(".txt")&&!item.image.toString().includes(".pdf"))?
+            {(post.item.image!=null)?
     <View>
      <FbImages ShowPhotos={true} imagesdata={item.image}/>
 
@@ -550,11 +606,11 @@ Likes(data) {
      </View>  
 :
       
-    (item.image!=null&&item.image.toString().includes(".mp4")) ?
+(post.item.video!=null) ?
       <View style={styles.ImageView} >
        
         <Video
-        source={{ uri: item.image }}
+        source={{ uri: item.video }}
         rate={1.0}
         volume={1.0}
         isMuted={false}
@@ -563,12 +619,13 @@ Likes(data) {
         isLooping={false}
         useNativeControls
         style={styles.video}
-
+        onFullscreenUpdate={this.onFullscreenUpdate}
       />
 
 <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
 
-      </View>: ((item.image!=null&&(item.image.toString().includes(".txt")||item.image.toString().includes(".pdf")||item.image.toString().includes(".xls"))) ?
+      </View>:((post.item.document!=null) ?
+      
       ( 
       
       
@@ -580,7 +637,7 @@ Likes(data) {
       <TouchableHighlight   style={{ marginTop:10,
     alignSelf:"center"}} 
         
-        onPress={()=>this.openDocument(item.image)}> 
+        onPress={()=>this.openDocument(item.document)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -963,7 +1020,7 @@ alignItems:"center",
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:width/2,
+   // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

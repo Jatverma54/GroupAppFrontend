@@ -357,7 +357,10 @@ return(
                   
                
 
-                    <Text style={styles.Time}>2w</Text>
+                   
+                  <View>
+                    <Text style={styles.Time}>4m</Text>
+                    </View>
 
                     <ViewMoreText
           numberOfLines={4}
@@ -713,7 +716,8 @@ sendIcon:{
         flex: 1,
        // marginLeft:300,
         marginTop:-20,
-        marginLeft:width-30-79,
+       marginLeft:width-30-105,
+       fontSize:11
     },
     likeBtn: {
         textAlign: 'center',

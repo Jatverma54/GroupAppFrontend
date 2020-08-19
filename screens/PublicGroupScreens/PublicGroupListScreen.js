@@ -212,7 +212,7 @@ export default class PublicGroupListScreen extends Component {
     });
 
 
-    console.log(this.state.data,"dddddddddddddddddddddddddd")
+  
 
   }
 

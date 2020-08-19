@@ -21,8 +21,9 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   constructor(props) {
   
+    
     super(props);
-
+   
     this.state = {
       data:[
 
@@ -94,7 +95,21 @@ export default class JoinedPublicGroupsScreen extends Component {
     
         
     }
+
+   
   }
+
+
+
+
+  componentDidMount(){
+   
+   
+  }
+
+
+
+ 
 
   getData = async ()  => {
     // const url = `https://jsonplaceholder.typicode.com/users`;
@@ -173,6 +188,8 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   render() {
 
+
+
     if (this.state.loading) {return (
       <View style={{ flex: 1, 
         justifyContent: "center",
@@ -182,10 +199,10 @@ export default class JoinedPublicGroupsScreen extends Component {
       </View>
     );
   } 
-  
+
     
     return (
-
+     
       this.state.error != null ?
       <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
         <Text>{this.state.error}</Text>

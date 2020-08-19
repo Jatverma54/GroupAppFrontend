@@ -44,9 +44,37 @@ export default class Stories extends Component {
       loading: false,   
       error: null,
     
+
+      
+      OrientationStatus : '',
+      Width_Layout : Dimensions.get('window').width
     };
   }
 
+  
+
+
+  DetectOrientation(){
+
+    if(this.state.Width_Layout > this.state.Height_Layout)
+    {
+
+      // Write Your own code here, which you want to execute on Landscape Mode.
+
+        this.setState({
+        OrientationStatus : 'Landscape Mode'
+        });
+    }
+    else{
+
+      // Write Your own code here, which you want to execute on Portrait Mode.
+
+        this.setState({
+        OrientationStatus : 'Portrait Mode'
+        });
+    }
+
+  }
 
   onShare = async () => {
     try {
@@ -196,7 +224,10 @@ AddMembers(){
             <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
           </Button>
         </View> :
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={(event) => this.setState({
+        Width_Layout : event.nativeEvent.layout.width,
+      
+       }, ()=> this.DetectOrientation())}>
         
           
            
@@ -286,7 +317,7 @@ showsHorizontalScrollIndicator={false}
 
           <View>
 
-<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
+<TouchableOpacity style={{...styles.buttonContainerShare, marginLeft:this.state.Width_Layout/2,}}  onPress={()=>this.onShare()}>
  <View>
  <View style={styles.bodyContentShare}  >
            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Share Group</Text> 
@@ -503,7 +534,7 @@ const styles = StyleSheet.create({
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:width/2,
+  //  marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

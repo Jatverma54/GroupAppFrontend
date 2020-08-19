@@ -203,7 +203,7 @@ const [notification,setnotification] =useState(true)
    
         tabBarLabel: ({focused, tintColor:color}) => {
         
-      console.log(navigation.isFocused(),"dddddddddddd")
+     // console.log(navigation.isFocused(),"dddddddddddd")
        
         if (navigation.isFocused()) {
           setnotification(false)

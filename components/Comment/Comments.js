@@ -361,8 +361,11 @@ return(
                     :<Text style={styles.name}>{Notification.name.toString().substring(0,38)}..</Text>}
                   
                
-
-                    <Text style={styles.Time}>2w</Text>
+ 
+                 
+                  <View>
+                    <Text style={styles.Time}>4m</Text>
+                    </View>
 
                     <ViewMoreText
           numberOfLines={4}
@@ -722,9 +725,9 @@ sendIcon:{
     },
     Time: {
         flex: 1,
-       marginLeft:width-30-79,
+      marginLeft:width-30-105,
         marginTop:-20,
-       
+        fontSize:11
     },
     likeBtn: {
         textAlign: 'center',

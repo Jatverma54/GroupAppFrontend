@@ -69,7 +69,7 @@ updateSize = (height) => {
 componentDidMount() {
   this.getPermissionAsync();
   this.getCameraPermissionAsync();
-  this.changeScreenOrientation();
+  //this.changeScreenOrientation();
 }
 
 
@@ -83,9 +83,36 @@ getPermissionAsync = async () => {
 };
 
 
-async changeScreenOrientation() {
-  await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+
+
+onFullscreenUpdate = ({fullscreenUpdate, status}) => {
+
+  switch (fullscreenUpdate) {
+    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT: 
+    
+      this.changeScreenOrientationLandscape();
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT: 
+   
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS: 
+     
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS: 
+     
+      this.changeScreenOrientation();
+  }
 }
+
+
+ async changeScreenOrientation() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    }
+
+    async changeScreenOrientationLandscape() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    }
+ 
 
 _pickDocument = async () => {
   try {
@@ -373,7 +400,7 @@ async openDocument (url) {
         isLooping={false}
         useNativeControls
         style={styles.video}
-  
+        onFullscreenUpdate={this.onFullscreenUpdate}
       />
       </View>:
       ((this.state.document) ?

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { Component } from 'react';
+import React, { Component ,useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -50,10 +50,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     super(props);
     this.state = {
       data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",  GroupName:"Group 2",GroupAdmin:["abc"],  PostOwnerId:"abc",  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",  GroupName:"Group 2",GroupAdmin:["abc"],  PostOwnerId:"abc",  isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   video:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
         LikePictures:[] },
         
-        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 , GroupName:"Group 2",GroupAdmin:["abc"],   isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", image:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 , GroupName:"Group 2",GroupAdmin:["abc"],   isLiked:false, PostOwnerId:"abcd",    time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", document:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
         LikePictures:[
               "https://bootdey.com/img/Content/avatar/avatar6.png", 
               "https://bootdey.com/img/Content/avatar/avatar1.png", 
@@ -110,19 +110,54 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       loading: false,   
       error: null,
       currentUserOnwerId:'abc',
-      GroupAdmin:''
+      GroupAdmin:'',
+
+      OrientationStatus : '',
+      Width_Layout : Dimensions.get('window').width,
     
+      orientationIsLandscape:false
     };
+
+    
+
   }
 
   componentDidMount(){
-    this.changeScreenOrientation();
+  
+    this.DetectOrientation();
+
   }
   
   async changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     }
 
+    async changeScreenOrientationLandscape() {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    }
+
+
+    DetectOrientation(){
+
+      if(this.state.Width_Layout > this.state.Height_Layout)
+      {
+  
+        // Write Your own code here, which you want to execute on Landscape Mode.
+  
+          this.setState({
+          OrientationStatus : 'Landscape Mode'
+          });
+      }
+      else{
+  
+        // Write Your own code here, which you want to execute on Portrait Mode.
+  
+          this.setState({
+          OrientationStatus : 'Portrait Mode'
+          });
+      }
+  
+    }
 
     getData = async ()  => {
       // const url = `https://jsonplaceholder.typicode.com/users`;
@@ -207,7 +242,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
   
           <View>
 
-<TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>this.onShare()}>
+<TouchableOpacity style={{...styles.buttonContainerShare, marginLeft:this.state.Width_Layout/2,}}  onPress={()=>this.onShare()}>
  <View>
  <View style={styles.bodyContentShare}  >
            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Share Group</Text> 
@@ -465,8 +500,27 @@ openDocument (url) {
       .catch((err) => console.error('An error occurred', err));
 };
 
+onFullscreenUpdate = ({fullscreenUpdate, status}) => {
+
+  switch (fullscreenUpdate) {
+    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT: 
+    
+      this.changeScreenOrientationLandscape();
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT: 
+   
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS: 
+     
+      break;
+    case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS: 
+     
+      this.changeScreenOrientation();
+  }
+}
 
   render() {
+    const {orientationIsLandscape} = this.state;
       try{  
 
         if (this.state.loading) {return (
@@ -491,7 +545,10 @@ openDocument (url) {
           <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
         </Button>
       </View> :  
-      <View style={styles.container}>
+      <View style={styles.container}   onLayout={(event) => this.setState({
+        Width_Layout : event.nativeEvent.layout.width,
+       
+       }, ()=> this.DetectOrientation())}>
 
 
    
@@ -604,7 +661,7 @@ openDocument (url) {
             </View>
               
          
-            {(post.item.image!=null&&!post.item.image.toString().includes(".mp4")&&!post.item.image.toString().includes(".txt")&&!post.item.image.toString().includes(".pdf"))?
+            {(post.item.image!=null)?
     <View>
      <FbImages imagesdata={post.item.image}/>
 
@@ -612,24 +669,25 @@ openDocument (url) {
      </View> 
 :
       
-    (post.item.image!=null&&post.item.image.toString().includes(".mp4")) ?
+    (post.item.video!=null) ?
       <View style={styles.ImageView} >
        
         <Video
-        source={{ uri: post.item.image }}
+        source={{ uri: post.item.video }}
         rate={1.0}
         volume={1.0}
         isMuted={false}
-        resizeMode="cover"
+        resizeMode='cover'
         shouldPlay={false}
         isLooping={false}
-        useNativeControls
+        useNativeControls={true}
         style={styles.video}
-  
+        onFullscreenUpdate={this.onFullscreenUpdate}
+       
       />
       <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
 
-      </View>: ((post.item.image!=null&&(post.item.image.toString().includes(".txt")||post.item.image.toString().includes(".pdf")||post.item.image.toString().includes(".xls"))) ?
+      </View>: ((post.item.document!=null) ?
       ( 
       
       
@@ -641,7 +699,7 @@ openDocument (url) {
       <TouchableHighlight   style={{ marginTop:10,
     alignSelf:"center"}} 
         
-        onPress={()=>this.openDocument(post.item.image)}> 
+        onPress={()=>this.openDocument(post.item.document)}> 
       <MaterialCommunityIcons
               name="file-document"                
               size={70}
@@ -810,7 +868,6 @@ openDocument (url) {
         }
   }
 }
-
 
 
 const { width, height } = Dimensions.get('window');
@@ -995,7 +1052,7 @@ alignItems:"center",
   buttonContainerShare: {
     marginTop:-55,
     height:45,
-    marginLeft:width/2,
+   // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -1003,6 +1060,7 @@ alignItems:"center",
     width:"50%",
     borderRadius:30,
     backgroundColor: "white",
+  
   },
   ImageView:{
 
