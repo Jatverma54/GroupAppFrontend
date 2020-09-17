@@ -29,6 +29,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome} from '@expo/vector-icons';
 import mime from "mime";
+import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -43,8 +44,8 @@ export default class SignupScreen extends Component {
       password: '',
       confirmPassword: '',
        photo: null,
-       First_name: '',
-       Last_name: '',
+       Full_Name: '',
+      // Last_name: '',
        date: new Date("2020-07-15"),
        mode: 'date',
        show: false,
@@ -157,34 +158,40 @@ getCameraPermissionAsync = async () => {
 
 };
   
- 
+
 
 
   signUp = async () => {
 
+
     Keyboard.dismiss();
      
-    const { userName, password, email, First_name,Last_name,confirmPassword,date,ImageFormData ,datechanged,} = this.state
+    const { userName, password, email, Full_Name,confirmPassword,date,ImageFormData,photo ,datechanged,} = this.state
   
   let emailValidation= this.EmailValidation(email)  
 
  let PasswordValidation= this.PasswordValidation(password)  
 
-    if(datechanged&&password===confirmPassword&&userName&&password&&email&&First_name&&Last_name&&emailValidation&&PasswordValidation){
+    if(datechanged&&password===confirmPassword&&userName&&password&&email&&Full_Name&&emailValidation&&PasswordValidation){
     
     try {
         var personInfo  = {
             username: userName,
             password: password,
-            emailId: email,
-            firstName: First_name,
-            lastName: Last_name,
-            enabled: true,
-            role:"user",
-            phoneNumber:"123456789",
-           dob:this.formatDate(date),
+            email: email,
+          
+           // lastName: Last_name,
+           // enabled: true,
+          //  role:"user",
+          //  phoneNumber:"123456789",
+          
          //  profilePic:photo 
-            
+         profile: {
+             profilePic:photo ,
+             dob:this.formatDate(date),
+             full_name: Full_Name,
+           //  role:"User"
+         }
             
         }
      
@@ -203,38 +210,33 @@ getCameraPermissionAsync = async () => {
     
 
 
-
-
 var myHeaders = new Headers();
-myHeaders.append("Content-Type", "multipart/form-data");
-myHeaders.append("Accept", "application/json");
-myHeaders.append("Accept", "text/plain");
+//myHeaders.append("Content-Type", "multipart/form-data");
+myHeaders.append("Content-Type", "application/json");
+//myHeaders.append("Accept", "text/plain");
 
-var formdata = new FormData();
-ImageFormData?formdata.append("file", img):formdata.append("file",null);
-formdata.append("userDetails", JSON.stringify(personInfo));
-console.log(formdata)
+// var formdata = new FormData();
+// ImageFormData?formdata.append("file", img):formdata.append("file",null);
+// formdata.append("userDetails", JSON.stringify(personInfo));
+// console.log(formdata)
+
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
-  body: formdata,
+  body:JSON.stringify(personInfo), //formdata,
   //redirect: 'follow'
 };
 
- 
-
-        const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/user/register", requestOptions
+        const response = await fetch("http://192.168.0.105:3000/users/", requestOptions );
        
-       
-        
-    );
-  
     if(response.ok){
+
+
 
     Alert.alert(
 
       "Thank you! Welcome to the Group",
-      "Successfully Singed up",
+      "We have sent an email with account verification link to your email address. Please verify your email id before login",
       [
         { text: "Ok", onPress: () => this.props.navigation.navigate('LoginScreen')}
       ],
@@ -243,14 +245,16 @@ var requestOptions = {
     }
     else{
   let responseJson = await response.json();
-   let errorstring= responseJson.errors.toString().replace(",","\n")
+   let errorstring= responseJson.error.toString();
    alert(errorstring )
-  //  console.log(responseJson);
+  
     }
 
     } catch (err) {
       console.log('error signing up: ', err)
     }
+
+   
   }else{
    
     if(!userName){
@@ -262,16 +266,16 @@ var requestOptions = {
     else if(!email){
       alert("Please enter an Email Id");
     }
-    else if(!First_name){
-      alert("Please enter the First Name");
+    else if(!Full_Name){
+      alert("Please enter the Full Name");
     }
-    else if(!Last_name){
-      alert("Please enter the Last Name");
-    }
+    // else if(!Last_name){
+    //   alert("Please enter the Last Name");
+    // }
     else if(!datechanged){
     alert("Please Select the D.O.B");
     }else if (!(password===confirmPassword)){
-      alert("Password Missmatch");
+      alert("Confirm Password and Password does not match");
     
   }else if (!emailValidation){
     alert("Enter a valid Email Id");
@@ -341,7 +345,7 @@ else if (!PasswordValidation){
    render() {
    
 
-    let { photo,date ,show,mode,userName, password, email, First_name,Last_name,confirmPassword,} = this.state;
+    let { photo,date ,show,mode,userName, password, email,  Full_Name,confirmPassword,} = this.state;
    
     // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
     // imageUri && console.log({uri: imageUri.slice(0, 100)});
@@ -359,9 +363,8 @@ else if (!PasswordValidation){
                    
                         <Avatar.Image 
                             style={{alignSelf:"center", marginTop:-70,marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
-                             source={{ uri: photo }} size={100}/>
-                         
-                         
+                             source={photo?{ uri:photo}:PlaceHolderImage }  size={100}/>
+                                                 
                            <Text style={{fontSize:12,alignSelf:"center",paddingTop:6,fontWeight:"bold",width:"100%"}}>Choose an Avatar</Text>
                       </View>                
                     
@@ -396,16 +399,16 @@ else if (!PasswordValidation){
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={person}/>
           <TextInput style={styles.inputs}
-              placeholder="First Name"
+              placeholder="Full Name"
               maxLength={15}
-              value={First_name}
+              value={Full_Name}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
-              onChangeText={(First_name) => this.setState({First_name})}/>
+              onChangeText={(Full_Name) => this.setState({Full_Name})}/>
         </View>
 
 
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={person}/>
           <TextInput style={styles.inputs}
               placeholder="Last Name"
@@ -414,7 +417,7 @@ else if (!PasswordValidation){
               keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(Last_name) => this.setState({Last_name})}/>
-        </View>
+        </View> */}
 
        
 

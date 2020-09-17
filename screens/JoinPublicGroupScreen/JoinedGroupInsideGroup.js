@@ -122,12 +122,32 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
   }
 
-  componentDidMount(){
-  
-    this.DetectOrientation();
 
+  componentDidMount() {
+    this.DetectOrientation();
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+    });
   }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+
+
+
+
+  // componentDidMount(){
   
+  //   this.DetectOrientation();
+  //  //this.props.navigation.addListener('focus', ()=>console.log("Focused"));
+  
+  // }
+
+// componentWillUnmount(){
+//   this.props.navigation.removeListener('focus');
+// }
+
   async changeScreenOrientation() {
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     }
@@ -536,7 +556,7 @@ onFullscreenUpdate = ({fullscreenUpdate, status}) => {
     return (
       this.state.error != null ?
       <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{this.state.error}</Text>
+          <Text>{this.state.error}</Text>
         <Button onPress={
           () => {
             this.getData();

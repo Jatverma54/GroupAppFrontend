@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   Image,
   Picker,
-  ScrollView
-  
+  ScrollView,
+  Keyboard,
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 import {
@@ -26,10 +28,10 @@ import * as Permissions from 'expo-permissions';
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
-
+import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-
+import  UserToken from '../../constants/APIPasswordCollection'
 
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -40,10 +42,12 @@ export default class CreateaPublicGroupScreen extends Component {
     super(props);
     this.state = {
       Value: false,
-      selectedGroupCategoryValue:this.props.Category,
-     FirstGroupCategoryValue:this.props.Category,
+      selectedGroupCategoryValue:this.props.Category._id,
+     FirstGroupCategoryValue:this.props.Category.title,
      photo:null,
      height:45,
+     GroupName:'',
+     GroupBioName:''
     }
   }
 
@@ -81,21 +85,96 @@ export default class CreateaPublicGroupScreen extends Component {
           style={{ height: 50, width: "80%"}}
           onValueChange={(itemValue, itemIndex) =>this.setState({selectedGroupCategoryValue: itemValue})}
         >
-          <Picker.Item label={FirstGroupCategoryValue} value={FirstGroupCategoryValue} />
-          <Picker.Item label="JavaScript" value="js" />
-          <Picker.Item label="Java" value="Java" />
-          <Picker.Item label="Html" value="Html" />
-          <Picker.Item label="Php" value="Php" />
-          <Picker.Item label="C++" value="C++" />
-          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label={FirstGroupCategoryValue} value={selectedGroupCategoryValue} />
+          <Picker.Item label="Home Remedies" value="5f613a660386c944306cebd8" />
+          <Picker.Item label="Healthcare" value="5f613a660386c944306cebd9" />
+          <Picker.Item label="Family" value="5f613a660386c944306cebda" />
+          <Picker.Item label="School" value="5f613a660386c944306cebdb" />
+          <Picker.Item label="Things" value="5f613a660386c944306cebdc" />
+          <Picker.Item label="World" value="5f613a660386c944306cebdd" />
+          <Picker.Item label="Remember" value="5f613a660386c944306cebde" />
+          <Picker.Item label="Game" value="5f613a660386c944306cebdf" />
           
         </Picker>
      
     );
   }
 
+  CreateGroup=async ()=>{
+    Keyboard.dismiss();
 
 
+    const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+    const {Value,selectedGroupCategoryValue,photo,GroupName,GroupBioName} = this.state;
+
+    if(selectedGroupCategoryValue&&GroupName&&GroupBioName){
+
+      try{
+
+        var GroupInfo  = {
+          group_name: GroupName,
+          group_Bio: GroupBioName,
+          groupCategory: selectedGroupCategoryValue,
+          privacy:Value?"closed":"open",
+          created_by: userId,
+          groupMembers:userId,
+          group_type:"public",
+          admin: userId,
+          groupCategory_id:selectedGroupCategoryValue
+        }
+    
+        var myHeaders = new Headers();
+       
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer "+token);
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body:JSON.stringify(GroupInfo), //formdata,
+          //redirect: 'follow'
+        };
+
+       const response = await fetch("http://192.168.0.105:3000/groups/createNewGroup", requestOptions );
+
+       if(response.ok){
+
+          Alert.alert(
+      
+            "Group created successfully",
+            "Let's explore the power of group conversation",
+            [
+              { text: "Ok", onPress: () => this.props.navigation.goBack()}
+            ],
+            { cancelable: false }
+          );
+         }
+          else{
+        let responseJson = await response.json();
+        console.log(responseJson)
+         let errorstring= responseJson.error.toString();
+         alert(errorstring )
+        
+          }
+      }
+      catch(e){
+        console.log('error signing up: ', e)
+      }
+    }
+    else {
+
+      if(!GroupName){
+        alert("Please enter a Group Name");
+    }
+    else if(!GroupBioName){
+      alert("Please enter a Group Bio");
+    }
+  }
+  
+  }
 
   componentDidMount() {
     this.getPermissionAsync();
@@ -177,9 +256,8 @@ getCameraPermissionAsync = async () => {
 
   render() {
 
-    const {Value,selectedGroupCategoryValue,photo} = this.state;
-    
-   
+    const {Value,selectedGroupCategoryValue,photo,GroupName,GroupBioName} = this.state;
+
     return (
         
           <View style={styles.container}>
@@ -194,7 +272,7 @@ getCameraPermissionAsync = async () => {
                    
                         <Avatar.Image 
                             style={{alignSelf:"center", marginTop:-70,marginHorizontal:2, borderColor: 'black', borderWidth: 2 }}
-                             source={{ uri: photo }} size={100}/>
+                             source={photo?{ uri:photo}:PlaceHolderImage } size={100}/>
                          
                          
                            <Text style={{fontSize:12,alignSelf:"center",paddingTop:6,fontWeight:"bold",width:"100%"}}>Choose an Avatar</Text>
@@ -211,10 +289,15 @@ getCameraPermissionAsync = async () => {
           <TextInput style={styles.inputs}
               placeholder="Group Name"
               multiline={true}
+             
               maxLength={75}
               editable={true}
+              value={GroupName}
               //keyboardType="email-address"
+
               underlineColorAndroid='transparent'
+              onChangeText={(GroupName) => this.setState({GroupName})}
+             
               />
              
         </View>
@@ -243,8 +326,11 @@ getCameraPermissionAsync = async () => {
             placeholder="Group Bio"
             multiline={true}
             editable={true}
+            value={GroupBioName}
            // keyboardType="email-address"
             underlineColorAndroid='transparent'
+            onChangeText={(GroupBioName) => this.setState({GroupBioName})}
+
              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
              multiline style={{
               width: '100%',height:this.state.height,marginLeft:10, fontSize:16,padding:10}}
@@ -276,7 +362,7 @@ getCameraPermissionAsync = async () => {
               </View>
             </View>
           </TouchableRipple>
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
 

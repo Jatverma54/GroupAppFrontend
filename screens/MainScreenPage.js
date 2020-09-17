@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import  React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Button } from 'react-native';
+import  React,{ useEffect } from 'react';
+import { StyleSheet, Text, View, ImageBackground, Button,AsyncStorage } from 'react-native';
 
 
 import colors from '../constants/colors';
@@ -9,10 +9,32 @@ import MainScreenText from '../constants/MainScreenText';
 import menu from '../Pictures/Logo.png';
 
 
-
-
 const MainScreenPage = ({navigation}) => {
     
+    useEffect(() => {
+        const tryLogin = async () => {
+          const userData = await AsyncStorage.getItem('userData');
+          if (!userData) {
+          //  props.navigation.navigate('LoginScreen');
+            return null;
+          }
+          const transformedData = JSON.parse(userData);
+          const { token, userId } = transformedData;
+          //const expirationDate = new Date(expiryDate);
+    
+          if ( !token || !userId) {//expirationDate <= new Date() ||
+           // props.navigation.navigate('LoginScreen');
+            return null;
+          }
+    
+        //  const expirationTime = expirationDate.getTime() - new Date().getTime();
+    
+          navigation.navigate('DrawerScreen');
+          //dispatch(authActions.authenticate(userId, token, expirationTime));
+        };
+    
+        tryLogin();
+      }, []);
     
     return (
         

@@ -8,15 +8,18 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  Keyboard
+  Keyboard,
+  AsyncStorage
 } from 'react-native';
 // import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
 // import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
+import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
 import APIPasswordCollection from '../constants/APIPasswordCollection';
 import { encode } from "base-64";
-export default class CreateaPublicGroupScreen extends Component {
+import  UserToken from '../constants/APIPasswordCollection'
+export default class LoginScreen  extends Component {
 
   constructor(props) {
     super(props);
@@ -36,20 +39,24 @@ export default class CreateaPublicGroupScreen extends Component {
     
     try {
        
+      var LoginInfo={
+        "username":userName,
+        "password":password,
+      }
 
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+//myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
 
-console.log(myHeaders,"headers")
+
 var requestOptions = {
-  method: 'GET',
+  method: 'POST',
   headers: myHeaders,
- 
+  body: JSON.stringify(LoginInfo)
 
 };
 
-    const response = await fetch("http://apnagroup-env.eba-wwsbsfmm.us-west-2.elasticbeanstalk.com/secure/login", requestOptions
+    const response = await fetch("http://192.168.0.105:3000/users/login", requestOptions
           
         
     );
@@ -57,19 +64,36 @@ var requestOptions = {
 
     if(response.ok){
       let responseJson = await response.json(); 
+     
+      
     Alert.alert(
 
-      "Welcome to the Group App "+responseJson.firstName,
+      "Welcome to the Group App "+responseJson.user.profile.full_name,
       "Login Successful",
       [
         { text: "Ok", onPress: () =>  this.props.navigation.push('DrawerScreen')}
       ],
       { cancelable: false }
-    );
+    );    
+    UserToken.userToken =responseJson.token;
+    const payload = jwt_decode(responseJson.token);
+  
+    this.saveDataToStorage(responseJson.token, payload._id,)
+     
     }
     else{
 
-    alert("Unauthorized! Check your Username and Password")
+   
+    Alert.alert(
+
+      "Incorrect Credentials",
+      "Please check your Username and Password",
+      [
+        { text: "Ok", onPress: () =>  null}
+      ],
+      { cancelable: false }
+    );    
+
   //  console.log(responseJson);
     }
 
@@ -88,7 +112,17 @@ var requestOptions = {
   }
  
   }
-
+   saveDataToStorage = (token, userId) => {
+    AsyncStorage.setItem(
+      'userData',
+      JSON.stringify({
+        token: token,
+        userId: userId,
+     
+      })
+    );
+  };
+  
 
   render() {
 
@@ -122,7 +156,7 @@ var requestOptions = {
        
        
        
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={ this.props.navigation.push('DrawerScreen')}   >
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={ ()=>this.login()}   >
           <Text style={styles.loginText} >Login</Text>
         </TouchableOpacity>
 

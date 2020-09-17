@@ -1,6 +1,6 @@
 export default{
 
- userNameLoginAPI:'ashishksingh',
-passwordLoginAPI:'ashish'
+ userToken:'',
+ UserId:'',
 
 };

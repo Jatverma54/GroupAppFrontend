@@ -60,7 +60,8 @@ const HeaderLeft = () => {
           labelStyle: {
             fontSize: colors.TabLabelStylefontSize,
             fontWeight: colors.TabLabelStylefontWeight,
-           width:colors.TabLabelStylewidth
+           width:colors.TabLabelStylewidth,
+         
           },
 
 
@@ -153,7 +154,7 @@ const HeaderLeft = () => {
   
   headerTitle: title}}
    name='Public Groups List' 
-   component={withMyHook(PublicGroupListScreen)}/>
+   component={withMyHookCategory(PublicGroupListScreen,route.params)}/>
  
 
 <ExplorePublicGroupCategoryBasedStack.Screen 
@@ -167,7 +168,7 @@ options={{
 
 
   name='Create a Public Group' 
-  component={withMyHookCategory(CreateaPublicGroupScreen,title) }/>
+  component={withMyHookCategory(CreateaPublicGroupScreen,route.params) }/>
 
 </ExplorePublicGroupCategoryBasedStack.Navigator>
 

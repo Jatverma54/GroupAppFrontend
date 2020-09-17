@@ -11,13 +11,19 @@ import {
   Caption,
   Paragraph,
   Drawer,
-  Button
+  Button,
+  Divider
 } from 'react-native-paper';
+import {
+  AsyncStorage
+} from 'react-native';
+
 import { MaterialCommunityIcons,FontAwesome } from '@expo/vector-icons';
 import DrawerLogo from '../Pictures/DrawerLogo.png';
 import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
 import ImageView from "react-native-image-viewing";
+
 
 
 
@@ -66,13 +72,63 @@ import ImageView from "react-native-image-viewing";
     
     ];
 
+
+    // saveDataToStorage = (token, userId) => {
+    //   AsyncStorage.setItem(
+    //     'userData',
+    //     JSON.stringify({
+    //       token: token,
+    //       userId: userId,
+       
+    //     })
+    //   );
+    // };
   
- 
+    LogOut=async()=>{
+     
+try{
+
+  const userData = await AsyncStorage.getItem('userData');
+  const transformedData = JSON.parse(userData);
+  const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      //myHeaders.append("Content-Type", "multipart/form-data");
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer "+token);
+   
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+       // body:JSON.stringify(personInfo), //formdata,
+        //redirect: 'follow'
+      };
+
+      const response = await fetch("http://192.168.0.105:3000/users/logout", requestOptions
+          
+        
+      );
+
+      if(response.ok){
+        await  AsyncStorage.removeItem('userData');
+        navigation.navigate('LoginScreen');
+      }
+     else{
+  
+    //   saveDataToStorage(token, userId)
+       alert("Unable to logout. Please try again")
+     }
+     
+  
+    }catch(e){
+console.log(e)
+    }
+    }
    
     return (
       error != null ?
       <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{this.state.error}</Text>
+          <Text>{this.state.error}</Text>
         <Button onPress={
           () => {
             this.getData();
@@ -190,11 +246,23 @@ import ImageView from "react-native-image-viewing";
               labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
               onPress={() =>  navigation.dispatch(DrawerActions.jumpTo('Profile'))}
             />
+
+              <DrawerItem
+              icon={({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="logout"
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="Logout"
+              labelStyle={{color:colors.drawerTextcolor,fontWeight: colors.drawerfontWeight,width:colors.drawerwidth, fontSize: colors.drawerfontSize,}}
+              onPress={() => LogOut()}
+            />
+
           </Drawer.Section>
          
-         
-           
-          <TouchableOpacity  onPress={() => navigation.navigate('StoryScreen')}>
+         <TouchableOpacity  onPress={() => navigation.navigate('StoryScreen')}>
          <View style={styles.drawerSectionFooter}>
         
          <Avatar.Image
@@ -264,7 +332,7 @@ import ImageView from "react-native-image-viewing";
       paddingVertical: "100%",
       alignItems: 'center',
       marginRight: 15,
-      marginVertical:50
+    //  marginVertical:10
     },
     paragraphfooter: {
       fontWeight: 'bold',

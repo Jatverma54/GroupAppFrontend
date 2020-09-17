@@ -28,72 +28,8 @@ export default class PublicGroupListScreen extends Component {
     super(props);
 
     this.state = {
-      data:[
-        {
-          id:1, 
-          image: "https://lorempixel.com/100/100/nature/1/", 
-          GroupName:"Group 1", 
-          countMembers:51, 
-          isJoined: true ,
-          isReuquested: false,
-          GroupCategory:"HealthCare"
-        },
-        {
-          id:2, 
-          image: "https://lorempixel.com/100/100/nature/2/", 
-          GroupName:"Group 2", 
-          countMembers:10,  
-          isJoined: false ,
-          isReuquested: true,
-          GroupCategory:"HealthCare"
-        },
-        {
-          id:3, 
-          image: "https://lorempixel.com/100/100/nature/3/", 
-          GroupName:"Group 3",
-          isJoined: false ,
-          isReuquested: false, 
-          countMembers:58,  
-          GroupCategory:"HealthCare"
-        },
-    
-        
-      ],
-
-
-      temp:[
-        {
-          id:1, 
-          image: "https://lorempixel.com/100/100/nature/1/", 
-          GroupName:"Group 1", 
-          countMembers:51, 
-          isJoined: true ,
-          isReuquested: false,
-          GroupCategory:"HealthCare"
-        },
-        {
-          id:2, 
-          image: "https://lorempixel.com/100/100/nature/2/", 
-          GroupName:"Group 2", 
-          countMembers:10,  
-          isJoined: false ,
-          isReuquested: true,
-          GroupCategory:"HealthCare"
-        },
-        {
-          id:3, 
-          image: "https://lorempixel.com/100/100/nature/3/", 
-          GroupName:"Group 3",
-          isJoined: false ,
-          isReuquested: false, 
-          countMembers:58,  
-          GroupCategory:"HealthCare"
-        },
-    
-        
-      ],
-
-
+      data:"",
+      temp:"",
 
       isFetching:false,
       
@@ -106,18 +42,47 @@ export default class PublicGroupListScreen extends Component {
   }
  
 
+  componentDidMount(){
+     this.getData();
+  }
+
 
   getData = async ()  => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
-     
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
+   
+    this.setState({ loading: true });
+     
+         try {
+       
+            const userData = await AsyncStorage.getItem('userData');
+            const transformedData = JSON.parse(userData);
+            const { token, userId } = transformedData;
+
+
+    var GroupData  = {
+      groupCategory_id: this.props.Category._id,    
+    }
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", "Bearer "+token);     
+          var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body:JSON.stringify(GroupData), 
+          };
+          
+          const response = await fetch("http://192.168.0.105:3000/groups/getPublicGroupsWithCategory", requestOptions );             
+            const json = await response.json();
+          
+            this.setResult(json.result);
+            
+         } catch (e) {
+            this.setState({ error: 'Reload the Page', loading: false });
+            console.log("Error ",e)
+         }
+    
+
+
+
   };
 
 
@@ -126,44 +91,49 @@ export default class PublicGroupListScreen extends Component {
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
       error: res.error || null,
-      loading: false
+      loading: false,
+      isFetching: false
     });
   }
 
+
+
+
+  
   onRefresh() {
-    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+    this.setState({ isFetching: true }, function() { this.getData() });
   }
   
   
-  searchRandomUser = async () =>
-  {
-    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
-    //  const APIValue = await RandomAPI.json();
-    //   const APIResults = APIValue.results
-    //     console.log(APIResults[0].email);
+  // searchRandomUser = async () =>
+  // {
+  //   //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
+  //   //  const APIValue = await RandomAPI.json();
+  //   //   const APIResults = APIValue.results
+  //   //     console.log(APIResults[0].email);
   
   
-    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-    LikePictures:[
+  //   data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+  //   LikePictures:[
       
           
-           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar2.png",
-          // "https://bootdey.com/img/Content/avatar/avatar7.png",
-          // "https://bootdey.com/img/Content/avatar/avatar3.png",
-         // "https://bootdey.com/img/Content/avatar/avatar4.png"
+  //          //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+  //         // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+  //         // "https://bootdey.com/img/Content/avatar/avatar2.png",
+  //         // "https://bootdey.com/img/Content/avatar/avatar7.png",
+  //         // "https://bootdey.com/img/Content/avatar/avatar3.png",
+  //        // "https://bootdey.com/img/Content/avatar/avatar4.png"
           
-        ]
-      },
-   ]
-        this.setState({
-            data:data2,
-            isFetching: false,
+  //       ]
+  //     },
+  //  ]
+  //       this.setState({
+  //           data:data2,
+  //           isFetching: false,
 
-        })
+  //       })
   
-  }
+  // }
   
 
   renderGroupMembers = (group) => {
@@ -252,15 +222,7 @@ console.log(this.state.data,"Ccccccccccccccccccccccc")
   }
 
 
-  setResult = (res) => {
-    this.setState({
-      data: [...this.state.data, ...res],
-      temp: [...this.state.temp, ...res],
-      error: res.error || null,
-      loading: false
-    });
-  }
-
+ 
   renderHeader = () => {
       return <SearchBar 
       // height: 0.5,
@@ -342,6 +304,7 @@ console.log(this.state.data,"Ccccccccccccccccccccccc")
 
 
   render() {
+  
     if (this.state.loading) {return (
       <View style={{ flex: 1, 
         justifyContent: "center",
@@ -356,7 +319,7 @@ console.log(this.state.data,"Ccccccccccccccccccccccc")
     return (
       this.state.error != null ?
       <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{this.state.error}</Text>
+          <Text>{this.state.error}</Text>
         <Button onPress={
             () => {
               this.getData();
@@ -393,6 +356,7 @@ console.log(this.state.data,"Ccccccccccccccccccccccc")
         keyExtractor={(item)=>{
           return item.id;
         }}
+      
         renderItem={(item) => {
           const Group = item.item;
           let mainContentStyle;

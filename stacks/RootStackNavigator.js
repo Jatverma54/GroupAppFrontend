@@ -16,7 +16,7 @@ import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
 import StoryScreen from '../screens/StoryScreen';
 import GroupAppFeatures from '../screens/GroupAppFeatures';
 import ForgotPassword from '../screens/ForgotPassword';
-
+import StartupScreen from '../screens/StartupScreen';
 
 
 const HeaderLeft = () => {
@@ -46,10 +46,12 @@ return(
   options={{headerShown:false}}/>
 
 
+
 <RootMainStack.Screen  
  options={{headerShown:false}}
       name='LoginScreen' 
       component={LoginScreen}/>
+      
 
 <RootMainStack.Screen  
  options={{headerTitle: "Password Assistance"}}

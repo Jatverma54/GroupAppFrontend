@@ -8,12 +8,14 @@ import {
   Image,
   Alert,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 import { 
   Button,
 } from 'react-native-paper';
+
 
 export default class ExplorePublicGroupScreen extends Component {
 
@@ -21,18 +23,7 @@ export default class ExplorePublicGroupScreen extends Component {
    
     super(props);
     this.state = {
-      data: [
-        {id:"1", title: "Healthcare",      color:"#FF4500", Groups:8,  image:"https://img.icons8.com/color/70/000000/name.png"},
-        {id:"2", title: "Home Remedies",     color:"#87CEEB", Groups:6,  image:"https://img.icons8.com/office/70/000000/home-page.png"},
-        {id:"3", title: "Healthcare",     color:"#4682B4", Groups:12, image:"https://img.icons8.com/color/70/000000/two-hearts.png"} ,
-        {id:"4", title: "Family",   color:"#6A5ACD", Groups:5,  image:"https://img.icons8.com/color/70/000000/family.png"} ,
-        {id:"5", title: "Healthcare",  color:"#FF69B4", Groups:6,  image:"https://img.icons8.com/color/70/000000/groups.png"} ,
-        {id:"6", title: "School",   color:"#00BFFF", Groups:7,  image:"https://img.icons8.com/color/70/000000/classroom.png"} ,
-        {id:"7", title: "Things",   color:"#00FFFF", Groups:8,  image:"https://img.icons8.com/dusk/70/000000/checklist.png"} ,
-        {id:"8", title: "World",    color:"#20B2AA", Groups:23, image:"https://img.icons8.com/dusk/70/000000/globe-earth.png"} ,
-        {id:"9", title: "Remember", color:"#191970", Groups:45, image:"https://img.icons8.com/color/70/000000/to-do.png"} ,
-        {id:"10", title: "Game",     color:"#008080", Groups:13, image:"https://img.icons8.com/color/70/000000/basketball.png"} ,
-      ],
+      data: "",
       loading: false,   
       error: null,
     
@@ -46,17 +37,38 @@ export default class ExplorePublicGroupScreen extends Component {
   }
 
   getData = async ()  => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
+  
+    this.setState({ loading: true });
      
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
+     try {
+   
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer "+token);     
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        
+      };
+      
+      const response = await fetch("http://192.168.0.105:3000/admin/GetCategoriesToDB", requestOptions );             
+        const json = await response.json();
+      
+        this.setResult(json.result);
+       
+     } catch (e) {
+        this.setState({ error: 'Reload the Page', loading: false });
+        console.log("Error ",e)
+     }
   };
+
+componentDidMount(){
+  this.getData();
+}
 
 
  setResult = (res) => {
@@ -84,7 +96,7 @@ export default class ExplorePublicGroupScreen extends Component {
       
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-          <Text>{this.state.error}</Text>
+            <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
               this.getData();
@@ -102,7 +114,7 @@ export default class ExplorePublicGroupScreen extends Component {
         numColumns={2}
       
         keyExtractor= {(item) => {
-          return item.id;
+          return item._id;
         }}
         
         renderItem={({item}) => {

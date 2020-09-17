@@ -220,7 +220,7 @@ if(conditionalRender){
          
           {isVisible&&
          
-            <ImageView
+          <ImageView
   images={this.state.ImageData}
   imageIndex={imageindex}
   visible={isVisible}

@@ -310,7 +310,7 @@ render() {
 
   this.state.error != null ?
   <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-    <Text>{this.state.error}</Text>
+      <Text>{this.state.error}</Text>
     <Button onPress={
       () => {
         this.getData();
