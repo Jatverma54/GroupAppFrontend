@@ -2,12 +2,12 @@ import 'react-native-gesture-handler';
 import Floating_Button from '../Pictures/Floating_Button.png';
 
 
-export default  actions = [
-   
-    {
-      text: "Create a Professional Group",
-      icon: {Floating_Button},
-      name: "bt_CreateaPublicGroup",
-      position: 4
-    }
-  ];
+export default actions = [
+
+  {
+    text: "Create a Professional Group",
+    icon: { Floating_Button },
+    name: "bt_CreateaPublicGroup",
+    position: 4
+  }
+];

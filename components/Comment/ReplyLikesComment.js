@@ -22,7 +22,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
-export default class LikesComments extends Component {
+export default class ReplyLikesComment extends Component {
 
   constructor(props) {
     super(props);
@@ -48,8 +48,8 @@ export default class LikesComments extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
       var LikePost = {
-        "commentId": this.props.route.params._id,
-
+        "commentId": this.props.route.params.CommentId,
+        "ReplycommentId": this.props.route.params._id,
         "postId": this.props.route.params.PostId
       }
       var myHeaders = new Headers();
@@ -61,7 +61,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/viewCommentlikes", requestOptions);
+      const response = await fetch("http://192.168.0.107:3000/groupPost/viewReplyCommentlikes", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -200,16 +200,8 @@ export default class LikesComments extends Component {
 
 
 
-
-
-
-
-
-
-
-
   render() {
-
+   
     if (this.state.loading) {
       return (
         <View style={{

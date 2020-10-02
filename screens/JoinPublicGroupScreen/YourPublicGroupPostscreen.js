@@ -12,12 +12,13 @@ import {
   Dimensions,
   RefreshControl,
   Clipboard,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 import {
   Avatar,
   Divider,
-  Button 
+  Button
 } from 'react-native-paper';
 import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/YourPostImagesJoinedGroup';
@@ -25,452 +26,633 @@ import Comment from '../../Pictures/Comment.png';
 import Close_icon from '../../Pictures/Close_icon.png';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import ViewMoreText from 'react-native-view-more-text';
 import ExitIcon from '../../Pictures/ExitIcon.png';
 import Repor_Icon from '../../Pictures/Repor_Icon.png';
 import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
+import moment from "moment";
 const { width, height } = Dimensions.get('window');
 export default class YourPublicGroupPostscreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",   isLiked:false,   countLikes:0,    countcomments:21 ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   video:"https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4",
-        LikePictures:[] },
-        
-        {id:"2", title: "Amit",     countLikes:1,     countcomments:0 ,  isLiked:false,     time:"2 minutes a go",  postMetaData:"This is an https://facebook.com example post", document:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-        LikePictures:[
-              "https://bootdey.com/img/Content/avatar/avatar6.png", 
-              "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              "https://bootdey.com/img/Content/avatar/avatar2.png",
-              // "https://bootdey.com/img/Content/avatar/avatar7.png",
-              // "https://bootdey.com/img/Content/avatar/avatar3.png",
-              // "https://bootdey.com/img/Content/avatar/avatar4.png"
-                    
-        ]} ,
-        {id:"3", title: "XYZ Name",     countLikes:2,   countcomments:2 ,   isLiked:false,    time:"3 hour a go",  postMetaData:"This is an jatinv2395@gmail.com example post",    image:["https://bootdey.com/img/Content/avatar/avatar1.png" ,"https://bootdey.com/img/Content/avatar/avatar6.png" ],
-      
-      
-        LikePictures:[
-         
-              
-              "https://bootdey.com/img/Content/avatar/avatar6.png", 
-              "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              "https://bootdey.com/img/Content/avatar/avatar2.png",
-              "https://bootdey.com/img/Content/avatar/avatar7.png",
-              "https://bootdey.com/img/Content/avatar/avatar3.png",
-              "https://bootdey.com/img/Content/avatar/avatar4.png"
-        ]
-          },
-       
-      
-     
-        {id:"4", title: "XYZ Name",   countLikes:3,  countcomments:21 , isLiked:false,   time:"4 months a go",  postMetaData:"This is an example post",  image:[ "https://bootdey.com/img/Content/avatar/avatar8.png", "https://bootdey.com/img/Content/avatar/avatar7.png"],
-      
-        LikePictures:[
-         
-              "https://bootdey.com/img/Content/avatar/avatar6.png", 
-              "https://bootdey.com/img/Content/avatar/avatar1.png", 
-              "https://bootdey.com/img/Content/avatar/avatar2.png",
-              "https://bootdey.com/img/Content/avatar/avatar7.png",
-              "https://bootdey.com/img/Content/avatar/avatar3.png",
-              "https://bootdey.com/img/Content/avatar/avatar4.png",
-              
-              
-            ]
-          }, 
-      
-      ],
-      
-      isVisible: false,
-      MaximizeImage:'',
-      isDocumentVisible: false,
-      OpenDucumentUri:'',
-      isFetching:false,
-      loading: false,   
-      error: null,
-    
+      data: '',
 
-      OrientationStatus : '',
-      Width_Layout : Dimensions.get('window').width
+      isVisible: false,
+      MaximizeImage: '',
+      isDocumentVisible: false,
+      OpenDucumentUri: '',
+      isFetching: false,
+      loading: false,
+      error: null,
+
+
+      OrientationStatus: '',
+      Width_Layout: Dimensions.get('window').width
     };
   }
 
-  getData = async ()  => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
-     
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
+
+  componentDidMount() {
+
+    this.DetectOrientation();
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+      this.setState({ data: "" })
+      this.getData(); // do something
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe;
+    this.props.navigation.removeListener('focus', () => {
+      // this.setState({data:""})
+      // this.getData(); // do something
+    });
+  }
+
+  getData = async () => {
+
+    this.setState({ loading: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+
+
+      var GroupData = {
+        groupId: this.props.route.params.groupid._id,
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groupPost/getAllUserPostofGroup", requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      console.log("Error ", e)
+    }
+
+
+
+
   };
 
 
- setResult = (res) => {
+  setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
-      temp: [...this.state.temp, ...res],
       error: res.error || null,
-      loading: false
+      loading: false,
+      isFetching: false
     });
   }
 
 
+
   renderGroupMembers = (item) => {
-    
-    if(item.LikePictures.length>0) {
+
+    if (item.LikePictures.length > 0) {
       return (
         <View>
-           <TouchableOpacity  onPress={()=>this.props.navigation.push("Likes")}>
-        <View style={styles.groupMembersContent}>
-          {item.LikePictures.map((prop, key) => {
-            return (
-              <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
-            );
-          })}
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Likes", item)}>
+            <View style={styles.groupMembersContent}>
+              {item.LikePictures.map((prop, key) => {
+                return (
+                  <Image key={key} style={styles.memberImage} source={{ uri: prop }} />
+                );
+              })}
 
 
-        </View>
-        </TouchableOpacity>
-          <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
+            </View>
+          </TouchableOpacity>
+          <Divider style={{ height: 0.5, marginTop: 4, marginLeft: 20, width: "35%", backgroundColor: "grey" }} />
         </View>
       );
     }
     return <View>
-      <View style={styles.groupMembersContent}><Text>Be the first one to like</Text>
+      <View style={styles.groupMembersContent}><Text style={{ fontSize: 13 }}>Be the first one to like</Text>
+      </View>
+      <Divider style={{ height: 0.5, marginTop: 4, marginLeft: 20, width: "35%", backgroundColor: "grey" }} />
     </View>
-    <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
-     </View>
   }
 
-  componentDidMount(){
-  
-    this.DetectOrientation();
-  }
-  
 
 
-  onFullscreenUpdate = ({fullscreenUpdate, status}) => {
-  
+  onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
+
     switch (fullscreenUpdate) {
-      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT: 
-      
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT:
+
         this.changeScreenOrientationLandscape();
         break;
-      case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT: 
-     
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT:
+
         break;
-      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS: 
-       
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS:
+
         break;
-      case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS: 
-       
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS:
+
         this.changeScreenOrientation();
     }
   }
-  
-  
-   async changeScreenOrientation() {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-      }
-  
-      async changeScreenOrientationLandscape() {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-      }
-  
 
-    onRefresh() {
-      this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+
+  async changeScreenOrientation() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  }
+
+  async changeScreenOrientationLandscape() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+  }
+
+
+  onRefresh() {
+
+    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+  }
+
+
+  DetectOrientation() {
+
+    if (this.state.Width_Layout > this.state.Height_Layout) {
+
+      // Write Your own code here, which you want to execute on Landscape Mode.
+
+      this.setState({
+        OrientationStatus: 'Landscape Mode'
+      });
     }
-    
+    else {
 
-    DetectOrientation(){
+      // Write Your own code here, which you want to execute on Portrait Mode.
 
-      if(this.state.Width_Layout > this.state.Height_Layout)
-      {
-  
-        // Write Your own code here, which you want to execute on Landscape Mode.
-  
-          this.setState({
-          OrientationStatus : 'Landscape Mode'
-          });
-      }
-      else{
-  
-        // Write Your own code here, which you want to execute on Portrait Mode.
-  
-          this.setState({
-          OrientationStatus : 'Portrait Mode'
-          });
-      }
-  
+      this.setState({
+        OrientationStatus: 'Portrait Mode'
+      });
     }
 
-    
-    searchRandomUser = async () =>
-    {
-      //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
-      //  const APIValue = await RandomAPI.json();
-      //   const APIResults = APIValue.results
-      //     console.log(APIResults[0].email);
-    
-    
-      data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-      LikePictures:[
-        
-            
-             //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-            // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-            // "https://bootdey.com/img/Content/avatar/avatar2.png",
-            // "https://bootdey.com/img/Content/avatar/avatar7.png",
-            // "https://bootdey.com/img/Content/avatar/avatar3.png",
-           // "https://bootdey.com/img/Content/avatar/avatar4.png"
-            
-          ]
+  }
+
+
+
+
+  copyText(item) {
+
+    Clipboard.setString(item)
+
+    alert('Copied to clipboard')
+  }
+
+  renderViewMore(onPress) {
+    return (
+      <Text style={{ color: "grey", fontWeight: "bold" }} onPress={onPress}>See more</Text>
+    )
+  }
+  renderViewLess(onPress) {
+    return (
+      <Text style={{ color: "grey", fontWeight: "bold" }} onPress={onPress}>See less</Text>
+    )
+  }
+
+
+  delete(item) {
+
+    Alert.alert(
+      "",
+      "Do you want to delete the post",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
-     ]
-          this.setState({
-              data:data2,
-              isFetching: false
-          })
-    
+        { text: "Yes", onPress: () => this.deletearray(item) }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  deletearray = async (item) => {
+
+    try {
+
+      this.setState({ loading: true });
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+
+
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groupPost/" + item._id, requestOptions
+
+
+      );
+
+
+      if (response.ok) {
+        this.setState({ loading: false });
+        this.setState({ data: "" });
+
+        Alert.alert(
+
+          "",
+          "Post deleted successfully",
+          [
+            { text: "Ok", onPress: () => this.getData() }
+          ],
+          { cancelable: false }
+        );
+
+      }
+      else {
+        this.setState({ loading: false });
+
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+
+        //  console.log(responseJson);
+      }
+
+    } catch (err) {
+      this.setState({ loading: false });
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+      console.log('error deleting the group: ', err)
     }
+  }
 
-    copyText(item){
 
-      Clipboard.setString(item)
-    
-     alert('Copied to clipboard')
-     }
-     
-     renderViewMore(onPress){
-      return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See more</Text>
-      )
+  ReportGroup() {
+
+
+    Alert.alert(
+      "",
+      "Do you want to report the group",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => null }
+      ],
+      { cancelable: false }
+    );
+
+  }
+
+  LeaveGroup() {
+    if (this.props.route.params.groupid.owner_id.includes(this.props.route.params.groupid.currentUser)) {
+
+      alert("Group owner cannot leave the group");
+
     }
-    renderViewLess(onPress){
-      return(
-        <Text style={{color:"grey",fontWeight:"bold"}} onPress={onPress}>See less</Text>
-      )
-    }
-
-
-    delete(item){
-
+    else {
       Alert.alert(
         "",
-        "Do you want to delete the post",
+        "Do you want to Leave the group",
         [
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
           },
-          { text: "Yes", onPress: () => this.deletearray(item)}
+          { text: "Yes", onPress: () => this.ExitGroup() }
         ],
         { cancelable: false }
       );
-    };
-    
-    deletearray(item){
-      
-     // console.log(item.id, "first ")
-     
-      const index = this.state.data.findIndex(
-        items => item.id === items.id
+    }
+  }
+
+
+
+
+  ExitGroup = async () => {
+    try {
+
+      this.setState({ loading: true });
+      //console.log(item.id, "first ")
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var isAdmin = this.props.route.params.groupid.admin_id.includes(userId) ? true : false;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+      var RemoveUser = {
+        "groupid": this.props.route.params.groupid._id,
+        "userId": userId,
+        "isAdmin": isAdmin
+      }
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(RemoveUser)
+
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groups/leaveGroup", requestOptions);
+
+
+      if (response.ok) {
+        this.setState({ loading: false });
+
+        Alert.alert(
+
+          "User Removed",
+          "You left the " + this.props.route.params.groupid.GroupName + " group",
+          [
+            { text: "Ok", onPress: () => this.props.navigation.navigate('JoinedPublicGroupsScreen') }
+          ],
+          { cancelable: false }
+        );
+
+      }
+      else {
+        this.setState({ loading: false });
+
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+
+        //  console.log(responseJson);
+      }
+
+    } catch (e) {
+      this.setState({ loading: false });
+
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
       );
-     
-       this.setState({
-        data: this.state.data.filter((x,i) => i != index) })
-      
-    
-     
-        
-      //console.log(this.state.data,"updated")
     }
 
 
-ReportGroup(){
-
-
-  Alert.alert(
-    "",
-    "Do you want to report the group",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "Yes", onPress: () => this.ExitGroup()}
-    ],
-    { cancelable: false }
-  );
-
-}
-
-LeaveGroup(){
-
-  Alert.alert(
-    "",
-    "Do you want to Leave the group",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "Yes", onPress: () => this.ExitGroup()}
-    ],
-    { cancelable: false }
-  );
-
-}
-
-
-handleUrlPress(url) {
-  //console.log(`url: ${url} has been pressed!`);
-  Linking.openURL(url);
-}
-
-handlePhonePress(phone) {
- // console.log(`phone ${phone} has been pressed!`);
-}
-
-handleNamePress(name) {
-//  console.log(`Hello ${name}`);
-}
-
-handleEmailPress(email) {
- // console.log(`send email to ${email}`);
-  Linking.openURL("mailto:"+email);
-}
-
-renderText(matchingString, matches) {
-  // matches => ["[@michel:5455345]", "@michel", "5455345"]
-  let pattern = /@(\w+)/;
-  let match = matchingString.match(pattern);
-  return `${match[1]}`;
-}
+  }
 
 
 
 
-    ReportorLeaveGroup(){
-  
+
+  handleUrlPress(url) {
+    //console.log(`url: ${url} has been pressed!`);
+    Linking.openURL(url);
+  }
+
+  handlePhonePress(phone) {
+    // console.log(`phone ${phone} has been pressed!`);
+  }
+
+  handleNamePress(name) {
+    //  console.log(`Hello ${name}`);
+  }
+
+  handleEmailPress(email) {
+    // console.log(`send email to ${email}`);
+    Linking.openURL("mailto:" + email);
+  }
+
+  renderText(matchingString, matches) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /@(\w+)/;
+    let match = matchingString.match(pattern);
+    return `${match[1]}`;
+  }
 
 
-return(
 
 
-<View style={{ flex:1 }} >
- <View>
+  ReportorLeaveGroup() {
 
- <TouchableOpacity style={styles.buttonContainerInviteMember}  onPress={()=>this.ReportGroup()}>
-  <View>
-  <View style={styles.bodyContentInviteMember}  >
-            <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Report Group</Text> 
-            </View>
+
+
+    return (
+
+
+      <View style={{ flex: 1 }} >
+        <View>
+
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.ReportGroup()}>
             <View>
-              
-            <Image 
-                  style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
-                   source={Repor_Icon} />
-                   
-              </View> 
+              <View style={styles.bodyContentInviteMember}  >
+                <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Report Group</Text>
+              </View>
+              <View>
+
+                <Image
+                  style={{ marginHorizontal: 5, height: 25, width: 25, marginLeft: width / 2 - 30 - 20, marginTop: -35 }}
+                  source={Repor_Icon} />
+
+              </View>
             </View>
           </TouchableOpacity>
 
           <View>
 
-<TouchableOpacity style={{...styles.buttonContainerShare, marginLeft:this.state.Width_Layout/2,}}  onPress={()=>this.LeaveGroup()}>
- <View>
- <View style={styles.bodyContentShare}  >
-           <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Leave Group</Text> 
-           </View>
-           <View>
-             
-           <Image 
-                 style={{ marginHorizontal: 5,height:25,width:25,marginLeft:width/2-30-20,marginTop:-35}}
-                  source={ExitIcon} />
-                  
-             </View> 
-           </View>
-         </TouchableOpacity>
+            <TouchableOpacity style={{ ...styles.buttonContainerShare, marginLeft: this.state.Width_Layout / 2, }} onPress={() => this.LeaveGroup()}>
+              <View>
+                <View style={styles.bodyContentShare}  >
+                  <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Leave Group</Text>
+                </View>
+                <View>
 
-         {(this.state.data.length===0) &&
-             
-             <View style={{alignSelf:"center",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:270}}><Text style={{alignSelf:"center",color:"grey",fontWeight:"900"}} >No Posts to Show</Text></View>}
-</View>
+                  <Image
+                    style={{ marginHorizontal: 5, height: 25, width: 25, marginLeft: width / 2 - 30 - 20, marginTop: -35 }}
+                    source={ExitIcon} />
 
+                </View>
+              </View>
+            </TouchableOpacity>
 
+            {(this.state.data.length === 0) &&
 
- </View>
-
-</View>
+              <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "900" }} >No Posts to Show</Text></View>}
+          </View>
 
 
 
-);
+        </View>
+
+      </View>
+    );
+
+  }
+
+  LikeUnlike(data) {
+    try {
+      data.item.isLiked = !data.item.isLiked;
+      data.item.countLikes = data.item.isLiked ? (parseInt(data.item.countLikes) + 1) : (parseInt(data.item.countLikes) - 1)
+
+      data.item.isLiked ? data.item.LikePictures.push(data.item.OnwerProfilePic)
+        : data.item.LikePictures = data.item.LikePictures.filter(item => item !== data.item.OnwerProfilePic);
+
+      const index = this.state.data.findIndex(
+        item => data.item._id === item._id
+      );
+
+      this.state.data[index] = data.item;
+
+      this.setState({
+        data: this.state.data,
+
+      });
+    } catch (e) {
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+    }
+
+  }
+
+
+
+  Likes = async (data) => {
+    try {
+      this.LikeUnlike(data);
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+      var LikePost = {
+        "PostId": data.item._id,
+        "isLiked": data.item.isLiked
+      }
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(LikePost)
+
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groupPost/like", requestOptions);
+
+      if (response.ok) {
+
+        //  this.setState({search:''});  this.setState({data:'',temp:''});  
+
+
+      }
+      else {
+
+        this.LikeUnlike(data);
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+
+        //  console.log(responseJson);
+      }
+
+    } catch (e) {
+
+      this.LikeUnlike(data);
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+    }
+
+  }
 
 
 
 
 
 
-}
+  openDocument(url) {
 
-Likes(data) {
-     
-     
-  data.item.isLiked = !data.item.isLiked;
-  data.item.countLikes= data.item.isLiked ?(parseInt(data.item.countLikes)+1):(parseInt(data.item.countLikes)-1)
-
- data.item.isLiked ? data.item.LikePictures.push("https://www.bootdey.com/img/Content/avatar/avatar1.png")
-   : data.item.LikePictures=data.item.LikePictures.filter(item => item !== "https://www.bootdey.com/img/Content/avatar/avatar1.png");
- 
-  const index = this.state.data.findIndex(
-    item => data.item.id === item.id
-  );
-
-
-  this.state.data[index] = data.item;
-  
-
-
-  this.setState({
-    data: this.state.data,
-  
- 
-  });
-
- //console.log(this.state.data)
- 
-
-}
-
-
-
-openDocument (url) {
- 
-  Linking.canOpenURL(url)
+    Linking.canOpenURL(url)
       .then((supported) => {
-          if (!supported) {
-              alert("File type is not supported")
-          } else {
-            //  console.log("Supported!")
-              return Linking.openURL(url);
-          }
+        if (!supported) {
+          alert("File type is not supported")
+        } else {
+          //  console.log("Supported!")
+          return Linking.openURL(url);
+        }
       })
       .catch((err) => console.error('An error occurred', err));
-};
+  };
 
 
 
@@ -481,183 +663,189 @@ openDocument (url) {
 
 
   render() {
-       
-    if (this.state.loading) {return (
-      <View style={{ flex: 1, 
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff"}}>
-       <ActivityIndicator size="large" color="black" />
-      </View>
-    );
-  } 
-  
+
+    if (this.state.loading) {
+      return (
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff"
+        }}>
+          <ActivityIndicator size="large" color="black" />
+          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
+        </View>
+      );
+    }
+
     return (
       this.state.error != null ?
-        <View style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center' }}>
-            <Text>{this.state.error}</Text>
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
               this.getData();
             }
           }  >
-            <MaterialCommunityIcons name="reload" size={30} style={{height:15,width:15,}}/>
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
-      <View style={styles.container} onLayout={(event) => this.setState({
-        Width_Layout : event.nativeEvent.layout.width,
-       
-       }, ()=> this.DetectOrientation())}>
-     
-        <FlatList style={styles.list}
-          data={this.state.data}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          refreshControl={
-            <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
-          }
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
+        <View style={styles.container} onLayout={(event) => this.setState({
+          Width_Layout: event.nativeEvent.layout.width,
 
-          ListHeaderComponent={
-            this.ReportorLeaveGroup()
-            
-        }
+        }, () => this.DetectOrientation())}>
+
+          <FlatList style={styles.list}
+            data={this.state.data}
+            keyExtractor={(item) => {
+              return item._id;
+            }}
+            refreshControl={
+              <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+            }
+            ItemSeparatorComponent={() => {
+              return (
+                <View style={styles.separator} />
+              )
+            }}
+
+            ListHeaderComponent={
+              this.ReportorLeaveGroup()
+
+            }
 
 
-          renderItem={(post) => {
-            const item = post.item;
-            return (
+            renderItem={(post) => {
+              const item = post.item;
+              return (
 
-              <View style={styles.card}>
-             
+                <View style={styles.card}>
 
-             {/* <Stories Number_of_run={this.state.Number_of_run}/>                   */}
-               <View style={styles.cardHeader}>
-                  <View>
-                  <Avatar.Image size={45}
-                  style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
-                     source={DrawerLogo}/>
-   
-    {!(item.title.length>30)?
-                    <Text  style={styles.title}>{item.title}</Text>
-                    :<Text style={styles.title}>{item.title.toString().substring(0,30)}..</Text>}
-                    
-                    <Text style={styles.time}>{item.time}</Text>
+
+                  {/* <Stories Number_of_run={this.state.Number_of_run}/>                   */}
+                  <View style={styles.cardHeader}>
+                    <View>
+                      <Avatar.Image size={45}
+                        style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
+                        source={{ uri: item.OnwerProfilePic }} />
+
+                      {!(item.OnwerName.length > 30) ?
+                        <Text style={styles.title}>{item.OnwerName}</Text>
+                        : <Text style={styles.title}>{item.OnwerName.toString().substring(0, 30)}..</Text>}
+
+                      <Text style={styles.time}>{moment(item.time).fromNow()}</Text>
+                    </View>
+
+                    <TouchableOpacity onPress={() => this.delete(item)}>
+                      {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+                      <MaterialCommunityIcons name="delete-outline" size={15} style={{ height: 15, width: 15, }} />
+                    </TouchableOpacity>
                   </View>
 
-                  <TouchableOpacity onPress={()=>this.delete(item)}>
-{/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
-<MaterialCommunityIcons name="delete-outline" size={15} style={{height:15,width:15,}}/>
-</TouchableOpacity>
-                </View>
+                  <View style={styles.cardContent}>
+                    <TouchableOpacity onPress={() => this.copyText(item.postMetaData)}>
+                      <ViewMoreText
+                        numberOfLines={14}
+                        renderViewMore={this.renderViewMore}
+                        renderViewLess={this.renderViewLess}
+                        textStyle={styles.title2}
+                      >
 
-                <View style={styles.cardContent}>             
-                <TouchableOpacity onPress={()=>this.copyText(item.postMetaData)}>
-                <ViewMoreText
-          numberOfLines={14}
-          renderViewMore={this.renderViewMore}
-          renderViewLess={this.renderViewLess}
-          textStyle={styles.title2}
-        >   
-        
-        <ParsedText   style={styles.title2}           parse={[
-            { type: 'url', style: styles.url, onPress: this.handleUrlPress },
-            {
-              type: 'phone',
-              style: styles.phone,
-              onPress: this.handlePhonePress,
-            },
-            {
-              type: 'email',
-              style: styles.email,
-              onPress: this.handleEmailPress,
-            },
-            {
-              pattern: /Bob|David/,
-              style: styles.name,
-              onPress: this.handleNamePress,
-            },
-            {
-              pattern: /@(\w+)/,
-              style: styles.username,
-              onPress: this.handleNamePress,
-              renderText: this.renderText,
-            },
-            {
-              pattern: /@(\w+)_(\w+)/,   
-              style: styles.username,
-              onPress: this.handleNamePress,
-              renderText: this.renderText,
-            },
-            { pattern: /42/, style: styles.magicNumber },
-            { pattern: /#(\w+)/, style: styles.hashTag },
-          ]}   
-          
-          >{item.postMetaData}</ParsedText>
-          
-            </ViewMoreText>   
-            </TouchableOpacity>
-            
-            </View>
-            
+                        <ParsedText style={styles.title2} parse={[
+                          { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+                          {
+                            type: 'phone',
+                            style: styles.phone,
+                            onPress: this.handlePhonePress,
+                          },
+                          {
+                            type: 'email',
+                            style: styles.email,
+                            onPress: this.handleEmailPress,
+                          },
+                          {
+                            pattern: /Bob|David/,
+                            style: styles.name,
+                            onPress: this.handleNamePress,
+                          },
+                          {
+                            pattern: /@(\w+)/,
+                            style: styles.username,
+                            onPress: this.handleNamePress,
+                            renderText: this.renderText,
+                          },
+                          {
+                            pattern: /@(\w+)_(\w+)/,
+                            style: styles.username,
+                            onPress: this.handleNamePress,
+                            renderText: this.renderText,
+                          },
+                          { pattern: /42/, style: styles.magicNumber },
+                          { pattern: /#(\w+)/, style: styles.hashTag },
+                        ]}
+
+                        >{item.postMetaData}</ParsedText>
+
+                      </ViewMoreText>
+                    </TouchableOpacity>
+
+                  </View>
 
 
-            {(post.item.image!=null)?
-    
-    <View>
-     <FbImages ShowPhotos={true} imagesdata={item.image}/>
 
-     <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>  
-     </View> 
-:
-      
-(post.item.video!=null) ?
-      <View style={styles.ImageView} >
-       
-        <Video
-        source={{ uri: item.video }}
-        rate={1.0}
-        volume={1.0}
-        isMuted={false}
-        resizeMode="cover"
-        shouldPlay={false}
-        isLooping={false}
-        useNativeControls
-        style={styles.video}
+                  {(post.item.image.length !== 0) ?
 
-  onFullscreenUpdate={this.onFullscreenUpdate}
-      />
-<Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
+                    <View>
+                      <FbImages ShowPhotos={true} imagesdata={item.image} />
 
-      </View>: ((post.item.document!=null) ?
-      ( 
-      
-      
-      
-      <View  style={styles.ImageView} >
-        
-   
-        
-      <TouchableHighlight   style={{ marginTop:10,
-    alignSelf:"center"}} 
-        
-        onPress={()=>this.openDocument(item.document)}> 
-      <MaterialCommunityIcons
-              name="file-document"                
-              size={70}
-            // style={styles.DocumentIcon} 
-            />
-       </TouchableHighlight>
-  
-  <Text style={{alignSelf:"center"}}>PDF</Text>
-  
+                      <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+                    </View>
+                    :
 
-  {/* {this.state.isDocumentVisible===true&&
+                    (post.item.video != null) ?
+                      <View style={styles.ImageView} >
+
+                        <Video
+                          source={{ uri: item.video }}
+                          rate={1.0}
+                          volume={1.0}
+                          isMuted={false}
+                          resizeMode="cover"
+                          shouldPlay={false}
+                          isLooping={false}
+                          useNativeControls
+                          style={styles.video}
+
+                          onFullscreenUpdate={this.onFullscreenUpdate}
+                        />
+                        <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+
+                      </View> : ((post.item.document != null) ?
+                        (
+
+
+
+                          <View style={styles.ImageView} >
+
+
+
+                            <TouchableHighlight style={{
+                              marginTop: 10,
+                              alignSelf: "center"
+                            }}
+
+                              onPress={() => this.openDocument(item.document)}>
+                              <MaterialCommunityIcons
+                                name="file-document"
+                                size={70}
+                              // style={styles.DocumentIcon} 
+                              />
+                            </TouchableHighlight>
+
+                            <Text style={{ alignSelf: "center" }}>PDF</Text>
+
+
+                            {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -696,79 +884,81 @@ openDocument (url) {
 
 
 
-      <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
- 
-  </View>  ):null)}
+                            <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+
+                          </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
 
 
 
 
-                
-  { this.renderGroupMembers(item)}
 
-<View style={styles.cardFooter}>
+                  { this.renderGroupMembers(item)}
+
+                  <View style={styles.cardFooter}>
 
 
-                <View style={styles.socialBarContainer}>             
-              
-                  <View style={styles.socialBarSection}>
+                    <View style={styles.socialBarContainer}>
 
-                
-                  {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-                   
-                 
-                  <TouchableOpacity style={styles.socialBarButton}  onPress={()=>this.Likes(post)}>
+                      <View style={styles.socialBarSection}>
 
-                      
-                  {post.item.isLiked?
-                      <AntDesign
-              name="like1"                
-             size={25}
-             color="#1E90FF"
-             style={styles.icon} 
-            />:<AntDesign
-            name="like1"                
-           size={25}
-           color="black"
-           style={styles.icon} 
-          />}                     
-                     
-                     
-<Text style={{marginRight:40,marginLeft:5,color:"grey"}}>{(parseInt(post.item.countLikes)===0)?"":post.item.countLikes} {(parseInt(post.item.countLikes)>1)?"Likes":"Like"}</Text>
 
-                      </TouchableOpacity>
-                  </View> 
-                  
-                  
-                 
-                  <View style={styles.socialBarSection}>
-                   
-                  <TouchableOpacity      onPress={()=>this.props.navigation.navigate("Comments",post.item)}>
-                    <View style={styles.socialBarButton}>
-                      <Image style={{  width:25,
-  height:25,
-  
- marginLeft:200}} source={Comment}/>
+                        {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
 
-<Text  style={{marginLeft:5,color:"grey",}} >{(parseInt(post.item.countcomments)===0)?"":post.item.countcomments} {(parseInt(post.item.countcomments)>1)?"Comments":"Comment"}</Text>
+
+                        <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
+
+
+                          {post.item.isLiked ?
+                            <AntDesign
+                              name="like1"
+                              size={25}
+                              color="#1E90FF"
+                              style={styles.icon}
+                            /> : <AntDesign
+                              name="like1"
+                              size={25}
+                              color="black"
+                              style={styles.icon}
+                            />}
+
+
+                          <Text style={{ marginRight: 40, marginLeft: 5, color: "grey" }}>{(parseInt(post.item.countLikes) === 0) ? "" : post.item.countLikes} {(parseInt(post.item.countLikes) > 1) ? "Likes" : "Like"}</Text>
+
+                        </TouchableOpacity>
                       </View>
-                      </TouchableOpacity> 
-                  </View>
-               
-                      
-                  
-                </View> 
 
-              </View>      
-              
-            </View>               
-              
-          )                
-                        }}/>
-         
-          
-      </View>
-     
+
+
+                      <View style={styles.socialBarSection}>
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", post.item)}>
+                          <View style={styles.socialBarButton}>
+                            <Image style={{
+                              width: 25,
+                              height: 25,
+
+                              marginLeft: 200
+                            }} source={Comment} />
+
+                            <Text style={{ marginLeft: 5, color: "grey", }} >{(parseInt(post.item.countcomments) === 0) ? "" : post.item.countcomments} {(parseInt(post.item.countcomments) > 1) ? "Comments" : "Comment"}</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+
+
+
+                    </View>
+
+                  </View>
+
+                </View>
+
+              )
+            }} />
+
+
+        </View>
+
     );
   }
 }
@@ -776,28 +966,28 @@ openDocument (url) {
 
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
     //marginTop:5,
   },
   list: {
     paddingHorizontal: 4,
-    backgroundColor:"#E6E6E6",
+    backgroundColor: "#E6E6E6",
   },
   separator: {
-   // marginTop: 0,
+    // marginTop: 0,
   },
   /******** card **************/
-  card:{
+  card: {
     shadowColor: '#00000021',
     shadowOffset: {
       width: 2,
-    
+
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     marginVertical: 8,
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
   cardHeader: {
     paddingVertical: 10,
@@ -807,7 +997,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardTitle:{
+  cardTitle: {
 
   },
   cardContent: {
@@ -815,10 +1005,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
-    
-   
+
+
   },
-  cardFooter:{
+  cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: -5,
@@ -828,44 +1018,44 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 1,
 
   },
-  cardImage:{
+  cardImage: {
     flex: 1,
     height: 300,
     width: null,
   },
   /******** card components **************/
-  title:{
-    fontSize:16,
-    fontWeight:'bold',
-    width:"100%",
-    flex:1,
-   marginLeft:60,
-   marginTop:-45
-  
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    width: "100%",
+    flex: 1,
+    marginLeft: 60,
+    marginTop: -45
+
   },
-  time:{
-    fontSize:13,
-    color: "#808080",  
-    marginLeft:60,
-   
+  time: {
+    fontSize: 13,
+    color: "#808080",
+    marginLeft: 60,
+
   },
-  title2:{
-    fontSize:16,
-    flex:1,
+  title2: {
+    fontSize: 16,
+    flex: 1,
     flexDirection: 'row',
-   
+
   },
-  time2:{
-    fontSize:13,
-    color: "#808080",  
-    
-   
+  time2: {
+    fontSize: 13,
+    color: "#808080",
+
+
   },
   icon: {
-    width:25,
-    height:25,
-    
-  marginLeft:180
+    width: 25,
+    height: 25,
+
+    marginLeft: 180
   },
   /******** social bar ******************/
   socialBarContainer: {
@@ -873,40 +1063,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    alignSelf:"center",
-   marginTop:10,//50
-   // marginLeft:-60
+    alignSelf: "center",
+    marginTop: 10,//50
+    // marginLeft:-60
   },
 
   socialBarSection: {
     justifyContent: 'center',
     flexDirection: 'row',
-    alignSelf:"center",
-alignItems:"center",
+    alignSelf: "center",
+    alignItems: "center",
     flex: 1,
-   // marginLeft:-70,
-    
+    // marginLeft:-70,
+
   },
   socialBarlabel: {
     marginLeft: 8,
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
-    
+
   },
-  socialBarButton:{
+  socialBarButton: {
     flexDirection: 'row',
-    alignSelf:"center",
-  alignItems:"center",
-  marginLeft:-150
+    alignSelf: "center",
+    alignItems: "center",
+    marginLeft: -150
   },
 
-  ImageView:{
+  ImageView: {
 
-    flex:1,
-//justifyContent:'center',
+    flex: 1,
+    //justifyContent:'center',
     width: '100%',
     height: "100%",
-  //  resizeMode: "stretch",
+    //  resizeMode: "stretch",
   },
   overlayCancel: {
     padding: 20,
@@ -914,9 +1104,9 @@ alignItems:"center",
     right: 10,
     top: 0,
   },
-   cancelIcon: {
+  cancelIcon: {
     color: 'black',
-    marginTop:10
+    marginTop: 10
 
   },
   stretch: {
@@ -924,75 +1114,75 @@ alignItems:"center",
     width: width,
     height: height / 3,
     resizeMode: "contain",
-   },
-   video: {
+  },
+  video: {
     width: width,
     height: height / 3
   },
 
   buttonContainerInviteMember: {
-    marginTop:10,
-    height:45,
+    marginTop: 10,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginBottom:10,
-    width:"50%",
-    borderRadius:30,
+    marginBottom: 10,
+    width: "50%",
+    borderRadius: 30,
     backgroundColor: "white",
   },
 
-  
+
   bodyContentShare: {
     flex: 2,
     alignItems: 'center',
-   
-  // marginVertical:-5,
- 
-  }, 
+
+    // marginVertical:-5,
+
+  },
   buttonContainerShare: {
-    marginTop:-55,
-    height:45,
-   // marginLeft:width/2,
+    marginTop: -55,
+    height: 45,
+    // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginBottom:10,
-    width:"50%",
-    borderRadius:30,
+    marginBottom: 10,
+    width: "50%",
+    borderRadius: 30,
     backgroundColor: "white",
   },
 
-  
+
   bodyContentInviteMember: {
     flex: 2,
     alignItems: 'center',
-   
-  // marginVertical:-5,
- 
-  }, 
-   
+
+    // marginVertical:-5,
+
+  },
+
   bodyContentShare: {
     flex: 2,
     alignItems: 'center',
-   
-  // marginVertical:-5,
- 
-  }, 
 
-  
-  groupMembersContent:{
-    flexDirection:'row',
-   marginTop:4,
-   marginLeft:20
+    // marginVertical:-5,
+
+  },
+
+
+  groupMembersContent: {
+    flexDirection: 'row',
+    marginTop: 4,
+    marginLeft: 20
   },
   memberImage: {
     height: 20,
     width: 20,
-    marginRight:4,
-    borderRadius:10,
+    marginRight: 4,
+    borderRadius: 10,
   },
-  
+
 
 
   url: {
@@ -1017,7 +1207,7 @@ alignItems:"center",
 
   name: {
     color: 'black',
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
 
   username: {

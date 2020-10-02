@@ -180,7 +180,7 @@ export default class PersonalGroupFeedScreen extends Component {
       );
     }
     return <View>
-      <View style={styles.groupMembersContent}><Text>Be the first one to like</Text>
+      <View style={styles.groupMembersContent}><Text style={{fontSize:13}}>Be the first one to like</Text>
     </View>
     <Divider style={{height: 0.5,marginTop:4,marginLeft:20, width: "35%",backgroundColor:"grey"}}/> 
      </View>
@@ -458,7 +458,7 @@ onFullscreenUpdate = ({fullscreenUpdate, status}) => {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#fff"}}>
-       <ActivityIndicator size="large" color="black" />
+        <ActivityIndicator size="large" color="black" />
       </View>
     );
   } 
@@ -681,7 +681,7 @@ onFullscreenUpdate = ({fullscreenUpdate, status}) => {
       <Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>   
 
  
-  </View>  ):null)}
+  </View>  ):<Divider style={{height: 0.5,marginTop:10,marginLeft:20, width: "90%",backgroundColor:"grey"}}/>)}
 
   { this.renderGroupMembers(item)}
 

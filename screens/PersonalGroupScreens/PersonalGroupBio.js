@@ -310,7 +310,7 @@ getCameraPermissionAsync = async () => {
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#fff"}}>
-     <ActivityIndicator size="large" color="black" />
+      <ActivityIndicator size="large" color="black" />
     </View>
   );
 }

@@ -7,7 +7,7 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
-  SafeAreaView 
+  SafeAreaView
 } from 'react-native'
 import {
   Button,
@@ -21,7 +21,7 @@ import ImageTile from './ImageTile'
 const { width } = Dimensions.get('window')
 
 export default class ImageBrowser extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       photos: [],
@@ -31,8 +31,8 @@ export default class ImageBrowser extends React.Component {
     }
   }
 
-  componentDidMount () {
-    this.getPhotos()
+  componentDidMount() {
+    this.getPhotos();
     this.setState({ badgeColor: this.props.badgeColor ? this.props.badgeColor : '#007aff' })
   }
 
@@ -53,7 +53,7 @@ export default class ImageBrowser extends React.Component {
   }
 
   getPhotos = () => {
-    let params = { first: 500 , sortBy: [[ MediaLibrary.SortBy.default, false ]]}
+    let params = { first: 500, sortBy: [[MediaLibrary.SortBy.default, false]] }
     if (this.state.after) params.after = this.state.after
     if (!this.state.hasNextPage) return
     MediaLibrary
@@ -89,10 +89,11 @@ export default class ImageBrowser extends React.Component {
 
   prepareCallback = () => {
     let { selected, photos } = this.state
-    const selectedPhotos = selected.map(i => photos[i].uri)
- 
+
+    const selectedPhotos = selected.map(i => photos[i])//photos[i].uri
+
     const assetsInfo = Promise.all(selectedPhotos)
-   //Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)))
+    //Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)))
     this.props.callback(assetsInfo)
   }
 
@@ -108,25 +109,25 @@ export default class ImageBrowser extends React.Component {
     return (
       <SafeAreaView forceInset={{ top: 'always' }} style={{ height: 52 }}>
         <View style={styles.header}>
-          <View style={{marginLeft:0}}>
-          <Button 
-            color={headerButtonColor}
-            
-            onPress={() => this.props.callback(Promise.resolve([]))}
-          >{headerCloseText}</Button>
+          <View style={{ marginLeft: 0 }}>
+            <Button
+              color={headerButtonColor}
+
+              onPress={() => this.props.callback(Promise.resolve([]))}
+            >{headerCloseText}</Button>
           </View>
-         <View style={{marginRight:100}}>
-          <Text style={styles.headerText}>{headerText}</Text>
+          <View style={{ marginRight: 100 }}>
+            <Text style={styles.headerText}>{headerText}</Text>
           </View>
-          <View style={{marginRight:0}}>
-          <Button 
-            color={headerButtonColor}
-           
-            onPress={() => this.prepareCallback()}
-          >{headerDoneText}</Button>
-</View>
+          <View style={{ marginRight: 0 }}>
+            <Button
+              color={headerButtonColor}
+
+              onPress={() => this.prepareCallback()}
+            >{headerDoneText}</Button>
+          </View>
         </View>
-        </SafeAreaView>
+      </SafeAreaView>
     )
   }
 
@@ -180,7 +181,7 @@ export default class ImageBrowser extends React.Component {
     )
   }
 
-  render () {
+  render() {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
@@ -193,23 +194,23 @@ export default class ImageBrowser extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
   header: {
     width: width,
-   justifyContent: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    
+
   },
   headerText: {
     fontWeight: 'bold',
     fontSize: 16,
     lineHeight: 19,
-    marginLeft:90,
-   
-     width:"50%"
+    marginLeft: 90,
+
+    width: "50%"
   },
   emptyContent: {
     flexGrow: 1,

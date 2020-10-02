@@ -15,100 +15,100 @@ export default class NotificationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data:[
-        {id:3,  image: "https://bootdey.com/img/Content/avatar/avatar7.png", name:"March SoulLaComa", text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:"https://lorempixel.com/100/100/nature/6/"},
-        {id:2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name:"John DoeLink",     text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:"https://lorempixel.com/100/100/nature/5/"},
-        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name:"Finn DoRemiFaso",  text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
-        {id:5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name:"Maria More More",  text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
-        {id:1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name:"Frank Odalthh",    text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:"https://lorempixel.com/100/100/nature/4/"},
-        {id:6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name:"Clark June Boom!", text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
-        {id:7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name:"The googler",      text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment:""},
+      data: [
+        { id: 3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", name: "March SoulLaComa", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/6/" },
+        { id: 2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name: "John DoeLink", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/5/" },
+        { id: 4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name: "Finn DoRemiFaso", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
+        { id: 5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name: "Maria More More", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
+        { id: 1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name: "Frank Odalthh", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/4/" },
+        { id: 6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name: "Clark June Boom!", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
+        { id: 7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name: "The googler", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
       ],
-      isFetching:false,
-     
+      isFetching: false,
+
     }
   }
 
-  
+
 
   onRefresh() {
-    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
+    this.setState({ isFetching: true }, function () { this.searchRandomUser() });
   }
-  
-  
-  searchRandomUser = async () =>
-  {
+
+
+  searchRandomUser = async () => {
     //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
     //  const APIValue = await RandomAPI.json();
     //   const APIResults = APIValue.results
     //     console.log(APIResults[0].email);
-  
-  
-    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-    LikePictures:[
-      
-          
-           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar2.png",
-          // "https://bootdey.com/img/Content/avatar/avatar7.png",
-          // "https://bootdey.com/img/Content/avatar/avatar3.png",
-         // "https://bootdey.com/img/Content/avatar/avatar4.png"
-          
-        ]
-      },
-   ]
-        this.setState({
-            data:data2,
-            isFetching: false
-        })
-  
+
+
+    data2 = [{
+      id: "1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", countLikes: "51", countcomments: "21", time: "1 days a go", postMetaData: "This is an example postThis is an example post", image: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+      LikePictures: [
+
+
+        //"https://bootdey.com/img/Content/avatar/avatar6.png", 
+        // "https://bootdey.com/img/Content/avatar/avatar1.png", 
+        // "https://bootdey.com/img/Content/avatar/avatar2.png",
+        // "https://bootdey.com/img/Content/avatar/avatar7.png",
+        // "https://bootdey.com/img/Content/avatar/avatar3.png",
+        // "https://bootdey.com/img/Content/avatar/avatar4.png"
+
+      ]
+    },
+    ]
+    this.setState({
+      data: data2,
+      isFetching: false
+    })
+
   }
 
 
   render() {
 
-  //  this.state.Seen?this.props.navigation.setOptions({
-     
-  //     tabBarLabel: ({focused, tintColor:color}) => (
-  //       <MaterialCommunityIcons name="bell" color="black"  size={26} /> 
-  //       ),
-  //   }):null
+    //  this.state.Seen?this.props.navigation.setOptions({
+
+    //     tabBarLabel: ({focused, tintColor:color}) => (
+    //       <MaterialCommunityIcons name="bell" color="black"  size={26} /> 
+    //       ),
+    //   }):null
 
 
-  
-  
+
+
     return (
       <FlatList
         style={styles.root}
         data={this.state.data}
         extraData={this.state}
-        
- refreshControl={
-  <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
-}
+
+        refreshControl={
+          <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+        }
 
 
         ItemSeparatorComponent={() => {
           return (
-            <View style={styles.separator}/>
+            <View style={styles.separator} />
           )
         }}
-        keyExtractor={(item)=>{
+        keyExtractor={(item) => {
           return item.id;
         }}
         renderItem={(item) => {
           const Notification = item.item;
-          let attachment = <View/>;
+          let attachment = <View />;
 
           let mainContentStyle;
-          if(Notification.attachment) {
+          if (Notification.attachment) {
             mainContentStyle = styles.mainContent;
-            attachment = <Image style={styles.attachment} source={{uri:Notification.attachment}}/>
+            attachment = <Image style={styles.attachment} source={{ uri: Notification.attachment }} />
           }
-          return(
+          return (
             <View style={styles.container}>
-              <Image source={{uri:Notification.image}} style={styles.avatar}/>
+              <Image source={{ uri: Notification.image }} style={styles.avatar} />
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
@@ -123,7 +123,7 @@ export default class NotificationScreen extends Component {
               </View>
             </View>
           );
-        }}/>
+        }} />
     );
   }
 }
@@ -140,14 +140,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start'
   },
   avatar: {
-    width:50,
-    height:50,
-    borderRadius:25,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   text: {
     marginBottom: 5,
     flexDirection: 'row',
-    flexWrap:'wrap'
+    flexWrap: 'wrap'
   },
   content: {
     flex: 1,
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#CCCCCC"
   },
-  timeAgo:{
-    fontSize:12,
-    color:"#696969"
+  timeAgo: {
+    fontSize: 12,
+    color: "#696969"
   },
-  name:{
-    fontSize:16,
-    color:"#1E90FF"
+  name: {
+    fontSize: 16,
+    color: "#1E90FF"
   }
 });  

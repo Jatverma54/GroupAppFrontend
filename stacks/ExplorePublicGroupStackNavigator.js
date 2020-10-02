@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {createStackNavigator  } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet,TouchableOpacity, View, Image } from 'react-native';
-import {DrawerActions} from '@react-navigation/native';
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreens/ExplorePublicGroupScreen';
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
@@ -16,180 +16,184 @@ import BackArrow from '../Pictures/BackArrow.png';
 
 
 const HeaderLeft = () => {
-    const navigation = useNavigation();
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
-        <Image   style={styles.ImageIconStyle} 
-         source={require('../Pictures/menu.png')}/>
-         </TouchableOpacity>
-      </View>
-    );
-  };
+  const navigation = useNavigation();
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <Image style={styles.ImageIconStyle}
+          source={require('../Pictures/menu.png')} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-  const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
+const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
-  const ExplorePublicGroupTabStackNavigator =()=>{
-  
-    
-    return (
-        
-        <ExplorePublicGroupTabStack.Navigator   initialRouteName="Explore Public Groups"
-        tabBarOptions={{
-          activeTintColor: colors.TabactiveTintColor,
-          inactiveTintColor: colors.TabinactiveTintColor,
-          
-          style: {
-           // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-           // borderTopRightRadius: colors.TabStyleTopRightRadius,
+const ExplorePublicGroupTabStackNavigator = () => {
+
+
+  return (
+
+    <ExplorePublicGroupTabStack.Navigator initialRouteName="Explore Public Groups"
+      tabBarOptions={{
+        activeTintColor: colors.TabactiveTintColor,
+        inactiveTintColor: colors.TabinactiveTintColor,
+
+        style: {
+          // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
+          // borderTopRightRadius: colors.TabStyleTopRightRadius,
           //  borderTopColor: colors.TabStyleBorderTopColour,
           //  borderTopWidth: colors.TabStyleborderTopWidth,
-            width: colors.TabStylewidth,
-            backgroundColor: colors.TabStylebackgroundColor,
-            shadowColor: colors.TabStyleShadowColor,
-            shadowOffset: {
-              width: colors.TabStyleShadowoffsetwidth,
-              height: colors.TabStyleShadowoffsetHeight
-            },
-            shadowRadius: colors.TabshadowRadius,
-            elevation:colors.Tabelevation,
-            shadowOpacity: colors.TabshadowOpacity,
-            height:colors.Tabheight
+          width: colors.TabStylewidth,
+          backgroundColor: colors.TabStylebackgroundColor,
+          shadowColor: colors.TabStyleShadowColor,
+          shadowOffset: {
+            width: colors.TabStyleShadowoffsetwidth,
+            height: colors.TabStyleShadowoffsetHeight
           },
+          shadowRadius: colors.TabshadowRadius,
+          elevation: colors.Tabelevation,
+          shadowOpacity: colors.TabshadowOpacity,
+          height: colors.Tabheight
+        },
 
-          labelStyle: {
-            fontSize: colors.TabLabelStylefontSize,
-            fontWeight: colors.TabLabelStylefontWeight,
-           width:colors.TabLabelStylewidth,
-         
-          },
+        labelStyle: {
+          fontSize: colors.TabLabelStylefontSize,
+          fontWeight: colors.TabLabelStylefontWeight,
+          width: colors.TabLabelStylewidth,
+
+        },
 
 
-          tabStyle: {
-            alignItems: colors.TabTabStylealignItems,
-            justifyContent: colors.TabTabStylejustifyContent,
-            
-            paddingVertical: colors.TabTabStylepaddingVertical,
-            backgroundColor: colors.TabTabStylebackgroundColor,
+        tabStyle: {
+          alignItems: colors.TabTabStylealignItems,
+          justifyContent: colors.TabTabStylejustifyContent,
+
+          paddingVertical: colors.TabTabStylepaddingVertical,
+          backgroundColor: colors.TabTabStylebackgroundColor,
           //  borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
           //  borderTopRightRadius: colors.TabStyleTopRightRadius,
-          },
-          
-        }}>
-         
-
-          <ExplorePublicGroupTabStack.Screen options={{        
-            tabBarLabel: 'Explore Public Groups' }} 
-            name='Explore Public Groups' 
-            component={ExplorePublicGroupStackNavigator}   />
-
-<ExplorePublicGroupTabStack.Screen options={{        
-            tabBarLabel: 'Joined Public Groups' }} 
-            name='Joined Public Groups' 
-            component={JoinedPublicGroupStackNavigator}   />        
-        </ExplorePublicGroupTabStack.Navigator>
-
-      
-    );
-  };
-  
-  
-  const ExplorePublicGroupStack = createStackNavigator();
-  const ExplorePublicGroupStackNavigator =()=>{
-
-
-    return (
-  
-        <ExplorePublicGroupStack.Navigator  initialRouteName="ExplorePublicGroups"  >
-          
-          <ExplorePublicGroupStack.Screen 
-          options={{headerShown:false}} 
-            name='ExplorePublicGroups' 
-            component={withMyHook(ExplorePublicGroupScreen) }   />      
-
-<ExplorePublicGroupStack.Screen 
- 
- options={{headerShown:false}} 
-  name='ExplorePublicGroupCategoryBased' 
-  component={ExplorePublicGroupCategoryBasedStackNavigator}/>
-
-</ExplorePublicGroupStack.Navigator>
-
-    
-    );
-  };
-
-  const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
-  const ExplorePublicGroupCategoryBasedStackNavigator =({route})=>{
-    const { title } = route.params;
-    return (
- 
-        <ExplorePublicGroupCategoryBasedStack.Navigator   headerMode='float' screenOptions={{   cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
-        cardOverlayEnabled: true,
-        cardStyleInterpolator: ({ current: { progress } }) => ({
-          cardStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 0.5, 0.9, 1],
-              outputRange: [0, 0.25, 0.7, 1],
-            }),
-          },
-          overlayStyle: {
-            opacity: progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 0.5],
-              extrapolate: 'clamp',
-            }),
-          },
-        }),     
-        headerTitleStyle: {
-        
-          marginTop:-30
         },
-            headerTintColor: colors.StackheaderTintColor,
-            headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
-          }} >
-<ExplorePublicGroupCategoryBasedStack.Screen 
- 
- options={{
-  
-  headerTitle: title}}
-   name='Public Groups List' 
-   component={withMyHookCategory(PublicGroupListScreen,route.params)}/>
- 
 
-<ExplorePublicGroupCategoryBasedStack.Screen 
-options={{
-  
-  headerTitle: "Create a Public Group" ,
-  headerLeft:({})=><HeaderLeftCreateaPublicGroup/>,
-
-              }} 
+      }}>
 
 
+      <ExplorePublicGroupTabStack.Screen options={{
+        tabBarLabel: 'Explore Public Groups'
+      }}
+        name='Explore Public Groups'
+        component={ExplorePublicGroupStackNavigator} />
 
-  name='Create a Public Group' 
-  component={withMyHookCategory(CreateaPublicGroupScreen,route.params) }/>
+      <ExplorePublicGroupTabStack.Screen options={{
+        tabBarLabel: 'Joined Public Groups'
+      }}
+        name='Joined Public Groups'
+        component={JoinedPublicGroupStackNavigator} />
+    </ExplorePublicGroupTabStack.Navigator>
 
-</ExplorePublicGroupCategoryBasedStack.Navigator>
 
-    
-    );
-  };
-  
-  function withMyHookCategory(Component,title) {
-  
-    return function WrappedComponent(props) {
-      const myHookValue = useNavigation();
-      return <Component {...props} Category={title} myHookValue={myHookValue} />;
-    }
+  );
+};
+
+
+const ExplorePublicGroupStack = createStackNavigator();
+const ExplorePublicGroupStackNavigator = () => {
+
+
+  return (
+
+    <ExplorePublicGroupStack.Navigator initialRouteName="ExplorePublicGroups"  >
+
+      <ExplorePublicGroupStack.Screen
+        options={{ headerShown: false }}
+        name='ExplorePublicGroups'
+        component={withMyHook(ExplorePublicGroupScreen)} />
+
+      <ExplorePublicGroupStack.Screen
+
+        options={{ headerShown: false }}
+        name='ExplorePublicGroupCategoryBased'
+        component={ExplorePublicGroupCategoryBasedStackNavigator} />
+
+    </ExplorePublicGroupStack.Navigator>
+
+
+  );
+};
+
+const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
+const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
+  const { title } = route.params;
+  return (
+
+    <ExplorePublicGroupCategoryBasedStack.Navigator headerMode='float' screenOptions={{
+      cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor },
+      cardOverlayEnabled: true,
+      cardStyleInterpolator: ({ current: { progress } }) => ({
+        cardStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 0.5, 0.9, 1],
+            outputRange: [0, 0.25, 0.7, 1],
+          }),
+        },
+        overlayStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 0.5],
+            extrapolate: 'clamp',
+          }),
+        },
+      }),
+      headerTitleStyle: {
+
+        marginTop: -30
+      },
+      headerTintColor: colors.StackheaderTintColor,
+      headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 60 },
+    }} >
+      <ExplorePublicGroupCategoryBasedStack.Screen
+
+        options={{
+
+          headerTitle: title
+        }}
+        name='Public Groups List'
+        component={withMyHookCategory(PublicGroupListScreen, route.params)} />
+
+
+      <ExplorePublicGroupCategoryBasedStack.Screen
+        options={{
+
+          headerTitle: "Create a Public Group",
+          headerLeft: ({ }) => <HeaderLeftCreateaPublicGroup />,
+
+        }}
+
+
+
+        name='Create a Public Group'
+        component={withMyHookCategory(CreateaPublicGroupScreen, route.params)} />
+
+    </ExplorePublicGroupCategoryBasedStack.Navigator>
+
+
+  );
+};
+
+function withMyHookCategory(Component, title) {
+
+  return function WrappedComponent(props) {
+    const myHookValue = useNavigation();
+    return <Component {...props} Category={title} myHookValue={myHookValue} />;
   }
+}
 
 
 //   const CreateaPublicGroupStack = createStackNavigator();
 //   const CreateaPublicGroupStackNavigator= (title)=>{
-   
+
 //     return (
- 
+
 //         <CreateaPublicGroupStack.Navigator   headerMode='float' screenOptions={{ headerLeft:({})=><HeaderLeftCreateaPublicGroup/> ,cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
 //         cardOverlayEnabled: true,
 //         cardStyleInterpolator: ({ current: { progress } }) => ({
@@ -208,17 +212,17 @@ options={{
 //           },
 //         }),     
 //         headerTitleStyle: {
-        
+
 //           marginTop:-25
 //         },
 //             headerTintColor: colors.StackheaderTintColor,
 //             headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
 //           }} >
-  
+
 // <CreateaPublicGroupStack.Screen 
- 
+
 // options={{
-  
+
 //   headerTitle: "Create a Public Group" }} 
 //   name='Create a Public Group' 
 //   component={withMyHookCategory(CreateaPublicGroupScreen,title)}/>
@@ -231,53 +235,53 @@ options={{
 //     );
 //   };
 
-  const HeaderLeftCreateaPublicGroup = () => {
-    const navigation = useNavigation();
-    return (
-     
-      <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.goBack()}>
+const HeaderLeftCreateaPublicGroup = () => {
+  const navigation = useNavigation();
+  return (
+
+    <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.goBack()}>
       <View style={styles.ImageHeader}>
-        
-        <Image   style={styles.ImageIconStyle} 
-         source={BackArrow}/>
-       
-        
+
+        <Image style={styles.ImageIconStyle}
+          source={BackArrow} />
+
+
       </View>
-       </TouchableOpacity>
-      
-    );
-  };
-  
- 
-  function withMyHook(Component) {
-    return function WrappedComponent(props) {
-      const myHookValue = useNavigation();
-      return <Component {...props} myHookValue={myHookValue} />;
-    }
+    </TouchableOpacity>
+
+  );
+};
+
+
+function withMyHook(Component) {
+  return function WrappedComponent(props) {
+    const myHookValue = useNavigation();
+    return <Component {...props} myHookValue={myHookValue} />;
   }
+}
 
 
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
-    DrawerText: {
-    
-      backgroundColor: colors.rootscreenColor,
-    }
-  ,ImageIconStyle:{
-    
+  DrawerText: {
+
+    backgroundColor: colors.rootscreenColor,
+  }
+  , ImageIconStyle: {
+
     //padding: 10,
     margin: 10,
     height: 30,
     width: 50,
-    resizeMode : 'stretch',
-   
+    resizeMode: 'stretch',
+
   },
-  ImageHeader:{
+  ImageHeader: {
     padding: 5,
-    marginLeft:7,
-  justifyContent:'flex-end'
+    marginLeft: 7,
+    justifyContent: 'flex-end'
   }
-  });
-  
-  export default ExplorePublicGroupTabStackNavigator;
+});
+
+export default ExplorePublicGroupTabStackNavigator;

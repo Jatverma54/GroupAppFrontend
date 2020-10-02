@@ -9,8 +9,10 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  TouchableHighlight
-  
+  TouchableHighlight,
+  Keyboard,
+  AsyncStorage,
+  Alert
 } from "react-native";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
@@ -29,403 +31,564 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import ImageBrowser from './ImageBrowser'
 import * as FileSystem from 'expo-file-system';
 import * as IntentLauncher from 'expo-intent-launcher';
+import mime from "mime";
 FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class CreateaNewPost extends Component {
-
-  constructor(props){
+  PhotoPresent
+  constructor(props) {
     super(props);
-  this.state = {   
-     photo: [],
-     video: null,
-     document: null,   
-     newValue: '',
-     height: 40,
-     //fontWeight
-     fontSize:20,
-     width:"100%",
-     marginLeft:16,
-     marginRight:16,
-     borderBottomColor: '#FFFFFF',
-     flex:1,
-     marginTop:20, 
-     isVisible: false,
-     MaximizeImage:'',
-     isDocumentVisible: false,
-     OpenDucumentUri:'',
-     PhotoPresent:false,
-     downloadProgress:null,
-     photos: []
-  };
-}
+    this.state = {
+      photo: [],
+      video: null,
+      document: null,
+      newValue: '',
+      height: 40,
+      //fontWeight
+      fontSize: 20,
+      width: "100%",
+      marginLeft: 16,
+      marginRight: 16,
+      borderBottomColor: '#FFFFFF',
+      flex: 1,
+      marginTop: 20,
+      isVisible: false,
+      MaximizeImage: '',
+      isDocumentVisible: false,
+      OpenDucumentUri: '',
+      PhotoPresent: false,
+      downloadProgress: null,
+      PhotoToBeSentToDb: [],
+      videoToBeSentToDb: null
+      //  photos: []
+    };
+  }
 
-updateSize = (height) => {
-  this.setState({
-    height
-  });
-}
+  updateSize = (height) => {
+    this.setState({
+      height
+    });
+  }
 
-componentDidMount() {
-  this.getPermissionAsync();
-  this.getCameraPermissionAsync();
-  //this.changeScreenOrientation();
-}
+  componentDidMount() {
+    this.getPermissionAsync();
+    this.getCameraPermissionAsync();
+    //this.changeScreenOrientation();
+  }
 
 
-getPermissionAsync = async () => {
-  if (Constants.platform.ios) {
+  getPermissionAsync = async () => {
+    // if (Constants.platform.ios) {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
     }
+    //}
+  };
+
+
+
+
+  onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
+
+    switch (fullscreenUpdate) {
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT:
+
+        this.changeScreenOrientationLandscape();
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT:
+
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS:
+
+        break;
+      case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS:
+
+        this.changeScreenOrientation();
+    }
   }
-};
 
 
-
-
-onFullscreenUpdate = ({fullscreenUpdate, status}) => {
-
-  switch (fullscreenUpdate) {
-    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT: 
-    
-      this.changeScreenOrientationLandscape();
-      break;
-    case Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT: 
-   
-      break;
-    case Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS: 
-     
-      break;
-    case Video.FULLSCREEN_UPDATE_PLAYER_DID_DISMISS: 
-     
-      this.changeScreenOrientation();
+  async changeScreenOrientation() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   }
-}
+
+  async changeScreenOrientationLandscape() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+  }
 
 
- async changeScreenOrientation() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  _pickDocument = async () => {
+    try {
+      let result = await DocumentPicker.getDocumentAsync({
+
+        type: "application/pdf"
+      });
+
+      if (!result.cancelled) {
+        this.setState({ document: result.uri });
+      }
+      // console.log(result);
+
+
+    } catch (E) {
+      console.log(E);
     }
 
-    async changeScreenOrientationLandscape() {
-      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-    }
- 
-
-_pickDocument = async () => {
-  try {
-  let result = await DocumentPicker.getDocumentAsync({
-
-    type : "application/pdf"
-  });
-  
-  if (!result.cancelled) {
-    this.setState({ document: result.uri });
-  }
- // console.log(result);
- 
-
-} catch (E) {
-  console.log(E);
-}
-
-}
-
-
-
-
- _pickImage = async () => {
-  try {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      allowsMultipleSelection:true,
-     
-      //aspect: [1.100,1],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-   
-    this.state.photo.push(result.uri )
-    
-    this.setState({ PhotoPresent: true });
-      this.CameraOptions.close(); 
-    
-     // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
-    }
-   
-   // console.log(result);
-  } catch (E) {
-    console.log(E);
   }
 
-};
 
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        base64: true,
+        //aspect: [1.100,1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
 
-_pickVideo = async () => {
-  try {
-    let result = await ImagePicker .launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-     // allowsEditing: true,
-   
-      //aspect: [1.100,1],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-      this.setState({ video: result.uri });
-      this.CameraOptions.close(); 
-      
-     // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+        this.state.photo.push(result.uri)
+
+        this.setState({ PhotoPresent: true });
+        this.CameraOptions.close();
+
+        // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+      }
+
+      // console.log(result);
+    } catch (E) {
+      console.log(E);
     }
 
-   // console.log(result);
-  } catch (E) {
-    console.log(E);
-  }
-
-};
+  };
 
 
-getCameraPermissionAsync = async () => {
-  if (Constants.platform.ios) {
+  _pickVideo = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        allowsEditing: true,
+
+        //aspect: [1.100,1],
+        quality: 1,
+        //   base64:true,
+      });
+      if (!result.cancelled) {
+        //this.setState({ video: `data:video/mp4;base64,${result.base64}` });
+
+        let mediaUrl_string = result.uri.trim().split("/");
+        let mediaUrl_Length = mediaUrl_string.length - 1;
+        let Media_Name = result.uri.split("/")[mediaUrl_Length];
+
+        let img = {
+          uri: result.uri,
+          name: Media_Name,
+          type: mime.getType(result.uri)
+        }
+
+        this.setState({ video: result.uri });
+
+        this.setState({ videoToBeSentToDb: img });
+
+        this.CameraOptions.close();
+
+        // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+      }
+
+      // console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+
+  };
+
+
+  getCameraPermissionAsync = async () => {
+    // if (Constants.platform.ios) {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
     }
-  }
-};
+    // }
+  };
 
 
- _clickImage = async () => {
-  try {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-     // aspect: [1.85,1],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-     
-      this.state.photo.push(result.uri )
-    
-      this.setState({ PhotoPresent: true });
+  _clickImage = async () => {
+    try {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        // aspect: [1.85,1],
+        quality: 1,
+        // base64:true,
+      });
+      if (!result.cancelled) {
 
-      this.CameraOptions.close(); 
-    //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+
+        let mediaUrl_string = result.uri.trim().split("/");
+        let mediaUrl_Length = mediaUrl_string.length - 1;
+        let Media_Name = result.uri.split("/")[mediaUrl_Length];
+
+        let img = {
+          uri: result.uri,
+          name: Media_Name,
+          type: mime.getType(result.uri)
+        }
+
+
+
+        this.state.photo.push(result.uri);
+
+
+        this.state.PhotoToBeSentToDb.push(img);
+
+        console.log(this.state.PhotoToBeSentToDb);
+        // this.state.photo.push(`data:image/jpg;base64,${result.base64}` )
+
+        this.setState({ PhotoPresent: true });
+
+        this.CameraOptions.close();
+        //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+      }
+
+
+    } catch (E) {
+      console.log(E);
     }
 
-  //  console.log(result);
-  } catch (E) {
-    console.log(E);
-  }
-
-};
+  };
 
 
 
-_clickVideo = async () => {
-  try {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-     // aspect: [1.85,1],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-      this.setState({ video: result.uri });
-      this.CameraOptions.close(); 
-    //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+  _clickVideo = async () => {
+    try {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        allowsEditing: true,
+        // aspect: [1.85,1],
+        quality: 1,
+        // base64:true
+      });
+      if (!result.cancelled) {
+        // this.setState({ video: `data:video/mp4;base64,${result.base64}` });
+
+        let mediaUrl_string = result.uri.trim().split("/");
+        let mediaUrl_Length = mediaUrl_string.length - 1;
+        let Media_Name = result.uri.split("/")[mediaUrl_Length];
+
+        let img = {
+          uri: result.uri,
+          name: Media_Name,
+          type: mime.getType(result.uri)
+        }
+
+
+        this.setState({ video: result.uri });
+
+        this.setState({ videoToBeSentToDb: img });
+
+        //this.state.PhotoToBeSentToDb.push(img);
+
+        this.CameraOptions.close();
+        //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);  
+      }
+      //  console.log(result);    
+    } catch (E) {
+      console.log(E);
     }
 
-  //  console.log(result);
-    
-  } catch (E) {
-    console.log(E);
+  };
+
+
+  // ShowImageorVideo(){
+
+  //   if(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")){
+  //     return(
+  //     <View style={styles.ImageView} >
+  //   {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+
+  //   <Image
+  // style={styles.stretch}
+  // source={{uri:this.state.photo}}
+
+  // />
+  // </View>)
+  //     }
+  //     else if(this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) {
+  //       return(
+  //       <View style={styles.ImageView} >
+  //       {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
+  //       <Video
+  //       source={{ uri: this.state.photo }}
+  //       rate={1.0}
+  //       volume={1.0}
+  //       isMuted={false}
+  //       resizeMode="cover"
+  //       shouldPlay={false}
+  //       isLooping={false}
+  //       useNativeControls
+  //       style={styles.video}
+
+  //     />
+  //     </View>) 
+  //     } 
+
+  // }
+
+  imageBrowserCallback = (callback) => {
+    callback.then((photo) => {
+
+
+      // this.setState({
+      //   imageBrowserOpen: false,
+      //   photo
+      // })
+      //console.log(photo)
+      var photos = photo.map(function ({ uri }) {
+        return uri;
+      });
+
+
+      this.setState({
+        imageBrowserOpen: false,
+        photo: photos
+      })
+
+      //   var PhotoToBeSentToDb=photo.map(function({ uri, mediaType,filename,}){
+      //     return { uri, mediaType,filename,};
+      // });
+
+
+      var PhotoToBeSentToDb = photo.map(item => {
+        item.uri = item.uri;
+        item.type = mime.getType(item.uri);
+        item.name = item.filename;
+        return item;
+      });
+
+      this.setState({ PhotoToBeSentToDb })
+
+
+       console.log(PhotoToBeSentToDb,"final")
+      // console.log(this.state.photos[0].uri,"final")
+      //for
+    }).catch((e) => console.log(e))
+
   }
 
-};
+
+  async openDocument(url) {
+
+    FileSystem.getContentUriAsync(url).then(cUri => {
+
+      IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+        data: cUri,
+        flags: 1,
+      });
+
+    });
 
 
-// ShowImageorVideo(){
+  };
 
-//   if(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")){
-//     return(
-//     <View style={styles.ImageView} >
-//   {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-  
-//   <Image
-// style={styles.stretch}
-// source={{uri:this.state.photo}}
+  sharePost = async () => {
 
-// />
-// </View>)
-//     }
-//     else if(this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) {
-//       return(
-//       <View style={styles.ImageView} >
-//       {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-//       <Video
-//       source={{ uri: this.state.photo }}
-//       rate={1.0}
-//       volume={1.0}
-//       isMuted={false}
-//       resizeMode="cover"
-//       shouldPlay={false}
-//       isLooping={false}
-//       useNativeControls
-//       style={styles.video}
+    Keyboard.dismiss();
 
-//     />
-//     </View>) 
-//     } 
- 
-// }
+    const { photo, videoToBeSentToDb, document, newValue } = this.state;
 
-imageBrowserCallback = (callback) => {
-  callback.then((photo) => {
-  
-    this.setState({
-      imageBrowserOpen: false,
-      photo
-    })
-    
-    // console.log(this.state.photos[0].uri,"final")
-   //for
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+      //  this.props.GroupName
+      var PostInfo = {
+        GroupId: this.props.GroupName._id,
+        postMetaData: newValue,
+        OnwerId: userId,
+        image: photo,
+        document: document,
+        video: videoToBeSentToDb,
+        //  countMembers:1,      
+      }
 
+      //  var formdata = new FormData();
+      // formdata.append("file", videoToBeSentToDb);
+      // formdata.append("userDetails", JSON.stringify(PostInfo));
+      //  console.log(formdata)
 
+      var myHeaders = new Headers();
+      //  myHeaders.append("Content-Type", "multipart/form-data");
+      myHeaders.append("Content-Type", "application/json");
+      //myHeaders.append("Accept", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
 
-  }).catch((e) => console.log(e))
- 
-}
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(PostInfo),//formdata
+        //redirect: 'follow'
+      };
 
+      const response = await fetch("http://192.168.0.107:3000/groupPost/createNewPost", requestOptions);
 
-async openDocument (url) {
+      if (response.ok) {
+        this.props.navigation.goBack();
+        // Alert.alert(
 
- FileSystem.getContentUriAsync(url).then(cUri => {
-  
-  IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
-    data: cUri,
-    flags: 1,
-  });
- 
-});
+        //   "Post created successfully",
+        //   "",
+        //   [
+        //     { text: "Ok", onPress: () => this.props.navigation.goBack()}
+        //   ],
+        //   { cancelable: false }
+        // );
+      }
+      else {
+        // let responseJson = await response.json();
 
- 
-};
+        //  let errorstring= responseJson.error.toString();
+        //  alert(errorstring )
+        Alert.alert(
 
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
 
+      }
+    }
+    catch (e) {
+      console.log('error creating post: ', e)
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+    }
+  }
 
   render() {
-
+    //console.log(this.props.GroupName,"sss")
     if (this.state.imageBrowserOpen) {
       return (
         <ImageBrowser
-        max={101} // Maximum number of pickable image. default is None
-        headerCloseText={'Close '} // Close button text on header. default is 'Close'.
-        headerDoneText={'Done '} // Done button text on header. default is 'Done'.
-        headerButtonColor={'black'} // Button color on header.
-        headerSelectText={'Selected'} // Word when picking.  default is 'n selected'.
-     //   mediaSubtype={'screenshot'} // Only iOS, Filter by MediaSubtype. default is display all.
-        badgeColor={'black'} // Badge color when picking.
-        emptyText={'No Image'} // Empty Text
-     callback={this.imageBrowserCallback} // Callback functinon on press Done or Cancel Button. Argument is Asset Infomartion of the picked images wrapping by the Promise.
-          />
+          max={101} // Maximum number of pickable image. default is None
+          headerCloseText={'Close '} // Close button text on header. default is 'Close'.
+          headerDoneText={'Done '} // Done button text on header. default is 'Done'.
+          headerButtonColor={'black'} // Button color on header.
+          headerSelectText={'Selected'} // Word when picking.  default is 'n selected'.
+          //   mediaSubtype={'screenshot'} // Only iOS, Filter by MediaSubtype. default is display all.
+          badgeColor={'black'} // Badge color when picking.
+          emptyText={'No Image'} // Empty Text
+          callback={this.imageBrowserCallback} // Callback functinon on press Done or Cancel Button. Argument is Asset Infomartion of the picked images wrapping by the Promise.
+
+        />
       )
     }
-   
-   
-       const {photo,newValue,marginLeft,borderBottomColor,marginRight,flex,marginTop, width,height,fontWeight,fontSize} = this.state;
-   let newStyle = {
-      height,fontSize,marginLeft,borderBottomColor,flex,marginTop, width,marginRight
+
+
+    const { photo, newValue, marginLeft, borderBottomColor, marginRight, flex, marginTop, width, height, fontWeight, fontSize } = this.state;
+    let newStyle = {
+      height, fontSize, marginLeft, borderBottomColor, flex, marginTop, width, marginRight
     }
- 
+
     return (
       <View style={styles.containerNewPost}>
-      <View   style={styles.container} >
+        <View style={styles.container} >
 
-        <ScrollView>
-           
-        <View style={styles.inputContainer} >
-       
-          <TextInput style={styles.inputs}
-          //maxLength={500}
-              placeholder="Click and Type your thoughts here.."
-             // placeholderTextColor="black"
-             // keyboardType="email-address"
-              //underlineColorAndroid='transparent'
-              autoCapitalize="none"
-              style={[newStyle]}
-              editable={true}
-              multiline={true}
-              value={newValue}
-              onChangeText={(newValue) => this.setState({newValue})}             
-              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-              
-               multiline style={{
-                    ...styles.editor, fontSize: 22,
-                    color: "black", 
-             }}>
-                      
-              </TextInput> 
-              </View>
-        
-              {(this.state.photo.length>0&&!this.state.photo.toString().includes(".mp4")&&!this.state.photo.toString().includes(".txt")&&!this.state.photo.toString().includes(".pdf"))?
-      
-    
-      <View style={styles.ImageView} >
-      
-        
-         {this.state.photo.length>0&&<TouchableOpacity onPress={() => this.setState({ photo: [],PhotoPresent:false })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-       
-        
-       
-         <FbImages imagesdata={ this.state.photo}/>
-      
+          <ScrollView>
+
+            <View style={styles.inputContainer} >
+
+              <TextInput style={styles.inputs}
+                //maxLength={500}
+                placeholder="Click and Type your thoughts here.."
+                // placeholderTextColor="black"
+                // keyboardType="email-address"
+                //underlineColorAndroid='transparent'
+                autoCapitalize="none"
+                style={[newStyle]}
+                editable={true}
+                multiline={true}
+                value={newValue}
+                onChangeText={(newValue) => this.setState({ newValue })}
+                onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+
+                multiline style={{
+                  ...styles.editor, fontSize: 22,
+                  color: "black",
+                }}>
+
+              </TextInput>
+            </View>
+
+            {(this.state.photo.length > 0 && !this.state.photo.toString().includes(".mp4") && !this.state.photo.toString().includes(".txt") && !this.state.photo.toString().includes(".pdf")) ?
 
 
-  </View>:
-      
-    (this.state.video) ?
-      <View style={styles.ImageView} >
-        {this.state.video&&<TouchableOpacity onPress={() => this.setState({ video: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-        <Video
-        source={{ uri: this.state.video }}
-        rate={1.0}
-        volume={1.0}
-        isMuted={false}
-        resizeMode="cover"
-        shouldPlay={false}
-        isLooping={false}
-        useNativeControls
-        style={styles.video}
-        onFullscreenUpdate={this.onFullscreenUpdate}
-      />
-      </View>:
-      ((this.state.document) ?
-      ( 
-      
-      
-      
-      <View  style={styles.ImageView} >
-        
-      {this.state.document&&<TouchableOpacity onPress={() => this.setState({ document: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-        
-      <TouchableHighlight   style={styles.DocumentIcon} 
-        
-        onPress={()=>this.openDocument(this.state.document)}> 
-      <MaterialCommunityIcons
-              name="file-document"                
-              size={70}
-            // style={styles.DocumentIcon} 
-            />
-       </TouchableHighlight>
-  
-  <Text style={{alignSelf:"center"}}>PDF</Text>
-  
+              <View style={styles.ImageView} >
 
-  {/* {this.state.isDocumentVisible===true&&
+
+                {this.state.photo.length > 0 && <TouchableOpacity onPress={() => this.setState({ photo: [], PhotoPresent: false })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+
+
+
+                <FbImages imagesdata={this.state.photo} />
+
+
+
+              </View> :
+
+              (this.state.video) ?
+                <View style={styles.ImageView} >
+                  {this.state.video && <TouchableOpacity onPress={() => this.setState({ video: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                  <Video
+                    source={{ uri: this.state.video }}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    isLooping={false}
+                    useNativeControls
+                    style={styles.video}
+                    onFullscreenUpdate={this.onFullscreenUpdate}
+                  />
+                </View> :
+                ((this.state.document) ?
+                  (
+
+
+
+                    <View style={styles.ImageView} >
+
+                      {this.state.document && <TouchableOpacity onPress={() => this.setState({ document: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+
+                      <TouchableHighlight style={styles.DocumentIcon}
+
+                        onPress={() => this.openDocument(this.state.document)}>
+                        <MaterialCommunityIcons
+                          name="file-document"
+                          size={70}
+                        // style={styles.DocumentIcon} 
+                        />
+                      </TouchableHighlight>
+
+                      <Text style={{ alignSelf: "center" }}>PDF</Text>
+
+
+                      {/* {this.state.isDocumentVisible===true&&
     
     <Modal>
    
@@ -465,50 +628,62 @@ async openDocument (url) {
 
 
 
- 
-  </View>  ):null)}
- 
 
-  
-  
-        
-        </ScrollView>
-       
-      
-        <View >
-      
-        <TouchableOpacity style={styles.inputIcon} onPress={() => this.CameraOptions.open()} > 
-        <Image style={{width:60,
-    height:60,}} source={Post_Add}/>
-             
-             <Text style={styles.TextStyle}>Share</Text> 
-             </TouchableOpacity>
-        </View>
-          
-  
+                    </View>) : null)}
 
-        <View>
-       <TouchableOpacity style={styles.inputIconLeft} onPress={() => this.CameraOptions.open()} > 
-        <Image style={{width:30,
-    height:30,}} source={Camera_Icon}/>
-             
-             <Text style={styles.TextStyleLeft}>Add Photo/Video</Text> 
-             </TouchableOpacity>
+
+
+
+
+          </ScrollView>
+
+
+
+
+
+
+          <View>
+            <TouchableOpacity style={styles.inputIconLeft} onPress={() => this.CameraOptions.open()} >
+              <Image style={{
+                width: 30,
+                height: 30,
+              }} source={Camera_Icon} />
+
+              <Text style={styles.TextStyleLeft}>Add Photo/Video</Text>
+            </TouchableOpacity>
+
+          </View>
+
+
+          <View >
+
+            <TouchableOpacity style={styles.inputIcon} onPress={() => this.sharePost()} >
+              <Image style={{
+                width: 60,
+                height: 60,
+              }} source={Post_Add} />
+
+              <Text style={styles.TextStyle}>Share</Text>
+            </TouchableOpacity>
+          </View>
+
+
+
+          <View >
+            <TouchableOpacity style={styles.inputIconRight} onPress={() => this._pickDocument()} >
+              <Image style={{
+                width: 30,
+                height: 30
+              }} source={Attach_Icon} />
+
+              <Text style={styles.TextStyleRight}>Attach PDF</Text>
+            </TouchableOpacity>
+          </View>
+
 
         </View>
-        <View >
-        <TouchableOpacity style={styles.inputIconRight} onPress={() => this._pickDocument()} >
-        <Image style={{width:30,
-    height:30}} source={Attach_Icon}/>
-             
-             <Text style={styles.TextStyleRight}>Attach PDF</Text> 
-             </TouchableOpacity>  
-        </View>
-         
-      
-      </View>
- 
-    
+
+
 
 
 
@@ -531,55 +706,55 @@ async openDocument (url) {
         >
           <View style={styles.listContainerNewPost}>
             <Text style={styles.listTitleNewPost}>Choose an Option</Text>
-          
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this._clickImage()}
-              >
-                <MDIcon name="photo-camera" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Take photo</Text>
-              </TouchableOpacity>
 
-                
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this._clickVideo()}
-              >
-                <MaterialCommunityIcons name="video-vintage" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Take Video</Text>
-              </TouchableOpacity>
+            <TouchableOpacity
+
+              style={styles.listButtonNewPost}
+              onPress={() => this._clickImage()}
+            >
+              <MDIcon name="photo-camera" style={styles.listIconNewPost} />
+              <Text style={styles.listLabelNewPost}>Take photo</Text>
+            </TouchableOpacity>
 
 
+            <TouchableOpacity
 
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this.setState({ imageBrowserOpen: true })}
-              >
-                <MDIcon name="photo" style={styles.listIconNewPost} />
-                <Text style={styles.listLabelNewPost}>Choose Photo</Text>
-              </TouchableOpacity>
+              style={styles.listButtonNewPost}
+              onPress={() => this._clickVideo()}
+            >
+              <MaterialCommunityIcons name="video-vintage" style={styles.listIconNewPost} />
+              <Text style={styles.listLabelNewPost}>Take Video</Text>
+            </TouchableOpacity>
 
 
-              <TouchableOpacity
-                
-                style={styles.listButtonNewPost}
-                onPress={() => this._pickVideo()}
-              >
-                <MaterialCommunityIcons name="library-video" style={styles.listIconNewVideoPost} />
-                <Text style={styles.listLabelVideoNewPost}>Choose Video</Text>
-              </TouchableOpacity>
 
-             
-           
+            <TouchableOpacity
+
+              style={styles.listButtonNewPost}
+              onPress={() => this.setState({ imageBrowserOpen: true })}
+            >
+              <MDIcon name="photo" style={styles.listIconNewPost} />
+              <Text style={styles.listLabelNewPost}>Choose Photo</Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity
+
+              style={styles.listButtonNewPost}
+              onPress={() => this._pickVideo()}
+            >
+              <MaterialCommunityIcons name="library-video" style={styles.listIconNewVideoPost} />
+              <Text style={styles.listLabelVideoNewPost}>Choose Video</Text>
+            </TouchableOpacity>
+
+
+
           </View>
         </RBSheet>
 
-      
-      
-        
+
+
+
       </View>
     );
   }
@@ -599,9 +774,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginTop: 120,
     fontWeight: "bold",
-    width:"100%",
-    marginLeft:200
-    
+    width: "100%",
+    marginLeft: 200
+
   },
   buttonContainerNewPost: {
     alignItems: "center",
@@ -619,8 +794,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
-    width:"100%",
-    marginLeft:30
+    width: "100%",
+    marginLeft: 30
 
   },
   listContainerNewPost: {
@@ -631,7 +806,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
     color: "#666",
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
   listButtonNewPost: {
     flexDirection: "row",
@@ -647,15 +822,15 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#666",
     width: 50,
-    marginLeft:-22
-    
+    marginLeft: -22
+
   },
   listLabelNewPost: {
     fontSize: 16
   },
   listLabelVideoNewPost: {
     fontSize: 16,
-    marginLeft:33
+    marginLeft: 33
   },
   gridContainer: {
     flex: 1,
@@ -709,8 +884,8 @@ const styles = StyleSheet.create({
     color: "#006BFF",
     fontWeight: "500"
   },
- 
- 
+
+
   inputIconSend: {
     color: "#006BFF"
   },
@@ -761,66 +936,66 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    width:"97%",
+    width: "97%",
     backgroundColor: "white",
   },
   inputContainer: {
-      flex:2,
-      borderBottomColor: '#F5FCFF',
-      backgroundColor: '#FFFFFF',
-      borderRadius:30,
-      borderBottomWidth: 1,
-      width:"100%",
-      height:"60%",
-      marginBottom:30,
-     // flexDirection: 'row',
-      //alignItems:'center'
-      marginTop:10
+    flex: 2,
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: "100%",
+    height: "60%",
+    marginBottom: 30,
+    // flexDirection: 'row',
+    //alignItems:'center'
+    marginTop: 10
   },
-  inputs:{
-      height:45,
-      width:"100%",
-      marginLeft:16,
-      borderBottomColor: '#FFFFFF',
-      flex:2,
+  inputs: {
+    height: 45,
+    width: "100%",
+    marginLeft: 16,
+    borderBottomColor: '#FFFFFF',
+    flex: 2,
     //  marginTop:10,
-     fontWeight:"bold",
-     fontSize:25,
-    
+    fontWeight: "bold",
+    fontSize: 25,
+
   },
-  inputIcon:{
-     flex:1,
-   
- //alignSelf:"center",
-  //marginLeft:180,
- 
-  width:120,
-    
-  //alignSelf:"center",
-  marginLeft:width/2-37,
+  inputIcon: {
+    flex: 1,
 
-  marginBottom:30,
-  paddingTop:20
+    //alignSelf:"center",
+    //marginLeft:180,
+
+    width: 120,
+    marginTop: -90,
+    //alignSelf:"center",
+    marginLeft: width / 2 - 37,
+
+    marginBottom: 30,
+    // paddingTop:20
   },
-  
-  TextStyle:{
-  
-  fontWeight:"bold",
-  width:"100%",
- 
-marginLeft:9,
+
+  TextStyle: {
+
+    fontWeight: "bold",
+    width: "100%",
+
+    marginLeft: 9,
 
 
-//marginBottom:10
+    //marginBottom:10
   },
   buttonContainer: {
-    height:45,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:20,
-    width:250,
-    borderRadius:30,
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30,
   },
   signupButton: {
     backgroundColor: "#FF4DFF",
@@ -829,71 +1004,71 @@ marginLeft:9,
     color: 'white',
   },
   editor: {
-   // justifyContent: 'center',
+    // justifyContent: 'center',
     height: '100%',
     width: '100%'
-},
-stretch: {
-   // flex:1,
-   justifyContent:'center',
-   // width: '100%',
-   // height: "100%",
+  },
+  stretch: {
+    // flex:1,
+    justifyContent: 'center',
+    // width: '100%',
+    // height: "100%",
     resizeMode: "center",
-    width:400,
-    height:400,
-  alignSelf:"center",
+    width: 400,
+    height: 400,
+    alignSelf: "center",
 
   },
-  ImageView:{
+  ImageView: {
 
-    flex:1,
-//justifyContent:'center',
+    flex: 1,
+    //justifyContent:'center',
     width: '100%',
     height: "100%",
-  //  resizeMode: "stretch",
+    //  resizeMode: "stretch",
   },
-  inputIconLeft:{
-     width:120,
-    
-  //alignSelf:"center",
- marginLeft:30,
+  inputIconLeft: {
+    width: 120,
+
+    //alignSelf:"center",
+    marginLeft: 30,
 
 
   },
-  
-  TextStyleLeft:{
-  
-  fontWeight:"600",
-  fontSize:13,
-  width:"100%",
-marginLeft:-30,
-marginBottom:10
-  },
-  inputIconRight:{
-     
-    width:120,
- // alignSelf:"center",
 
- marginLeft:width-80,
- marginTop:-59
+  TextStyleLeft: {
+
+    fontWeight: "600",
+    fontSize: 13,
+    width: "100%",
+    marginLeft: -30,
+    marginBottom: 10
   },
-  
-  TextStyleRight:{
-  
-  fontWeight:"600",
-  fontSize:13,
-  width:"100%",
-  marginLeft:-10,
-marginBottom:10
+  inputIconRight: {
+
+    width: 120,
+    // alignSelf:"center",
+
+    marginLeft: width - 80,
+    marginTop: -59
+  },
+
+  TextStyleRight: {
+
+    fontWeight: "600",
+    fontSize: 13,
+    width: "100%",
+    marginLeft: -10,
+    marginBottom: 10
 
   },
-  ImageView:{
+  ImageView: {
 
-    flex:1,
-//justifyContent:'center',
+    flex: 1,
+    //justifyContent:'center',
     width: '100%',
     height: "100%",
-  //  resizeMode: "stretch",
+    //  resizeMode: "stretch",
   },
   overlayCancel: {
     padding: 20,
@@ -901,16 +1076,16 @@ marginBottom:10
     right: 10,
     top: 0,
   },
-   cancelIcon: {
+  cancelIcon: {
     color: 'black',
-    marginTop:10,
-    
+    marginTop: 10,
+
 
   },
   DocumentIcon: {
-   // color: 'black',
-    marginTop:10,
-    alignSelf:"center"
+    // color: 'black',
+    marginTop: 10,
+    alignSelf: "center"
 
   },
   stretch: {
@@ -918,8 +1093,8 @@ marginBottom:10
     width: width,
     height: height / 3,
     resizeMode: "contain",
-   },
-   video: {
+  },
+  video: {
     width: width,
     height: height / 3
   },

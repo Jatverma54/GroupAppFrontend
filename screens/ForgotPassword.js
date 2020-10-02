@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {  Component } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,61 +7,61 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  
+
 } from 'react-native';
 import Email_Icon from '../Pictures/Email.png';
 
 
 export default class ForgotPassword extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
-    
-     
-     Email:""
+
+
+      Email: ""
 
     }
   }
 
 
   render() {
-    
+
 
     return (
-        
-          <View style={styles.container}>
 
-       
-         
+      <View style={styles.container}>
+
+
+
         <View style={styles.inputContainer}>
-        
-          <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon}/>
+
+          <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
           <TextInput style={styles.inputs}
-              placeholder="Email"
-              multiline={true}
+            placeholder="Email"
+            multiline={true}
             //  value={this.state.Email}
-              maxLength={75}
-              editable={true}
-              onChangeText={(Email) => this.setState({Email})}
-              //keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              />
-             
+            maxLength={75}
+            editable={true}
+            onChangeText={(Email) => this.setState({ Email })}
+            //keyboardType="email-address"
+            underlineColorAndroid='transparent'
+          />
+
         </View>
- 
-     
-      <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
+
+
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
           <Text style={styles.loginText}>Send Password in email</Text>
         </TouchableOpacity>
 
-      
-
-       
 
 
-        </View>
-      
+
+
+
+      </View>
+
     );
   }
 }
@@ -71,51 +71,51 @@ export default class ForgotPassword extends Component {
 
 
 const styles = StyleSheet.create({
-  
+
   container: {
-   flex:2,
+    flex: 2,
     backgroundColor: '#B0E0E6',
-   justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
-  
+
   },
   inputContainer: {
-      borderBottomColor: '#F5FCFF',
-      backgroundColor: '#FFFFFF',
-      borderRadius:30,
-      borderBottomWidth: 1,
-      width:300,
-      height:45,
-      marginBottom:19,
-      flexDirection: 'row',
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 300,
+    height: 45,
+    marginBottom: 19,
+    flexDirection: 'row',
 
-      //alignItems:'center'
+    //alignItems:'center'
   },
-  inputs:{
-      height:45,
-      marginLeft:16,
-      borderBottomColor: '#FFFFFF',
-      flex:1,
-      fontSize:16
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: '#FFFFFF',
+    flex: 1,
+    fontSize: 16
   },
-  icon:{
-    width:30,
-    height:30,
+  icon: {
+    width: 30,
+    height: 30,
   },
-  inputIcon:{
-    marginLeft:15,
+  inputIcon: {
+    marginLeft: 15,
     justifyContent: 'center',
-    marginTop:10
+    marginTop: 10
   },
   buttonContainer: {
-    height:45,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:20,
-    width:250,
-    borderRadius:30,
-    
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30,
+
   },
   loginButton: {
     backgroundColor: '#3498db',
@@ -129,54 +129,54 @@ const styles = StyleSheet.create({
   loginText: {
     color: 'white',
   },
-  restoreButtonContainer:{
-    width:250,
-    marginBottom:15,
+  restoreButtonContainer: {
+    width: 250,
+    marginBottom: 15,
     alignItems: 'flex-end'
   },
-  socialButtonContent:{
+  socialButtonContent: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
-  socialIcon:{
+  socialIcon: {
     color: "#FFFFFF",
-    marginRight:5
+    marginRight: 5
   },
-  
-  Imagecontainer:{
-    
-   // flex:2,
-   
-  // height: 20,
+
+  Imagecontainer: {
+
+    // flex:2,
+
+    // height: 20,
     //alignItems: 'center', 
-    
-      resizeMode: 'contain',
-      height: 200,
-      width: 200,
-      marginTop:-80,
-      marginBottom:20
+
+    resizeMode: 'contain',
+    height: 200,
+    width: 200,
+    marginTop: -80,
+    marginBottom: 20
   },
 
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  //  paddingVertical: 12,
+    //  paddingVertical: 12,
     paddingHorizontal: 16,
-    marginBottom:20
+    marginBottom: 20
   },
 
 
   listContainer: {
     flex: 1,
     padding: 25,
-    
+
   },
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
     color: "#666",
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
   listButton: {
     flexDirection: "row",
@@ -192,4 +192,3 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
 });
- 

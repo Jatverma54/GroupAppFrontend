@@ -2,8 +2,8 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from "react";
 import { Text, View, StyleSheet, BackHandler, Alert } from "react-native";
 
-const OverideBackButton=()=> {
- 
+const OverideBackButton = () => {
+
   const backAction = () => {
     Alert.alert("See You Later!", "Do you want to exit From App", [
       {
@@ -22,8 +22,8 @@ const OverideBackButton=()=> {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
-  return(null);
- 
+  return (null);
+
 }
 
 

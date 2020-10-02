@@ -5,11 +5,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image, 
+  Image,
   Dimensions
 } from 'react-native';
 
-import { 
+import {
   Button,
 } from 'react-native-paper';
 
@@ -17,7 +17,7 @@ import ImageView from "react-native-image-viewing";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { MaterialIcons,MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -32,47 +32,47 @@ export default class ProfileScreen extends Component {
     super(props);
   }
 
-  state = {    
-       photo: null,
-       isVisible:false
-    };
-
-    componentDidMount() {
-      this.getPermissionAsync();
-      this.getCameraPermissionAsync();
-    }
-  
-  
-    getPermissionAsync = async () => {
-      if (Constants.platform.ios) {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    };
-  
-  
-     _pickImage = async () => {
-      try {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        if (!result.cancelled) {
-          this.setState({ photo: result.uri });
-          this.CameraOptions.close(); 
-        }
-  
-       // console.log(result);
-      } catch (E) {
-        console.log(E);
-      }
-   
+  state = {
+    photo: null,
+    isVisible: false
   };
-  
+
+  componentDidMount() {
+    this.getPermissionAsync();
+    this.getCameraPermissionAsync();
+  }
+
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+
+
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ photo: result.uri });
+        this.CameraOptions.close();
+      }
+
+      // console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+
+  };
+
   getCameraPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -81,9 +81,9 @@ export default class ProfileScreen extends Component {
       }
     }
   };
-  
-  
-   _clickImage = async () => {
+
+
+  _clickImage = async () => {
     try {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -93,16 +93,16 @@ export default class ProfileScreen extends Component {
       });
       if (!result.cancelled) {
         this.setState({ photo: result.uri });
-        this.CameraOptions.close(); 
+        this.CameraOptions.close();
       }
-  
+
       //console.log(result);
     } catch (E) {
       console.log(E);
     }
-  
+
   };
-    
+
 
 
 
@@ -112,9 +112,9 @@ export default class ProfileScreen extends Component {
       {
         uri: this.state.photo,
       },
-  
+
     ];
-  
+
 
 
 
@@ -122,69 +122,69 @@ export default class ProfileScreen extends Component {
 
 
       <View style={styles.container}>
-          <View style={styles.header}>
+        <View style={styles.header}>
 
-          <Button color="white" style={{marginLeft:width-30-30}}   onPress={()=>{this.props.navigation.navigate("ChangePassword")}} >
-                       
-                       <MaterialCommunityIcons
-                               name='account-edit'                
-                             //  color={color}
-                               size={20}
-                             />     
-                         </Button>
+          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("ChangePassword") }} >
 
-         
-            <View style={styles.headerContent}>
-            <TouchableOpacity  onPress={() => this.setState({isVisible:true})}>
-                <Image style={styles.avatar}
-                  source={{uri: this.state.photo}}/>
+            <MaterialCommunityIcons
+              name='account-edit'
+              //  color={color}
+              size={20}
+            />
+          </Button>
 
-<Button color="white" style={{marginLeft:90,marginTop:-30,marginBottom:10}}   onPress={() => this.CameraOptions.open()}>
-                  <MaterialIcons
+
+          <View style={styles.headerContent}>
+            <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>
+              <Image style={styles.avatar}
+                source={{ uri: this.state.photo }} />
+
+              <Button color="white" style={{ marginLeft: 90, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
+                <MaterialIcons
                   name='edit'
-                  
-                //  color={color}
+
+                  //  color={color}
                   size={20}
                 /></Button>
 
 
-{this.state.isVisible&&
-            
-            <ImageView
-  images={images}
-  imageIndex={0}
-  visible={this.state.isVisible}
-  onRequestClose={() =>  this.setState({isVisible:false})}
- 
-/> }
+              {this.state.isVisible &&
 
-                <Text style={styles.name}>
-                  Jatin
+                <ImageView
+                  images={images}
+                  imageIndex={0}
+                  visible={this.state.isVisible}
+                  onRequestClose={() => this.setState({ isVisible: false })}
+
+                />}
+
+              <Text style={styles.name}>
+                Jatin
                 </Text>
-                </TouchableOpacity>
-            </View>
-           
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.textInfo}>
-                johndoe@gmail.com
+        </View>
+
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.textInfo}>
+              johndoe@gmail.com
               </Text>
-          
-              
-                {/* <Button   color="white" style={{marginTop:20,width:"100%"}} onPress={() => {this.props.navigation.navigate("ChangePassword")}}>Change Password</Button>
+
+
+            {/* <Button   color="white" style={{marginTop:20,width:"100%"}} onPress={() => {this.props.navigation.navigate("ChangePassword")}}>Change Password</Button>
               */}
-                     
-             
-            </View>
+
+
+          </View>
         </View>
 
 
 
 
-{/* List Menu */}
-<RBSheet
+        {/* List Menu */}
+        <RBSheet
           ref={ref => {
             this.CameraOptions = ref;
           }}
@@ -192,25 +192,25 @@ export default class ProfileScreen extends Component {
         >
           <View style={styles.listContainer}>
             <Text style={styles.listTitle}>Change Profile Picture</Text>
-          
-              <TouchableOpacity
-                
-                style={styles.listButton}
-                onPress={() => this._clickImage()}
-              >
-                <MDIcon name="photo-camera" style={styles.listIcon} />
-                <Text style={styles.listLabel}>Take photo</Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity
-                
-                style={styles.listButton}
-                onPress={() => this._pickImage()}
-              >
-                <MDIcon name="photo" style={styles.listIcon} />
-                <Text style={styles.listLabel}>Choose image</Text>
-              </TouchableOpacity>
-           
+            <TouchableOpacity
+
+              style={styles.listButton}
+              onPress={() => this._clickImage()}
+            >
+              <MDIcon name="photo-camera" style={styles.listIcon} />
+              <Text style={styles.listLabel}>Take photo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+
+              style={styles.listButton}
+              onPress={() => this._pickImage()}
+            >
+              <MDIcon name="photo" style={styles.listIcon} />
+              <Text style={styles.listLabel}>Choose image</Text>
+            </TouchableOpacity>
+
           </View>
         </RBSheet>
 
@@ -231,11 +231,11 @@ export default class ProfileScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  header:{
+  header: {
     backgroundColor: "#0489B1",
   },
-  headerContent:{
-    padding:30,
+  headerContent: {
+    padding: 30,
     alignItems: 'center',
   },
   avatar: {
@@ -244,36 +244,36 @@ const styles = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
-    marginBottom:10,
-    alignSelf:"center"
+    marginBottom: 10,
+    alignSelf: "center"
   },
-  name:{
-    fontSize:22,
-    color:"#FFFFFF",
-    fontWeight:'600',
-    alignSelf:"center",
+  name: {
+    fontSize: 22,
+    color: "#FFFFFF",
+    fontWeight: '600',
+    alignSelf: "center",
     //marginRight:20
   },
   bodyContent: {
     flex: 1,
     alignItems: 'center',
-    padding:30,
+    padding: 30,
   },
-  textInfo:{
-    fontSize:18,
-    marginTop:20,
+  textInfo: {
+    fontSize: 18,
+    marginTop: 20,
     color: "white",
   },
   listContainer: {
     flex: 1,
     padding: 25,
-    
+
   },
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
     color: "#666",
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
   listButton: {
     flexDirection: "row",
@@ -289,4 +289,3 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
 });
- 

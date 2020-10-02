@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
+import {
+  StyleSheet,
+  Text,
+  View,
   Dimensions,
   TouchableOpacity,
   Image,
@@ -14,76 +14,76 @@ export default class YourPostImagesJoinedGroup extends React.Component {
 
   constructor(props) {
     super(props);
-    var ArrayData= props.imagesdata?props.imagesdata:[]
+    var ArrayData = props.imagesdata ? props.imagesdata : []
     this.state = {
       countFrom: 5,
       conditionalRender: false,
-    
-      images:ArrayData    ,
-      ImageData:[],
-      isVisible:'false',
-      imageindex:null,
-     
+
+      images: ArrayData,
+      ImageData: [],
+      isVisible: 'false',
+      imageindex: null,
+
     };
   }
 
 
- 
 
-//   clickEventListener() {
-//   //  Alert.alert('Alert', 'image clicked');
-// console.log();
-// const images = [
-//   {
-//       source: {
-//           uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
-//       },
-//       title: 'Paris',
-//       width: 806,
-//       height: 720,
-//   },
-// ];
 
-// <ImageView
-//   images={images}
-//   imageIndex={0}
-//   isVisible={true}
-//   renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
-// />
+  //   clickEventListener() {
+  //   //  Alert.alert('Alert', 'image clicked');
+  // console.log();
+  // const images = [
+  //   {
+  //       source: {
+  //           uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
+  //       },
+  //       title: 'Paris',
+  //       width: 806,
+  //       height: 720,
+  //   },
+  // ];
 
-//   }
+  // <ImageView
+  //   images={images}
+  //   imageIndex={0}
+  //   isVisible={true}
+  //   renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
+  // />
+
+  //   }
 
   renderOne() {
-    const {images} = this.state;
-    const {countFrom} = this.state;
-    const conditionalRender = [1,2,3,4].includes(images.length) ;
-    return(
-    
-  
-    <View style={styles.row} >
+    const { images } = this.state;
+    const { countFrom } = this.state;
+    const conditionalRender = [1, 2, 3, 4].includes(images.length);
+    return (
 
-{((images.length<2)?
 
-<View style={styles.ImageView} >
-<TouchableOpacity style={{flex:1}} onPress={() => {this.setState({isVisible: true,imageindex:0})}}>
+      <View style={styles.row} >
 
-    <Image
-  style={styles.stretch}
-  source={{uri:images[0]}}
-  
-  />
-   </TouchableOpacity>
-</View>
+        {((images.length < 2) ?
 
-:   
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent1]} onPress={() => {this.setState({isVisible: true,imageindex:0})}}>
-    
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[0] : images[0]}}/>
-        </TouchableOpacity>
+          <View style={styles.ImageView} >
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
+
+              <Image
+                style={styles.stretch}
+                source={{ uri: images[0] }}
+
+              />
+            </TouchableOpacity>
+          </View>
+
+          :
+          <TouchableOpacity style={[styles.imageContent, styles.imageContent1]} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
+
+            <Image style={styles.image} source={{ uri: (conditionalRender) ? images[0] : images[0] }} />
+          </TouchableOpacity>
         )}
 
 
-  
+
       </View>
 
 
@@ -91,60 +91,60 @@ export default class YourPostImagesJoinedGroup extends React.Component {
   }
 
   renderTwo() {
-    const {images} = this.state;
-    const {countFrom} = this.state;
+    const { images } = this.state;
+    const { countFrom } = this.state;
     const conditionalRender = [2, 3].includes(images.length) || images.length > +countFrom && [2, 3].includes(+countFrom);
 
 
-let index;
-let index1;
-if(conditionalRender){
-  index=1;
-  index1=2;
-}else{
-  index=0;
-  index1=1;
-}
-    return(
+    let index;
+    let index1;
+    if (conditionalRender) {
+      index = 1;
+      index1 = 2;
+    } else {
+      index = 0;
+      index1 = 1;
+    }
+    return (
 
       <View style={styles.row}>
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => {this.setState({isVisible: true,imageindex:index})}}>
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[1] : images[0]}}/>
+        <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
+          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[1] : images[0] }} />
         </TouchableOpacity>
-      { (images.length>2)&& <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => {this.setState({isVisible: true,imageindex:index1})}}>
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[2] : images[1]}}/>
+        { (images.length > 2) && <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
+          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[2] : images[1] }} />
         </TouchableOpacity>}
-     
+
       </View>
     );
   }
 
   renderThree() {
-    const {images} = this.state;
-    const {countFrom} = this.state;
+    const { images } = this.state;
+    const { countFrom } = this.state;
     const overlay = !countFrom || countFrom > 5 || images.length > countFrom && [4, 5].includes(+countFrom) ? this.renderCountOverlay(true) : this.renderOverlay();
     const conditionalRender = images.length == 4 || images.length > +countFrom && +countFrom == 4;
 
 
     let index;
     let index1;
-    if(conditionalRender){
-      index=1;
-      index1=2;
-    }else{
-      index=2;
-      index1=3;
+    if (conditionalRender) {
+      index = 1;
+      index1 = 2;
+    } else {
+      index = 2;
+      index1 = 3;
     }
 
 
 
-    return(
+    return (
       <View style={styles.row}>
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:index})}}>
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[1] : images[2]}}/>
+        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
+          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[1] : images[2] }} />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:index1})}}>
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[2] : images[3]}}/>
+        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
+          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[2] : images[3] }} />
         </TouchableOpacity>
         {overlay}
       </View>
@@ -152,88 +152,88 @@ if(conditionalRender){
   }
 
   renderOverlay() {
-    const {images} = this.state;
-    return(
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:images.length -1})}}>
-          <Image style={styles.image} source={{uri: images[images.length - 1]}}/>
-        </TouchableOpacity>
+    const { images } = this.state;
+    return (
+      <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: images.length - 1 }) }}>
+        <Image style={styles.image} source={{ uri: images[images.length - 1] }} />
+      </TouchableOpacity>
     );
   }
 
   renderCountOverlay(more) {
-    const {images} = this.state;
-    const {countFrom} = this.state;
+    const { images } = this.state;
+    const { countFrom } = this.state;
     const extra = images.length - (countFrom && countFrom > 5 ? 5 : countFrom);
     const conditionalRender = images.length == 4 || images.length > +countFrom && +countFrom == 4;
-    return(
-        <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.setState({isVisible: true,imageindex:4})}}>
-          <Image style={styles.image} source={{uri: (conditionalRender) ? images[3] : images[4]}}/>
-          <View style={styles.overlayContent}>
-          <View style={{ width:"100%"}}>
-              <Text style={styles.count}>+{extra}</Text>
-            </View>
+    return (
+      <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: 4 }) }}>
+        <Image style={styles.image} source={{ uri: (conditionalRender) ? images[3] : images[4] }} />
+        <View style={styles.overlayContent}>
+          <View style={{ width: "100%" }}>
+            <Text style={styles.count}>+{extra}</Text>
           </View>
-        </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
     );
   }
 
- flag=true;
- getimageArray=(images)=>{
- 
+  flag = true;
+  getimageArray = (images) => {
 
-  if(images.length>0&&this.flag){
 
-   
-    for(var i in images){
-     
-      this.state.ImageData.push({uri:images[i]});
+    if (images.length > 0 && this.flag) {
+
+
+      for (var i in images) {
+
+        this.state.ImageData.push({ uri: images[i] });
+      }
+
+
+
+      this.flag = false;
     }
 
-  
-   
-  this.flag=false;
-    }
-   
- }
+  }
   render() {
-   
 
-    const {modal, index, countFrom,isVisible,imageindex} = this.state;
-    const {images} = this.state;
+
+    const { modal, index, countFrom, isVisible, imageindex } = this.state;
+    const { images } = this.state;
     const imagesToShow = [...images];
 
-    if(countFrom && images.length > countFrom) {
+    if (countFrom && images.length > countFrom) {
       imagesToShow.length = countFrom;
     }
-  
- {isVisible!=true&&this.getimageArray(images)}
-   
-    
+
+    { isVisible != true && this.getimageArray(images) }
+
+
     return (
       <View style={styles.container}>
-          {[1,2,3,4].includes(imagesToShow.length)  && this.renderOne()}
-          {imagesToShow.length >= 2 && imagesToShow.length != 4 && this.renderTwo()}
-          {imagesToShow.length >= 4 && this.renderThree()}
+        {[1, 2, 3, 4].includes(imagesToShow.length) && this.renderOne()}
+        {imagesToShow.length >= 2 && imagesToShow.length != 4 && this.renderTwo()}
+        {imagesToShow.length >= 4 && this.renderThree()}
 
 
 
-         
-          {isVisible&&
-         
+
+        {isVisible &&
+
           <ImageView
-  images={this.state.ImageData}
-  imageIndex={imageindex}
-  visible={isVisible}
-  onRequestClose={() =>  {this.setState({isVisible: false})}}
-  FooterComponent={({ imageIndex }) => (
-    <View style={styles.root}>
-    <Text style={styles.text}>{`${imageIndex + 1} / ${this.state.ImageData.length}`}</Text>
-  </View>
-  )}
-/>
+            images={this.state.ImageData}
+            imageIndex={imageindex}
+            visible={isVisible}
+            onRequestClose={() => { this.setState({ isVisible: false }) }}
+            FooterComponent={({ imageIndex }) => (
+              <View style={styles.root}>
+                <Text style={styles.text}>{`${imageIndex + 1} / ${this.state.ImageData.length}`}</Text>
+              </View>
+            )}
+          />
 
-    
-   }
+
+        }
 
 
       </View>
@@ -242,7 +242,7 @@ if(conditionalRender){
 }
 
 
- 
+
 
 
 
@@ -252,27 +252,27 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 20,
   },
-  row:{
-    flexDirection:'row',
- 
+  row: {
+    flexDirection: 'row',
+
   },
-  imageContent:{
-    borderWidth:1,
-    borderColor:'black',
-    height:120, 
+  imageContent: {
+    borderWidth: 1,
+    borderColor: 'black',
+    height: 120,
   },
-  imageContent1:{
-    width:'100%',
+  imageContent1: {
+    width: '100%',
   },
-  imageContent2:{
-    width:'50%',
+  imageContent2: {
+    width: '50%',
   },
-  imageContent3:{
-    width:'33.33%',
+  imageContent3: {
+    width: '33.33%',
   },
-  image:{
-    width:'100%',
-    height:'100%',
+  image: {
+    width: '100%',
+    height: '100%',
   },
   //overlay efect
   overlayContent: {
@@ -280,49 +280,49 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 100,
     right: 0,
-    width:'100%',
-    height:'100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  count:{
-    fontSize:40,
-    color: "#ffffff",
-    fontWeight:'bold',
-    textShadowColor: 'rgba(0, 0, 139, 1)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10,
-    marginLeft:25
-  },
-  ImageView:{
-
-    flex:1,
-//justifyContent:'center',
     width: '100%',
-   height: "100%",
- //  resizeMode: 'cover',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  count: {
+    fontSize: 40,
+    color: "#ffffff",
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 139, 1)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    marginLeft: 25
+  },
+  ImageView: {
+
+    flex: 1,
+    //justifyContent:'center',
+    width: '100%',
+    height: "100%",
+    //  resizeMode: 'cover',
   },
   stretch: {
-    flex:1,
-   // justifyContent:'center',
+    flex: 1,
+    // justifyContent:'center',
     // width: '100%',
     // height: "100%",
     resizeMode: "contain",
-     width:400,
-     height:200,
-  // alignSelf:"center",
- 
-   },
-   overlayCancel: {
+    width: 400,
+    height: 200,
+    // alignSelf:"center",
+
+  },
+  overlayCancel: {
     padding: 20,
     position: 'absolute',
     right: 10,
     top: 0,
   },
-   cancelIcon: {
+  cancelIcon: {
     color: 'black',
-    marginTop:10
+    marginTop: 10
 
   },
   root: {

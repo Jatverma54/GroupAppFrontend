@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   stretch: {
-    flexDirection:'row',
-    justifyContent:'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
     width: '100%',
     height: 200,
     resizeMode: 'cover',

@@ -1,42 +1,42 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-const FeedDetails = ({navigation}) => {
-  
-   return(
+const FeedDetails = ({ navigation }) => {
 
-<View style={styles.container}>
+   return (
 
-  <Text>Feed Details</Text>
-  
-</View>
+      <View style={styles.container}>
+
+         <Text>Feed Details</Text>
+
+      </View>
 
    );
 };
 const styles = StyleSheet.create({
-  
-   ButtonContainer: {   
-      flexDirection:'row', 
+
+   ButtonContainer: {
+      flexDirection: 'row',
       width: '100%',
       justifyContent: 'flex-start',
       alignItems: 'baseline',
-       
+
    },
    button: {
-       
+
       width: 300,
-        marginVertical: 60,
-        fontWeight: "bold",
-       
+      marginVertical: 60,
+      fontWeight: "bold",
+
    },
-   container:{
+   container: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor : '#F5F5F5'
+      backgroundColor: '#F5F5F5'
    },
-   
+
 });
 
 

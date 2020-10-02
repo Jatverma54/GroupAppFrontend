@@ -12,7 +12,7 @@ import {
 const { width } = Dimensions.get('window')
 
 export default class ImageTile extends React.PureComponent {
-  render () {
+  render() {
     let { item, index, selected, selectImage, selectedItemCount, badgeColor } = this.props
     if (!item) return null
     return (
@@ -27,9 +27,9 @@ export default class ImageTile extends React.PureComponent {
               style={{ width: width / 4, height: width / 4 }}
               source={{ uri: item.uri }} >
               {selected &&
-              <View style={{ ...styles.countBadge, backgroundColor: badgeColor }}>
-                <Text style={styles.countBadgeText}>{selectedItemCount}</Text>
-              </View>
+                <View style={{ ...styles.countBadge, backgroundColor: badgeColor }}>
+                  <Text style={styles.countBadgeText}>{selectedItemCount}</Text>
+                </View>
               }
             </ImageBackground>
           </View>
@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
     right: 3,
     bottom: 3,
     justifyContent: 'center',
-    width:"100%"
+    width: "100%"
   },
   countBadgeText: {
     color: '#fff',
     fontWeight: 'bold',
     alignSelf: 'center',
     padding: 'auto',
-    width:"100%"
+    width: "100%"
   }
 })

@@ -9,7 +9,7 @@ import {
 
 
 const StartupScreen = props => {
-  
+
 
   useEffect(() => {
     const tryLogin = async () => {
@@ -22,12 +22,12 @@ const StartupScreen = props => {
       const { token, userId } = transformedData;
       //const expirationDate = new Date(expiryDate);
 
-      if ( !token || !userId) {//expirationDate <= new Date() ||
+      if (!token || !userId) {//expirationDate <= new Date() ||
         props.navigation.navigate('LoginScreen');
         return;
       }
 
-    //  const expirationTime = expirationDate.getTime() - new Date().getTime();
+      //  const expirationTime = expirationDate.getTime() - new Date().getTime();
 
       props.navigation.navigate('DrawerScreen');
       //dispatch(authActions.authenticate(userId, token, expirationTime));

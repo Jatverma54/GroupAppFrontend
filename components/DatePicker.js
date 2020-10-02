@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
-import {View, Text, Platform,TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Platform, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const DatePicker = () => {
@@ -9,11 +9,11 @@ const DatePicker = () => {
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-      
+
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    
+
   };
 
   const showMode = currentMode => {
@@ -30,36 +30,36 @@ const DatePicker = () => {
   };
 
   return (
-    <TouchableOpacity  onPress={showDatepicker}>
-    <View>
-        
+    <TouchableOpacity onPress={showDatepicker}>
       <View>
 
-          <Text style={{marginLeft:60,color:'#FFFFFF'}}>
-           DOB: {date.toDateString()}
-          </Text>
-       
-      </View>
-     
-      {show && (
-        <DateTimePicker
-          testID="DOB"
-          value={date}
-          timeZoneOffsetInMinutes={0}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
+        <View>
 
-      )}
-     
-      
-        
-    </View>
+          <Text style={{ marginLeft: 60, color: '#FFFFFF' }}>
+            DOB: {date.toDateString()}
+          </Text>
+
+        </View>
+
+        {show && (
+          <DateTimePicker
+            testID="DOB"
+            value={date}
+            timeZoneOffsetInMinutes={0}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+
+        )}
+
+
+
+      </View>
     </TouchableOpacity>
-   
-    
+
+
   );
 };
 
