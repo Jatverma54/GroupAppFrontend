@@ -8,12 +8,21 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  Dimensions,
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Button,
+} from 'react-native-paper';
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionButtonPersonal';
 import { useNavigation } from '@react-navigation/native';
 import {  SearchBar } from "react-native-elements";
-
+import NoGroups from '../../Pictures/NoGroups.png';
+import moment from "moment";
+const { width, height } = Dimensions.get('window');
 
 export default class PersonalGroupsScreen extends Component {
 
@@ -21,113 +30,79 @@ export default class PersonalGroupsScreen extends Component {
   constructor(props) {
   
     super(props);
-
-       
-    // this.didFocusSubscription =props.navigation.addListener(
-    //   'focus',
-    //   () => {
-      
-    //      this.changeScreenOrientation();
-    //   });
-    
-
     this.state = {
-      data:[
-        {
-          id:1, 
-          image: "https://lorempixel.com/100/100/nature/1/", 
-          GroupName:"Multiple Myeloma story of hope and courage", 
-          countMembers:51,  
-        },
-        {
-          id:2, 
-          image: "https://lorempixel.com/100/100/nature/2/", 
-          GroupName:"Group 2", 
-          countMembers:10,  
-        },
-        {
-          id:3, 
-          image: "https://lorempixel.com/100/100/nature/3/", 
-          GroupName:"Group 3", 
-          countMembers:58,  
-          },      
-      ],
-
-      temp:[
-        {
-          id:1, 
-          image: "https://lorempixel.com/100/100/nature/1/", 
-          GroupName:"Multiple Myeloma story of hope and courage", 
-          countMembers:51,  
-        },
-        {
-          id:2, 
-          image: "https://lorempixel.com/100/100/nature/2/", 
-          GroupName:"Group 2", 
-          countMembers:10,  
-        },
-        {
-          id:3, 
-          image: "https://lorempixel.com/100/100/nature/3/", 
-          GroupName:"Group 3", 
-          countMembers:58,  
-          },      
-      ],
+      data:'',
+      temp:'',
+      isFetching: false,
+      loading: false,
+      error: null,
     }
   }
 
-  componentDidMount(){
-   // this.changeScreenOrientation();
-   
+  getData = async () => {
+
+    this.setState({ loading: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groups/getJoinedPrivateGroups", requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      this.setResult(json.result);
+
+    } catch (e) {
+      // console.log("Error ",e)
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      //   console.log("Error ",e)
+    }
+  };
+
+
+  componentDidMount() {
+
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.setState({ data: "" ,temp:""})
+      this.getData(); // do something
+    });
+
+  }
+  componentWillUnmount() {
+    this._unsubscribe;
+    this.props.navigation.removeListener('focus', () => {
+      // this.setState({data:""})
+      // this.getData(); // do something
+    });
   }
 
-  // async changeScreenOrientation() {
-  //   await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-  // }
 
-  onRefresh() {
-    this.setState({ isFetching: true }, function() { this.searchRandomUser() });
-  }
-  
-  
-  searchRandomUser = async () =>
-  {
-    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
-    //  const APIValue = await RandomAPI.json();
-    //   const APIResults = APIValue.results
-    //     console.log(APIResults[0].email);
-  
-  
-    data2=[ {id:"1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh",      countLikes:"51",    countcomments:"21" ,         time:"1 days a go", postMetaData:"This is an example postThis is an example post",   image:"https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-    LikePictures:[
-      
-          
-           //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-          // "https://bootdey.com/img/Content/avatar/avatar2.png",
-          // "https://bootdey.com/img/Content/avatar/avatar7.png",
-          // "https://bootdey.com/img/Content/avatar/avatar3.png",
-         // "https://bootdey.com/img/Content/avatar/avatar4.png"
-          
-        ]
-      },
-   ]
-        this.setState({
-            data:data2,
-            isFetching: false
-        })
-  
-  }
+
 
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
       error: res.error || null,
-      loading: false
+      loading: false,
+      isFetching: false
     });
   }
-d
+
+  onRefresh() {
+    this.setState({ isFetching: true, data: "", temp:"" }, function () { this.getData() });
+  }
+
   renderHeader = () => {
       return <SearchBar 
       // height: 0.5,
@@ -173,8 +148,8 @@ d
 
             this.state.data = this.state.temp.filter(function(item){
                 return item.GroupName.includes(search);
-              }).map(function({id, GroupName, image,countMembers}){
-                return {id, GroupName, image,countMembers};
+              }).map(function({_id, GroupName, image,countMembers}){
+                return {_id, GroupName, image,countMembers};
             });
         });
 
@@ -192,8 +167,34 @@ d
 
   render() {
     
+    if (this.state.loading) {
+      return (
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff"
+        }}>
+          <ActivityIndicator size="large" color="black" />
+          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
+        </View>
+      );
+    }
+
+
     return (
       
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+        </Button>
+      </View> :
       <View  style={styles.FloatButtonPlacement} > 
       
       <FlatList 
@@ -211,7 +212,7 @@ d
           )
         }}
         keyExtractor={(item)=>{
-          return item.id;
+          return item._id;
         }}
         renderItem={(item) => {
           const Group = item.item;
@@ -237,9 +238,9 @@ d
                     {Group.countMembers} members
                   </Text>
                   <Text style={styles.timeAgo}>
-                    Updated 2 months ago
+                  Last updated {moment(Group.LastUpdated).fromNow()}
                   </Text>
-                  {/* {this.renderGroupMembers(Group)} */}
+                
                 </View>
               </View>
               </TouchableOpacity>    
@@ -248,7 +249,15 @@ d
           );
         }}/>
 
-     
+{this.state.data.length === 0 &&
+            <View style={{ flex: 1, backgroundColor: "white" }}>
+              <Image source={NoGroups} style={{
+                alignSelf: "center", alignItems: "center", width: 53,
+                height: 53,
+                borderRadius: 25,
+              }} />
+              <Text style={{ marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold" }}>Create your first personal group.{'\n'}Personal groups will be visible to members only.</Text>
+            </View>}
      
      <FloatingActionButton/>
      

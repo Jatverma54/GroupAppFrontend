@@ -600,9 +600,9 @@ export default class ViewMembers extends Component {
       this.state.data = this.state.temp.filter(function (item) {
 
         return item.profile.full_name.includes(search) || item.username.includes(search);
-      }).map(function ({ _id, profile: full_name, profile: profile_pic, username }) {
+      }).map(function ({ _id, profile: full_name, profile: profile_pic, username,admin_id }) {
 
-        return { _id, profile: full_name, profile: profile_pic, username };
+        return { _id, profile: full_name, profile: profile_pic, username,admin_id };
       });
     });
 

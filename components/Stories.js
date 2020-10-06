@@ -10,7 +10,8 @@ import {
   FlatList,
   Share,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from 'react-native';
 import {
   Avatar,
@@ -27,29 +28,88 @@ export default class Stories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-
-        { id: "2", title: "Jatin ajkasjkasasjkasjkajk", time: "1 days a go", image: "https://lorempixel.com/400/200/nature/6/" },
-        { id: "3", title: "Amit", time: "2 minutes a go", image: "https://lorempixel.com/400/200/nature/5/" },
-        { id: "4", title: "first Namee", time: "3 hour a go", image: "https://lorempixel.com/400/200/nature/4/" },
-        { id: "5", title: "XYZ Name", time: "4 months a go", image: "https://lorempixel.com/400/200/nature/6/" },
-        { id: "6", title: "XYZ Name", time: "5 weeks a go", image: "https://lorempixel.com/400/200/sports/1/" },
-        { id: "7", title: "XYZ Name", time: "6 year a go", image: "https://lorempixel.com/400/200/nature/8/" },
-        { id: "8", title: "XYZ Name", time: "7 minutes a go", image: "https://lorempixel.com/400/200/nature/1/" },
-        { id: "9", title: "XYZ Name", time: "8 days a go", image: "https://lorempixel.com/400/200/nature/3/" },
-        { id: "10", title: "XYZ Name", time: "9 minutes a go", image: "https://lorempixel.com/400/200/nature/4/" },
-      ],
+      data:'',
       isVisible: false,
       Groupimages: [],
       loading: false,
       error: null,
 
-
+      isFetching: false,
 
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width
     };
   }
+
+
+  getData = async () => {
+
+    this.setState({ loading: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+
+      var GroupData = {
+        groupid: this.props.nav.route.params.groupId._id,
+      }
+     
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groups/ViewGroupMembers", requestOptions);
+      const json = await response.json();
+     
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      //   console.log("Error ",e)
+    }
+
+
+
+
+  };
+
+
+  componentDidMount() {
+    this._unsubscribe = this.getData();
+  }
+
+  componentWillUnmount() {
+   
+    this._unsubscribe;
+    
+  }
+ 
+
+  setResult = (res) => {
+    this.setState({
+      data: [...this.state.data, ...res],
+     
+      error: res.error || null,
+      loading: false,
+      isFetching: false
+    });
+  }
+
+
+  onRefresh() {
+
+    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+  }
+
 
 
 
@@ -91,33 +151,15 @@ export default class Stories extends Component {
       } else if (result.action === Share.dismissedAction) {
         // dismissed
       }
+
+     
     } catch (error) {
       alert(error.message);
     }
   };
 
-  getData = async () => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
+ 
 
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
-  };
-
-
-  setResult = (res) => {
-    this.setState({
-      data: [...this.state.data, ...res],
-      temp: [...this.state.temp, ...res],
-      error: res.error || null,
-      loading: false
-    });
-  }
 
 
   AddStory() {
@@ -132,10 +174,10 @@ export default class Stories extends Component {
 
 
             <View>
-              <TouchableOpacity onPress={() => this.props.nav.myHookValue.push("ViewMembers")}>
+              <TouchableOpacity onPress={() => this.props.nav.myHookValue.navigate("ViewMembers",{ Group: this.props.nav.route.params.groupId })}>
                 <Avatar.Image
                   style={{ marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
-                  source={{ uri: "https://lorempixel.com/400/200/nature/6/" }} size={53} />
+                  source={{ uri: this.props.nav.route.params.groupId.image }} size={53} />
                 {/* <View style={styles.iconWrapper}>
                             <Icon name='plus'  size={12} color='black' />
                         </View> */}
@@ -161,7 +203,7 @@ export default class Stories extends Component {
     { this.setState({ isVisible: true }) }
     const images = [
       {
-        uri: item.image,
+        uri: item.profile.profile_pic,
       },
 
     ];
@@ -173,9 +215,9 @@ export default class Stories extends Component {
   }
 
 
-  AddMembers() {
-
-    if (this.props.Role === "admin") {
+  AddMembers(item) {
+    
+    if (this.props.nav.route.params.groupId.admin_id.includes(this.props.nav.route.params.groupId.currentUser)) {
       this.props.nav.myHookValue.push("AddMembers");
     }
     else {
@@ -201,18 +243,19 @@ export default class Stories extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      );
-    }
+if (this.state.loading) {
+  return (
+    <View style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff"
+    }}>
+      <ActivityIndicator size="large" color="black" />
+      <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
+    </View>
+  );
+}
     return (
 
       this.state.error != null ?
@@ -241,7 +284,7 @@ export default class Stories extends Component {
 
             data={this.state.data}
             keyExtractor={(item) => {
-              return item.id;
+              return item._id;
             }}
             ItemSeparatorComponent={() => {
               return (
@@ -267,11 +310,11 @@ export default class Stories extends Component {
                         <TouchableOpacity onPress={() => this.openGroupPic(item)}>
                           <Avatar.Image
                             style={{ marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
-                            source={{ uri: item.image }} size={53} />
+                            source={{ uri: item.profile.profile_pic }} size={53} />
 
-                          {!(item.title.length > 9) ?
-                            <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.title}</Text>
-                            : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.title.toString().substring(0, 10)}..</Text>}
+                          {!(item.profile.full_name > 9) ?
+                            <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.profile.full_name}</Text>
+                            : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.profile.full_name.toString().substring(0, 10)}..</Text>}
 
                         </TouchableOpacity>
                       </View>
@@ -302,7 +345,7 @@ export default class Stories extends Component {
           <View style={{ flex: 1 }} >
             <View>
 
-              <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers()}>
+              <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers(item)}>
                 <View>
                   <View style={styles.bodyContentInviteMember}  >
                     <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>

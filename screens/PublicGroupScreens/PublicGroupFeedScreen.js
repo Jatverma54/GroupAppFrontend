@@ -45,7 +45,7 @@ MDIcon.loadFont();
 
 
 
-export default class JoinedGroupInsideGroupFeed extends Component {
+export default class PublicGroupFeedScreen extends Component {
 
   constructor(props) {
     super(props);

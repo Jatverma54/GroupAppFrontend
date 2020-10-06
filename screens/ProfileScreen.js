@@ -6,7 +6,10 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  AsyncStorage,
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 
 import {
@@ -30,18 +33,95 @@ export default class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      ProfileName:'',
+      email:'',
+      photo: null,
+      isVisible: false,
+      username:"",
+      _id:""
+    }
   }
 
-  state = {
-    photo: null,
-    isVisible: false
-  };
+  
 
   componentDidMount() {
+    
+
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      // do something
+   
+      this.setState({ data: "" })
+      this.getData(); // do something
+    });
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
   }
 
+  componentWillUnmount() {
+    this._unsubscribe;
+    this.props.navigation.removeListener('focus', () => {
+      // this.setState({data:""})
+      // this.getData(); // do something
+    });
+  }
+
+  
+  getData = async () => {
+
+    this.setState({ loading: true });
+   
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
+
+
+      if (response.ok) {
+        this.setState({ loading: false });
+        const json = await response.json();
+
+        this.setState({photo:json.result.profile.profile_pic,
+           ProfileName:json.result.profile.full_name,
+           email:json.result.email,
+           username:json.result.username,
+           _id:json.result._id,
+          })
+         
+        
+      
+      } else {
+
+        this.setState({ loading: false });
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again.",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+      }
+      // setuserimageUrl(json.result.profile.profile_pic);
+      //setuserName(json.result.profile.full_name);
+    } catch (e) {
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      console.log("Error ", e)
+    }
+  };
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -53,25 +133,29 @@ export default class ProfileScreen extends Component {
   };
 
 
-  _pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-      if (!result.cancelled) {
-        this.setState({ photo: result.uri });
-        this.CameraOptions.close();
-      }
 
-      // console.log(result);
-    } catch (E) {
-      console.log(E);
-    }
 
-  };
+
+  // _pickImage = async () => {
+  //   try {
+  //     let result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //       base64:true
+  //     });
+  //     if (!result.cancelled) {
+  //       this.setState({ photo: result.uri });
+  //       this.CameraOptions.close();
+  //     }
+
+  //     // console.log(result);
+  //   } catch (E) {
+  //     console.log(E);
+  //   }
+
+  // };
 
   getCameraPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -83,30 +167,183 @@ export default class ProfileScreen extends Component {
   };
 
 
+  // _clickImage = async () => {
+  //   try {
+  //     let result = await ImagePicker.launchCameraAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //       base64:true
+  //     });
+  //     if (!result.cancelled) {
+  //       this.setState({ photo: result.uri });
+  //       this.CameraOptions.close();
+  //     }
+
+  //     //console.log(result);
+  //   } catch (E) {
+  //     console.log(E);
+  //   }
+
+  // };
+
   _clickImage = async () => {
+
     try {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
+        base64: true,
       });
+      this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ photo: result.uri });
-        this.CameraOptions.close();
+
+
+        this.setState({ loading: true });
+
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var UpdateImage = {
+          "UserId": this.state.data._id,
+          "image": `data:image/jpg;base64,${result.base64}`,
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(UpdateImage)
+
+        };
+
+        const response = await fetch("http://192.168.0.107:3000/users/updateUserImage", requestOptions);
+
+
+        if (response.ok) {
+          this.setState({ loading: false });
+          image = `data:image/jpg;base64,${result.base64}`;
+         
+
+          this.setState({ photo: image });
+        }
+        else {
+          this.setState({ loading: false });
+          Alert.alert(
+            "Something went wrong",
+            "Please try again",
+            [
+              { text: "Ok", onPress: () => null }
+            ],
+            { cancelable: false }
+          );
+        }
+
       }
 
-      //console.log(result);
+      // console.log(result);
     } catch (E) {
+      //  this.CameraOptions.close(); 
+      this.setState({ loading: false });
       console.log(E);
     }
 
   };
 
+  _pickImage = async () => {
+  
+
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+        quality: 1,
+      });
+      this.CameraOptions.close();
+      if (!result.cancelled) {
+        this.setState({ loading: true });
+    
+
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var UpdateImage = {
+          "UserId": this.state.data._id,
+          "image": `data:image/jpg;base64,${result.base64}`,
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
 
 
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(UpdateImage)
 
+        };
+
+        const response = await fetch("http://192.168.0.107:3000/users/updateUserImage", requestOptions);
+
+        if (response.ok) {
+          this.setState({ loading: false });
+          image = `data:image/jpg;base64,${result.base64}`;
+        
+
+          this.setState({ photo: image });
+          
+        }
+        else {
+          this.setState({ loading: false });
+          Alert.alert(
+            "Something went wrong",
+            "Please try again",
+            [
+              { text: "Ok", onPress: () => null }
+            ],
+            { cancelable: false }
+          );
+        }
+        this.CameraOptions.close();
+      }
+
+    } catch (E) {
+      this.setState({ loading: false });
+      console.log(E);
+    }
+
+  };
   render() {
+
+
+    if (this.state.loading) {
+      return (
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff"
+        }}>
+
+          <ActivityIndicator size="large" color="black" />
+          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
+        </View>
+      );
+    }
 
     const images = [
       {
@@ -120,7 +357,17 @@ export default class ProfileScreen extends Component {
 
     return (
 
-
+      this.state.error != null ?
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+        </Button>
+      </View> :
       <View style={styles.container}>
         <View style={styles.header}>
 
@@ -159,7 +406,7 @@ export default class ProfileScreen extends Component {
                 />}
 
               <Text style={styles.name}>
-                Jatin
+              {this.state.ProfileName}
                 </Text>
             </TouchableOpacity>
           </View>
@@ -169,10 +416,14 @@ export default class ProfileScreen extends Component {
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.textInfo}>
-              johndoe@gmail.com
+            Email: {this.state.email}
               </Text>
 
+              <Text style={styles.textInfo}>
+            Username: {this.state.username}
+              </Text>
 
+              
             {/* <Button   color="white" style={{marginTop:20,width:"100%"}} onPress={() => {this.props.navigation.navigate("ChangePassword")}}>Change Password</Button>
               */}
 

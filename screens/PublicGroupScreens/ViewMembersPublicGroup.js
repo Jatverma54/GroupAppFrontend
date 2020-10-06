@@ -171,7 +171,6 @@ export default class ViewMembersPublicGroup extends Component {
 
         return item.profile.full_name.includes(search) || item.username.includes(search);
       }).map(function ({ _id, profile: full_name, profile: profile_pic, username, admin_id }) {
-
         return { _id, profile: full_name, profile: profile_pic, username, admin_id };
       });
     });

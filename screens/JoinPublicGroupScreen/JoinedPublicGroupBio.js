@@ -150,6 +150,7 @@ export default class JoinedGroupgroupBio extends Component {
           this.setState({ data: Data });
         }
         else {
+          this.setState({ loading: false });
           Alert.alert(
             "Something went wrong",
             "Please try again",
@@ -249,7 +250,7 @@ export default class JoinedGroupgroupBio extends Component {
           this.setState({ data: Data });
         }
         else {
-
+          this.setState({ loading: false });
           Alert.alert(
             "Something went wrong",
             "Please try again",

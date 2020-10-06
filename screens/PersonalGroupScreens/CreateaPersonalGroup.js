@@ -88,8 +88,8 @@ export default class CreateaPersonalGroup extends Component {
           owner_id: userId,
           group_type: "private",
           admin_id: userId,       
-          image: photo
-          
+          image: photo,
+          GroupCategory_id:userId
 
         }
 

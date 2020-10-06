@@ -169,7 +169,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           privacy: Value ? "Closed Group" : "Open Group",
           //owner_id: userId,
           // groupMembers:userId,
-          // group_type:"public",
+           group_type:"public",
           // admin_id : userId,
           GroupCategory_id: selectedGroupCategoryValue,
           // image:photo

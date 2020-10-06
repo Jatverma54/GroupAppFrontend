@@ -88,7 +88,7 @@ const MainScreenPage = ({ navigation }) => {
     tryLogin();
   }, []);
 
-  const saveDataToStorage = (token, userId, userdata) => {
+  const saveDataToStorage = (token, userId) => {
     AsyncStorage.setItem(
       'userData',
       JSON.stringify({

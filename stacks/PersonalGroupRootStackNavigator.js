@@ -212,7 +212,7 @@ const CreateaPersonalGroupStackNavigator = () => {
 
 
 const PersonalGroupInsideGroupTabStack = createMaterialTopTabNavigator();
-const PersonalGroupInsideGroupTabStackNavigator = (props) => {
+const PersonalGroupInsideGroupTabStackNavigator = ({ route }) => {
 
   let notification = true;
   return (
@@ -243,7 +243,9 @@ const PersonalGroupInsideGroupTabStackNavigator = (props) => {
       }}
 
         name='Feed'
-        component={withMyHook(PersonalGroupFeedScreen)} />
+        component={withMyHook(PersonalGroupFeedScreen)} 
+        initialParams={{ groupId: route.params.groupId }}
+        />
 
 
 
@@ -257,7 +259,9 @@ const PersonalGroupInsideGroupTabStackNavigator = (props) => {
 
 
         name='Your Posts'
-        component={YourPersonalGroupPostScreen} />
+        component={YourPersonalGroupPostScreen} 
+        initialParams={{ groupid: route.params.groupId }}
+        />
 
 
 
@@ -269,7 +273,9 @@ const PersonalGroupInsideGroupTabStackNavigator = (props) => {
 
 
         name='Notification'
-        component={NotificationScreen} />
+        component={NotificationScreen} 
+        initialParams={{ groupid: route.params.groupId }}
+        />
 
     </PersonalGroupInsideGroupTabStack.Navigator>
 
@@ -336,7 +342,9 @@ const PersonalGroupFeedScreenkNavigator = ({ route }) => {
           headerTitle: groupname
         }}
         name='PersonalGroupFeed'
-        component={PersonalGroupInsideGroupTabStackNavigator} />
+        component={PersonalGroupInsideGroupTabStackNavigator}
+        initialParams={{ groupId: route.params }}
+        />
 
 
       <PersonalGroupFeedScreenStack.Screen
@@ -398,7 +406,7 @@ const PersonalGroupFeedScreenkNavigator = ({ route }) => {
           headerTitle: "Create a New Post"
         }}
         name='CreateaNewPost'
-        component={withMyHook(CreateaNewPost)} />
+        component={withMyHookBio(CreateaNewPost, route.params)} />
 
 
 

@@ -10,10 +10,10 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  button,
   AsyncStorage,
   Dimensions
 } from 'react-native';
+
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +22,7 @@ import { SearchBar } from "react-native-elements";
 import DialogInput from 'react-native-dialog-input';
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import NoGroups from '../../Pictures/NoGroups.png';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 export default class PublicGroupListScreen extends Component {
 
@@ -214,6 +215,7 @@ export default class PublicGroupListScreen extends Component {
   SendJoinRequestPopUp = async (data, inputText) => {
 
     try {
+
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -222,7 +224,9 @@ export default class PublicGroupListScreen extends Component {
       var GroupRequestData = {
         groupid: data.item._id,
         GroupName: data.item.GroupName,
-        requestMessage: inputText
+        requestMessage: inputText,
+        privacy:data.item.privacy,
+        GroupCategory_id:data.item.GroupCategory_id
       }
 
       var myHeaders = new Headers();
@@ -242,7 +246,12 @@ export default class PublicGroupListScreen extends Component {
 
       if (response.ok) {
 
-        data.item.isRequested = !data.item.isRequested;
+        if(data.item.privacy==="Open Group"){
+          data.item.isJoined = !data.item.isJoined;
+        }else{
+          data.item.isRequested = !data.item.isRequested;
+        }
+       
 
 
         const index = this.state.data.findIndex(

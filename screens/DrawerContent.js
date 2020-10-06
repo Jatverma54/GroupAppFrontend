@@ -198,7 +198,7 @@ const DrawerContent = (props) => {
           }
 
 
-          <Title style={styles.title}>{props.Userdata.username}</Title>
+          <Title style={styles.title}>{props.Userdata.profile.full_name}</Title>
           <Paragraph style={[styles.paragraph, styles.caption]}>
             Groups App
                 </Paragraph>

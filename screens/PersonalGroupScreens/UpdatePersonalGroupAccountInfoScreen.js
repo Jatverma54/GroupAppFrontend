@@ -7,7 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ScrollView
+  ScrollView,
+  Keyboard,
+  AsyncStorage,
+  Dimensions,
+  ActivityIndicator,
+  Alert
   
 } from 'react-native';
 import Group_Name from '../../Pictures/Group_Name.png';
@@ -15,7 +20,7 @@ import GroupBio from '../../Pictures/GroupBio.png';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-
+const { width, height } = Dimensions.get('window');
 
 export default class UpdatePersonalGroupAccountInfoScreen extends Component {
   
@@ -23,10 +28,10 @@ export default class UpdatePersonalGroupAccountInfoScreen extends Component {
     super(props);
     this.state = {
     
-     
+      loading: false,
      height:45,
      Group_name:this.props.route.params.GroupName,
-     Group_Bio:this.props.route.params.Bio,
+     Group_Bio:this.props.route.params.group_Bio,
 
     }
   }
@@ -130,7 +135,99 @@ getCameraPermissionAsync = async () => {
 
 
 
+CreateGroup = async () => {
+  Keyboard.dismiss();
 
+  const {  Group_name, Group_Bio } = this.state;
+
+  if (  Group_name && Group_Bio) {
+    this.setState({ loading: true });
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var GroupInfo = {
+        GroupName: Group_name,
+        group_Bio: Group_Bio,
+        // GroupCategory: selectedGroupCategoryValue,
+        //privacy: Value ? "Closed Group" : "Open Group",
+        //owner_id: userId,
+        // groupMembers:userId,
+         group_type:"personal",
+        // admin_id : userId,
+      //  GroupCategory_id: selectedGroupCategoryValue,
+        // image:photo
+        //  countMembers:1,
+        groupid: this.props.route.params._id
+      }
+
+      var myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupInfo), //formdata,
+        //redirect: 'follow'
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/groups/updateGroupinformation", requestOptions);
+
+      if (response.ok) {
+        this.setState({ loading: false });
+        Alert.alert(
+          "",
+          "Group updated successfully",
+
+          [
+            { text: "Ok", onPress: () => this.props.navigation.navigate('PersonalGroupsScreen') }
+          ],
+          { cancelable: false }
+        );
+      }
+      else {
+
+        Alert.alert(
+          "Something went wrong.",
+          "Please try again.",
+
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+
+      }
+    }
+    catch (e) {
+      this.setState({ loading: false });
+      console.log('error Updating group: ', e)
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+  else {
+
+    if (!Group_name) {
+      alert("Please enter a Group Name");
+    }
+    else if (!Group_Bio) {
+      alert("Please enter a Group Bio");
+    }
+  }
+
+}
 
 
 
@@ -140,7 +237,19 @@ getCameraPermissionAsync = async () => {
 
   render() {
     
-
+    if (this.state.loading) {
+      return (
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff"
+        }}>
+          <ActivityIndicator size="large" color="black" />
+          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
+        </View>
+      );
+    }
     
     
    
@@ -205,7 +314,7 @@ getCameraPermissionAsync = async () => {
 
 
      
-      <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
+      <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
 
