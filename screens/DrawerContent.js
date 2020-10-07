@@ -17,7 +17,9 @@ import {
 import {
   AsyncStorage,
   Dimensions,
-  Text
+  Text,
+  Alert,
+  BackHandler
 } from 'react-native';
 
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
@@ -78,6 +80,7 @@ const DrawerContent = (props) => {
   // }, []);
 
 
+
   if (loading) {
     return (
       <View style={{
@@ -95,7 +98,7 @@ const DrawerContent = (props) => {
 
   const images = [
     {
-      uri: userimageUrl,
+      uri: props.Userdata.profile.profile_pic,
     },
 
   ];

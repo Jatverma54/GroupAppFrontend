@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet, TouchableOpacity, View, Image, } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image,AsyncStorage,Alert } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -105,15 +105,88 @@ const RootMainStackNavigator = () => {
 
 
 const DrawerStack = createDrawerNavigator();
-const DrawerScreen = ({ route }) => {
+const DrawerScreen = ({ route,navigation }) => {
+  const [userdata, setuserdata] = useState('');
 
+  useEffect(() => {
+    const tryLogin = async () => {
+     
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+       
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+        //const expirationDate = new Date(expiryDate);
+
+        
+        //  const expirationTime = expirationDate.getTime() - new Date().getTime();
+
+
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+
+        };
+
+        const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
+
+
+        if (response.ok) {
+         
+          const json = await response.json();
+          setuserdata(json.result)
+         // navigation.navigate('DrawerScreen', json.result)
+        } else {
+
+          await AsyncStorage.clear();
+          Alert.alert(
+
+            "Something went wrong!!",
+            "Please Re login",
+            [
+              { text: "Ok", onPress: () => navigation.navigate('LoginScreen',json.result) }
+            ],
+            { cancelable: false }
+          );
+        }
+        // setuserimageUrl(json.result.profile.profile_pic);
+        //setuserName(json.result.profile.full_name);
+
+      } catch (e) {
+
+        await AsyncStorage.clear();
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please Re login",
+          [
+            { text: "Ok", onPress: () => navigation.navigate('LoginScreen') }
+          ],
+          { cancelable: false }
+        );
+
+        //this.setState({ error: 'Reload the Page',  });
+        console.log("Error ", e)
+      }
+
+
+      //dispatch(authActions.authenticate(userId, token, expirationTime));
+    };
+
+    tryLogin();
+  }, []);
+  
   return (
 
 
     <DrawerStack.Navigator
 
 
-      drawerContent={() => <DrawerContent Userdata={route.params} drawerContentOptions={{
+      drawerContent={() => <DrawerContent Userdata={userdata?userdata:route.params} drawerContentOptions={{
         activeTintColor: colors.drawerHiglightcolor, marginTop: 20,
         labelStyle: {
           color: colors.drawerTextcolor, fontWeight: colors.drawerfontWeight, width: colors.drawerwidth, fontSize: colors.drawerfontSize,

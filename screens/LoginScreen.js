@@ -76,7 +76,7 @@ export default class LoginScreen extends Component {
             "Welcome to the Group App " + responseJson.user.profile.full_name,
             "Login Successful",
             [
-              { text: "Ok", onPress: () => this.props.navigation.navigate('DrawerScreen') }
+              { text: "Ok", onPress: () => this.props.navigation.navigate('DrawerScreen',responseJson.user) }
             ],
             { cancelable: false }
           );
@@ -127,6 +127,9 @@ export default class LoginScreen extends Component {
     }
 
   }
+
+
+  
   saveDataToStorage = (token, userId) => {
     AsyncStorage.setItem(
       'userData',

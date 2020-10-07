@@ -39,7 +39,8 @@ export default class ProfileScreen extends Component {
       photo: null,
       isVisible: false,
       username:"",
-      _id:""
+      _id:"",
+      data:""
     }
   }
 
@@ -97,7 +98,7 @@ export default class ProfileScreen extends Component {
            ProfileName:json.result.profile.full_name,
            email:json.result.email,
            username:json.result.username,
-           _id:json.result._id,
+           _id:json.result._id,data:json.result
           })
          
         
@@ -301,11 +302,10 @@ export default class ProfileScreen extends Component {
 
         if (response.ok) {
           this.setState({ loading: false });
-          image = `data:image/jpg;base64,${result.base64}`;
-        
-
-          this.setState({ photo: image });
-          
+    
+          this.setState({ photo: `data:image/jpg;base64,${result.base64}` });
+          const json = await response.json();
+          this.props.navigation.push('DrawerScreen',json.result)
         }
         else {
           this.setState({ loading: false });
@@ -371,7 +371,7 @@ export default class ProfileScreen extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
 
-          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("ChangePassword") }} >
+          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation",this.state.data) }} >
 
             <MaterialCommunityIcons
               name='account-edit'
@@ -380,6 +380,14 @@ export default class ProfileScreen extends Component {
             />
           </Button>
 
+          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword",this.state.data) }} >
+
+<MaterialCommunityIcons
+  name='onepassword'
+  //  color={color}
+  size={20}
+/>
+</Button>
 
           <View style={styles.headerContent}>
             <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>

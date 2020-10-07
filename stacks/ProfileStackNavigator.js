@@ -5,7 +5,10 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image, Modal, } from 'react-native';
 import colors from '../constants/colors';
 import ProfileScreen from '../screens/ProfileScreen';
-import ChangePassword from '../screens/ChangePassword';
+import UpdateProfileInformation from '../screens/UpdateProfileInformation';
+import changePasswordscreen from '../screens/changePassword';
+
+
 import BackArrow from '../Pictures/BackArrow.png';
 
 const HeaderLeft = () => {
@@ -25,6 +28,7 @@ const HeaderLeft = () => {
 
 const ProfileScreenStack = createStackNavigator();
 const ProfileScreenStackNavigator = () => {
+ 
   return (
 
     <ProfileScreenStack.Navigator headerMode='float' screenOptions={{
@@ -62,8 +66,14 @@ const ProfileScreenStackNavigator = () => {
       <ProfileScreenStack.Screen
 
         options={{ headerShown: false }}
-        name='ChangePassword'
-        component={ChangePasswordStackNavigator} />
+        name='UpdateAccountProfileInformation'
+        component={UpdateAccountProfileInformationStackNavigator} />
+
+<ProfileScreenStack.Screen
+
+options={{ headerShown: false }}
+name='changePassword'
+component={changePasswordStackNavigator} />
 
 
     </ProfileScreenStack.Navigator>
@@ -72,13 +82,12 @@ const ProfileScreenStackNavigator = () => {
 
 };
 
-
-
-const ChangePasswordStack = createStackNavigator();
-const ChangePasswordStackNavigator = () => {
+const changePassword = createStackNavigator();
+const changePasswordStackNavigator = ({route}) => {
+  
   return (
 
-    <ChangePasswordStack.Navigator headerMode='float' screenOptions={{
+    <changePassword.Navigator headerMode='float' screenOptions={{
       headerLeft: ({ }) => <HeaderLeftFeed />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({
@@ -104,16 +113,75 @@ const ChangePasswordStackNavigator = () => {
 
 
 
-      <ChangePasswordStack.Screen
+      <changePassword.Screen
 
         options={{
           headerTitle: 'Change Password',
+       
         }}
-        name='ChangePassword'
-        component={ChangePassword} />
+        name='changePassword'
+        component={changePasswordscreen} 
+        initialParams={route.params}
+        />
 
 
-    </ChangePasswordStack.Navigator>
+    </changePassword.Navigator>
+
+  );
+
+};
+
+
+
+
+
+
+
+
+const UpdateAccountProfileInformation = createStackNavigator();
+const UpdateAccountProfileInformationStackNavigator = ({route}) => {
+  
+  return (
+
+    <UpdateAccountProfileInformation.Navigator headerMode='float' screenOptions={{
+      headerLeft: ({ }) => <HeaderLeftFeed />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+      cardOverlayEnabled: true,
+      cardStyleInterpolator: ({ current: { progress } }) => ({
+        cardStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 0.5, 0.9, 1],
+            outputRange: [0, 0.25, 0.7, 1],
+          }),
+        },
+        overlayStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 0.5],
+            extrapolate: 'clamp',
+          }),
+        },
+      }),
+      headerTintColor: colors.StackheaderTintColor,
+      headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+    }}>
+
+
+
+
+
+      <UpdateAccountProfileInformation.Screen
+
+        options={{
+         // headerTitle: 'Change Password',
+         headerTitle: 'Update Account Information',
+        }}
+        name='UpdateProfileInformation'
+        component={UpdateProfileInformation} 
+        initialParams={route.params}
+        />
+
+
+    </UpdateAccountProfileInformation.Navigator>
 
   );
 

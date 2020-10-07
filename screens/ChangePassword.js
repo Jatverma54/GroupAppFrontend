@@ -7,6 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Keyboard,
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 import lock_Icon from '../Pictures/lock.png';
 
@@ -15,12 +18,142 @@ export default class ChangePassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      password: '',
+      ConfirmPassword: '',
+      currentPassword:'',
+      loading:false
+    }
+  }
 
 
-      Password: "",
-      ConfirmPassword: ""
+  signUp = async () => {
+
+    Keyboard.dismiss();
+
+    const {  password,currentPassword, ConfirmPassword } = this.state
+
+    //let PasswordValidation = this.PasswordValidation(password)
+
+    if (currentPassword&& password === ConfirmPassword  && password && this.PasswordValidation(password)) {
+      this.setState({ loading: true });
+      try {
+
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var personInfo = {  
+       currentPassword:currentPassword,
+          password: password,      
+        }
+
+        var myHeaders = new Headers();
+        //myHeaders.append("Content-Type", "multipart/form-data");
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+       // myHeaders.append("Accept", "application/json");
+
+        // var formdata = new FormData();
+        // ImageFormData?formdata.append("file", img):formdata.append("file",null);
+        // formdata.append("userDetails", JSON.stringify(personInfo));
+        // console.log(formdata)
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(personInfo), //formdata,
+          //redirect: 'follow'
+        };
+
+        const response = await fetch("http://192.168.0.107:3000/users/updateUserPassword", requestOptions);
+
+        if (response.ok) {
+
+
+          this.setState({ loading: false });
+          await AsyncStorage.clear();
+          Alert.alert(
+
+            "Password changed Successfully",
+            "Please re-login",
+            [
+              { text: "Ok", onPress: () => this.props.navigation.navigate('LoginScreen') }
+            ],
+            { cancelable: false }
+          );
+        }
+        else {
+          // let responseJson = await response.text();
+          // console.log(responseJson)
+          this.setState({ loading: false });
+          let responseJson = await response.json();
+          let errorstring = responseJson.message.toString();
+          alert(errorstring)
+        // Alert.alert(
+
+        //     "Something went wrong!!",
+        //     "Please try again",
+        //     [
+        //       { text: "Ok", onPress: () => null }
+        //     ],
+        //     { cancelable: false }
+        //   );
+
+         }
+
+      } catch (err) {
+        this.setState({ loading: false });
+        console.log('error signing up: ', err)
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+      }
+
+
+    } else {
+        
+        if (!currentPassword) {
+            alert("Please enter your current password");
+          }
+      else if (!password) {
+        alert("Please enter Password");
+      }
+       else if (!(password === ConfirmPassword)) {
+        alert("Confirm Password and Password does not match");
+       }
+      else if (!this.PasswordValidation(password)) {
+
+
+        Alert.alert(
+
+          "Password must contain",
+          "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+
+
+      }
 
     }
+
+  }
+
+  PasswordValidation(matchingString) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+
+    let match = matchingString.match(pattern);
+    return match ? true : false;
+
   }
 
 
@@ -33,15 +166,30 @@ export default class ChangePassword extends Component {
 
 
 
+<View style={styles.inputContainer}>
+
+<Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
+<TextInput style={styles.inputs}
+  placeholder="current Password"
+
+  value={this.state.currentPassword}             
+
+  onChangeText={(currentPassword) => this.setState({ currentPassword })}
+  //keyboardType="email-address"
+  underlineColorAndroid='transparent'
+/>
+
+</View>
+
         <View style={styles.inputContainer}>
 
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Password"
 
-            //  value={this.state.Email}             
+            value={this.state.password}             
 
-            onChangeText={(Password) => this.setState({ Password })}
+            onChangeText={(password) => this.setState({ password })}
             //keyboardType="email-address"
             underlineColorAndroid='transparent'
           />
@@ -53,6 +201,7 @@ export default class ChangePassword extends Component {
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Confirm Password"
+            value={this.state.ConfirmPassword}             
 
             secureTextEntry={true}
             underlineColorAndroid='transparent'
@@ -61,7 +210,7 @@ export default class ChangePassword extends Component {
         </View>
 
 
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}>
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={()=> this.signUp()} >
           <Text style={styles.loginText}>Change Password</Text>
         </TouchableOpacity>
 

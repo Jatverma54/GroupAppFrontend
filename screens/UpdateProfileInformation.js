@@ -12,7 +12,8 @@ import {
   Alert,
   Keyboard,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from 'react-native';
 import {
 
@@ -36,24 +37,16 @@ const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
 
-export default class SignupScreen extends Component {
+export default class UpdateProfileInformation extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      userName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      photo: null,
-      Full_Name: '',
-      // Last_name: '',
-      date: new Date("2020-07-15"),
-      mode: 'date',
-      show: false,
-      datechanged: false,
-      ImageFormData: null,
+      userName: this.props.route.params.username,
+     // email: this.props.route.params.email,
+      Full_Name: this.props.route.params.profile.full_name,
+      // Last_name: '',   
       loading: false,
     };
   }
@@ -175,61 +168,27 @@ export default class SignupScreen extends Component {
 
     Keyboard.dismiss();
 
-    const { userName, password, email, Full_Name, confirmPassword, date, ImageFormData, photo, datechanged, } = this.state
+    const { userName,   Full_Name } = this.state
 
-    let emailValidation = this.EmailValidation(email)
+   
 
-   // let PasswordValidation = 
-
-    if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password)) {
+    if ( userName &&  Full_Name ) {
       this.setState({ loading: true });
       try {
-
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+  
         var personInfo = {
           username: userName,
-          password: password,
-          email: email,
-
-          // lastName: Last_name,
-          // enabled: true,
-          //  role:"user",
-          //  phoneNumber:"123456789",
-
-          //  profilePic:photo 
-          profile: {
-            profilePic: photo,
-            dob: this.formatDate(date),
-            full_name: Full_Name,
-            //  role:"User"
-          }
-
+          full_name: Full_Name,         
         }
-
-        //     var img=''
-        //     if(ImageFormData){
-        //     let  mediaUrl_string = ImageFormData.uri.trim().split("/");
-        // 		let mediaUrl_Length = mediaUrl_string.length - 1;
-        //     let Media_Name = ImageFormData.uri.split("/")[mediaUrl_Length];
-
-        //      img =  {
-        //       uri : ImageFormData.uri,
-        //       name: Media_Name,
-        //       type: mime.getType(ImageFormData.uri)
-        //   }
-        // }
-
-
 
         var myHeaders = new Headers();
         //myHeaders.append("Content-Type", "multipart/form-data");
         myHeaders.append("Content-Type", "application/json");
-
-        myHeaders.append("Accept", "application/json");
-
-        // var formdata = new FormData();
-        // ImageFormData?formdata.append("file", img):formdata.append("file",null);
-        // formdata.append("userDetails", JSON.stringify(personInfo));
-        // console.log(formdata)
+        myHeaders.append("Authorization", "Bearer " + token);
+      //  myHeaders.append("Accept", "application/json");
 
         var requestOptions = {
           method: 'POST',
@@ -238,18 +197,18 @@ export default class SignupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/", requestOptions);
+        const response = await fetch("http://192.168.0.107:3000/users/updateUserinformation", requestOptions);
 
         if (response.ok) {
+          const json = await response.json();
 
-
-          this.setState({ loading: false });
+         
           Alert.alert(
 
-            "Thank you! Welcome to the Group",
-            "We have sent an email with account verification link to your email address. Please verify your email id before login",
+            "Account information updated Successfully",
+            "",
             [
-              { text: "Ok", onPress: () => this.props.navigation.navigate('LoginScreen') }
+              { text: "Ok", onPress: () => this.props.navigation.push('DrawerScreen',json.result) }
             ],
             { cancelable: false }
           );
@@ -284,89 +243,19 @@ export default class SignupScreen extends Component {
       if (!userName) {
         alert("Please enter an Username");
       }
-      else if (!password) {
-        alert("Please enter Password");
-      }
-      else if (!email) {
-        alert("Please enter an Email Id");
-      }
+     
       else if (!Full_Name) {
         alert("Please enter the Full Name");
       }
-      // else if(!Last_name){
-      //   alert("Please enter the Last Name");
-      // }
-      else if (!datechanged) {
-        alert("Please Select the D.O.B");
-      } else if (!(password === confirmPassword)) {
-        alert("Confirm Password and Password does not match");
-
-      } else if (!emailValidation) {
-        alert("Enter a valid Email Id");
-      }
-      else if (!this.PasswordValidation(password)) {
-
-
-        Alert.alert(
-
-          "Password must contain",
-          "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
-          [
-            { text: "Ok", onPress: () => null }
-          ],
-          { cancelable: false }
-        );
-
-
-      }
+     
 
     }
 
   }
 
-  EmailValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
-    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let match = matchingString.match(pattern);
-    return match ? true : false;
-
-  }
-
-  PasswordValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
-    let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
-
-    let match = matchingString.match(pattern);
-    return match ? true : false;
-
-  }
-
-  // let pattern = /@(\w+)/;
-  // let match = matchingString.match(pattern);
-  // return `${match[1]}`;
-  formatDate(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
-
-
-
-
-
-
-
-
 
   render() {
+
     if (this.state.loading) {
       return (
         <View style={{
@@ -381,7 +270,7 @@ export default class SignupScreen extends Component {
       );
     }
 
-    let { photo, date, show, mode, userName, password, email, Full_Name, confirmPassword, } = this.state;
+    let {  userName,  email, Full_Name,  } = this.state;
 
     // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
     // imageUri && console.log({uri: imageUri.slice(0, 100)});
@@ -390,27 +279,11 @@ export default class SignupScreen extends Component {
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 10, marginTop: 50 }}>
-
-            <View style={{ flex: 3, backgroundColor: "#3498db" }}>
-
-              <View>
-
-                <Avatar.Image
-                  style={{ alignSelf: "center", marginTop: -70, marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
-                  source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
-
-                <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%" }}>Choose an Avatar</Text>
-              </View>
-
-            </View>
-
-          </View>
-        </TouchableOpacity>
+       
 
         <View style={styles.inputContainer}>
           {/* <Image style={styles.inputIcon} source={Email_Icon}/> */}
+        
           <FontAwesome name="users" size={25} style={styles.inputIconUsername} />
           <TextInput style={styles.inputs}
             placeholder="Username"
@@ -421,7 +294,7 @@ export default class SignupScreen extends Component {
             onChangeText={(userName) => this.setState({ userName })} />
         </View>
 
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={Email_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Email"
@@ -429,7 +302,7 @@ export default class SignupScreen extends Component {
             keyboardType="email-address"
             underlineColorAndroid='transparent'
             onChangeText={(email) => this.setState({ email })} />
-        </View>
+        </View> */}
 
 
         <View style={styles.inputContainer}>
@@ -456,104 +329,14 @@ export default class SignupScreen extends Component {
         </View> */}
 
 
-
-        <View style={styles.inputContainer}>
-
-
-          <TouchableOpacity onPress={this.showDatepicker}>
-            <View>
-
-
-              <Image style={styles.inputIcon} source={person} />
-              <Text style={{ marginLeft: 60, marginTop: -22, color: 'grey' }}>
-                DOB:
-             <Text style={{ color: 'black' }}>{this.formatDate(date)}</Text>
-
-
-              </Text>
-
-            </View>
-
-            {show && (
-              <DateTimePicker
-                testID="DOB"
-                value={date}
-                timeZoneOffsetInMinutes={0}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={this.onChange}
-              />
-
-            )}
-
-          </TouchableOpacity>
-
-        </View>
-
-
-
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={lock_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Password"
-            value={password}
-            secureTextEntry={true}
-            underlineColorAndroid='transparent'
-            onChangeText={(password) => this.setState({ password })} />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={lock_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            secureTextEntry={true}
-            underlineColorAndroid='transparent'
-            onChangeText={(confirmPassword) => this.setState({ confirmPassword })} />
-        </View>
-
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
-          <Text style={styles.signUpText}>Sign up</Text>
+          <Text style={styles.signUpText}>Update Information</Text>
         </TouchableHighlight>
 
-        <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('LoginScreen')}   >
-          <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Already have an account?Log in</Text>
-        </TouchableOpacity>
+        
 
 
-        {/* List Menu */}
-        <RBSheet
-          ref={ref => {
-            this.CameraOptions = ref;
-          }}
-          height={330}
-        >
-          <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Upload an Avatar</Text>
-
-            <TouchableOpacity
-
-              style={styles.listButton}
-              onPress={() => this._clickImage()}
-            >
-              <MDIcon name="photo-camera" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Take photo</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-
-              style={styles.listButton}
-              onPress={() => this._pickImage()}
-            >
-              <MDIcon name="photo" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Choose image</Text>
-            </TouchableOpacity>
-
-          </View>
-        </RBSheet>
-
-
+       
 
 
 
@@ -573,7 +356,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3498db',
+    backgroundColor: '#B0E0E6',
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -627,7 +410,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   signupButton: {
-    backgroundColor: "#FF4DFF",
+    backgroundColor: "grey",
   },
   signUpText: {
     color: 'white',
