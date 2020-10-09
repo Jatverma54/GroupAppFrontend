@@ -41,7 +41,7 @@ export default class PersonalGroupsScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from "react";
-import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Alert, RefreshControl } from "react-native";
+import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Alert, RefreshControl,AsyncStorage } from "react-native";
 import { Icon } from "react-native-elements";
 import {
   Avatar,
@@ -20,94 +20,18 @@ export default class AddMembers extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
-
-      data: [
-        {
-          id: 1, name: "Jatin", username: "user1ghjkldndgusnksyh", image: "https://bootdey.com/img/Content/avatar/avatar7.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-        {
-          id: 2, name: "Clark Man", username: "user2", image: "https://bootdey.com/img/Content/avatar/avatar6.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-        {
-          id: 3, name: "Jaden Boor", username: "user3", image: "https://bootdey.com/img/Content/avatar/avatar5.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-
-      ],
-
-
-
-
-      dataSearch: [
-        {
-          id: 1, name: "Jatin", username: "user1ghjkldndgusnksyh", image: "https://bootdey.com/img/Content/avatar/avatar7.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-        {
-          id: 2, name: "Clark Man", username: "user2", image: "https://bootdey.com/img/Content/avatar/avatar6.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-        {
-          id: 3, name: "Jaden Boor", username: "user3", image: "https://bootdey.com/img/Content/avatar/avatar5.png", isSelect: false, selectedClass: {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "margin": 3,
-            "paddingVertical": 5,
-            "zIndex": -1,
-          },
-        },
-
-      ],
+      data: [],
       error: null,
-      search: null,
+     // search: null,
       isFetching: false,
       loading: false,
-      selected: []
+      selected: [],
+      userName:""
     };
   }
-  // componentDidMount() {this.fetchData();}
 
-  // fetchData = () => {this.setState({loading: true});
+
+// fetchData = () => {this.setState({loading: true});
 
   // fetch("https://jsonplaceholder.typicode.com/photos")
   //   .then(response => response.json())
@@ -126,33 +50,93 @@ export default class AddMembers extends React.Component {
   //     console.log(responseJson[0])
   //   }).catch(error => {this.setState({loading: false});
   //  });
-  // };// ADD group id/Name with 
-
-
+  // };// ADD group id/Name with
 
 
   getData = async () => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
+   
 
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
+    if (this.state.userName.length > 0) {
+
+      try {
+    const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+     
+        var search = {
+          "userSearchQuery": this.state.userName,
+        }
+        this.setState({ userName: '', });
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(search)
+        };
+
+        const response = await fetch("http://192.168.0.107:3000/users/userSearchQuery", requestOptions);
+
+        if (response.ok) {
+         
+          const json = await response.json();
+          //  this.setState({search:''});  this.setState({data:'',temp:''}); 
+          let jsonResult=json.result;
+          jsonResult=jsonResult.map(item => {
+                  item.isSelect = false;
+                  item.selectedClass = styles.list;
+          
+                  return item;
+                });
+          
+          this.setState({ data: jsonResult });
+         
+        }
+        else {
+
+
+          Alert.alert(
+
+            "Something went wrong!!",
+            "Please try again",
+            [
+              { text: "Ok", onPress: () => null }
+            ],
+            { cancelable: false }
+          );
+
+          //  console.log(responseJson);
+        }
+
+      } catch (e) {
+
+
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+      }
+    }
   };
 
 
-  setResult = (res) => {
-    this.setState({
-      data: [...this.state.data, ...res],
-      dataSearch: [...this.state.temp, ...res],
-      error: res.error || null,
-      loading: false
-    });
-  }
+
+  // setResult = (res) => {
+  //   this.setState({
+  //     data: [...this.state.data, ...res],
+  //     dataSearch: [...this.state.temp, ...res],
+  //     error: res.error || null,
+  //     loading: false
+  //   });
+  // }
 
 
 
@@ -164,64 +148,126 @@ export default class AddMembers extends React.Component {
     data.item.selectedClass = data.item.isSelect ? styles.selected : styles.list;
 
     const index = this.state.data.findIndex(
-      item => data.item.id === item.id
+      item => data.item._id === item._id
     );
 
     this.state.data[index] = data.item;
 
-    this.setState({
+    if(data.item.isSelect){
+   //   console.log(data.item,"ADDDD")
+  let selectedthing= this.state.data.filter(item => item.isSelect)
+
+for(var data in selectedthing){
+
+  if(this.state.selected.indexOf(selectedthing[data]) === -1) {
+    this.state.selected.push(selectedthing[data]);
+}
+}
+   this.setState({
       data: this.state.data,
       // dataSearch:this.state.data,
-      selected: this.state.data.filter(item => item.isSelect)
+      selected: this.state.selected,
     });
+    }
+    else{
+    //  console.log(data.item,"REMOVW")
+      this.state.selected=  this.state.selected.filter((item) => {
+        return data.item._id !==item._id})
+      this.setState({
+        data: this.state.data,
+        // dataSearch:this.state.data,
+         selected: this.state.selected,
+      });
+    }
+
   };
 
 
-  onRefresh() {
-    this.setState({ isFetching: true }, function () { this.searchRandomUser() });
-  }
-
-
-  searchRandomUser = async () => {
-    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
-    //  const APIValue = await RandomAPI.json();
-    //   const APIResults = APIValue.results
-    //     console.log(APIResults[0].email);
-
-
-    data2 = [{
-      id: "1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", countLikes: "51", countcomments: "21", time: "1 days a go", postMetaData: "This is an example postThis is an example post", image: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-      LikePictures: [
-
-
-        //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-        // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-        // "https://bootdey.com/img/Content/avatar/avatar2.png",
-        // "https://bootdey.com/img/Content/avatar/avatar7.png",
-        // "https://bootdey.com/img/Content/avatar/avatar3.png",
-        // "https://bootdey.com/img/Content/avatar/avatar4.png"
-
-      ]
-    },
-    ]
-    this.setState({
-      data: data2,
-      dataSearch: data2,
-      selected: [],
-      isFetching: false
-    })
-
-  }
+  // onRefresh() {
+  //   this.setState({ isFetching: true }, function () { this.searchRandomUser() });
+  // }
 
 
 
 
-  getSelectedArray() {
+  getSelectedArray=async () =>{
 
     // const itemss = this.state.data.filter(item => item.isSelect);
     const itemss = this.state.selected;
     if (itemss.length > 0) {
-      console.log(itemss);
+     // console.log(itemss);
+
+
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+            const transformedData = JSON.parse(userData);
+            const { token, userId } = transformedData;
+    
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", "Bearer " + token);
+            //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+         
+            var search = {
+              "SelectedUsers": itemss,
+              "groupid":this.props.route.params
+            }
+          
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: JSON.stringify(search)
+            };
+    
+            const response = await fetch("http://192.168.0.107:3000/users/adduserTogroup", requestOptions);
+    
+            if (response.ok) {
+             
+              Alert.alert(
+    
+                "Users added Successfully",
+                "",
+                [
+                  { text: "Ok", onPress: () =>  this.setState({data: [],selected: []})}
+                ],
+                { cancelable: false }
+              );
+    
+              //  console.log(responseJson)
+             
+            }
+            else {
+    
+    
+              Alert.alert(
+    
+                "Something went wrong!!",
+                "Please try again",
+                [
+                  { text: "Ok", onPress: () => null }
+                ],
+                { cancelable: false }
+              );
+    
+              //  console.log(responseJson);
+            }
+    
+          } catch (e) {
+    
+    
+            Alert.alert(
+    
+              "Something went wrong!!",
+              "Please try again",
+              [
+                { text: "Ok", onPress: () => null }
+              ],
+              { cancelable: false }
+            );
+          }
+
+
+
     }
     else {
       Alert.alert("Please select an user")
@@ -242,18 +288,13 @@ export default class AddMembers extends React.Component {
         style={{ width: 40, height: 40, margin: 6 }}
       />
       <Text style={styles.lightText}>  {data.item.name}  </Text>
-      <Text style={styles.lightText}>  {data.item.username}  </Text>
+      <Text style={styles.lightText2}>  {data.item.username}  </Text>
     </TouchableOpacity>
-
-
-
-
-
 
   renderHeader = () => {
     return <SearchBar
 
-      placeholder="Type a name or username"
+      placeholder="Type a name.."
       lightTheme round editable={true}
       // containerStyle={{height:35,paddingBottom:40,}}
       containerStyle={{
@@ -264,8 +305,17 @@ export default class AddMembers extends React.Component {
       }}
       platform="android"
       inputStyle={{ color: "black" }}
-      value={this.state.search}
-      onChangeText={this.updateSearch} />;
+      value={this.state.userName}
+      //onChangeText={this.updateSearch}
+      onChangeText={userName => this.setState({ userName })}
+      onSubmitEditing={() => this.getData()}
+      returnKeyType="send"
+      editable={true}
+      multiline={true}
+      blurOnSubmit={true}
+      onClear={()=>this.setState({data:[]})}
+      
+       />;
 
 
 
@@ -308,6 +358,7 @@ export default class AddMembers extends React.Component {
 
 
   render() {
+    
     const itemNumber = this.state.data.filter(item => item.isSelect).length;
 
     if (this.state.loading) {
@@ -353,7 +404,7 @@ export default class AddMembers extends React.Component {
 
 
                 keyExtractor={(item) => {
-                  return item.id;
+                  return item._id;
                 }}
 
 
@@ -398,14 +449,14 @@ export default class AddMembers extends React.Component {
 
 
           <FlatList
-            data={this.state.dataSearch}
+            data={this.state.data}
             ItemSeparatorComponent={this.FlatListItemSeparator}
             ListHeaderComponent={this.renderHeader}
             renderItem={item => this.renderItem(item)}
-            keyExtractor={item => item.id.toString()}
-            refreshControl={
-              <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
-            }
+            keyExtractor={item => item._id.toString()}
+            // refreshControl={
+            //   <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+            // }
             extraData={this.state}
           />
 
@@ -465,6 +516,16 @@ const styles = StyleSheet.create({
     width: 200,
     paddingLeft: 15,
     fontSize: 12
+  },
+  lightText2: {
+    color: "black",
+    width: 200,
+    paddingLeft: 15,
+    fontSize: 12,
+  //  marginTop:10,
+   alignSelf:'flex-end',
+   marginLeft:-200
+
   },
   line: {
     height: 0.5,

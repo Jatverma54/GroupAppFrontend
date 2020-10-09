@@ -54,7 +54,7 @@ export default class ReplyComments extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 

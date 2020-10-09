@@ -141,7 +141,7 @@ CreateGroup = async () => {
   const {  Group_name, Group_Bio } = this.state;
 
   if (  Group_name && Group_Bio) {
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
     try {
 
       const userData = await AsyncStorage.getItem('userData');

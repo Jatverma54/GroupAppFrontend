@@ -49,7 +49,7 @@ export default class ViewMembers extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -144,7 +144,7 @@ export default class ViewMembers extends Component {
   deletearray = async (item) => {
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
       var isAdmin = item.admin_id.includes(item._id) ? true : false;
 
@@ -256,7 +256,7 @@ export default class ViewMembers extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
 
       const userData = await AsyncStorage.getItem('userData');
@@ -348,7 +348,7 @@ export default class ViewMembers extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
 
       const userData = await AsyncStorage.getItem('userData');

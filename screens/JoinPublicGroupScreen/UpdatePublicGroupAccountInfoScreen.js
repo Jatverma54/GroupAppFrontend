@@ -155,7 +155,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
     const { Value, selectedGroupCategoryValue, photo, Group_name, Group_Bio } = this.state;
 
     if (selectedGroupCategoryValue && Group_name && Group_Bio) {
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       try {
 
         const userData = await AsyncStorage.getItem('userData');
@@ -166,7 +166,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           GroupName: Group_name,
           group_Bio: Group_Bio,
           // GroupCategory: selectedGroupCategoryValue,
-          privacy: Value ? "Closed Group" : "Open Group",
+          privacy: Value ? "Private Group" : "Open Group",
           //owner_id: userId,
           // groupMembers:userId,
            group_type:"public",
@@ -367,7 +367,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
       */}
         <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
           <View style={styles.preference}>
-            <Text style={{ paddingRight: 70, marginTop: 1 }}>Closed Group</Text>
+            <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
             <View pointerEvents="none">
               <Switch value={Value} />
             </View>

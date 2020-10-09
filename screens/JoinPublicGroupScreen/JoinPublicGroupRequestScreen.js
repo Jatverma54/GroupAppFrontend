@@ -63,7 +63,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
       if (this.props.route.params.groupid.admin_id.includes(this.props.route.params.groupid.currentUser)) {
@@ -133,7 +133,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   confirmRequest = async (item) => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -210,7 +210,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   RemoveRequest = async (item) => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 

@@ -103,7 +103,7 @@ export const JoinedGroupBioStackNavigator = ({ route }) => {
 
         options={{
 
-          headerTitle: "Invite Members"
+          headerTitle: "Add Members"
         }}
         name='AddMembers'
         component={withMyHook(AddMember)} />

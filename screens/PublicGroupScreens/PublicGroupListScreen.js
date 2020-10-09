@@ -66,8 +66,8 @@ export default class PublicGroupListScreen extends Component {
   // }
 
   getData = async () => {
-
-    this.setState({ loading: true });
+    
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -75,9 +75,9 @@ export default class PublicGroupListScreen extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-
+     
       var GroupData = {
-        GroupCategory_id: this.props.Category._id,
+        GroupCategory_id: this.props.Category.GroupCategory_id!==undefined?this.props.Category.GroupCategory_id:this.props.Category._id,
       }
 
       var myHeaders = new Headers();

@@ -103,7 +103,7 @@ export default class PersonalGroupBio extends Component {
       });
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         // var  Data=
         //   {
         //     _id:_id, 
@@ -203,7 +203,7 @@ export default class PersonalGroupBio extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         // var  Data=
         // {
         //   _id:_id, 
@@ -355,7 +355,7 @@ export default class PersonalGroupBio extends Component {
         _id,
 
       } = this.state.data;
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -463,7 +463,7 @@ export default class PersonalGroupBio extends Component {
         owner_id
       } = this.state.data;
 
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
 
 
@@ -546,7 +546,7 @@ export default class PersonalGroupBio extends Component {
 AddMembers(){
 
     if(this.state.data.admin_id.includes(this.state.data.currentUser)){
-     this.props.myHookValue.push("AddMembers");
+     this.props.myHookValue.push("AddMembers",this.state.data._id);
       
     }
     else{

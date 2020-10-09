@@ -124,6 +124,11 @@ const ExplorePublicGroupStackNavigator = () => {
 const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
 const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
   const { title } = route.params;
+  var SearchTitle=''
+  if(route.params.GroupCategory!=undefined){
+    SearchTitle=  route.params.GroupCategory;
+  }
+ 
   return (
 
     <ExplorePublicGroupCategoryBasedStack.Navigator headerMode='float' screenOptions={{
@@ -155,7 +160,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 
         options={{
 
-          headerTitle: title
+          headerTitle: title!==undefined?title:SearchTitle
         }}
         name='Public Groups List'
         component={withMyHookCategory(PublicGroupListScreen, route.params)} />

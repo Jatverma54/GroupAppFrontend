@@ -43,7 +43,7 @@ const MainScreenPage = ({ navigation }) => {
 
         const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
 
-
+        
         if (response.ok) {
           const json = await response.json();
           saveDataToStorage(token, userId)

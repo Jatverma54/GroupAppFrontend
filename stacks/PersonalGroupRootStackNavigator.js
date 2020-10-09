@@ -99,7 +99,7 @@ const PersonalGroupRootStackNavigator = () => {
 
 const PersonalGroupBioStack = createStackNavigator();
 const PersonalGroupBioStackNavigator = ({ route }) => {
-  const { GroupName } = route.params;
+  //const { GroupName } = route.params;
 
   return (
     <PersonalGroupBioStack.Navigator headerMode='float' screenOptions={{
@@ -148,7 +148,8 @@ const PersonalGroupBioStackNavigator = ({ route }) => {
           headerTitle: "Add Members"
         }}
         name='AddMembers'
-        component={withMyHook(AddMember)} />
+        component={withMyHook(AddMember)} 
+        />
 
 
       <PersonalGroupBioStack.Screen

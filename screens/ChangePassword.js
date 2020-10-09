@@ -35,7 +35,7 @@ export default class ChangePassword extends Component {
     //let PasswordValidation = this.PasswordValidation(password)
 
     if (currentPassword&& password === ConfirmPassword  && password && this.PasswordValidation(password)) {
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       try {
 
         const userData = await AsyncStorage.getItem('userData');
@@ -170,7 +170,7 @@ export default class ChangePassword extends Component {
 
 <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
 <TextInput style={styles.inputs}
-  placeholder="current Password"
+  placeholder="Current password"
 
   value={this.state.currentPassword}             
 
@@ -185,7 +185,7 @@ export default class ChangePassword extends Component {
 
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
-            placeholder="Password"
+            placeholder="New password"
 
             value={this.state.password}             
 
@@ -200,7 +200,7 @@ export default class ChangePassword extends Component {
 
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
-            placeholder="Confirm Password"
+            placeholder="Confirm new password"
             value={this.state.ConfirmPassword}             
 
             secureTextEntry={true}

@@ -40,6 +40,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
+import NoGroups from '../../Pictures/NoGroups.png';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -93,7 +94,7 @@ export default class PublicGroupFeedScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -363,7 +364,7 @@ export default class PublicGroupFeedScreen extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
@@ -464,7 +465,7 @@ export default class PublicGroupFeedScreen extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 
@@ -668,7 +669,7 @@ export default class PublicGroupFeedScreen extends Component {
                 //  const post.item = post.item;
 
                 return (
-
+         
                   <View style={styles.card}>
 
                     <View style={styles.cardHeader}>
@@ -961,14 +962,18 @@ export default class PublicGroupFeedScreen extends Component {
 
                 }
 
-
-
-
-
               </View>
             </RBSheet>
 
-
+            {this.state.data.length === 0 &&
+            <View style={{ flex: 1,  backgroundColor: "#E6E6E6",}}>
+              <Image source={NoGroups} style={{
+                alignSelf: "center", alignItems: "center", width: 53,
+                height: 53,
+                borderRadius: 25,
+              }} />
+              <Text style={{ marginLeft: 100, color: "grey", fontWeight: "bold" }}>                  No Posts to show.{'\n'}Public group posts will be visible here.</Text>
+            </View>}
 
           </View>
 

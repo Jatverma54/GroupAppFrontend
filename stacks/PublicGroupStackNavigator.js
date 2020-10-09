@@ -81,11 +81,9 @@ const PublicGroupStackNavigator = () => {
         name='Public Group'
         component={ExplorePublicGroupTabStackNavigator} />
 
-      <PublicGroupStack.Screen options={{
-        headerTitle: 'Search Groups'
-      }}
+      <PublicGroupStack.Screen    options={{ headerShown: false }}
         name='Search Public Group'
-        component={SearchFunctionality} />
+        component={SearchFunctionalityStackNavigator} />
 
       <PublicGroupStack.Screen
         options={{ headerShown: false }}
@@ -111,6 +109,54 @@ const PublicGroupStackNavigator = () => {
   );
 };
 
+const SearchFunctionalityStack = createStackNavigator();
+const SearchFunctionalityStackNavigator = () => {
+ 
+  return (
+
+
+    <SearchFunctionalityStack.Navigator headerMode='screen' screenOptions={{
+      headerLeft: ({ }) => <HeaderLeft />,
+
+      cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
+      cardOverlayEnabled: true,
+      cardStyleInterpolator: ({ current: { progress } }) => ({
+        cardStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 0.5, 0.9, 1],
+            outputRange: [0, 0.25, 0.7, 1],
+          }),
+        },
+        overlayStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 0.5],
+            extrapolate: 'clamp',
+          }),
+        },
+      }),
+
+      headerTintColor: colors.StackheaderTintColor,
+      headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+    }}>
+
+
+      <SearchFunctionalityStack.Screen
+
+        options={{
+          headerTitle: "Search groups"
+        }}
+
+        name='Search Public Group'
+        component={SearchFunctionality} />
+
+    
+
+    </SearchFunctionalityStack.Navigator>
+
+
+  );
+};
 
 
 

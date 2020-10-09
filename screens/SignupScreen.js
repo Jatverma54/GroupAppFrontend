@@ -182,7 +182,7 @@ export default class SignupScreen extends Component {
    // let PasswordValidation = 
 
     if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password)) {
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       try {
 
         var personInfo = {

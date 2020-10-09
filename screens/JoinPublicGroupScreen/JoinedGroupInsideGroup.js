@@ -93,7 +93,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -288,10 +288,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       <View style={{ flex: 1 }} >
         <View>
 
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.props.navigation.push("AddMembers")}>
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.props.navigation.navigate("AddMembers",this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id)}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
-                <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Invite Members</Text>
+                <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>
               </View>
               <View>
 
@@ -438,7 +438,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
@@ -539,7 +539,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 

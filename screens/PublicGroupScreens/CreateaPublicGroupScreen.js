@@ -114,7 +114,7 @@ export default class CreateaPublicGroupScreen extends Component {
     if (selectedGroupCategoryValue && GroupName && GroupBioName) {
 
       try {
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -123,7 +123,7 @@ export default class CreateaPublicGroupScreen extends Component {
           GroupName: GroupName,
           group_Bio: GroupBioName,
           // GroupCategory: selectedGroupCategoryValue,
-          privacy: Value ? "Closed Group" : "Open Group",
+          privacy: Value ? "Private Group" : "Open Group",
           owner_id: userId,
           // groupMembers:userId,
           group_type: "public",
@@ -395,7 +395,7 @@ export default class CreateaPublicGroupScreen extends Component {
       */}
         <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
           <View style={styles.preference}>
-            <Text style={{ paddingRight: 70, marginTop: 1 }}>Closed Group</Text>
+            <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
             <View pointerEvents="none">
               <Switch value={Value} />
             </View>

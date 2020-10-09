@@ -70,7 +70,7 @@ export default class ProfileScreen extends Component {
   
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
    
     try {
 
@@ -203,7 +203,7 @@ export default class ProfileScreen extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -273,7 +273,7 @@ export default class ProfileScreen extends Component {
       });
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
     
 
         const userData = await AsyncStorage.getItem('userData');

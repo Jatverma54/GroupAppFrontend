@@ -40,7 +40,7 @@ export default class LoginScreen extends Component {
     const { userName, password } = this.state
 
     if (userName && password) {
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       try {
 
         var LoginInfo = {

@@ -76,7 +76,7 @@ export default class YourPersonalGroupPostScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -255,7 +255,7 @@ export default class YourPersonalGroupPostScreen extends Component {
 
     try {
 
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
@@ -375,7 +375,7 @@ export default class YourPersonalGroupPostScreen extends Component {
   ExitGroup = async () => {
     try {
 
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);

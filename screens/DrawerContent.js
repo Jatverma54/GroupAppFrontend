@@ -302,7 +302,7 @@ const DrawerContent = (props) => {
 
             <Avatar.Image
               source={FooterLogo}
-              size={100}
+              size={70}
             />
             <Paragraph style={[styles.paragraphfooter, styles.caption]}>
               Dedicated to all the Fathers
@@ -364,10 +364,10 @@ const styles = StyleSheet.create({
   drawerSectionFooter: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    paddingVertical: "100%",
+   paddingVertical: "100%",
     alignItems: 'center',
     marginRight: 15,
-    //  marginVertical:10
+    // marginVertical:100
   },
   paragraphfooter: {
     fontWeight: 'bold',

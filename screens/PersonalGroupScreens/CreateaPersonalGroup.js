@@ -77,7 +77,7 @@ export default class CreateaPersonalGroup extends Component {
     if (  GroupName && GroupBioName) {
 
       try {
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;

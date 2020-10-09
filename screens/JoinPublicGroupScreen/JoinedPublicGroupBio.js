@@ -103,7 +103,7 @@ export default class JoinedGroupgroupBio extends Component {
       });
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         // var  Data=
         //   {
         //     _id:_id, 
@@ -203,7 +203,7 @@ export default class JoinedGroupgroupBio extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true });
+        this.setState({ loading: true,data:'' });
         // var  Data=
         // {
         //   _id:_id, 
@@ -297,10 +297,10 @@ export default class JoinedGroupgroupBio extends Component {
 
           <View>
 
-            <TouchableOpacity style={styles.buttonContainerShare} onPress={() => { this.props.myHookValue.push("AddMembers") }}>
+            <TouchableOpacity style={styles.buttonContainerShare} onPress={() => { this.props.myHookValue.push("AddMembers",this.state.data._id) }}>
               <View>
                 <View style={styles.bodyContentShare}  >
-                  <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Invite Members</Text>
+                  <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>
                 </View>
                 <View>
 
@@ -350,7 +350,7 @@ export default class JoinedGroupgroupBio extends Component {
         _id,
 
       } = this.state.data;
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -458,7 +458,7 @@ export default class JoinedGroupgroupBio extends Component {
         owner_id
       } = this.state.data;
 
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
 
 

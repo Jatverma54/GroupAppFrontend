@@ -369,11 +369,11 @@ export default class CreateaNewPost extends Component {
         item.name = item.filename;
         return item;
       });
-
+      console.log(PhotoToBeSentToDb,"final")
       this.setState({ PhotoToBeSentToDb })
 
 
-       console.log(PhotoToBeSentToDb,"final")
+      
       // console.log(this.state.photos[0].uri,"final")
       //for
     }).catch((e) => console.log(e))

@@ -44,7 +44,7 @@ export default class Stories extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -215,10 +215,10 @@ export default class Stories extends Component {
   }
 
 
-  AddMembers(item) {
-    
+  AddMembers() {
+  
     if (this.props.nav.route.params.groupId.admin_id.includes(this.props.nav.route.params.groupId.currentUser)) {
-      this.props.nav.myHookValue.push("AddMembers");
+      this.props.nav.myHookValue.navigate("AddMembers",this.props.nav.route.params.groupId._id);
     }
     else {
 
@@ -345,7 +345,7 @@ if (this.state.loading) {
           <View style={{ flex: 1 }} >
             <View>
 
-              <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers(item)}>
+              <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers()}>
                 <View>
                   <View style={styles.bodyContentInviteMember}  >
                     <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>

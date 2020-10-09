@@ -95,7 +95,7 @@ export default class PersonalGroupFeedScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,data:'' });
 
     try {
 
@@ -440,7 +440,7 @@ export default class PersonalGroupFeedScreen extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
@@ -541,7 +541,7 @@ export default class PersonalGroupFeedScreen extends Component {
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       //console.log(item.id, "first ")
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 

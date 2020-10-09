@@ -173,7 +173,7 @@ export default class UpdateProfileInformation extends Component {
    
 
     if ( userName &&  Full_Name ) {
-      this.setState({ loading: true });
+      this.setState({ loading: true,data:'' });
       try {
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   signupButton: {
-    backgroundColor: "grey",
+    backgroundColor: '#3498db',
   },
   signUpText: {
     color: 'white',

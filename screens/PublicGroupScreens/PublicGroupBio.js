@@ -41,7 +41,7 @@ export default class PublicGroupBio extends Component {
 
   getData = async () => {
     // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true });
+    // this.setState({ loading: true,data:'' });
 
     //  try {
     //     const response = await fetch(url);
