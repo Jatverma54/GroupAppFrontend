@@ -20,6 +20,7 @@ import UserToken from '../../constants/APIPasswordCollection';
 import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
 const { width, height } = Dimensions.get('window');
+import Loader from '../../components/Loader';
 
 export default class JoinedPublicGroupsScreen extends Component {
 
@@ -137,19 +138,7 @@ export default class JoinedPublicGroupsScreen extends Component {
   render() {
 
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
 
 
     return (
@@ -166,6 +155,7 @@ export default class JoinedPublicGroupsScreen extends Component {
           </Button>
         </View> :
         <View style={styles.FloatButtonPlacement} >
+ <Loader isLoading={this.state.loading} />
 
 
           <SectionList

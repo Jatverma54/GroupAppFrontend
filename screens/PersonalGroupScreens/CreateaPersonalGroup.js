@@ -33,6 +33,7 @@ import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import UserToken from '../../constants/APIPasswordCollection'
+import Loader from '../../components/Loader';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -241,23 +242,11 @@ export default class CreateaPersonalGroup extends Component {
   render() {
 
     const {  photo, GroupName, GroupBioName } = this.state;
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
     return (
 
       <View style={styles.container}>
-
+ <Loader isLoading={this.state.loading} />
 
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
           <View style={{ height: 100, padding: 10 }}>

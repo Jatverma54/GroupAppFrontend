@@ -22,6 +22,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
+import Loader from '../Loader';
 export default class LikesComments extends Component {
 
   constructor(props) {
@@ -210,19 +211,7 @@ export default class LikesComments extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
 
     return (
 
@@ -238,6 +227,7 @@ export default class LikesComments extends Component {
           </Button>
         </View> :
         <View style={{ flex: 1, backgroundColor: 'white', }} >
+ <Loader isLoading={this.state.loading} />
           <FlatList
             ListHeaderComponent={this.renderHeader}
             extraData={this.state}

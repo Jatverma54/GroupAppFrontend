@@ -9,6 +9,7 @@ import {
 import { SearchBar } from "react-native-elements";
 import Close_icon from '../Pictures/Close_icon.png'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Loader from './Loader';
 import {
 
   Dimensions
@@ -59,6 +60,7 @@ export default class AddMembers extends React.Component {
     if (this.state.userName.length > 0) {
 
       try {
+        this.setState({ loading: true });
     const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -81,7 +83,7 @@ export default class AddMembers extends React.Component {
         const response = await fetch("http://192.168.0.107:3000/users/userSearchQuery", requestOptions);
 
         if (response.ok) {
-         
+          this.setState({ loading: false });
           const json = await response.json();
           //  this.setState({search:''});  this.setState({data:'',temp:''}); 
           let jsonResult=json.result;
@@ -96,7 +98,7 @@ export default class AddMembers extends React.Component {
          
         }
         else {
-
+          this.setState({ loading: false });
 
           Alert.alert(
 
@@ -112,7 +114,7 @@ export default class AddMembers extends React.Component {
         }
 
       } catch (e) {
-
+        this.setState({ loading: false });
 
         Alert.alert(
 
@@ -361,18 +363,7 @@ for(var data in selectedthing){
     
     const itemNumber = this.state.data.filter(item => item.isSelect).length;
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      );
-    }
+   
 
 
     return (
@@ -389,6 +380,8 @@ for(var data in selectedthing){
           </Button>
         </View> :
         <View style={styles.container}>
+ <Loader isLoading={this.state.loading} />
+
 
           {this.state.selected.length > 0 &&
 

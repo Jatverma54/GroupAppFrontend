@@ -35,7 +35,7 @@ import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+import Loader from '../components/Loader';
 export default class SignupScreen extends Component {
 
   constructor(props) {
@@ -367,19 +367,7 @@ export default class SignupScreen extends Component {
 
 
   render() {
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
 
     let { photo, date, show, mode, userName, password, email, Full_Name, confirmPassword, } = this.state;
 
@@ -389,7 +377,7 @@ export default class SignupScreen extends Component {
 
     return (
       <View style={styles.container}>
-
+ <Loader isLoading={this.state.loading} />
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
           <View style={{ height: 100, padding: 10, marginTop: 50 }}>
 

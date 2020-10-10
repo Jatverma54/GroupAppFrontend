@@ -106,6 +106,7 @@ const RootMainStackNavigator = () => {
 
 const DrawerStack = createDrawerNavigator();
 const DrawerScreen = ({ route,navigation }) => {
+
   const [userdata, setuserdata] = useState('');
 
   useEffect(() => {
@@ -198,9 +199,9 @@ const DrawerScreen = ({ route,navigation }) => {
 
           fontFamily: 'SomeFont',
         }}
-        initialRouteName="Public Groups"
+        //initialRouteName="Public Groups"
       />}
-
+      initialRouteName="Public Groups"
     >
 
 

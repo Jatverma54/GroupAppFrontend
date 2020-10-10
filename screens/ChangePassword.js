@@ -12,7 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import lock_Icon from '../Pictures/lock.png';
-
+import Loader from '../components/Loader';
 export default class ChangePassword extends Component {
 
   constructor(props) {
@@ -164,7 +164,7 @@ export default class ChangePassword extends Component {
 
       <View style={styles.container}>
 
-
+<Loader isLoading={this.state.loading} />
 
 <View style={styles.inputContainer}>
 

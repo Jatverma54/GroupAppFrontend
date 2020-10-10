@@ -34,6 +34,7 @@ import ParsedText from 'react-native-parsed-text';
 import * as Linking from 'expo-linking';
 import moment from "moment";
 const { width, height } = Dimensions.get('window');
+import Loader from '../../components/Loader';
 export default class YourPublicGroupPostscreen extends Component {
 
   constructor(props) {
@@ -664,19 +665,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
 
     return (
       this.state.error != null ?
@@ -694,6 +683,7 @@ export default class YourPublicGroupPostscreen extends Component {
           Width_Layout: event.nativeEvent.layout.width,
 
         }, () => this.DetectOrientation())}>
+ <Loader isLoading={this.state.loading} />
 
           <FlatList style={styles.list}
             data={this.state.data}

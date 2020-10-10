@@ -17,8 +17,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ImageView from "react-native-image-viewing";
 import Group_Name from '../../Pictures/Group_Name.png';
 const { width, height } = Dimensions.get('window');
+import moment from "moment";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
-
+import Loader from '../../components/Loader';
 export default class PublicGroupBio extends Component {
 
   constructor(props) {
@@ -120,18 +121,7 @@ export default class PublicGroupBio extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      );
-    }
+   
 
 
 
@@ -142,7 +132,8 @@ export default class PublicGroupBio extends Component {
       countMembers,
       privacy,
       group_Bio,
-      GroupAdminName
+      GroupAdminName,
+      groupCreateddate
     } = this.state.data;
 
     const images = [
@@ -166,6 +157,8 @@ export default class PublicGroupBio extends Component {
           </Button>
         </View> :
         <View style={styles.container}>
+ <Loader isLoading={this.state.loading} />
+
 
           <ScrollView >
 
@@ -217,10 +210,10 @@ export default class PublicGroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
-
-                  <Text style={styles.GroupAdminName}>
-                    Group Admin: {GroupAdminName.join(" , ")}
-                  </Text>
+ <Text style={styles.GroupAdminName}>Created {moment(groupCreateddate).fromNow()}</Text>
+                  {/* <Text style={styles.GroupAdminName}>
+                    Group owner: {GroupAdminName.join(" , ")}
+                  </Text> */}
 
                 </View>
 

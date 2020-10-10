@@ -29,10 +29,11 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
+import moment from "moment";
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
+import Loader from '../../components/Loader';
 export default class JoinedGroupgroupBio extends Component {
 
   constructor(props) {
@@ -103,7 +104,7 @@ export default class JoinedGroupgroupBio extends Component {
       });
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true });
         // var  Data=
         //   {
         //     _id:_id, 
@@ -203,7 +204,7 @@ export default class JoinedGroupgroupBio extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true });
         // var  Data=
         // {
         //   _id:_id, 
@@ -350,7 +351,7 @@ export default class JoinedGroupgroupBio extends Component {
         _id,
 
       } = this.state.data;
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true, });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -458,7 +459,7 @@ export default class JoinedGroupgroupBio extends Component {
         owner_id
       } = this.state.data;
 
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true, });
       //console.log(item.id, "first ")
 
 
@@ -544,20 +545,6 @@ export default class JoinedGroupgroupBio extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
 
 
     const { image,
@@ -570,7 +557,8 @@ export default class JoinedGroupgroupBio extends Component {
       GroupAdminName,
       currentUser,
       admin_id,
-      owner_id
+      owner_id,
+      groupCreateddate
     } = this.state.data;
 
 
@@ -595,6 +583,8 @@ export default class JoinedGroupgroupBio extends Component {
           </Button>
         </View> :
         <View style={styles.container}>
+ <Loader isLoading={this.state.loading} />
+
           <ScrollView >
 
             <View>
@@ -675,10 +665,10 @@ export default class JoinedGroupgroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
-
-                  <Text style={styles.GroupAdminName}>
-                    Group Admin: {GroupAdminName.join(" , ")}
-                  </Text>
+ <Text style={styles.GroupAdminName}>Created {moment(groupCreateddate).fromNow()}</Text>
+                  {/* <Text style={styles.GroupAdminName}>
+                    Group owner: {GroupAdminName.join(" , ")}
+                  </Text> */}
 
                 </View>
 

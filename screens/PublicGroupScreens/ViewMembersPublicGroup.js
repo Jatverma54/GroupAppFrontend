@@ -17,7 +17,7 @@ import {
   Button,
 } from 'react-native-paper';
 const { width, height } = Dimensions.get('window');
-
+import Loader from '../../components/Loader';
 export default class ViewMembersPublicGroup extends Component {
 
   constructor(props) {
@@ -117,11 +117,12 @@ export default class ViewMembersPublicGroup extends Component {
           </View>
 
           {(item.admin_id.includes(item._id)) && <View style={{ marginTop: -20, marginLeft: width - 100 }}>
-            <FontAwesome name="user-secret" size={15} style={{
+            {/* <FontAwesome name="user-secret" size={15} style={{
 
               color: "#666",
 
-            }} />
+            }} /> */}
+             <Text>Admin</Text>
           </View>}
 
 
@@ -190,19 +191,7 @@ export default class ViewMembersPublicGroup extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
     return (
 
       this.state.error != null ?
@@ -217,6 +206,7 @@ export default class ViewMembersPublicGroup extends Component {
           </Button>
         </View> :
         <View style={{ flex: 1, backgroundColor: 'white', }} >
+ <Loader isLoading={this.state.loading} />
           <FlatList
             ListHeaderComponent={this.renderHeader}
             extraData={this.state}

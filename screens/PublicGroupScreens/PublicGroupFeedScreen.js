@@ -41,6 +41,7 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import NoGroups from '../../Pictures/NoGroups.png';
+import Loader from '../../components/Loader';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -620,19 +621,7 @@ export default class PublicGroupFeedScreen extends Component {
     const { orientationIsLandscape } = this.state;
     try {
 
-      if (this.state.loading) {
-        return (
-          <View style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff"
-          }}>
-            <ActivityIndicator size="large" color="black" />
-            <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-          </View>
-        );
-      }
+     
 
       return (
 
@@ -651,6 +640,7 @@ export default class PublicGroupFeedScreen extends Component {
             Width_Layout: event.nativeEvent.layout.width,
 
           }, () => this.DetectOrientation())}>
+ <Loader isLoading={this.state.loading} />
 
 
 

@@ -7,6 +7,7 @@ import SearchIcon from '../Pictures/SearchIcon.png';
 import {
   Button,
 } from 'react-native-paper';
+import Loader from './Loader';
 const { width, height } = Dimensions.get('window');
 class SearchFunctionality extends Component {
 
@@ -34,6 +35,7 @@ class SearchFunctionality extends Component {
     if (this.state.groupName.length > 0) {
 
       try {
+        this.setState({ loading: true });
     const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -56,7 +58,7 @@ class SearchFunctionality extends Component {
         const response = await fetch("http://192.168.0.107:3000/groups/groupSearchQuery", requestOptions);
 
         if (response.ok) {
-         
+          this.setState({ loading: false });
           const json = await response.json();
           //  this.setState({search:''});  this.setState({data:'',temp:''});  
           this.setState({ data: json.result });
@@ -64,7 +66,7 @@ class SearchFunctionality extends Component {
         }
         else {
 
-
+          this.setState({ loading: false });
           Alert.alert(
 
             "Something went wrong!!",
@@ -79,7 +81,7 @@ class SearchFunctionality extends Component {
         }
 
       } catch (e) {
-
+        this.setState({ loading: false });
 
         Alert.alert(
 
@@ -168,18 +170,7 @@ class SearchFunctionality extends Component {
   }} />;
 
   render() {
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      );
-    }
+  
 
     return (
       this.state.error != null ?
@@ -194,6 +185,7 @@ class SearchFunctionality extends Component {
           </Button>
         </View> :
          <View style={{backgroundColor:"white"}}>
+            <Loader isLoading={this.state.loading} />
         <FlatList
           ListHeaderComponent={this.renderHeader}
           data={this.state.data}

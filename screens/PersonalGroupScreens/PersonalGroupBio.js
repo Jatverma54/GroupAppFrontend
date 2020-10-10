@@ -25,11 +25,11 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import RBSheet from "react-native-raw-bottom-sheet";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-
+import Loader from '../../components/Loader';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
+import moment from "moment";
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
@@ -101,9 +101,11 @@ export default class PersonalGroupBio extends Component {
         base64: true,
         quality: 1,
       });
+    
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true,data:'' });
+      
+        this.setState({ loading: true, });
         // var  Data=
         //   {
         //     _id:_id, 
@@ -163,9 +165,10 @@ export default class PersonalGroupBio extends Component {
         this.CameraOptions.close();
       }
 
-    } catch (E) {
+    } catch (e) {
+      console.log(e);
       this.setState({ loading: false });
-      console.log(E);
+    
     }
 
   };
@@ -203,7 +206,7 @@ export default class PersonalGroupBio extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true});
         // var  Data=
         // {
         //   _id:_id, 
@@ -355,7 +358,7 @@ export default class PersonalGroupBio extends Component {
         _id,
 
       } = this.state.data;
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -463,7 +466,7 @@ export default class PersonalGroupBio extends Component {
         owner_id
       } = this.state.data;
 
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true});
       //console.log(item.id, "first ")
 
 
@@ -576,20 +579,6 @@ AddMembers(){
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
 
 
     const { image,
@@ -602,7 +591,8 @@ AddMembers(){
       GroupAdminName,
       currentUser,
       admin_id,
-      owner_id
+      owner_id,
+      groupCreateddate
     } = this.state.data;
 
 
@@ -627,6 +617,8 @@ AddMembers(){
           </Button>
         </View> :
         <View style={styles.container}>
+ <Loader isLoading={this.state.loading} />
+
           <ScrollView >
 
             <View>
@@ -684,11 +676,11 @@ AddMembers(){
                     Members: {countMembers}
                   </Text>
 
-              
+                  <Text style={styles.GroupAdminName}>Created {moment(groupCreateddate).fromNow()}</Text>
 
-                  <Text style={styles.GroupAdminName}>
-                    Group Admin: {GroupAdminName.join(" , ")}
-                  </Text>
+                  {/* <Text style={styles.GroupAdminName}>
+                    Group owner: {GroupAdminName.join(" , ")}
+                  </Text> */}
 
                 </View>
 

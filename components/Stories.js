@@ -22,7 +22,7 @@ import AddGroup from '../Pictures/AddGroup.png';
 import ShareIcon from '../Pictures/ShareIcon.png';
 import ImageView from "react-native-image-viewing";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import Loader from './Loader';
 export default class Stories extends Component {
 
   constructor(props) {
@@ -243,19 +243,7 @@ export default class Stories extends Component {
 
   render() {
 
-if (this.state.loading) {
-  return (
-    <View style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#fff"
-    }}>
-      <ActivityIndicator size="large" color="black" />
-      <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-    </View>
-  );
-}
+
     return (
 
       this.state.error != null ?
@@ -274,6 +262,7 @@ if (this.state.loading) {
 
         }, () => this.DetectOrientation())}>
 
+<Loader isLoading={this.state.loading} />
 
 
           <FlatList style={styles.list}

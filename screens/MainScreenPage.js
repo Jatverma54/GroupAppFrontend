@@ -47,7 +47,9 @@ const MainScreenPage = ({ navigation }) => {
         if (response.ok) {
           const json = await response.json();
           saveDataToStorage(token, userId)
-          navigation.navigate('DrawerScreen', json.result)
+           navigation.navigate('DrawerScreen', json.result)
+          
+         
         } else {
 
           await AsyncStorage.clear();
@@ -65,7 +67,6 @@ const MainScreenPage = ({ navigation }) => {
         //setuserName(json.result.profile.full_name);
 
       } catch (e) {
-
         await AsyncStorage.clear();
         Alert.alert(
 

@@ -27,7 +27,7 @@ import DrawerLogo from '../Pictures/DrawerLogo.png';
 import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
 import ImageView from "react-native-image-viewing";
-
+import Loader from '../components/Loader';
 
 const { width, height } = Dimensions.get('window');
 
@@ -81,19 +81,9 @@ const DrawerContent = (props) => {
 
 
 
-  if (loading) {
-    return (
-      <View style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff"
-      }}>
-        <ActivityIndicator size="large" color="black" />
-        <Text style={{ marginLeft: 150, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-      </View>
-    );
-  }
+  
+ 
+
 
 
   const images = [
@@ -135,6 +125,7 @@ const DrawerContent = (props) => {
         setloading(false)
         await AsyncStorage.clear();// removeItem('userData');
         navigation.navigate('LoginScreen');
+      
       }
       else {
         setloading(false)
@@ -177,6 +168,7 @@ const DrawerContent = (props) => {
           styles.drawerContent
         }
       >
+         <Loader isLoading={loading} />
         <View style={styles.userInfoSection}>
 
           <TouchableOpacity onPress={() => setisVisible(true)}>

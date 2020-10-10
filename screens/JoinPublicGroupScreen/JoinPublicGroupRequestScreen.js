@@ -20,7 +20,7 @@ import ViewMoreText from 'react-native-view-more-text';
 import NoGroups from '../../Pictures/NoGroups.png';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-
+import Loader from '../../components/Loader';
 
 export default class JoinPublicGroupRequestScreen extends Component {
 
@@ -286,20 +286,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   render() {
 
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: SCREEN_WIDTH - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
-
+   
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -312,6 +299,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> : <View style={{ flex: 1, }} >
+        <Loader isLoading={this.state.loading} />
           <FlatList
             style={styles.root}
             data={this.state.data}

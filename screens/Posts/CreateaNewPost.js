@@ -34,7 +34,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import mime from "mime";
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+import Loader from '../../components/Loader';
 export default class CreateaNewPost extends Component {
   PhotoPresent
   constructor(props) {
@@ -60,7 +60,8 @@ export default class CreateaNewPost extends Component {
       PhotoPresent: false,
       downloadProgress: null,
       PhotoToBeSentToDb: [],
-      videoToBeSentToDb: null
+      videoToBeSentToDb: null,
+      loading:false
       //  photos: []
     };
   }
@@ -402,6 +403,7 @@ export default class CreateaNewPost extends Component {
     const { photo, videoToBeSentToDb, document, newValue } = this.state;
 
     try {
+      this.setState({ loading: true });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -437,6 +439,7 @@ export default class CreateaNewPost extends Component {
       const response = await fetch("http://192.168.0.107:3000/groupPost/createNewPost", requestOptions);
 
       if (response.ok) {
+        this.setState({ loading: false });
         this.props.navigation.goBack();
         // Alert.alert(
 
@@ -449,6 +452,7 @@ export default class CreateaNewPost extends Component {
         // );
       }
       else {
+        this.setState({ loading: false });
         // let responseJson = await response.json();
 
         //  let errorstring= responseJson.error.toString();
@@ -466,6 +470,7 @@ export default class CreateaNewPost extends Component {
       }
     }
     catch (e) {
+      this.setState({ loading: false });
       console.log('error creating post: ', e)
       Alert.alert(
 
@@ -506,6 +511,7 @@ export default class CreateaNewPost extends Component {
 
     return (
       <View style={styles.containerNewPost}>
+         <Loader isLoading={this.state.loading} />
         <View style={styles.container} >
 
           <ScrollView>

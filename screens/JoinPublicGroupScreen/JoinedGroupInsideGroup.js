@@ -42,7 +42,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+import Loader from '../../components/Loader';
 
 
 export default class JoinedGroupInsideGroupFeed extends Component {
@@ -694,19 +694,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     const { orientationIsLandscape } = this.state;
     try {
 
-      if (this.state.loading) {
-        return (
-          <View style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff"
-          }}>
-            <ActivityIndicator size="large" color="black" />
-            <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-          </View>
-        );
-      }
+     
 
       return (
 
@@ -725,6 +713,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             Width_Layout: event.nativeEvent.layout.width,
 
           }, () => this.DetectOrientation())}>
+ <Loader isLoading={this.state.loading} />
 
 
 

@@ -30,7 +30,7 @@ import * as Linking from 'expo-linking';
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 MDIcon.loadFont();
-
+import Loader from '../Loader';
 export default class Comments extends Component {
 
   constructor(props) {
@@ -524,19 +524,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
 
     const { height } = this.state;
-    if (this.state.loading) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff"
-        }}>
-          <ActivityIndicator size="large" color="black" />
-          <Text style={{ marginLeft: width - 100 - 20, fontWeight: "bold", width: "100%", justifyContent: "center", alignItems: "center" }}>Loading..Please wait.</Text>
-        </View>
-      );
-    }
+   
 
     return (
 
@@ -552,6 +540,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
           </Button>
         </View> :
         <KeyboardAvoidingView style={styles.keyboard}>
+ <Loader isLoading={this.state.loading} />
           <FlatList
             style={styles.root}
             data={this.state.data}
