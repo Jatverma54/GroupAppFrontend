@@ -90,8 +90,8 @@ export default class CreateaPersonalGroup extends Component {
           group_type: "private",
           admin_id: userId,       
           image: photo,
-          GroupCategory_id:userId
-
+          GroupCategory_id:userId,
+         // groupCreateddate:new Date()
         }
 
         var myHeaders = new Headers();

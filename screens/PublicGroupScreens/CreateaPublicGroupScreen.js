@@ -131,7 +131,7 @@ export default class CreateaPublicGroupScreen extends Component {
           admin_id: userId,
           GroupCategory_id: selectedGroupCategoryValue,
           image: photo,
-         
+        //  groupCreateddate:new Date()
           //  countMembers:1,
 
         }

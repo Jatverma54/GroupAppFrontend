@@ -61,7 +61,9 @@ export default class CreateaNewPost extends Component {
       downloadProgress: null,
       PhotoToBeSentToDb: [],
       videoToBeSentToDb: null,
-      loading:false
+      loading:false,
+      documentToBeSentToDb:null,
+      ClickedPhotoToBeSentToDb:null
       //  photos: []
     };
   }
@@ -128,7 +130,22 @@ export default class CreateaNewPost extends Component {
       });
 
       if (!result.cancelled) {
+       
+
+
+        let mediaUrl_string = result.uri.trim().split("/");
+        let mediaUrl_Length = mediaUrl_string.length - 1;
+        let Media_Name = result.uri.split("/")[mediaUrl_Length];
+
+        let img = {
+          uri: result.uri,
+          name: Media_Name,
+          type: mime.getType(result.uri)
+        }
+
         this.setState({ document: result.uri });
+
+        this.setState({ documentToBeSentToDb: img });
       }
       // console.log(result);
 
@@ -245,7 +262,8 @@ export default class CreateaNewPost extends Component {
         this.state.photo.push(result.uri);
 
 
-        this.state.PhotoToBeSentToDb.push(img);
+       // this.state.PhotoToBeSentToDb.push(img);
+        this.setState({ ClickedPhotoToBeSentToDb:img })
 
         console.log(this.state.PhotoToBeSentToDb);
         // this.state.photo.push(`data:image/jpg;base64,${result.base64}` )
@@ -353,7 +371,6 @@ export default class CreateaNewPost extends Component {
         return uri;
       });
 
-
       this.setState({
         imageBrowserOpen: false,
         photo: photos
@@ -364,14 +381,22 @@ export default class CreateaNewPost extends Component {
       // });
 
 
-      var PhotoToBeSentToDb = photo.map(item => {
-        item.uri = item.uri;
-        item.type = mime.getType(item.uri);
-        item.name = item.filename;
-        return item;
-      });
-      console.log(PhotoToBeSentToDb,"final")
-      this.setState({ PhotoToBeSentToDb })
+      // var PhotoToBeSentToDb = photo.map(item => {
+      //   let img={
+      //     uri : item.uri,
+      //     name : item.filename,
+      //     type : mime.getType(item.uri),
+          
+      // }
+   
+      //   return img;
+      // });
+
+
+   // console.log(PhotoToBeSentToDb)
+      
+    //  console.log(PhotoToBeSentToDb,"final")
+      this.setState({ PhotoToBeSentToDb:photo })
 
 
       
@@ -400,7 +425,7 @@ export default class CreateaNewPost extends Component {
 
     Keyboard.dismiss();
 
-    const { photo, videoToBeSentToDb, document, newValue } = this.state;
+    const { PhotoToBeSentToDb,ClickedPhotoToBeSentToDb, videoToBeSentToDb, documentToBeSentToDb, newValue } = this.state;
 
     try {
       this.setState({ loading: true });
@@ -408,35 +433,74 @@ export default class CreateaNewPost extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
       //  this.props.GroupName
-      var PostInfo = {
-        GroupId: this.props.GroupName._id,
-        postMetaData: newValue,
-        OnwerId: userId,
-        image: photo,
-        document: document,
-        video: videoToBeSentToDb,
-        //  countMembers:1,      
-      }
+      // var PostInfo = {
+      //   GroupId: this.props.GroupName._id,
+      //   postMetaData: newValue,
+      //   OnwerId: userId,
+     
+      // }
 
+        var formdata = new FormData();
+
+
+      if(PhotoToBeSentToDb.length!==0){
+    
+
+        PhotoToBeSentToDb.map((item,index)=>{
+
+          formdata.append("file",{
+                  uri : item.uri,
+                  name : item.filename,
+                  type : mime.getType(item.uri),
+          });
+          
+        })
+  
+   formdata.append("content", "image");
+  
+      }
+      else if(ClickedPhotoToBeSentToDb){
+        formdata.append("file", ClickedPhotoToBeSentToDb);
+        formdata.append("content", "image");
+      }
+      else if(videoToBeSentToDb){
+        formdata.append("file", videoToBeSentToDb);
+        formdata.append("content", "video");
+      }
+      else if (documentToBeSentToDb){
+        formdata.append("file", documentToBeSentToDb);
+        formdata.append("content", "document");
+      }else{
+        formdata.append("file", null);
+        formdata.append("content", "");
+
+      }
+      
+      formdata.append("GroupId", this.props.GroupName._id);
+      formdata.append("postMetaData", newValue);
+      formdata.append("OnwerId", userId);
+      
+      
       //  var formdata = new FormData();
       // formdata.append("file", videoToBeSentToDb);
       // formdata.append("userDetails", JSON.stringify(PostInfo));
       //  console.log(formdata)
 
       var myHeaders = new Headers();
-      //  myHeaders.append("Content-Type", "multipart/form-data");
-      myHeaders.append("Content-Type", "application/json");
-      //myHeaders.append("Accept", "application/json");
+      myHeaders.append("Content-Type", "multipart/form-data");
+     // myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
 
+    
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: JSON.stringify(PostInfo),//formdata
-        //redirect: 'follow'
+        body: formdata,//JSON.stringify(PostInfo),//formdata
+       redirect: 'follow'
       };
-
-      const response = await fetch("http://192.168.0.107:3000/groupPost/createNewPost", requestOptions);
+//console.log(formdata)
+      const response = await fetch("http://192.168.0.107:3000/groupPost/createNewPost/", requestOptions);
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -546,7 +610,7 @@ export default class CreateaNewPost extends Component {
               <View style={styles.ImageView} >
 
 
-                {this.state.photo.length > 0 && <TouchableOpacity onPress={() => this.setState({ photo: [], PhotoPresent: false })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                {this.state.photo.length > 0 && <TouchableOpacity onPress={() => this.setState({ photo: [],PhotoToBeSentToDb:[], PhotoPresent: false })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
 
 
 
@@ -558,7 +622,7 @@ export default class CreateaNewPost extends Component {
 
               (this.state.video) ?
                 <View style={styles.ImageView} >
-                  {this.state.video && <TouchableOpacity onPress={() => this.setState({ video: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                  {this.state.video && <TouchableOpacity onPress={() => this.setState({ video: null,videoToBeSentToDb:null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
                   <Video
                     source={{ uri: this.state.video }}
                     rate={1.0}
@@ -579,7 +643,7 @@ export default class CreateaNewPost extends Component {
 
                     <View style={styles.ImageView} >
 
-                      {this.state.document && <TouchableOpacity onPress={() => this.setState({ document: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                      {this.state.document && <TouchableOpacity onPress={() => this.setState({ document: null,documentToBeSentToDb:null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
 
                       <TouchableHighlight style={styles.DocumentIcon}
 
