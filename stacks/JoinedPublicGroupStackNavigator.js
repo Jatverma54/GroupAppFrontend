@@ -298,7 +298,9 @@ const NotificationGroupTabStackNavigator = ({ route }) => {
 
 
         name='Notification'
-        component={NotificationScreen} />
+        component={NotificationScreen} 
+        initialParams={{ groupid: route.params.groupid }}
+        />
 
     </NotificationGroupTabStack.Navigator>
 

@@ -68,7 +68,7 @@ export default class ExplorePublicGroupScreen extends Component {
     }
   };
 
-  componentDidMount(e) {
+  componentDidMount() {
     this._unsubscribe = this.getData();  
 
   }

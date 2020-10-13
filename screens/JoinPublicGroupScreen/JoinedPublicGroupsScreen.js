@@ -43,7 +43,7 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'',data:'' });
+    this.setState({ loading: true,data:'' });
 
     try {
 

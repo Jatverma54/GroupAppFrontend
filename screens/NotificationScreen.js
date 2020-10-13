@@ -7,65 +7,103 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
-  FlatList
+  FlatList,
+  ActivityIndicator,
+  AsyncStorage,
+  Dimensions
+
 } from 'react-native';
+import {
+
+  Button
+
+} from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Loader from '../components/Loader';
+import moment from "moment";
+import ViewMoreText from 'react-native-view-more-text';
+const { width, height } = Dimensions.get('window');
 export default class NotificationScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        { id: 3, image: "https://bootdey.com/img/Content/avatar/avatar7.png", name: "March SoulLaComa", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/6/" },
-        { id: 2, image: "https://bootdey.com/img/Content/avatar/avatar6.png", name: "John DoeLink", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/5/" },
-        { id: 4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name: "Finn DoRemiFaso", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-        { id: 5, image: "https://bootdey.com/img/Content/avatar/avatar3.png", name: "Maria More More", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-        { id: 1, image: "https://bootdey.com/img/Content/avatar/avatar1.png", name: "Frank Odalthh", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "https://lorempixel.com/100/100/nature/4/" },
-        { id: 6, image: "https://bootdey.com/img/Content/avatar/avatar4.png", name: "Clark June Boom!", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-        { id: 7, image: "https://bootdey.com/img/Content/avatar/avatar5.png", name: "The googler", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.", attachment: "" },
-      ],
+      data: "",
       isFetching: false,
+       loading: false,   
+      error: null,
 
     }
   }
 
 
+  getData = async () => {
 
+    this.setState({ loading: true,data:'', });
+   
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+    
+      let groupId=this.props.route.params.groupid._id;
+    
+//    let groupId=this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id;
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+      };
+
+      const response = await fetch("http://192.168.0.107:3000/notifications/"+groupId, requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      //console.log(json,"dddddddddddddddddddddddddddddddddd")
+      this.setResult(json.result);
+    
+    } catch (e) {
+      // console.log("Error ",e)
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      //   console.log("Error ",e)
+    }
+  };
+
+ 
   onRefresh() {
-    this.setState({ isFetching: true }, function () { this.searchRandomUser() });
+    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
   }
 
+  
+  componentDidMount() {
 
-  searchRandomUser = async () => {
-    //  const RandomAPI = await fetch('https://randomuser.me/api/?results=20')
-    //  const APIValue = await RandomAPI.json();
-    //   const APIResults = APIValue.results
-    //     console.log(APIResults[0].email);
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.setState({ data: "" })
+      this.getData(); // do something
+    });
 
+  }
+  componentWillUnmount() {
+    this._unsubscribe;
+    this.props.navigation.removeListener('focus', () => {
+      // this.setState({data:""})
+      // this.getData(); // do something
+    });
+  }
 
-    data2 = [{
-      id: "1", title: "Jatin sjhhjashasjhadddssddsdsdsdsjhasasjhasjhh", countLikes: "51", countcomments: "21", time: "1 days a go", postMetaData: "This is an example postThis is an example post", image: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-      LikePictures: [
-
-
-        //"https://bootdey.com/img/Content/avatar/avatar6.png", 
-        // "https://bootdey.com/img/Content/avatar/avatar1.png", 
-        // "https://bootdey.com/img/Content/avatar/avatar2.png",
-        // "https://bootdey.com/img/Content/avatar/avatar7.png",
-        // "https://bootdey.com/img/Content/avatar/avatar3.png",
-        // "https://bootdey.com/img/Content/avatar/avatar4.png"
-
-      ]
-    },
-    ]
+  setResult = (res) => {
+   
     this.setState({
-      data: data2,
+      data: [...this.state.data, ...res],
+      error: res.error || null,
+      loading: false,
       isFetching: false
-    })
-
+    });
   }
-
-
+ 
   render() {
 
     //  this.state.Seen?this.props.navigation.setOptions({
@@ -79,6 +117,19 @@ export default class NotificationScreen extends Component {
 
 
     return (
+      this.state.error != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View>:
+         <View >
+         <Loader isLoading={this.state.loading} />
       <FlatList
         style={styles.root}
         data={this.state.data}
@@ -95,28 +146,40 @@ export default class NotificationScreen extends Component {
           )
         }}
         keyExtractor={(item) => {
-          return item.id;
+          return item._id;
         }}
         renderItem={(item) => {
           const Notification = item.item;
           let attachment = <View />;
 
           let mainContentStyle;
-          if (Notification.attachment) {
+          if (Notification.post_id.image.length!==0) {
             mainContentStyle = styles.mainContent;
-            attachment = <Image style={styles.attachment} source={{ uri: Notification.attachment }} />
+            attachment = <Image style={styles.attachment} source={{ uri: Notification.post_id.image[0] }} />
           }
           return (
             <View style={styles.container}>
-              <Image source={{ uri: Notification.image }} style={styles.avatar} />
+              <Image source={{ uri: Notification.activity_by.profile.profile_pic }} style={styles.avatar} />
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
-                    <Text style={styles.name}>{Notification.name}</Text>
-                    <Text>{Notification.text}</Text>
-                  </View>
+                    <Text style={styles.name}>{Notification.activity_by.profile.full_name}</Text>
+
+                   
+                    <Text style={{ fontSize: 16,marginLeft:4}}>{Notification.activity==="NewPostAdded"?"added a new post : ":null}</Text>
+                    </View>
+                    <ViewMoreText
+                          numberOfLines={2}
+                          renderViewMore={this.renderViewMore}
+                          renderViewLess={this.renderViewLess}
+                          textStyle={{fontSize: 14,marginTop:-5}}
+                        >
+                    <Text>{Notification.activity==="NewPostAdded"?"'"+Notification.post_id.postMetaData+"'":null}</Text>
+                    </ViewMoreText>
+                    
+                  
                   <Text style={styles.timeAgo}>
-                    2 hours ago
+                  {moment(Notification.Createddate).fromNow()}     
                   </Text>
                 </View>
                 {attachment}
@@ -124,6 +187,14 @@ export default class NotificationScreen extends Component {
             </View>
           );
         }} />
+               
+               {this.state.data.length === 0 &&
+            <View style={{ flex: 1, backgroundColor: "white", }}>
+             
+              <Text style={{marginTop:height/3 ,marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold",marginLeft:width/3,width:"100%"}}>No new notification</Text>
+            </View>}
+
+        </View>
     );
   }
 }
@@ -173,7 +244,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#CCCCCC"
   },
   timeAgo: {
-    fontSize: 12,
+    fontSize: 10,
+    marginTop:3,
     color: "#696969"
   },
   name: {

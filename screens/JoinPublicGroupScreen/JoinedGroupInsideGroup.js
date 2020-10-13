@@ -101,12 +101,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-
-
       var GroupData = {
         groupId:this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id,
       }
-
+    
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);

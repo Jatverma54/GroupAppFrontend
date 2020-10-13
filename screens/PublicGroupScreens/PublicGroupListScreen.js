@@ -14,6 +14,8 @@ import {
   Dimensions
 } from 'react-native';
 
+
+
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
@@ -383,7 +385,7 @@ export default class PublicGroupListScreen extends Component {
   render() {
 
    
-
+// <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
 
     return (
       this.state.error != null ?
@@ -393,9 +395,9 @@ export default class PublicGroupListScreen extends Component {
             () => {
               this.getData();
             }
-          }  >
-            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
-          </Button>
+          }  
+          title="Reload the page"  
+          />
         </View> :
         <View style={styles.FloatButtonPlacement} >
  <Loader isLoading={this.state.loading} />
@@ -445,7 +447,7 @@ export default class PublicGroupListScreen extends Component {
                   <View style={styles.content}>
                     <View style={mainContentStyle}>
                       <View style={styles.text}>
-                        <TouchableOpacity onPress={() => Group.isJoined ? this.props.myHookValue.navigate("JoinedGroupInsideGroup", Group) : this.props.myHookValue.navigate("PublicGroupBio", Group)}>
+                        <TouchableOpacity onPress={() => Group.isJoined ? this.props.myHookValue.navigate("JoinedGroupInsideGroup", Group) : this.props.myHookValue.navigate("PublicGroupBio", { groupInformation: Group })}>
                           <Text style={styles.groupName}>{Group.GroupName}</Text>
                         </TouchableOpacity>
                       </View>

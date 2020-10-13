@@ -173,7 +173,7 @@ export default class ChangePassword extends Component {
   placeholder="Current password"
 
   value={this.state.currentPassword}             
-
+  secureTextEntry={true}
   onChangeText={(currentPassword) => this.setState({ currentPassword })}
   //keyboardType="email-address"
   underlineColorAndroid='transparent'
@@ -188,7 +188,7 @@ export default class ChangePassword extends Component {
             placeholder="New password"
 
             value={this.state.password}             
-
+            secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
             //keyboardType="email-address"
             underlineColorAndroid='transparent'
