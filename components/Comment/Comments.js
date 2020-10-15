@@ -54,7 +54,7 @@ export default class Comments extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true,data:[] });
 
     try {
 
@@ -71,7 +71,7 @@ export default class Comments extends Component {
 
       };
 var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.route.params._id
-      const response = await fetch("http://192.168.43.42:3000/groupPost/getComments/" +id, requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/getComments/" +id, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -167,7 +167,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/Commentslike", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/Commentslike", requestOptions);
 
       if (response.ok) {
 
@@ -308,7 +308,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
         };
 
-        const response = await fetch("http://192.168.43.42:3000/groupPost/createNewComment", requestOptions);
+        const response = await fetch("http://192.168.0.102:3000/groupPost/createNewComment", requestOptions);
 
         if (response.ok) {
 
@@ -417,7 +417,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/deleteComment", requestOptions
+      const response = await fetch("http://192.168.0.102:3000/groupPost/deleteComment", requestOptions
 
 
       );

@@ -41,7 +41,7 @@ export default class LikesComments extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true,data:'', temp: '', });
 
     try {
 
@@ -62,7 +62,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/viewCommentlikes", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/viewCommentlikes", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

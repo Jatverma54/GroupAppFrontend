@@ -78,7 +78,7 @@ export default class ChangePassword extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.43.42:3000/users/updateUserPassword", requestOptions);
+        const response = await fetch("http://192.168.0.102:3000/users/updateUserPassword", requestOptions);
 
         if (response.ok) {
 

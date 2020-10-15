@@ -10,13 +10,15 @@ import {
   FlatList,
   ActivityIndicator,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+ BackHandler
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   Button,
 } from 'react-native-paper';
 import Loader from '../../components/Loader';
+
 const { width, height } = Dimensions.get('window');
 
 export default class ExplorePublicGroupScreen extends Component {
@@ -57,7 +59,7 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/admin/GetCategoriesToDB", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/admin/GetCategoriesToDB", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -71,11 +73,31 @@ export default class ExplorePublicGroupScreen extends Component {
   componentDidMount() {
     this._unsubscribe = this.getData();  
 
+      BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    
+  
   }
+
+  backAction = () => {
+    if(this.props.navigation.isFocused()){
+    Alert.alert("See You Later!", "Do you want to exit from App", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  }else{
+    false;
+  }
+  };
 
   componentWillUnmount() {
     this._unsubscribe;
     // this.getData();
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
   }
 
   setResult = (res) => {

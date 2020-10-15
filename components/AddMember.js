@@ -60,7 +60,7 @@ export default class AddMembers extends React.Component {
     if (this.state.userName.length > 0) {
 
       try {
-        this.setState({ loading: true });
+        this.setState({ loading: true, data: [] });
     const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -80,7 +80,7 @@ export default class AddMembers extends React.Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.43.42:3000/users/userSearchQuery", requestOptions);
+        const response = await fetch("http://192.168.0.102:3000/users/userSearchQuery", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -221,7 +221,7 @@ for(var data in selectedthing){
               body: JSON.stringify(search)
             };
     
-            const response = await fetch("http://192.168.43.42:3000/users/adduserTogroup", requestOptions);
+            const response = await fetch("http://192.168.0.102:3000/users/adduserTogroup", requestOptions);
     
             if (response.ok) {
              

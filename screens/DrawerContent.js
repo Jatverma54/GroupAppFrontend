@@ -32,7 +32,7 @@ import Loader from '../components/Loader';
 const { width, height } = Dimensions.get('window');
 
 
-const DrawerContent = (props) => {
+const DrawerContent = (props,) => {
   const navigation = useNavigation();
   const [isVisible, setisVisible] = useState(false);
   const [error, seterror] = useState(null);
@@ -60,7 +60,7 @@ const DrawerContent = (props) => {
 
   //     };
 
-  //     const response = await fetch("http://192.168.43.42:3000/users/userInformation", requestOptions );             
+  //     const response = await fetch("http://192.168.0.102:3000/users/userInformation", requestOptions );             
   //       const json = await response.json();
 
   //       setuserimageUrl(json.result.profile.profile_pic);
@@ -116,7 +116,7 @@ const DrawerContent = (props) => {
         //redirect: 'follow'
       };
 
-      const response = await fetch("http://192.168.43.42:3000/users/logout", requestOptions
+      const response = await fetch("http://192.168.0.102:3000/users/logout", requestOptions
 
 
       );
@@ -148,7 +148,7 @@ const DrawerContent = (props) => {
       );
     }
   }
-
+  
   return (
 
     error != null ?

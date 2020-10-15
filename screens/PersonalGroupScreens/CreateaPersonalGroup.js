@@ -106,7 +106,7 @@ export default class CreateaPersonalGroup extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.43.42:3000/groups/createNewGroup", requestOptions);
+        const response = await fetch("http://192.168.0.102:3000/groups/createNewGroup", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

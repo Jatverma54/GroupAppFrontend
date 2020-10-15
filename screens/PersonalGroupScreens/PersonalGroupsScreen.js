@@ -32,17 +32,41 @@ export default class PersonalGroupsScreen extends Component {
   
     super(props);
     this.state = {
-      data:'',
-      temp:'',
+      data:"",
+      temp:"",
       isFetching: false,
       loading: false,
       error: null,
+      search:"",
+      searchStarted:false
     }
   }
 
+  componentDidMount() {
+
+    // this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    //   //this.setState({ data: "" ,temp:""})
+    //   // do something
+      
+    // });
+    this._unsubscribe =  this.getData();
+  //  if(this.state.data===""){
+  //   this.getData();
+  //  }
+  }
+  componentWillUnmount() {
+    this._unsubscribe;
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //  //  this.getData(); // do something
+    // });
+   
+  }
+
+
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true,data:"",temp:"" });
 
     try {
 
@@ -58,7 +82,7 @@ export default class PersonalGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groups/getJoinedPrivateGroups", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groups/getJoinedPrivateGroups", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -71,26 +95,12 @@ export default class PersonalGroupsScreen extends Component {
   };
 
 
-  componentDidMount() {
-
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "" ,temp:""})
-      this.getData(); // do something
-    });
-
-  }
-  componentWillUnmount() {
-    this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
-  }
 
 
 
 
   setResult = (res) => {
+   
     this.setState({
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
@@ -168,7 +178,7 @@ export default class PersonalGroupsScreen extends Component {
 
   render() {
     
-   
+  
 
 
     return (

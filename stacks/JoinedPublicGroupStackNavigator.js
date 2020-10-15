@@ -218,14 +218,14 @@ const JoinedGroupInsideGroupTabStackNavigator = ({ route }) => {
 
           // console.log(navigation.isFocused(),"dddddddddddd")
 
-          if (navigation.isFocused()) {
-            setnotification(false)
-            console.log("entered")
-          }
+          // if (navigation.isFocused()) {
+          //   setnotification(false)
+          //   console.log("entered")
+          // }
 
-          return notification ?
-            <MaterialCommunityIcons name="bell-ring" color="black" size={26} /> :
-            <MaterialCommunityIcons name="bell" color="black" size={26} />
+        return  focused ?
+            <MaterialCommunityIcons name="bell" color="black" size={26} /> :
+            <MaterialCommunityIcons name="bell-ring" color="black" size={26} />
 
 
         },

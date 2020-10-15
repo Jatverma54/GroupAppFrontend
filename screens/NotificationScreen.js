@@ -59,7 +59,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.43.42:3000/notifications/"+groupId, requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/notifications/"+groupId, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")

@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet, TouchableOpacity, View, Image,AsyncStorage,Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image,AsyncStorage,Alert,BackHandler } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -36,6 +36,8 @@ const HeaderLeft = () => {
 
 const RootMainStack = createStackNavigator();
 const RootMainStackNavigator = () => {
+
+  
   return (
 
     <RootMainStack.Navigator>
@@ -101,11 +103,31 @@ const RootMainStackNavigator = () => {
 
 };
 
+// const backAction = () => {
+//   Alert.alert("See You Later!", "Do you want to exit From App", [
+//     {
+//       text: "Cancel",
+//       onPress: () => null,
+//       style: "cancel"
+//     },
+//     { text: "YES", onPress: () => BackHandler.exitApp() }
+//   ]);
+//   return true;
+// };
 
 
 
 const DrawerStack = createDrawerNavigator();
 const DrawerScreen = ({ route,navigation }) => {
+
+  
+
+  // useEffect(() => {
+  //   BackHandler.addEventListener("hardwareBackPress", backAction);
+
+  //   return () =>
+  //     BackHandler.removeEventListener("hardwareBackPress", backAction);
+  // }, []);
 
   // const [userdata, setuserdata] = useState('');
 
@@ -133,7 +155,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
   //       };
 
-  //       const response = await fetch("http://192.168.43.42:3000/users/userInformation", requestOptions);
+  //       const response = await fetch("http://192.168.0.102:3000/users/userInformation", requestOptions);
 
 
   //       if (response.ok) {

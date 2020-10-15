@@ -66,7 +66,7 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groups/ViewGroupMembers", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groups/ViewGroupMembers", requestOptions);
       const json = await response.json();
      
       this.setResult(json.result);

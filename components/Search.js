@@ -35,7 +35,7 @@ class SearchFunctionality extends Component {
     if (this.state.groupName.length > 0) {
 
       try {
-        this.setState({ loading: true });
+        this.setState({ loading: true ,  data: []});
     const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -55,7 +55,7 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.43.42:3000/groups/groupSearchQuery", requestOptions);
+        const response = await fetch("http://192.168.0.102:3000/groups/groupSearchQuery", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

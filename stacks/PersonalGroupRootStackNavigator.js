@@ -268,7 +268,7 @@ const PersonalGroupInsideGroupTabStackNavigator = ({ route }) => {
 
       <PersonalGroupInsideGroupTabStack.Screen options={{
         tabBarLabel: ({ focused, tintColor: color }) => (
-          <MaterialCommunityIcons name="bell-ring" color="black" size={26} />
+          focused ? <MaterialCommunityIcons name="bell" color={color} size={26} /> : <MaterialCommunityIcons name="bell-ring" color="black" size={26} />
         ),
       }}
 

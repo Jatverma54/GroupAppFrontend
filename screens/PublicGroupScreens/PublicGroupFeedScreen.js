@@ -114,7 +114,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/getAllPublicJoinedPostofGroup", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/getAllPublicJoinedPostofGroup", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -231,7 +231,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/like", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/like", requestOptions);
 
       if (response.ok) {
 
@@ -384,7 +384,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch("http://192.168.0.102:3000/groupPost/" + item._id, requestOptions
 
 
       );
@@ -493,7 +493,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.43.42:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
+      const response = await fetch("http://192.168.0.102:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
 
 
       if (response.ok) {
