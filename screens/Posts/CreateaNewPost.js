@@ -500,7 +500,7 @@ export default class CreateaNewPost extends Component {
        redirect: 'follow'
       };
 //console.log(formdata)
-      const response = await fetch("http://192.168.0.107:3000/groupPost/createNewPost/", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/createNewPost/", requestOptions);
 
       if (response.ok) {
         this.setState({ loading: false });

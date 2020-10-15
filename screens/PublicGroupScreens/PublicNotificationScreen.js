@@ -19,11 +19,11 @@ import {
 
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Loader from '../components/Loader';
+import Loader from '../../components/Loader';
 import moment from "moment";
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
-export default class NotificationScreen extends Component {
+export default class PublicNotificationScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -51,7 +51,7 @@ export default class NotificationScreen extends Component {
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
     
-      let groupId=this.props.route.params.groupid._id;
+   //   let groupId=this.props.route.params.groupid._id;
     
 //    let groupId=this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id;
       var requestOptions = {
@@ -59,7 +59,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.43.42:3000/notifications/"+groupId, requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/notifications/", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
@@ -123,7 +123,7 @@ export default class NotificationScreen extends Component {
     //   }):null
 
 
-
+console.log("sssssssss")
 
     return (
       this.state.error != null ?

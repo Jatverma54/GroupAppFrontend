@@ -41,7 +41,7 @@ const MainScreenPage = ({ navigation }) => {
 
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/userInformation", requestOptions);
 
         
         if (response.ok) {

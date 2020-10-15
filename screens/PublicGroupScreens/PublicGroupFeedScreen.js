@@ -114,7 +114,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/getAllPublicJoinedPostofGroup", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/getAllPublicJoinedPostofGroup", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -231,7 +231,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/like", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/like", requestOptions);
 
       if (response.ok) {
 
@@ -384,7 +384,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch("http://192.168.43.42:3000/groupPost/" + item._id, requestOptions
 
 
       );
@@ -493,7 +493,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
 
 
       if (response.ok) {
@@ -680,7 +680,7 @@ export default class PublicGroupFeedScreen extends Component {
 
                           <TouchableOpacity onPress={() => this.props.myHookValue.navigate("JoinedGroupInsideGroup", post.item)}>
 
-                            <Text style={styles.GroupName}>{post.item.GroupName}</Text>
+                            <Text style={[styles.GroupName,{fontWeight:'bold'}]}>{post.item.GroupName}</Text>
 
                           </TouchableOpacity>
 
@@ -1199,7 +1199,7 @@ const styles = StyleSheet.create({
 
   GroupName: {
     fontSize: 13,
-    //fontWeight:'bold',
+   // fontWeight:'bold',
     //flex:1,
     marginLeft: 60,
     marginTop: 2,

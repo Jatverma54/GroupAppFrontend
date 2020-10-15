@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import lock_Icon from '../Pictures/lock.png';
 import Loader from '../components/Loader';
+import { MaterialCommunityIcons, } from '@expo/vector-icons';
 export default class ChangePassword extends Component {
 
   constructor(props) {
@@ -21,10 +22,22 @@ export default class ChangePassword extends Component {
       password: '',
       ConfirmPassword: '',
       currentPassword:'',
-      loading:false
+      loading:false,
+      hidePassword: true,
+      hideConfirmPassword: true,
+      hideCurrentPassword: true
     }
   }
-
+  
+  setPasswordVisibility(){
+    this.setState({ hidePassword: !this.state.hidePassword });
+  }
+  setConfirmPasswordVisibility(){
+    this.setState({ hideConfirmPassword: !this.state.hideConfirmPassword });
+  }
+  setCurrentPasswordVisibility(){
+    this.setState({ hideCurrentPassword: !this.state.hideCurrentPassword });
+  }
 
   signUp = async () => {
 
@@ -65,7 +78,7 @@ export default class ChangePassword extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/updateUserPassword", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/updateUserPassword", requestOptions);
 
         if (response.ok) {
 
@@ -166,49 +179,68 @@ export default class ChangePassword extends Component {
 
 <Loader isLoading={this.state.loading} />
 
+
+
 <View style={styles.inputContainer}>
+          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
+          <TextInput style={styles.inputs}
+            placeholder="Current password"
+            value={this.state.currentPassword}   
+            secureTextEntry={this.state.hideCurrentPassword}
+            underlineColorAndroid='transparent'
+            onChangeText={(currentPassword) => this.setState({ currentPassword })}
+          />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setCurrentPasswordVisibility()}>
+           {(this.state.hideCurrentPassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
+        </View>
 
-<Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
-<TextInput style={styles.inputs}
-  placeholder="Current password"
 
-  value={this.state.currentPassword}             
-  secureTextEntry={true}
-  onChangeText={(currentPassword) => this.setState({ currentPassword })}
-  //keyboardType="email-address"
-  underlineColorAndroid='transparent'
-/>
 
-</View>
-
-        <View style={styles.inputContainer}>
-
+<View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="New password"
-
-            value={this.state.password}             
-            secureTextEntry={true}
-            onChangeText={(password) => this.setState({ password })}
-            //keyboardType="email-address"
+            value={this.state.password}
+            secureTextEntry={this.state.hidePassword}
             underlineColorAndroid='transparent'
+            onChangeText={(password) => this.setState({ password })}
           />
-
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
+           {(this.state.hidePassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
         </View>
-
+		
+        
         <View style={styles.inputContainer}>
-
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Confirm new password"
-            value={this.state.ConfirmPassword}             
-
-            secureTextEntry={true}
+            value={this.state.ConfirmPassword}   
+            secureTextEntry={this.state.hideConfirmPassword}
             underlineColorAndroid='transparent'
-            onChangeText={(ConfirmPassword) => this.setState({ ConfirmPassword })} />
-
+            onChangeText={(ConfirmPassword) => this.setState({ ConfirmPassword })}
+          />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setConfirmPasswordVisibility()}>
+           {(this.state.hideConfirmPassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
         </View>
-
+		
 
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={()=> this.signUp()} >
           <Text style={styles.loginText}>Change Password</Text>
@@ -349,5 +381,13 @@ const styles = StyleSheet.create({
   },
   listLabel: {
     fontSize: 16
+  },
+  touachableButton: {
+    //position: 'absolute',
+    right: 3,
+    height: 40,
+    width: 35,
+    padding: 2,
+    marginTop:10
   },
 });

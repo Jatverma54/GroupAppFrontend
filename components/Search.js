@@ -55,7 +55,7 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.0.107:3000/groups/groupSearchQuery", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/groups/groupSearchQuery", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

@@ -56,7 +56,7 @@ export default class ViewMembersPublicGroup extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/ViewGroupMembers", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/ViewGroupMembers", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);

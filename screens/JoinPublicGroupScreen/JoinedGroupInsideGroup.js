@@ -114,7 +114,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/getAllPostofGroup", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/getAllPostofGroup", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -231,7 +231,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/like", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/like", requestOptions);
 
       if (response.ok) {
 
@@ -455,7 +455,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch("http://192.168.43.42:3000/groupPost/" + item._id, requestOptions
 
 
       );
@@ -564,7 +564,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
 
 
       if (response.ok) {

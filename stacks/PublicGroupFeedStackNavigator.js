@@ -8,7 +8,7 @@ import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import NotificationScreen from '../screens/NotificationScreen';
+import PublicNotificationScreen from './../screens/PublicGroupScreens/PublicNotificationScreen';
 import Comments from '../components/Comment/Comments';
 import Likes from '../components/Comment/Likes';
 import CommentLikes from '../components/Comment/LikesComments';
@@ -273,7 +273,7 @@ const PublicGroupFeedTabStackNavigator = (props) => {
 
 
         name='Notification'
-        component={NotificationScreen} />
+        component={PublicNotificationScreen} />
 
 
     </PublicGroupFeedTabStack.Navigator>

@@ -57,7 +57,7 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/admin/GetCategoriesToDB", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/admin/GetCategoriesToDB", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

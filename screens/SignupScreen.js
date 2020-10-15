@@ -32,6 +32,7 @@ import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
 import mime from "mime";
 import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
+import { MaterialCommunityIcons, } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -55,11 +56,18 @@ export default class SignupScreen extends Component {
       datechanged: false,
       ImageFormData: null,
       loading: false,
+      hidePassword: true,
+      hideConfirmPassword:true
     };
   }
 
+  setPasswordVisibility(){
+    this.setState({ hidePassword: !this.state.hidePassword });
+  }
 
-
+  setConfirmPasswordVisibility(){
+    this.setState({ hideConfirmPassword: !this.state.hideConfirmPassword });
+  }
 
   onChange = (event, selectedDate) => {
 
@@ -238,7 +246,7 @@ export default class SignupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/", requestOptions);
 
         if (response.ok) {
 
@@ -480,25 +488,43 @@ export default class SignupScreen extends Component {
         </View>
 
 
-
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={lock_Icon} />
+<View style={styles.inputContainer}>
+          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Password"
             value={password}
-            secureTextEntry={true}
+            secureTextEntry={this.state.hidePassword}
             underlineColorAndroid='transparent'
-            onChangeText={(password) => this.setState({ password })} />
+            onChangeText={(password) => this.setState({ password })}
+          />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
+           {(this.state.hidePassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
         </View>
+  
 
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={lock_Icon} />
+<View style={styles.inputContainer}>
+          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Confirm Password"
             value={confirmPassword}
-            secureTextEntry={true}
+            secureTextEntry={this.state.hideConfirmPassword}
             underlineColorAndroid='transparent'
-            onChangeText={(confirmPassword) => this.setState({ confirmPassword })} />
+            onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+          />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setConfirmPasswordVisibility()}>
+           {(this.state.hideConfirmPassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
         </View>
 
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
@@ -643,6 +669,14 @@ const styles = StyleSheet.create({
   },
   listLabel: {
     fontSize: 16
+  },
+  touachableButton: {
+    //position: 'absolute',
+    right: 3,
+    height: 40,
+    width: 35,
+    padding: 2,
+    marginTop:10
   },
 });
 

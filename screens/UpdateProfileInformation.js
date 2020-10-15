@@ -198,13 +198,13 @@ export default class UpdateProfileInformation extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/updateUserinformation", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/updateUserinformation", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
           const json = await response.json();
 
-         
+         console.log(json.result)
           Alert.alert(
 
             "Account information updated Successfully",

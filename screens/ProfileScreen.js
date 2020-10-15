@@ -88,7 +88,7 @@ export default class ProfileScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/users/userInformation", requestOptions);
 
 
       if (response.ok) {
@@ -228,7 +228,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/updateUserImage", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/updateUserImage", requestOptions);
 
 
         if (response.ok) {
@@ -237,6 +237,8 @@ export default class ProfileScreen extends Component {
          
 
           this.setState({ photo: image });
+          const json = await response.json();
+          this.props.navigation.push('DrawerScreen',json.result)
         }
         else {
           this.setState({ loading: false });
@@ -299,7 +301,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/updateUserImage", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/users/updateUserImage", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

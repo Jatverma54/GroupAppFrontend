@@ -85,7 +85,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch("http://192.168.0.107:3000/groups/getAllGroupRequest", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/groups/getAllGroupRequest", requestOptions);
         const json = await response.json();
         //  console.log("Error ",json)
         this.setResult(json.result);
@@ -157,7 +157,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(ConfirmRequest),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/confirmGroupRequest", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/confirmGroupRequest", requestOptions);
       //const json = await response.json();
       //  console.log("Error ",json)
 
@@ -234,7 +234,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(RemoveRequest),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/removeGroupRequest", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/removeGroupRequest", requestOptions);
       //const json = await response.json();
       //  console.log("Error ",json)
 

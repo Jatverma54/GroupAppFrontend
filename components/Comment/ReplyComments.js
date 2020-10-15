@@ -75,7 +75,7 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/getReplyComments/", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/getReplyComments/", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -177,7 +177,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/replyCommentslike", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/replyCommentslike", requestOptions);
 
       if (response.ok) {
 
@@ -318,7 +318,7 @@ export default class ReplyComments extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.107:3000/groupPost/addNewReplyComment", requestOptions);
+        const response = await fetch("http://192.168.43.42:3000/groupPost/addNewReplyComment", requestOptions);
 
         if (response.ok) {
 
@@ -431,7 +431,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/deleteReplyComment", requestOptions
+      const response = await fetch("http://192.168.43.42:3000/groupPost/deleteReplyComment", requestOptions
 
 
       );

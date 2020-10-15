@@ -92,7 +92,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/getPublicGroupsWithCategory", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/getPublicGroupsWithCategory", requestOptions);
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
@@ -170,7 +170,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/DeleteSentJoinRequest", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/DeleteSentJoinRequest", requestOptions);
 
       if (response.ok) {
 
@@ -241,7 +241,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/SendJoinRequest", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/SendJoinRequest", requestOptions);
 
 
 

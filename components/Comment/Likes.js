@@ -58,7 +58,7 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groupPost/viewlikes/" + this.props.route.params._id, requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groupPost/viewlikes/" + this.props.route.params._id, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

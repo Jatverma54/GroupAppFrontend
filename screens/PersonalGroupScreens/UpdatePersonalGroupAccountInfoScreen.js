@@ -176,7 +176,7 @@ CreateGroup = async () => {
         //redirect: 'follow'
       };
 
-      const response = await fetch("http://192.168.0.107:3000/groups/updateGroupinformation", requestOptions);
+      const response = await fetch("http://192.168.43.42:3000/groups/updateGroupinformation", requestOptions);
 
       if (response.ok) {
         this.setState({ loading: false });

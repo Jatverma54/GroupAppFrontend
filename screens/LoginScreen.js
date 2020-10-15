@@ -22,7 +22,7 @@ import APIPasswordCollection from '../constants/APIPasswordCollection';
 import { encode } from "base-64";
 import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
-
+import { MaterialCommunityIcons, } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 export default class LoginScreen extends Component {
 
@@ -33,6 +33,7 @@ export default class LoginScreen extends Component {
       userName: '',
       Password: '',
       loading: false,
+      hidePassword: true
     };
   }
 
@@ -62,7 +63,7 @@ export default class LoginScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.107:3000/users/login", requestOptions
+        const response = await fetch("http://192.168.43.42:3000/users/login", requestOptions
 
 
         );
@@ -71,7 +72,10 @@ export default class LoginScreen extends Component {
         if (response.ok) {
           this.setState({ loading: false });
           let responseJson = await response.json();
+          UserToken.userToken = responseJson.token;
+          const payload = jwt_decode(responseJson.token);
 
+          this.saveDataToStorage(responseJson.token, payload._id)//changedLogin
 
           Alert.alert(
 
@@ -82,10 +86,7 @@ export default class LoginScreen extends Component {
             ],
             { cancelable: false }
           );
-          UserToken.userToken = responseJson.token;
-          const payload = jwt_decode(responseJson.token);
-
-          this.saveDataToStorage(responseJson.token, payload._id)//changedLogin
+         
 
         }
         else {
@@ -129,7 +130,9 @@ export default class LoginScreen extends Component {
     }
 
   }
-
+  setPasswordVisibility(){
+    this.setState({ hidePassword: !this.state.hidePassword });
+  }
 
   
   saveDataToStorage = (token, userId) => {
@@ -168,12 +171,20 @@ export default class LoginScreen extends Component {
           <TextInput style={styles.inputs}
             placeholder="Password"
             value={password}
-            secureTextEntry={true}
+            secureTextEntry={this.state.hidePassword}
             underlineColorAndroid='transparent'
             onChangeText={(password) => this.setState({ password })}
           />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
+           {(this.state.hidePassword)?
+            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
+<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+           
+         
+         
+          </TouchableOpacity>
         </View>
-
+      
 
 
 
@@ -244,6 +255,7 @@ const styles = StyleSheet.create({
   inputs: {
     height: 45,
     marginLeft: 16,
+    marginRight:16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },
@@ -361,6 +373,20 @@ const styles = StyleSheet.create({
     width: 1,
     height: 40
 
+  },
+  touachableButton: {
+    //position: 'absolute',
+    right: 3,
+    height: 40,
+    width: 35,
+    padding: 2,
+    marginTop:10
+  },
+  buttonImage: {
+  //  resizeMode: 'contain',
+    height: '100%',
+    width: '100%',
+  
   }
 
 });

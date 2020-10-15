@@ -107,79 +107,79 @@ const RootMainStackNavigator = () => {
 const DrawerStack = createDrawerNavigator();
 const DrawerScreen = ({ route,navigation }) => {
 
-  const [userdata, setuserdata] = useState('');
+  // const [userdata, setuserdata] = useState('');
 
-  useEffect(() => {
-    const tryLogin = async () => {
+  // useEffect(() => {
+  //   const tryLogin = async () => {
      
-      try {
-        const userData = await AsyncStorage.getItem('userData');
+  //     try {
+  //       const userData = await AsyncStorage.getItem('userData');
        
-        const transformedData = JSON.parse(userData);
-        const { token, userId } = transformedData;
-        //const expirationDate = new Date(expiryDate);
+  //       const transformedData = JSON.parse(userData);
+  //       const { token, userId } = transformedData;
+  //       //const expirationDate = new Date(expiryDate);
 
         
-        //  const expirationTime = expirationDate.getTime() - new Date().getTime();
+  //       //  const expirationTime = expirationDate.getTime() - new Date().getTime();
 
 
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-        var requestOptions = {
-          method: 'GET',
-          headers: myHeaders,
+  //       var myHeaders = new Headers();
+  //       myHeaders.append("Content-Type", "application/json");
+  //       myHeaders.append("Authorization", "Bearer " + token);
+  //       var requestOptions = {
+  //         method: 'GET',
+  //         headers: myHeaders,
 
-        };
+  //       };
 
-        const response = await fetch("http://192.168.0.107:3000/users/userInformation", requestOptions);
+  //       const response = await fetch("http://192.168.43.42:3000/users/userInformation", requestOptions);
 
 
-        if (response.ok) {
+  //       if (response.ok) {
          
-          const json = await response.json();
-          setuserdata(json.result)
-         // navigation.navigate('DrawerScreen', json.result)
-        } else {
+  //         const json = await response.json();
+  //         setuserdata(json.result)
+  //        // navigation.navigate('DrawerScreen', json.result)
+  //       } else {
 
-          await AsyncStorage.clear();
-          Alert.alert(
+  //         await AsyncStorage.clear();
+  //         Alert.alert(
 
-            "Something went wrong!!",
-            "Please Re login",
-            [
-              { text: "Ok", onPress: () => navigation.navigate('LoginScreen',json.result) }
-            ],
-            { cancelable: false }
-          );
-        }
-        // setuserimageUrl(json.result.profile.profile_pic);
-        //setuserName(json.result.profile.full_name);
+  //           "Something went wrong!!",
+  //           "Please Re login",
+  //           [
+  //             { text: "Ok", onPress: () => navigation.navigate('LoginScreen',json.result) }
+  //           ],
+  //           { cancelable: false }
+  //         );
+  //       }
+  //       // setuserimageUrl(json.result.profile.profile_pic);
+  //       //setuserName(json.result.profile.full_name);
 
-      } catch (e) {
+  //     } catch (e) {
 
-        await AsyncStorage.clear();
-        Alert.alert(
+  //       await AsyncStorage.clear();
+  //       Alert.alert(
 
-          "Something went wrong!!",
-          "Please Re login",
-          [
-            { text: "Ok", onPress: () => navigation.navigate('LoginScreen') }
-          ],
-          { cancelable: false }
-        );
+  //         "Something went wrong!!",
+  //         "Please Re login",
+  //         [
+  //           { text: "Ok", onPress: () => navigation.navigate('LoginScreen') }
+  //         ],
+  //         { cancelable: false }
+  //       );
 
-        //this.setState({ error: 'Reload the Page',  });
-        console.log("Error ", e)
-      }
+  //       //this.setState({ error: 'Reload the Page',  });
+  //       console.log("Error ", e)
+  //     }
 
 
-      //dispatch(authActions.authenticate(userId, token, expirationTime));
-    };
+  //     //dispatch(authActions.authenticate(userId, token, expirationTime));
+  //   };
 
-    tryLogin();
-  }, []);
+  //   tryLogin();
+  // }, []);
   
   return (
 
@@ -187,7 +187,7 @@ const DrawerScreen = ({ route,navigation }) => {
     <DrawerStack.Navigator
 
 
-      drawerContent={() => <DrawerContent Userdata={userdata?userdata:route.params} drawerContentOptions={{
+      drawerContent={() => <DrawerContent Userdata={route.params} drawerContentOptions={{
         activeTintColor: colors.drawerHiglightcolor, marginTop: 20,
         labelStyle: {
           color: colors.drawerTextcolor, fontWeight: colors.drawerfontWeight, width: colors.drawerwidth, fontSize: colors.drawerfontSize,
