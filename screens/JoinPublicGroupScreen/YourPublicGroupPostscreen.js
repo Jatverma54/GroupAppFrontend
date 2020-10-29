@@ -52,7 +52,10 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
       OrientationStatus: '',
-      Width_Layout: Dimensions.get('window').width
+      Width_Layout: Dimensions.get('window').width,
+      skipPagination:0,
+      loadingPagination:false,
+      errorPagination: null,
     };
   }
 
@@ -62,7 +65,7 @@ export default class YourPublicGroupPostscreen extends Component {
     this.DetectOrientation();
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({ data: "" })
+      this.setState({ data: "",skipPagination:0 })
       this.getData(); // do something
     });
   }
@@ -74,7 +77,7 @@ export default class YourPublicGroupPostscreen extends Component {
       // this.getData(); // do something
     });
   }
-
+  
   getData = async () => {
 
     this.setState({ loading: true,data:'' });
@@ -100,7 +103,7 @@ export default class YourPublicGroupPostscreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/getAllUserPostofGroup", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllUserPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -116,13 +119,55 @@ export default class YourPublicGroupPostscreen extends Component {
 
   };
 
+  getPaginationData = async () => {
+
+    this.setState({ loadingPagination: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+
+
+      var GroupData = {
+        groupId: this.props.route.params.groupid._id,
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllUserPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+
+      console.log("Error ", e)
+    }
+
+
+
+
+  };
 
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
   }
 
@@ -188,7 +233,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "" ,skipPagination:0}, function () { this.getData() });
   }
 
 
@@ -275,7 +320,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch("http://192.168.0.104:3000/groupPost/" + item._id, requestOptions
 
 
       );
@@ -290,7 +335,7 @@ export default class YourPublicGroupPostscreen extends Component {
           "",
           "Post deleted successfully",
           [
-            { text: "Ok", onPress: () => this.getData() }
+            { text: "Ok", onPress: () => {this.getData(),this.setState({skipPagination:0})} }
           ],
           { cancelable: false }
         );
@@ -401,7 +446,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/leaveGroup", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/leaveGroup", requestOptions);
 
 
       if (response.ok) {
@@ -525,9 +570,9 @@ export default class YourPublicGroupPostscreen extends Component {
               </View>
             </TouchableOpacity>
 
-            {(this.state.data.length === 0) &&
+            {/* {(this.state.data.length === 0) &&
 
-              <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "900" }} >No Posts to Show</Text></View>}
+              <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>} */}
           </View>
 
 
@@ -596,7 +641,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/like", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/like", requestOptions);
 
       if (response.ok) {
 
@@ -656,12 +701,52 @@ export default class YourPublicGroupPostscreen extends Component {
   };
 
 
+  FooterComponent(){
+    return(
+      this.state.errorPagination != null ?
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{this.state.error}</Text>
+        <Button onPress={
+          () => {
+            this.getPaginationData();
+          }
+        }  >
+          <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+        </Button>
+      </View>:this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+      height: 100,
+      width: 100,
+      borderRadius: 10,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',alignSelf:"center"}}>
+      <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+    <Text>Loading...</Text>
+      {/* If you want to image set source here */}
+      {/* <Image
+        source={require('../Pictures/loading.gif')}
+        style={{ height: 80, width: 80 }}
+        resizeMode="contain"
+        resizeMethod="resize"
+      /> */}
+    </View>:null
+    )
+    }
+
+    renderEmpty = () => {
+ 
+      return (
+        <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>
+      )
+    }    
 
 
+    loadmoreData(){
 
+      this.setState({skipPagination:parseInt(this.state.skipPagination)+10,loadingPagination:true},()=>{this.getPaginationData()})
+    }
 
-
-
+   
 
   render() {
 
@@ -693,6 +778,7 @@ export default class YourPublicGroupPostscreen extends Component {
             refreshControl={
               <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
             }
+            ListFooterComponent={()=>this.FooterComponent()}
             ItemSeparatorComponent={() => {
               return (
                 <View style={styles.separator} />
@@ -704,6 +790,18 @@ export default class YourPublicGroupPostscreen extends Component {
 
             }
 
+            contentContainerStyle={{ flexGrow: 1 }}
+            
+            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+          onEndReachedThreshold={0}
+           
+          ListEmptyComponent={this.renderEmpty()}
 
             renderItem={(post) => {
               const item = post.item;

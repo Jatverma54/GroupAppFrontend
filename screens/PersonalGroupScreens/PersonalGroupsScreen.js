@@ -82,7 +82,7 @@ export default class PersonalGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/getJoinedPrivateGroups", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/getJoinedPrivateGroups", requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);

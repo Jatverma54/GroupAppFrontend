@@ -45,7 +45,7 @@ export default class CreateaPublicGroupScreen extends Component {
     super(props);
     this.state = {
       Value: false,
-      selectedGroupCategoryValue: this.props.Category._id,
+      selectedGroupCategoryValue: this.props.Category.GroupCategory_id?this.props.Category.GroupCategory_id:this.props.Category._id,
       FirstGroupCategoryValue: this.props.Category.title,
       photo: null,
       height: 45,
@@ -90,14 +90,22 @@ export default class CreateaPublicGroupScreen extends Component {
         onValueChange={(itemValue, itemIndex) => this.setState({ selectedGroupCategoryValue: itemValue })}
       >
         <Picker.Item label={FirstGroupCategoryValue} value={selectedGroupCategoryValue} />
-        <Picker.Item label="Home Remedies" value="5f63b02895358640bc482a27" />
-        <Picker.Item label="Healthcare" value="5f63b02895358640bc482a28" />
-        <Picker.Item label="Family" value="5f63b02895358640bc482a29" />
-        <Picker.Item label="School" value="5f63b02895358640bc482a2a" />
-        <Picker.Item label="Things" value="5f63b02895358640bc482a2b" />
-        <Picker.Item label="World" value="5f63b02895358640bc482a2c" />
-        <Picker.Item label="Remember" value="5f63b02895358640bc482a2d" />
-        <Picker.Item label="Game" value="5f63b02895358640bc482a2e" />
+        <Picker.Item label="Healthcare" value="5f952443f623833284fcb0ec" />
+        <Picker.Item label="Fitness & Sports" value="5f952443f623833284fcb0ed" />
+        <Picker.Item label="Shop & Sell" value="5f952443f623833284fcb0ee" />
+        <Picker.Item label="Job Alerts" value="5f952443f623833284fcb0ef" />
+        <Picker.Item label="Travel" value="5f952443f623833284fcb0f0" />
+        <Picker.Item label="Food & Recipes" value="5f952443f623833284fcb0f1" />
+        <Picker.Item label="Entertainment" value="5f952443f623833284fcb0f2" />
+        <Picker.Item label="Consultation" value="5f952443f623833284fcb0f3" />
+        <Picker.Item label="Science & Technology" value="5f952443f623833284fcb0f4" />
+        <Picker.Item label="Home Remedies" value="5f952443f623833284fcb0f5" />
+        <Picker.Item label="New Trend & Style" value="5f952443f623833284fcb0f6" />
+        <Picker.Item label="Spirituality" value="5f952443f623833284fcb0f7" />
+        <Picker.Item label="Education" value="5f952443f623833284fcb0f8" />
+        <Picker.Item label="Art & Hobbies" value="5f952443f623833284fcb0f9" />
+        <Picker.Item label="Automobile" value="5f952443f623833284fcb0fa" />
+        <Picker.Item label="Others" value="5f952443f623833284fcb0fb" />
 
       </Picker>
 
@@ -148,7 +156,7 @@ export default class CreateaPublicGroupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.102:3000/groups/createNewGroup", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/groups/createNewGroup", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -282,7 +290,7 @@ export default class CreateaPublicGroupScreen extends Component {
 
 
   render() {
-
+console.log( this.props.GroupCategory_id,"ssssssssssss")
     const { Value, selectedGroupCategoryValue, photo, GroupName, GroupBioName } = this.state;
    
     return (

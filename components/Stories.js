@@ -37,15 +37,19 @@ export default class Stories extends Component {
       isFetching: false,
 
       OrientationStatus: '',
-      Width_Layout: Dimensions.get('window').width
+      Width_Layout: Dimensions.get('window').width,
+
+      errorPagination: null,
+      skipPagination:1,
+      loadingPagination:false
     };
   }
 
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
-
+ 
+    this.setState({ loading: true,data:'',skipPagination:1 });
     try {
 
       const userData = await AsyncStorage.getItem('userData');
@@ -66,7 +70,7 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/ViewGroupMembers", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
      
       this.setResult(json.result);
@@ -82,6 +86,45 @@ export default class Stories extends Component {
 
   };
 
+  getPaginationData = async () => {
+
+ 
+    this.setState({ loadingPagination: true });
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+
+      var GroupData = {
+        groupid: this.props.nav.route.params.groupId._id,
+      }
+     
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+     
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      //   console.log("Error ",e)
+    }
+
+
+
+
+  };
 
   componentDidMount() {
     this._unsubscribe = this.getData();
@@ -100,19 +143,57 @@ export default class Stories extends Component {
      
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
   }
 
 
+
+
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "", skipPagination:1 }, function () { this.getData() });
   }
 
+  loadmoreData(){
 
-
-
+    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+  }
+   
+  FooterComponent(){
+  return(
+    
+    this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View>:
+    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',alignSelf:"center"}}>
+    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+  <Text>Loading...</Text>
+    {/* If you want to image set source here */}
+    {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+  </View>:null
+  )
+  }
 
   DetectOrientation() {
 
@@ -275,6 +356,20 @@ export default class Stories extends Component {
             keyExtractor={(item) => {
               return item._id;
             }}
+
+
+
+            ListFooterComponent={()=>this.FooterComponent()}
+             
+            contentContainerStyle={{ flexGrow: 1 }}
+            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+          onEndReachedThreshold={0.2}
             ItemSeparatorComponent={() => {
               return (
                 <View style={styles.separator} />
@@ -389,7 +484,7 @@ export default class Stories extends Component {
             </TouchableOpacity>
           </View>
 
-          {this.props.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "900" }} >No Posts to Show</Text></View>}
+          {this.props.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>}
         </View>
     );
 

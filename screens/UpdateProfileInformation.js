@@ -198,7 +198,7 @@ export default class UpdateProfileInformation extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.102:3000/users/updateUserinformation", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/users/updateUserinformation", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

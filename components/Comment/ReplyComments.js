@@ -47,7 +47,9 @@ export default class ReplyComments extends Component {
       isFetching: false,
       loading: false,
       error: null,
-
+      skipPagination:1,
+      loadingPagination:false,
+      errorPagination: null,
     }
     this.send = this.send.bind(this);
 
@@ -75,7 +77,7 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/getReplyComments/", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getReplyComments?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -86,19 +88,51 @@ export default class ReplyComments extends Component {
     }
   };
 
+  getPaginationData = async () => {
+
+    this.setState({ loadingPagination: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+      var ReplyComment = {
+        "commentId": this.props.route.params._id,
+        "postId": this.props.route.params.PostId
+      }
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(ReplyComment)
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getReplyComments?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+
+      this.setResult(json.result);
+
+    } catch (e) {
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      console.log("Error ", e)
+    }
+  };
 
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
-
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
   }
 
-
   componentDidMount() {
+    this.setState({skipPagination:1 })
     this.props.navigation.setOptions({
       headerTitle: `Replying to ` + this.props.route.params.name,
     })
@@ -110,6 +144,24 @@ export default class ReplyComments extends Component {
     this.send();
   }
 
+  renderEmpty = () => {
+ 
+    return (
+      <View style={{ flex: 1,marginTop:height/4 }}>
+      <MaterialCommunityIcons
+        name="comment-text"
+        size={45}
+        color="black"
+        style={{
+          alignSelf: "center", alignItems: "center", width: 53,
+          height: 53,
+          borderRadius: 25,
+        }}
+      />
+      <Text style={{marginLeft:width/2.9, color: "grey", fontWeight: "bold", }}>No reply yet</Text>
+    </View>
+    )
+  }
 
   LikeUnlike(data) {
     try {
@@ -177,7 +229,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/replyCommentslike", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/replyCommentslike", requestOptions);
 
       if (response.ok) {
 
@@ -239,8 +291,46 @@ export default class ReplyComments extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "",skipPagination:1}, function () { this.getData() });
   }
+
+  loadmoreData(){
+
+    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+  }
+   
+  FooterComponent(){
+  return(
+    this.state.errorPagination != null ?
+    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <Text>{this.state.error}</Text>
+      <Button onPress={
+        () => {
+          this.getPaginationData();
+        }
+      }  >
+        <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+      </Button>
+    </View>:this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',alignSelf:"center"}}>
+    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+  <Text>Loading...</Text>
+    {/* If you want to image set source here */}
+    {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+  </View>:null
+  )
+  }
+
 
 
 
@@ -318,7 +408,7 @@ export default class ReplyComments extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.102:3000/groupPost/addNewReplyComment", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/groupPost/addNewReplyComment", requestOptions);
 
         if (response.ok) {
 
@@ -431,7 +521,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/deleteReplyComment", requestOptions
+      const response = await fetch("http://192.168.0.104:3000/groupPost/deleteReplyComment", requestOptions
 
 
       );
@@ -439,7 +529,7 @@ export default class ReplyComments extends Component {
 
       if (response.ok) {
 
-        this.setState({ data: "" });
+        this.setState({ data: "",skipPagination:1 });
 
         Alert.alert(
 
@@ -576,7 +666,7 @@ export default class ReplyComments extends Component {
 
 
     <View>
-      <Text style={styles.CommentTime}>{moment(this.props.route.params.createdAt).fromNow()}</Text>
+      <Text style={styles.CommentTime}>{moment(this.props.route.params.CommentcreatedAt).fromNow()}</Text>
     </View>
 
     <ViewMoreText
@@ -653,6 +743,22 @@ export default class ReplyComments extends Component {
             keyExtractor={(item) => {
               return item._id;
             }}
+
+            ListFooterComponent={()=>this.FooterComponent()}
+             
+            contentContainerStyle={{ flexGrow: 1 }}
+            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+          onEndReachedThreshold={0.2}
+       
+          ListEmptyComponent={this.renderEmpty()}
+
+
             renderItem={(item) => {
               const Notification = item.item;
               return (
@@ -677,7 +783,7 @@ export default class ReplyComments extends Component {
 
 
                       <View>
-                        <Text style={styles.Time}>{moment(Notification.createdAt).fromNow()}</Text>
+                        <Text style={styles.Time}>{moment(Notification.CommentcreatedAt).fromNow()}</Text>
                       </View>
 
                       <ViewMoreText
@@ -781,20 +887,7 @@ export default class ReplyComments extends Component {
               )
             }} />
 
-          {this.state.data.length === 0 &&
-            <View style={{ flex: 1 }}>
-              <MaterialCommunityIcons
-                name="comment-text"
-                size={45}
-                color="black"
-                style={{
-                  alignSelf: "center", alignItems: "center", width: 53,
-                  height: 53,
-                  borderRadius: 25,
-                }}
-              />
-              <Text style={{ marginLeft: 165, color: "grey", fontWeight: "bold" }}>No reply yet</Text>
-            </View>}
+       
 
           <View style={{
 

@@ -12,10 +12,16 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
-  
+  ImageBackground
 } from 'react-native';
 
+import {
 
+  Divider,
+  
+  
+
+} from 'react-native-paper';
 
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
@@ -45,16 +51,34 @@ export default class PublicGroupListScreen extends Component {
       error: null,
       isDialogVisible: false,
       inputText: '',
-      itemData: ''
+      itemData: '',
+      searchResult:[],
+      errorPagination: null,
+      skipPagination:1,
+      loadingPagination:false
     }
   }
 
 
   componentDidMount() {
+    
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.setState({ data: "", temp: "" })
       this.getData(); // do something
     
+
+      if(this.props.Category.GroupName){
+  
+        this.setState({ searchResult: [] })
+      //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
+     
+  //let arr=this.state.notificationData.push(notificationData)
+  this.setState({ searchResult: [this.props.Category] })
+
+ //this.props.Category=""
+       }
+
+
     });
     
   }
@@ -65,6 +89,7 @@ export default class PublicGroupListScreen extends Component {
       //this.setState({data:"",temp:""})
       //this.getData(); // do something
     });
+   
   }
 
   // componentWillUnmount(){
@@ -73,7 +98,7 @@ export default class PublicGroupListScreen extends Component {
 
   getData = async () => {
     
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true,data:'',skipPagination:1 });
 
     try {
 
@@ -95,7 +120,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/getPublicGroupsWithCategory", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/getPublicGroupsWithCategory?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
@@ -113,13 +138,55 @@ export default class PublicGroupListScreen extends Component {
   };
 
 
+  getPaginationData = async () => {
+    
+    this.setState({ loadingPagination: true, });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+     
+      var GroupData = {
+        GroupCategory_id: this.props.Category.GroupCategory_id!==undefined?this.props.Category.GroupCategory_id:this.props.Category._id,
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groups/getPublicGroupsWithCategory?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+      //   console.log("Error ",json)
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+
+      //   console.log("Error ",e)
+    }
+
+
+
+
+  };
+
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
   }
 
@@ -128,9 +195,48 @@ export default class PublicGroupListScreen extends Component {
 
 
   onRefresh() {
-    this.setState({ isFetching: true, data: "", temp: "" }, function () { this.getData() });
+  
+    this.setState({ isFetching: true, data: "",temp:"",skipPagination:1}, function () { this.getData() });
   }
 
+  loadmoreData(){
+
+    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+  }
+   
+  FooterComponent(){
+  return(
+    
+    this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View>:
+    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',alignSelf:"center"}}>
+    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+  <Text>Loading...</Text>
+    {/* If you want to image set source here */}
+    {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+  </View>:null
+  )
+  }
 
 
 
@@ -173,7 +279,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/DeleteSentJoinRequest", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/DeleteSentJoinRequest", requestOptions);
 
       if (response.ok) {
 
@@ -244,7 +350,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/SendJoinRequest", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/SendJoinRequest", requestOptions);
 
 
 
@@ -306,7 +412,93 @@ export default class PublicGroupListScreen extends Component {
 
 
   renderHeader = () => {
-    return <SearchBar
+   // console.log(this.props)
+    return(
+      <View>
+       <ImageBackground
+       resizeMode= "contain"
+                style={{flex:1, 
+                width: 400,
+                height: 200,}}
+                source={{ uri: this.props.Category.GroupCategory_id!==undefined?this.props.Category.CategoryImage:this.props.Category.image, }}
+>
+<MaterialCommunityIcons name="keyboard-backspace" size={25} style={{ height: 20, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
+    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:18, marginTop:width/2.7}}>{this.props.Category.GroupCategory_id!==undefined?this.props.Category.GroupCategory:this.props.Category.title}</Text>
+</ImageBackground>
+
+{this.state.searchResult.length===0?<Divider style={{ height: 0.1,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
+
+{this.state.searchResult.length!==0?
+<View>
+<Text style={{fontWeight:"bold", marginLeft:7,backgroundColor: "#E6E6E6"}}>Recent Search</Text>
+<FlatList
+            style={styles.root}
+            data={this.state.searchResult}
+            extraData={this.state}
+          
+            refreshControl={
+              <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
+            }
+
+            ItemSeparatorComponent={() => {
+              return (
+                <View style={styles.separator} />
+              )
+            }}
+            keyExtractor={(item) => {
+              return item._id;
+            }}
+
+            renderItem={(item) => {
+              const Group = item.item;
+              let mainContentStyle;
+              if (Group.attachment) {
+                mainContentStyle = styles.mainContent;
+              } //uri:Group.image
+              return (
+
+                <View style={styles.container}>
+                
+             
+                  <TouchableOpacity onPress={() => this.props.myHookValue.navigate("PublicGroupBio", { groupInformation: Group })}>
+                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} style={styles.avatar} />
+                  </TouchableOpacity>
+                  <View style={styles.content}>
+                    <View style={mainContentStyle}>
+                      <View style={styles.text}>
+                        <TouchableOpacity onPress={() => Group.isJoined ? this.props.myHookValue.navigate("JoinedGroupInsideGroup", Group) : this.props.myHookValue.navigate("PublicGroupBio", { groupInformation: Group })}>
+                          <Text style={styles.groupName}>{Group.GroupName}</Text>
+                        </TouchableOpacity>
+                      </View>
+
+                      {/* <Text style={styles.countMembers}>
+                        {Group.countMembers} members
+                  </Text> */}
+
+                      <View style={styles.ButtonContainer}>
+                        <View style={styles.button}>
+
+                          {Group.isJoined ?
+                            // <Button title="Joined" />
+                            null
+                            : (Group.isRequested) ?
+                              <Button title="Requested" color="grey" onPress={() => this.DeleteJoinRequest(item)} />
+
+                              : <Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={() => this.showDialog(true, item)} />
+                          }
+
+                        </View>
+                      </View>
+                    </View>
+
+                  </View>
+
+                </View>
+
+              );
+            }} /><Text style={{fontWeight:"bold", marginLeft:7, backgroundColor: "#E6E6E6"}}>Groups</Text></View>:null}
+              
+    {/* <SearchBar
       // height: 0.5,
       // backgroundColor: "#CCCCCC",
       // width:"78%",
@@ -326,7 +518,9 @@ export default class PublicGroupListScreen extends Component {
       value={this.state.search}
 
 
-      onChangeText={this.updateSearch} />;
+      onChangeText={this.updateSearch} />
+      </View>
+    )
   };
 
   updateSearch = search => {
@@ -361,8 +555,11 @@ export default class PublicGroupListScreen extends Component {
       searchStarted: false
 
 
-    })
+    }) */}
+   </View>
+    )
   };
+  
 
 
 
@@ -379,14 +576,25 @@ export default class PublicGroupListScreen extends Component {
 
 
 
-
+  renderEmpty = () => {
+ 
+    return (
+      <View style={{ flex: 1,marginTop:height/5 }}>
+              <Image source={NoGroups} style={{
+                alignSelf: "center", alignItems: "center", width: 53,
+                height: 53,
+                borderRadius: 25,
+              }} />
+              <Text style={{ marginLeft:width/2.4, color: "grey", fontWeight: "bold" }}>No Groups</Text>
+            </View>
+    )
+  }
 
 
 
 
 
   render() {
-
    
 // <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
 
@@ -430,9 +638,22 @@ export default class PublicGroupListScreen extends Component {
                 <View style={styles.separator} />
               )
             }}
+            ListEmptyComponent={this.renderEmpty()}
             keyExtractor={(item) => {
               return item._id;
             }}
+
+            ListFooterComponent={()=>this.FooterComponent()}
+             
+            contentContainerStyle={{ flexGrow: 1 }}
+            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+          onEndReachedThreshold={0.2}
 
             renderItem={(item) => {
               const Group = item.item;
@@ -481,15 +702,7 @@ export default class PublicGroupListScreen extends Component {
 
               );
             }} />
-          {this.state.data.length === 0 &&
-            <View style={{ flex: 1 }}>
-              <Image source={NoGroups} style={{
-                alignSelf: "center", alignItems: "center", width: 53,
-                height: 53,
-                borderRadius: 25,
-              }} />
-              <Text style={{ marginLeft: 170, color: "grey", fontWeight: "bold" }}>No Groups</Text>
-            </View>}
+         
           <FloatingActionButton />
         </View>
 

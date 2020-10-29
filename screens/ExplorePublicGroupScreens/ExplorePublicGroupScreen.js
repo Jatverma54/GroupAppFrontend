@@ -11,7 +11,8 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
- BackHandler
+ BackHandler,
+ RefreshControl,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -59,7 +60,7 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/admin/GetCategoriesToDB", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/admin/GetCategoriesToDB", requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -104,7 +105,8 @@ export default class ExplorePublicGroupScreen extends Component {
     this.setState({
       data: [...this.state.data, ...res],
       error: res.error || null,
-      loading: false
+      loading: false,
+      isFetching: false
     });
   }
 
@@ -136,6 +138,9 @@ export default class ExplorePublicGroupScreen extends Component {
             horizontal={false}
             numColumns={2}
 
+            refreshControl={
+              <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.getData()} />
+            }
             keyExtractor={(item) => {
               return item._id;
             }}

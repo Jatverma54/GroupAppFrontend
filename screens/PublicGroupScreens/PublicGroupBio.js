@@ -133,7 +133,7 @@ export default class PublicGroupBio extends Component {
       privacy,
       group_Bio,
       GroupAdminName,
-      groupCreateddate
+      createdAt
     } = this.state.data;
 
     const images = [
@@ -185,9 +185,9 @@ export default class PublicGroupBio extends Component {
                   <Text style={styles.name}>
                     {GroupName}
                   </Text>
-                  <Text style={styles.CountMember}>
+                  {countMembers?<Text style={styles.CountMember}>
                     Members: {countMembers}
-                  </Text>
+                  </Text>:null}
                   <Text style={{
                     fontSize: 15,
                     color: "#FFFFFF",
@@ -210,7 +210,7 @@ export default class PublicGroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
- <Text style={styles.GroupAdminName}>Created {moment(groupCreateddate).fromNow()}</Text>
+ <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
                   {/* <Text style={styles.GroupAdminName}>
                     Group owner: {GroupAdminName.join(" , ")}
                   </Text> */}

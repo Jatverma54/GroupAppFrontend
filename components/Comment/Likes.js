@@ -34,6 +34,10 @@ export default class Likes extends Component {
       error: null,
       search: null,
       isFetching: false,
+
+      errorPagination: null,
+      skipPagination:1,
+      loadingPagination:false
     };
   }
 
@@ -41,8 +45,8 @@ export default class Likes extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'', temp: '', });
 
+    this.setState({ loading: true,data:'',temp: '',skipPagination:1 });
     try {
 
       const userData = await AsyncStorage.getItem('userData');
@@ -58,7 +62,7 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/viewlikes/" + this.props.route.params._id, requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/viewlikes/" + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -68,6 +72,38 @@ export default class Likes extends Component {
       console.log("Error ", e)
     }
   };
+
+  
+  getPaginationData = async () => {
+
+
+    this.setState({ loadingPagination: true });
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groupPost/viewlikes/" + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+
+      this.setResult(json.result);
+
+    } catch (e) {
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      console.log("Error ", e)
+    }
+  };
+
 
   componentDidMount() {
     this._unsubscribe = this.getData();
@@ -81,7 +117,8 @@ export default class Likes extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "", temp: "" }, function () { this.getData() });
+ 
+    this.setState({ isFetching: true, data: "", temp: "",skipPagination:1 }, function () { this.getData() });
   }
 
 
@@ -92,9 +129,50 @@ export default class Likes extends Component {
       temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
   }
+
+  loadmoreData(){
+
+    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+  }
+   
+  FooterComponent(){
+  return(
+    
+    this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View>:
+    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',alignSelf:"center"}}>
+    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+  <Text>Loading...</Text>
+    {/* If you want to image set source here */}
+    {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+  </View>:null
+  )
+  }
+
 
 
   renderItem = ({ item }) => {
@@ -200,6 +278,24 @@ export default class Likes extends Component {
 
 
 
+  renderEmpty = () => {
+ 
+    return (
+      <View style={{ flex: 1,marginTop:height/3 }}>
+      <AntDesign
+        name="like1"
+        size={45}
+        color="black"
+        style={{
+          alignSelf: "center", alignItems: "center", width: 53,
+          height: 53,
+          borderRadius: 25,
+        }}
+      />
+      <Text style={{ marginLeft: 170, color: "grey", fontWeight: "bold" }}>No Likes Yet</Text>
+    </View>
+    )
+  }
 
 
 
@@ -238,25 +334,27 @@ export default class Likes extends Component {
             //   )
             // }}
 
-
+            ListEmptyComponent={this.renderEmpty()}
             keyExtractor={(item) => {
               return item._id;
             }}
+
+            ListFooterComponent={()=>this.FooterComponent()}
+             
+            contentContainerStyle={{ flexGrow: 1 }}
+            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+          onEndReachedThreshold={0.2}
+
+
+
             renderItem={this.renderItem} />
-          {this.state.data.length === 0 &&
-            <View style={{ flex: 1 }}>
-              <AntDesign
-                name="like1"
-                size={45}
-                color="black"
-                style={{
-                  alignSelf: "center", alignItems: "center", width: 53,
-                  height: 53,
-                  borderRadius: 25,
-                }}
-              />
-              <Text style={{ marginLeft: 170, color: "grey", fontWeight: "bold" }}>No Likes Yet</Text>
-            </View>}
+       
         </View>
     );
   }

@@ -141,7 +141,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.102:3000/groups/updateGroupimage", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/groups/updateGroupimage", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -240,7 +240,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.102:3000/groups/updateGroupimage", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/groups/updateGroupimage", requestOptions);
 
 
         if (response.ok) {
@@ -369,7 +369,7 @@ export default class JoinedGroupgroupBio extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/" + _id, requestOptions
+      const response = await fetch("http://192.168.0.104:3000/groups/" + _id, requestOptions
 
 
       );
@@ -487,7 +487,7 @@ export default class JoinedGroupgroupBio extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groups/leaveGroup", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groups/leaveGroup", requestOptions);
 
 
       if (response.ok) {
@@ -558,7 +558,7 @@ export default class JoinedGroupgroupBio extends Component {
       currentUser,
       admin_id,
       owner_id,
-      groupCreateddate
+      createdAt
     } = this.state.data;
 
 
@@ -665,7 +665,7 @@ export default class JoinedGroupgroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
- <Text style={styles.GroupAdminName}>Created {moment(groupCreateddate).fromNow()}</Text>
+ <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
                   {/* <Text style={styles.GroupAdminName}>
                     Group owner: {GroupAdminName.join(" , ")}
                   </Text> */}

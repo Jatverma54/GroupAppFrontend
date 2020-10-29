@@ -426,19 +426,13 @@ export default class CreateaNewPost extends Component {
     Keyboard.dismiss();
 
     const { PhotoToBeSentToDb,ClickedPhotoToBeSentToDb, videoToBeSentToDb, documentToBeSentToDb, newValue } = this.state;
-
     try {
+      if(PhotoToBeSentToDb.length!==0||ClickedPhotoToBeSentToDb||videoToBeSentToDb||documentToBeSentToDb||newValue!==""){
       this.setState({ loading: true });
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-      //  this.props.GroupName
-      // var PostInfo = {
-      //   GroupId: this.props.GroupName._id,
-      //   postMetaData: newValue,
-      //   OnwerId: userId,
-     
-      // }
+    
 
         var formdata = new FormData();
 
@@ -500,7 +494,7 @@ export default class CreateaNewPost extends Component {
        redirect: 'follow'
       };
 //console.log(formdata)
-      const response = await fetch("http://192.168.0.102:3000/groupPost/createNewPost/", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/createNewPost/", requestOptions);
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -532,6 +526,9 @@ export default class CreateaNewPost extends Component {
         );
 
       }
+    }else{
+      alert("Nothing to share")
+    }
     }
     catch (e) {
       this.setState({ loading: false });

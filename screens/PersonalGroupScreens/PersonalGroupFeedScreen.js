@@ -52,7 +52,7 @@ export default class PersonalGroupFeedScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
+      data: [],
       isVisible: false,
       MaximizeImage: '',
       isDocumentVisible: false,
@@ -67,7 +67,11 @@ export default class PersonalGroupFeedScreen extends Component {
       GroupAdmin: '',
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width,
-      orientationIsLandscape: false
+      orientationIsLandscape: false,
+      notificationData:[],
+      skipPagination:0,
+      loadingPagination:false,
+      errorPagination: null,
     };
 
 
@@ -76,22 +80,30 @@ export default class PersonalGroupFeedScreen extends Component {
 
 
   componentDidMount() {
-
+    
     this.DetectOrientation();
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
+     
       // do something
-      this.setState({ data: "" })
+      this.setState({ data: "",skipPagination:0 })
       this.getData(); // do something
+      
+
+
     });
+  
   }
 
   componentWillUnmount() {
     this._unsubscribe;
    
     this.props.navigation.removeListener('focus', () => {
+      
       // this.setState({data:""})
       // this.getData(); // do something
     });
+   
+    
   }
 
   getData = async () => {
@@ -119,7 +131,7 @@ export default class PersonalGroupFeedScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/getAllPostofGroup", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
       const json = await response.json();
       
       this.setResult(json.result);
@@ -135,16 +147,115 @@ export default class PersonalGroupFeedScreen extends Component {
 
   };
 
+  getPaginationData = async () => {
+
+    this.setState({ loadingPagination: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+      var GroupData = {
+        groupId:this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id,
+      }
+    
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      this.setResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+
+      console.log("Error ", e)
+    }
+
+
+
+
+  };
 
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination:false
     });
+
+    
+    if(this.props.route.params&&this.props.route.params.Notification){
+  
+      this.setState({ notificationData: [] })
+this.getNotificationData();
+this.props.route.params.Notification="";
+     }
+ 
   }
 
+
+  getNotificationData = async () => {
+    var PostId=this.props.route.params.Notification.post_id._id
+    this.setState({ loading: true });
+
+    try {
+
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+     // var GroupData = {
+      
+     // }
+    
+   
+     
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+       // body: JSON.stringify(GroupData),
+      };
+
+      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPostofGroup/"+PostId, requestOptions);
+      const json = await response.json();
+      //  console.log("Error ",json)
+      this.setNotificationResult(json.result);
+
+    } catch (e) {
+
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      console.log("Error ", e)
+    }
+
+
+
+
+  };
+  setNotificationResult = (res) => {
+    this.setState({
+      notificationData: [...this.state.notificationData, ...res],
+      error: res.error || null,
+      loading: false,
+      isFetching: false,
+      loadingPagination:false
+    });
+  }
 
 
 
@@ -156,6 +267,12 @@ export default class PersonalGroupFeedScreen extends Component {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
   }
 
+  renderEmpty = () => {
+ 
+    return (
+      <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>
+    )
+  }
 
   DetectOrientation() {
 
@@ -236,7 +353,7 @@ export default class PersonalGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/like", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/like", requestOptions);
 
       if (response.ok) {
 
@@ -344,7 +461,7 @@ export default class PersonalGroupFeedScreen extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        {this.state.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "900" }} >No Posts to Show</Text></View>}
+        {/* {this.state.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>} */}
       </View>
     );
 
@@ -460,7 +577,7 @@ export default class PersonalGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch("http://192.168.0.104:3000/groupPost/" + item._id, requestOptions
 
 
       );
@@ -468,14 +585,14 @@ export default class PersonalGroupFeedScreen extends Component {
 
       if (response.ok) {
         this.setState({ loading: false });
-        this.setState({ data: "" });
+        this.setState({ data: "",notificationData: [] });
 
         Alert.alert(
 
           "",
           "Post deleted successfully",
           [
-            { text: "Ok", onPress: () => this.getData() }
+            { text: "Ok", onPress: () => {this.getData(),this.setState({skipPagination:0})} }
           ],
           { cancelable: false }
         );
@@ -569,12 +686,12 @@ export default class PersonalGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.102:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
+      const response = await fetch("http://192.168.0.104:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
 
 
       if (response.ok) {
         this.setState({ loading: false });
-        this.setState({ data: '' });
+        this.setState({ data: '',notificationData: [] });
         Alert.alert(
 
           "User Removed",
@@ -655,10 +772,46 @@ export default class PersonalGroupFeedScreen extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "",skipPagination:0,notificationData: [] }, function () { this.getData() });
   }
 
+  loadmoreData(){
 
+    this.setState({skipPagination:parseInt(this.state.skipPagination)+10,loadingPagination:true},()=>{this.getPaginationData()})
+  }
+   
+  FooterComponent(){
+  return(
+    this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View>:this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',alignSelf:"center"}}>
+    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+  <Text>Loading...</Text>
+    {/* If you want to image set source here */}
+    {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+  </View>:null
+  )
+  }
+  
   openDocument(url) {
 
     Linking.canOpenURL(url)
@@ -692,6 +845,11 @@ export default class PersonalGroupFeedScreen extends Component {
     }
   }
 
+
+  onNotificationRefresh(){
+    this.setState({ notificationData: [],isFetching:false })
+  }
+
   render() {
 
     const { orientationIsLandscape } = this.state;
@@ -719,6 +877,322 @@ export default class PersonalGroupFeedScreen extends Component {
  <Loader isLoading={this.state.loading} />
 
 
+ {this.state.notificationData.length!==0 &&
+
+<View >
+<Text style={{fontWeight:"bold",  backgroundColor: "#E6E6E6"}}>Post from Notifications <Text style={{fontWeight:"normal", fontSize:10, color:"grey"}}>- Drag screen to hide</Text></Text>
+  <FlatList style={styles.list}
+  extraData={this.state}
+    data={this.state.notificationData}
+  
+
+    refreshControl={
+      <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onNotificationRefresh()} />
+    }
+
+    keyExtractor={(item) => {
+      return item._id;
+    }}
+    renderItem={(post) => {
+      //  const post.item = post.item;
+
+      return (
+
+        <View style={styles.card}>
+
+          <View style={styles.cardHeader}>
+
+            <View>
+              <Avatar.Image size={45}
+                style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
+                source={{ uri: post.item.OnwerProfilePic }} />
+
+              {!(post.item.OnwerName.length > 30) ?
+                <Text style={styles.title}>{post.item.OnwerName}</Text>
+                : <Text style={styles.title}>{post.item.OnwerName.toString().substring(0, 30)}..</Text>}
+              <Text style={styles.time}>{moment(post.item.createdAt).fromNow()}</Text>
+
+            </View>
+
+
+            {(post.item.GroupAdmin.includes(post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
+
+              <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ GroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
+
+                <FontAwesome
+                  name="ellipsis-v"
+                  size={20}
+                  style={{ height: 20, width: 20 }}
+                />
+
+                {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+              </TouchableOpacity>}
+
+
+          </View>
+
+          <View style={styles.cardContent}>
+            <TouchableOpacity onPress={() => this.copyText(post.item.postMetaData)}>
+              <ViewMoreText
+                numberOfLines={14}
+                renderViewMore={this.renderViewMore}
+                renderViewLess={this.renderViewLess}
+                textStyle={styles.title2}
+              >
+
+                <ParsedText style={styles.title2} parse={[
+                  { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+                  {
+                    type: 'phone',
+                    style: styles.phone,
+                    onPress: this.handlePhonePress,
+                  },
+                  {
+                    type: 'email',
+                    style: styles.email,
+                    onPress: this.handleEmailPress,
+                  },
+                  {
+                    pattern: /Bob|David/,
+                    style: styles.name,
+                    onPress: this.handleNamePress,
+                  },
+                  {
+                    pattern: /@(\w+)/,
+                    style: styles.username,
+                    onPress: this.handleNamePress,
+                    renderText: this.renderText,
+                  },
+
+                  {
+                    pattern: /@(\w+)_(\w+)/,
+                    style: styles.username,
+                    onPress: this.handleNamePress,
+                    renderText: this.renderText,
+                  },
+                  { pattern: /42/, style: styles.magicNumber },
+                  { pattern: /#(\w+)/, style: styles.hashTag },
+                ]}
+
+                >{post.item.postMetaData}</ParsedText>
+
+              </ViewMoreText>
+            </TouchableOpacity>
+
+          </View>
+
+
+          {(post.item.image.length !== 0) ?
+            <View>
+              <FbImages imagesdata={post.item.image} />
+
+              <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+            </View>
+            :
+
+            (post.item.video != null) ?
+              <View style={styles.ImageView} >
+
+                <Video
+                  source={{ uri: post.item.video }}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode='cover'
+                  shouldPlay={false}
+                  isLooping={false}
+                  useNativeControls={true}
+                  style={styles.video}
+                  onFullscreenUpdate={this.onFullscreenUpdate}
+
+                />
+                <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+
+              </View> : ((post.item.document != null) ?
+                (
+
+
+
+                  <View style={styles.ImageView} >
+
+
+
+                    <TouchableHighlight style={{
+                      marginTop: 10,
+                      alignSelf: "center"
+                    }}
+
+                      onPress={() => this.openDocument(post.item.document)}>
+                      <MaterialCommunityIcons
+                        name="file-document"
+                        size={70}
+                      // style={styles.DocumentIcon} 
+                      />
+                    </TouchableHighlight>
+
+                    <Text style={{ alignSelf: "center" }}>PDF</Text>
+
+
+                    {/* {this.state.isDocumentVisible===true&&
+
+<Modal>
+
+<View style={{height:height,width:width,flex:1}}>
+*/}
+
+                    {/* <PDFReader style={{height:height,width:width}} 
+source={{
+uri: this.state.OpenDucumentUri,
+
+}}    /> */}
+
+
+                    {/* <TouchableHighlight
+style={styles.overlayCancel}
+onPress={()=>{this.setState({isDocumentVisible: false})}}>
+
+  <MaterialCommunityIcons
+    name="close"                
+    size={27}
+   style={styles.cancelIcon} 
+  />
+
+
+</TouchableHighlight>
+</View>
+
+</Modal> */}
+
+
+                    {/* }    */}
+                    <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+
+                  </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
+
+          { this.renderGroupMembers(post.item)}
+
+          <View style={styles.cardFooter}>
+
+
+            <View style={styles.socialBarContainer}>
+
+              <View style={styles.socialBarSection}>
+
+
+                {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
+
+
+                <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
+
+                  {/* <Image style={styles.icon} source={Like}/> */}
+                  {post.item.isLiked ?
+                    <AntDesign
+                      name="like1"
+                      size={25}
+                      color="#1E90FF"
+                      style={styles.icon}
+                    /> : <AntDesign
+                      name="like1"
+                      size={25}
+                      color="black"
+                      style={styles.icon}
+                    />}
+
+
+                  <Text style={{ marginRight: 40, marginLeft: 5, color: "grey" }}>{(parseInt(post.item.countLikes) === 0) ? "" : post.item.countLikes} {(parseInt(post.item.countLikes) > 1) ? "Likes" : "Like"}</Text>
+                </TouchableOpacity>
+              </View>
+
+
+
+              <View style={styles.socialBarSection}>
+
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", post.item)}>
+                  <View style={styles.socialBarButton}>
+                    <Image style={{
+                      width: 25,
+                      height: 25,
+
+                      marginLeft: 200
+                    }} source={Comment} />
+
+                    <Text style={{ marginLeft: 5, color: "grey", }} >{(parseInt(post.item.countcomments) === 0) ? "" : post.item.countcomments} {(parseInt(post.item.countcomments) > 1) ? "Comments" : "Comment"}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+
+
+            </View>
+
+          </View>
+
+        </View>
+
+      )
+    }} />
+
+  <RBSheet
+    ref={ref => {
+      this.AdminOptions = ref;
+    }}
+    height={330}
+
+  >
+    <View style={styles.listContainerNewPost}>
+
+      <Text style={styles.listTitleNewPost}>Admin Options</Text>
+
+      {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
+        <View>
+          <TouchableOpacity
+
+            style={styles.listButtonNewPost}
+            onPress={() => this.delete(this.state.AdminTab.item)}
+          >
+            <MDIcon name="delete" style={styles.listIconNewPost} />
+            <Text style={styles.listLabelNewPost}>Delete post from {this.state.PostUsertitle}</Text>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity
+
+            style={styles.listButtonNewPost}
+            onPress={() => this.deletePostandUserfromGroup(this.state.AdminTab.item)}
+          >
+            <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
+            <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
+          </TouchableOpacity></View> :
+        <View>
+          <TouchableOpacity
+
+            style={styles.listButtonNewPost}
+            onPress={() => this.delete(this.state.AdminTab.item)}
+          >
+            <MDIcon name="delete" style={styles.listIconNewPost} />
+            <Text style={styles.listLabelNewPost}>Delete your post</Text>
+          </TouchableOpacity>
+        </View>
+
+      }
+
+
+
+
+
+    </View>
+  </RBSheet>
+
+
+  <Text style={{fontWeight:"bold",marginTop:-2,marginBottom:4, backgroundColor: "#E6E6E6",}}>Group Activities</Text>
+</View>
+
+    
+
+}
+
+
+
 
             <FlatList style={styles.list}
 
@@ -734,9 +1208,24 @@ export default class PersonalGroupFeedScreen extends Component {
               keyExtractor={(item) => {
                 return item._id;
               }}
+
+              ListFooterComponent={()=>this.FooterComponent()}
+             
+              contentContainerStyle={{ flexGrow: 1 }}
+            
+              onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
+            onEndReached={() =>{
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            } }
+            onEndReachedThreshold={0}
+             
+            ListEmptyComponent={this.renderEmpty()}
               renderItem={(post) => {
                 //  const post.item = post.item;
-
+               
                 return (
 
                   <View style={styles.card}>
@@ -751,7 +1240,7 @@ export default class PersonalGroupFeedScreen extends Component {
                         {!(post.item.OnwerName.length > 30) ?
                           <Text style={styles.title}>{post.item.OnwerName}</Text>
                           : <Text style={styles.title}>{post.item.OnwerName.toString().substring(0, 30)}..</Text>}
-                        <Text style={styles.time}>{moment(post.item.time).fromNow()}</Text>
+                        <Text style={styles.time}>{moment(post.item.createdAt).fromNow()}</Text>
 
                       </View>
 

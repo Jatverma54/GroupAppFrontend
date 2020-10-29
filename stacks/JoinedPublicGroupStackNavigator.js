@@ -12,7 +12,7 @@ import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
-import TextInputClass from '../screens/Posts/TextInputClass';
+//import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
 import AddMember from '../components/AddMember';
@@ -23,6 +23,7 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
 import ReplyComments from '../components/Comment/ReplyComments';
 import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinPublicGroupRequestScreen';
 import ReplyLikesComment from '../components/Comment/ReplyLikesComment';
+
 import {
   Button,
 } from 'react-native-paper';
@@ -42,6 +43,7 @@ const JoinedPublicGroupStackNavigator = (props) => {
         component={withMyHook(JoinedPublicGroupsScreen)} />
 
 
+        
 
     </JoinedPublicGroupStack.Navigator>
 
@@ -301,6 +303,7 @@ const NotificationGroupTabStackNavigator = ({ route }) => {
         component={NotificationScreen} 
         initialParams={{ groupid: route.params.groupid }}
         />
+        
 
     </NotificationGroupTabStack.Navigator>
 
@@ -433,14 +436,14 @@ export const HomeFeedStackNavigator = ({ route }) => {
         name='AddMembers'
         component={withMyHook(AddMember)} />
 
-      <HomeFeedStack.Screen
+      {/* <HomeFeedStack.Screen
 
         options={{
 
           headerTitle: "Start a conversation"
         }}
         name='CreateaTextPost'
-        component={withMyHook(TextInputClass)} />
+        component={withMyHook(TextInputClass)} /> */}
 
     </HomeFeedStack.Navigator>
 

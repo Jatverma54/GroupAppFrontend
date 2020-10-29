@@ -55,7 +55,7 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.0.102:3000/groups/groupSearchQuery", requestOptions);
+        const response = await fetch("http://192.168.0.104:3000/groups/groupSearchQuery", requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -169,6 +169,22 @@ class SearchFunctionality extends Component {
     width: "100%",
   }} />;
 
+
+
+  renderEmpty = () => {
+ 
+    return (
+      
+        <View style={{ flex: 1 }}>
+          <Image style={{alignSelf:"center"}} source={SearchIcon} />
+         
+          <Text style={{alignItems:"center",  marginLeft:width/3,color: "grey", fontWeight: "bold",fontSize:16 }}>No result to show</Text>
+         
+        </View>
+    )
+  }
+
+
   render() {
   
 
@@ -191,6 +207,7 @@ class SearchFunctionality extends Component {
           data={this.state.data}
           ItemSeparatorComponent={this.FlatListItemSeparator}
           keyExtractor={item => item._id}
+          ListEmptyComponent={this.renderEmpty()}
           renderItem={({ item }) => (
 
             item.isJoined ?
@@ -215,11 +232,7 @@ class SearchFunctionality extends Component {
               </TouchableOpacity>
           )}
         />
-        {this.state.data.length === 0 &&
-          <View style={{ flex: 1 }}>
-            <Image style={{alignSelf:"center"}} source={SearchIcon} />
-            <Text style={{alignItems:"center", marginLeft: 140, color: "black", fontWeight: "bold",fontSize:16 }}>No result to show</Text>
-          </View>}
+       
           </View>
     );
     

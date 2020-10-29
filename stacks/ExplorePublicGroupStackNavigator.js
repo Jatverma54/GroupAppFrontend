@@ -128,7 +128,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
   if(route.params.GroupCategory!=undefined){
     SearchTitle=  route.params.GroupCategory;
   }
- 
+
   return (
 
     <ExplorePublicGroupCategoryBasedStack.Navigator headerMode='float' screenOptions={{
@@ -155,21 +155,31 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
       },
       headerTintColor: colors.StackheaderTintColor,
       headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 60 },
+      
     }} >
       <ExplorePublicGroupCategoryBasedStack.Screen
 
         options={{
-
-          headerTitle: title!==undefined?title:SearchTitle
+          headerShown: false
+         // headerTitle: title!==undefined?title:SearchTitle
         }}
         name='Public Groups List'
-        component={withMyHookCategory(PublicGroupListScreen, route.params)} />
+        component={withMyHookCategory(PublicGroupListScreen,route.params)}
+       />
 
 
       <ExplorePublicGroupCategoryBasedStack.Screen
         options={{
 
           headerTitle: "Create a Public Group",
+         
+          headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 60 },
+          headerTitleStyle: {
+            fontSize: 19,
+           marginTop:-30,
+            // fontWeight: "200",//colors.TabLabelStylefontWeight,
+            width: colors.TabLabelStylewidth
+          },
           headerLeft: ({ }) => <HeaderLeftCreateaPublicGroup />,
 
         }}

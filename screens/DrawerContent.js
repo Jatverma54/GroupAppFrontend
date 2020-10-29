@@ -60,7 +60,7 @@ const DrawerContent = (props,) => {
 
   //     };
 
-  //     const response = await fetch("http://192.168.0.102:3000/users/userInformation", requestOptions );             
+  //     const response = await fetch("http://192.168.0.104:3000/users/userInformation", requestOptions );             
   //       const json = await response.json();
 
   //       setuserimageUrl(json.result.profile.profile_pic);
@@ -96,7 +96,7 @@ const DrawerContent = (props,) => {
 
 
 
-  LogOut = async () => {
+ const LogOut = async () => {
 
     try {
       setloading(true)
@@ -116,7 +116,7 @@ const DrawerContent = (props,) => {
         //redirect: 'follow'
       };
 
-      const response = await fetch("http://192.168.0.102:3000/users/logout", requestOptions
+      const response = await fetch("http://192.168.0.104:3000/users/logout", requestOptions
 
 
       );
