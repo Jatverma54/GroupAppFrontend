@@ -26,6 +26,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -142,7 +143,7 @@ export default class PersonalGroupBio extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groups/updateGroupimage", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -242,7 +243,7 @@ export default class PersonalGroupBio extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groups/updateGroupimage", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
 
 
         if (response.ok) {
@@ -376,7 +377,7 @@ export default class PersonalGroupBio extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/" + _id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions
 
 
       );
@@ -494,7 +495,7 @@ export default class PersonalGroupBio extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/leaveGroup", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions);
 
 
       if (response.ok) {

@@ -14,7 +14,7 @@ import {
 
   Dimensions
 } from 'react-native';
-
+import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class AddMembers extends React.Component {
@@ -80,7 +80,7 @@ export default class AddMembers extends React.Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/userSearchQuery", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userSearchQuery`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -221,7 +221,7 @@ for(var data in selectedthing){
               body: JSON.stringify(search)
             };
     
-            const response = await fetch("http://192.168.0.104:3000/users/adduserTogroup", requestOptions);
+            const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions);
     
             if (response.ok) {
              

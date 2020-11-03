@@ -35,6 +35,7 @@ import * as Linking from 'expo-linking';
 import moment from "moment";
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class YourPublicGroupPostscreen extends Component {
 
   constructor(props) {
@@ -103,7 +104,7 @@ export default class YourPublicGroupPostscreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllUserPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -144,7 +145,7 @@ export default class YourPublicGroupPostscreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllUserPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -320,7 +321,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions
 
 
       );
@@ -446,7 +447,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/leaveGroup", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions);
 
 
       if (response.ok) {
@@ -641,7 +642,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/like", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions);
 
       if (response.ok) {
 

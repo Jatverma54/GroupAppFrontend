@@ -19,6 +19,7 @@ import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { SearchBar } from "react-native-elements";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
+import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
@@ -66,7 +67,7 @@ export default class ReplyLikesComment extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewReplyCommentlikes?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewReplyCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -100,7 +101,7 @@ export default class ReplyLikesComment extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewReplyCommentlikes?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewReplyCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

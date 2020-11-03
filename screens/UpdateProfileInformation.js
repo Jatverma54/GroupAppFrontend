@@ -35,6 +35,7 @@ import mime from "mime";
 import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
 const { width, height } = Dimensions.get('window');
 import Loader from '../components/Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -198,7 +199,7 @@ export default class UpdateProfileInformation extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/updateUserinformation", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserinformation`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

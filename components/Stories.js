@@ -23,6 +23,7 @@ import ShareIcon from '../Pictures/ShareIcon.png';
 import ImageView from "react-native-image-viewing";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from './Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 export default class Stories extends Component {
 
   constructor(props) {
@@ -70,7 +71,7 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
      
       this.setResult(json.result);
@@ -110,7 +111,7 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
      
       this.setResult(json.result);

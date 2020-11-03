@@ -23,6 +23,7 @@ import {  SearchBar } from "react-native-elements";
 import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class PersonalGroupsScreen extends Component {
@@ -82,7 +83,7 @@ export default class PersonalGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/getJoinedPrivateGroups", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPrivateGroups`, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);

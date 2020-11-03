@@ -22,6 +22,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
+import APIBaseUrl from '../../constants/APIBaseUrl';
 import Loader from '../Loader';
 export default class Likes extends Component {
 
@@ -62,7 +63,7 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewlikes/" + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -93,7 +94,7 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewlikes/" + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

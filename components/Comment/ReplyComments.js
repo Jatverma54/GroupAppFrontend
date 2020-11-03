@@ -30,6 +30,7 @@ import * as Linking from 'expo-linking';
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import Loader from '../Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 MDIcon.loadFont();
 
 export default class ReplyComments extends Component {
@@ -77,7 +78,7 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getReplyComments?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -110,7 +111,7 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getReplyComments?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -229,7 +230,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/replyCommentslike", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/replyCommentslike`, requestOptions);
 
       if (response.ok) {
 
@@ -408,7 +409,7 @@ export default class ReplyComments extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groupPost/addNewReplyComment", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/addNewReplyComment`, requestOptions);
 
         if (response.ok) {
 
@@ -521,7 +522,7 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/deleteReplyComment", requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteReplyComment`, requestOptions
 
 
       );

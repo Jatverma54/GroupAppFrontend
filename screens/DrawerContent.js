@@ -28,7 +28,7 @@ import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
 import ImageView from "react-native-image-viewing";
 import Loader from '../components/Loader';
-
+import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 
@@ -60,7 +60,7 @@ const DrawerContent = (props,) => {
 
   //     };
 
-  //     const response = await fetch("http://192.168.0.104:3000/users/userInformation", requestOptions );             
+  //     const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions );             
   //       const json = await response.json();
 
   //       setuserimageUrl(json.result.profile.profile_pic);
@@ -116,7 +116,7 @@ const DrawerContent = (props,) => {
         //redirect: 'follow'
       };
 
-      const response = await fetch("http://192.168.0.104:3000/users/logout", requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/logout`, requestOptions
 
 
       );

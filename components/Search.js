@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native-paper';
 import Loader from './Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 class SearchFunctionality extends Component {
 
@@ -55,7 +56,7 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groups/groupSearchQuery", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/groupSearchQuery`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

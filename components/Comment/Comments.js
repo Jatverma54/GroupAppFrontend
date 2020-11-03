@@ -31,6 +31,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 MDIcon.loadFont();
 import Loader from '../Loader';
+import APIBaseUrl from './../../constants/APIBaseUrl';
 export default class Comments extends Component {
 
   constructor(props) {
@@ -73,7 +74,7 @@ export default class Comments extends Component {
 
       };
 var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.route.params._id
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getComments/" +id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -103,7 +104,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
       };
 var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.route.params._id
-const response = await fetch("http://192.168.0.104:3000/groupPost/getComments/" +id+"?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -220,7 +221,7 @@ const response = await fetch("http://192.168.0.104:3000/groupPost/getComments/" 
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/Commentslike", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/Commentslike`, requestOptions);
 
       if (response.ok) {
 
@@ -396,7 +397,7 @@ const response = await fetch("http://192.168.0.104:3000/groupPost/getComments/" 
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groupPost/createNewComment", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewComment`, requestOptions);
 
         if (response.ok) {
 
@@ -505,7 +506,7 @@ const response = await fetch("http://192.168.0.104:3000/groupPost/getComments/" 
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/deleteComment", requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteComment`, requestOptions
 
 
       );

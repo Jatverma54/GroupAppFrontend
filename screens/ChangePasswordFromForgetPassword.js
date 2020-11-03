@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import lock_Icon from '../Pictures/lock.png';
 import Loader from '../components/Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 export default class ChangePasswordFromForgetPassword extends Component {
 
@@ -74,7 +75,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/updateUserPasswordFromForget", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPasswordFromForget`, requestOptions);
 
         if (response.ok) {
 

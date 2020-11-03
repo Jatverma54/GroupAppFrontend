@@ -20,7 +20,7 @@ import {
   Button,
 } from 'react-native-paper';
 import Loader from '../../components/Loader';
-
+import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class ExplorePublicGroupScreen extends Component {
@@ -61,7 +61,7 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/admin/GetCategoriesToDB", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/admin/GetCategoriesToDB`, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

@@ -23,6 +23,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
 import Loader from '../Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class LikesComments extends Component {
 
   constructor(props) {
@@ -66,7 +67,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewCommentlikes?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -100,7 +101,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/viewCommentlikes?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);

@@ -23,6 +23,7 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import Loader from '../components/Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
@@ -75,7 +76,7 @@ export default class ViewMembers extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -115,7 +116,7 @@ export default class ViewMembers extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/ViewGroupMembers?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -253,7 +254,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/AdmindeleteUserfromtheGroup", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/AdmindeleteUserfromtheGroup`, requestOptions);
 
 
       if (response.ok) {
@@ -362,7 +363,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/DismissUserAsAdmin", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DismissUserAsAdmin`, requestOptions);
 
 
       if (response.ok) {
@@ -454,7 +455,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/MakeUserAsAdmin", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/MakeUserAsAdmin`, requestOptions);
 
 
       if (response.ok) {

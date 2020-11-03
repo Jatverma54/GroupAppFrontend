@@ -34,6 +34,7 @@ import NoGroups from '../../Pictures/NoGroups.png';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class PublicGroupListScreen extends Component {
 
 
@@ -120,7 +121,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/getPublicGroupsWithCategory?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
@@ -162,7 +163,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/getPublicGroupsWithCategory?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
@@ -279,7 +280,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/DeleteSentJoinRequest", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DeleteSentJoinRequest`, requestOptions);
 
       if (response.ok) {
 
@@ -350,7 +351,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/SendJoinRequest", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/SendJoinRequest`, requestOptions);
 
 
 

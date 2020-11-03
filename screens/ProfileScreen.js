@@ -27,6 +27,7 @@ import * as Permissions from 'expo-permissions';
 FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../components/Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 export default class ProfileScreen extends Component {
 
@@ -88,7 +89,7 @@ export default class ProfileScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/users/userInformation", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions);
 
 
       if (response.ok) {
@@ -228,7 +229,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/updateUserImage", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions);
 
 
         if (response.ok) {
@@ -301,7 +302,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/updateUserImage", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

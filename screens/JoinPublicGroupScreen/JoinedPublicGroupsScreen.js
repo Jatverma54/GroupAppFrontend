@@ -21,7 +21,7 @@ import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
-
+import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class JoinedPublicGroupsScreen extends Component {
 
 
@@ -63,7 +63,7 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/getJoinedPublicGroups?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -93,7 +93,7 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groups/getJoinedPublicGroups?page_size=10&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);

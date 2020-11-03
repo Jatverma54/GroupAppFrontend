@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Button, AsyncStorage, Alert } from 'react-native';
 
-
+import APIBaseUrl from '../constants/APIBaseUrl';
 import colors from '../constants/colors';
 import MainScreenText from '../constants/MainScreenText';
 
@@ -41,7 +41,7 @@ const MainScreenPage = ({ navigation }) => {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/userInformation", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions);
 
         
         if (response.ok) {

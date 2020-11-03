@@ -21,6 +21,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import moment from "moment";
+import APIBaseUrl from '../constants/APIBaseUrl';
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
 export default class NotificationScreen extends Component {
@@ -62,7 +63,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.104:3000/notifications/" + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
@@ -101,7 +102,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch("http://192.168.0.104:3000/notifications/" + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")

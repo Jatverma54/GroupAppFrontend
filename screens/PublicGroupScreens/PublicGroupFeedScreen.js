@@ -42,6 +42,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
 import NoGroups from '../../Pictures/NoGroups.png';
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -121,7 +122,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -158,7 +159,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 console.log(this.state.skipPagination,"Pagination")
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -208,7 +209,7 @@ this.props.route.params.Notification="";
         height: 53,
         borderRadius: 25,
       }} />
-      <Text style={{ marginLeft: width/5, color: "grey", fontWeight: "bold" }}>                         No Posts to show.{'\n'}Public group posts will be visible here.</Text>
+      <Text style={{ marginLeft: width/7, color: "grey", fontWeight: "bold" }}>                               No Posts to show.{'\n'}All joined public group posts will be visible here.</Text>
     </View>
     )
   }
@@ -238,7 +239,7 @@ this.props.route.params.Notification="";
        // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/getAllPostofGroup/"+PostId, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/`+PostId, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setNotificationResult(json.result);
@@ -352,7 +353,7 @@ this.props.route.params.Notification="";
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/like", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions);
 
       if (response.ok) {
 
@@ -505,7 +506,7 @@ this.props.route.params.Notification="";
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/" + item._id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions
 
 
       );
@@ -614,7 +615,7 @@ this.props.route.params.Notification="";
 
       };
 
-      const response = await fetch("http://192.168.0.104:3000/groupPost/deleteDataAndUserfromGroup", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions);
 
 
       if (response.ok) {

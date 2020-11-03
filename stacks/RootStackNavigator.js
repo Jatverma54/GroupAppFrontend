@@ -19,6 +19,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import ConfirmYourIdentity from '../screens/ConfirmYourIdentity';
 import StartupScreen from '../screens/StartupScreen';
 import ChangePasswordFromForgetPassword from '../screens/ChangePasswordFromForgetPassword';
+import TermsAndCondition from '../screens/TermsAndCondition';
 
 
 const HeaderLeft = () => {
@@ -58,17 +59,29 @@ const RootMainStackNavigator = () => {
 
 
       <RootMainStack.Screen
-        options={{ headerTitle: "Password Assistance" }}
+        options={{ headerTitle: "Password Assistance" ,
+        headerTintColor: colors.StackheaderTintColor,
+       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+
+      }}
         name='ForgotPassword'
         component={ForgotPassword} />
 
 <RootMainStack.Screen
-        options={{ headerTitle: "Confirm your identity" }}
+        options={{ headerTitle: "Confirm your identity",
+        headerTintColor: colors.StackheaderTintColor,
+       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+
+      }}
         name='ConfirmYourIdentity'
         component={ConfirmYourIdentity} />
 
 <RootMainStack.Screen
-        options={{ headerTitle: "Change Password" }}
+        options={{ headerTitle: "Change Password",
+        headerTintColor: colors.StackheaderTintColor,
+       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+
+      }}
         name='ChangePasswordFromForgetPassword'
         component={ChangePasswordFromForgetPassword} />
 
@@ -76,6 +89,18 @@ const RootMainStackNavigator = () => {
         options={{ headerShown: false }}
         name='SignupScreen'
         component={SignupScreen} />
+
+<RootMainStack.Screen
+      options={{
+        headerTitle: "Terms And Conditions",
+
+        headerTintColor: colors.StackheaderTintColor,
+       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+
+
+      }}
+        name='TermsAndCondition'
+        component={TermsAndCondition} />
 
       <RootMainStack.Screen
         options={{
@@ -167,7 +192,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
   //       };
 
-  //       const response = await fetch("http://192.168.0.104:3000/users/userInformation", requestOptions);
+  //       const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions);
 
 
   //       if (response.ok) {

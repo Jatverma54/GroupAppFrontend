@@ -24,6 +24,7 @@ import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
+import APIBaseUrl from '../constants/APIBaseUrl';
 export default class LoginScreen extends Component {
 
   constructor(props) {
@@ -63,7 +64,7 @@ export default class LoginScreen extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/login", requestOptions
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/login`, requestOptions
 
 
         );

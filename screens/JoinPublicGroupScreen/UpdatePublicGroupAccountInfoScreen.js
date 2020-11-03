@@ -36,6 +36,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 
@@ -189,7 +190,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.104:3000/groups/updateGroupinformation", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions);
 
         if (response.ok) {
           this.setState({ loading: false });

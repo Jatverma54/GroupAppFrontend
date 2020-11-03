@@ -35,6 +35,7 @@ import mime from "mime";
 FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../../components/Loader';
+import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class CreateaNewPost extends Component {
   PhotoPresent
   constructor(props) {
@@ -494,7 +495,7 @@ export default class CreateaNewPost extends Component {
        redirect: 'follow'
       };
 //console.log(formdata)
-      const response = await fetch("http://192.168.0.104:3000/groupPost/createNewPost/", requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions);
 
       if (response.ok) {
         this.setState({ loading: false });

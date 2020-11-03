@@ -12,8 +12,8 @@ import {
 
 } from 'react-native';
 import Email_Icon from '../Pictures/Email.png';
-
-
+import APIBaseUrl from '../constants/APIBaseUrl';
+import Loader from '../components/Loader';
 export default class ForgotPassword extends Component {
 
   constructor(props) {
@@ -21,7 +21,8 @@ export default class ForgotPassword extends Component {
     this.state = {
 
 
-      Email: ""
+      Email: "",
+      loading: false,
 
     }
   }
@@ -69,7 +70,7 @@ export default class ForgotPassword extends Component {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/ForgetPassword/AuthenticateEmail", requestOptions
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateEmail`, requestOptions
 
 
         );
@@ -141,7 +142,7 @@ export default class ForgotPassword extends Component {
 
       <View style={styles.container}>
 
-
+<Loader isLoading={this.state.loading} />
 
         <View style={styles.inputContainer}>
 

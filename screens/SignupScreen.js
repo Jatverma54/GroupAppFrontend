@@ -37,6 +37,7 @@ const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../components/Loader';
+import APIBaseUrl from '../constants/APIBaseUrl';
 export default class SignupScreen extends Component {
 
   constructor(props) {
@@ -50,7 +51,7 @@ export default class SignupScreen extends Component {
       photo: null,
       Full_Name: '',
       // Last_name: '',
-      date: new Date("2020-07-15"),
+      date:  Date.now(),
       mode: 'date',
       show: false,
       datechanged: false,
@@ -71,7 +72,7 @@ export default class SignupScreen extends Component {
 
   onChange = (event, selectedDate) => {
 
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || this.state.date;
 
     this.setState({ show: Platform.OS === 'ios' });
 
@@ -187,9 +188,9 @@ export default class SignupScreen extends Component {
 
     let emailValidation = this.EmailValidation(email)
 
-   // let PasswordValidation = 
+    let underAgeValidate=this.underAgeValidate(date.toString())
 
-    if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password)) {
+    if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password)&&underAgeValidate) {
       this.setState({ loading: true,data:'' });
       try {
 
@@ -246,7 +247,7 @@ export default class SignupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/", requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/`, requestOptions);
 
         if (response.ok) {
 
@@ -312,6 +313,9 @@ export default class SignupScreen extends Component {
       } else if (!emailValidation) {
         alert("Enter a valid Email Id");
       }
+     else if (!underAgeValidate) {
+      alert("User must be at least 18 years old to have an account");
+    }
       else if (!this.PasswordValidation(password)) {
 
 
@@ -339,6 +343,28 @@ export default class SignupScreen extends Component {
     return match ? true : false;
 
   }
+
+   underAgeValidate(birthday){
+     
+    // it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+    var optimizedBirthday = birthday.replace(/-/g, "/");
+  
+    //set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+    var myBirthday = new Date(optimizedBirthday);
+  
+    // set current day on 01:00:00 hours GMT+0100 (CET)
+    var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+  
+    // calculate age comparing current date and borthday
+    var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+  
+    if(myAge < 18) {
+             return false;
+          }else{
+        return true;
+    }
+  
+  } 
 
   PasswordValidation(matchingString) {
     // matches => ["[@michel:5455345]", "@michel", "5455345"]
@@ -530,11 +556,15 @@ export default class SignupScreen extends Component {
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
           <Text style={styles.signUpText}>Sign up</Text>
         </TouchableHighlight>
+        <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('TermsAndCondition')}   >
+          <Text style={{  width: "100%", marginLeft: 100 }}>By signing in, you agree to the <Text style={{fontWeight: 'bold',}}>terms and conditions</Text></Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('LoginScreen')}   >
           <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Already have an account?Log in</Text>
         </TouchableOpacity>
 
+   
 
         {/* List Menu */}
         <RBSheet

@@ -10,8 +10,9 @@ import {
 Keyboard,
 Alert
 } from 'react-native';
+import APIBaseUrl from '../constants/APIBaseUrl';
 import Email_Icon from '../Pictures/Email.png';
-
+import Loader from '../components/Loader';
 
 export default class ForgotPassword extends Component {
 
@@ -20,8 +21,8 @@ export default class ForgotPassword extends Component {
     this.state = {
 
 
-      confrimationCode: ""
-
+      confrimationCode: "",
+      loading: false,
     }
   }
 //   AuthenticateConfirmCode(){
@@ -70,7 +71,7 @@ resetCodeValidation(matchingString) {
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/ForgetPassword/AuthenticateConfirmationCode", requestOptions
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateConfirmationCode`, requestOptions
 
 
         );
@@ -145,7 +146,7 @@ resetCodeValidation(matchingString) {
 
       <View style={styles.container}>
 
-
+<Loader isLoading={this.state.loading} />
 
         <View style={styles.inputContainer}>
 
