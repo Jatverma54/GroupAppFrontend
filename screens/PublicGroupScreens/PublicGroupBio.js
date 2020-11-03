@@ -121,10 +121,6 @@ export default class PublicGroupBio extends Component {
 
   render() {
 
-   
-
-
-
     const { image,
       _id,
       GroupName,
@@ -132,10 +128,11 @@ export default class PublicGroupBio extends Component {
       countMembers,
       privacy,
       group_Bio,
-      GroupAdminName,
+      admin_id,
       createdAt
     } = this.state.data;
 
+   
     const images = [
       {
         uri: image ? image : PlaceHolderImage,
@@ -210,10 +207,20 @@ export default class PublicGroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
+
+
+<Text style={styles.GroupAdminName}>
+                    Group Admin:  {admin_id.map((prop, key) => {
+                return (
+                prop.profile.full_name
+                );
+              }).join(" , ")}
+                  </Text>
+
  <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
-                  {/* <Text style={styles.GroupAdminName}>
-                    Group owner: {GroupAdminName.join(" , ")}
-                  </Text> */}
+                  
+                  
+                
 
                 </View>
 

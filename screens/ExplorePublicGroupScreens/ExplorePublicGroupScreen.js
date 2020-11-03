@@ -13,6 +13,7 @@ import {
   Dimensions,
  BackHandler,
  RefreshControl,
+ ImageBackground,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -149,13 +150,16 @@ export default class ExplorePublicGroupScreen extends Component {
 
               return (
                 <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => this.props.myHookValue.navigate("ExplorePublicGroupCategoryBased", item)}>
+                <ImageBackground style={styles.cardImage} source={{ uri: item.image }}>
                   <View style={styles.cardHeader}>
                     <Text style={styles.title}>{item.title}</Text>
                   </View>
-                  <Image style={styles.cardImage} source={{ uri: item.image }} />
+                  {/* <Image style={styles.cardImage} source={{ uri: item.image }} /> */}
                   <View style={styles.cardFooter}>
-                    <Text style={styles.subTitle}>{item.Groups} Groups</Text>
+                    <Text style={styles.subTitle}>{item.Groups} {(parseInt(item.Groups) > 1) ? "Groups" : "Group"}</Text>
+                    
                   </View>
+                  </ImageBackground>
                 </TouchableOpacity>
               )
             }} />
@@ -194,7 +198,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 1,
     flexDirection: 'row',
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop:width/3.2
   },
   cardContent: {
     paddingVertical: 12.5,
@@ -202,28 +207,31 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 12.5,
+    justifyContent: 'flex-end',
+    paddingTop: 20,
     paddingBottom: 25,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
+    marginTop:-width/12
+
   },
   cardImage: {
-    height: 70,
-    width: 70,
+    height: 190,
+    width: "100%",
     alignSelf: 'center'
   },
   title: {
     fontSize: 16,
     flex: 1,
-    color: "#FFFFFF",
+    color: "black",
     fontWeight: 'bold'
   },
   subTitle: {
     fontSize: 12,
     flex: 1,
-    color: "#FFFFFF",
+    fontWeight: 'bold',
+    color:"black",
   },
   icon: {
     height: 20,

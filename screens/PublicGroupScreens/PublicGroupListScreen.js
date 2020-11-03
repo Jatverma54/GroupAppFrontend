@@ -214,9 +214,9 @@ export default class PublicGroupListScreen extends Component {
             () => {
               this.getPaginationData();
             }
-          }  >
-            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
-          </Button>
+          }  
+          title="Reload the page"  
+          />
         </View>:
     this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
     height: 100,
@@ -677,9 +677,9 @@ export default class PublicGroupListScreen extends Component {
                       </View>
 
                       <Text style={styles.countMembers}>
-                        {Group.countMembers} members
+                        {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
                   </Text>
-
+                  
                       <View style={styles.ButtonContainer}>
                         <View style={styles.button}>
 

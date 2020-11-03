@@ -475,7 +475,7 @@ export default class PersonalGroupBio extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = admin_id.includes(userId) ? true : false;
+      var isAdmin = (admin_id.find(id=>id._id===userId)) ? true : false;
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -548,7 +548,7 @@ export default class PersonalGroupBio extends Component {
 
 AddMembers(){
 
-    if(this.state.data.admin_id.includes(this.state.data.currentUser)){
+    if(this.state.data.admin_id.find(id=>id._id===this.state.data.currentUser)){
      this.props.myHookValue.push("AddMembers",this.state.data._id);
       
     }
@@ -626,7 +626,7 @@ AddMembers(){
                 {(owner_id.includes(currentUser)) ? <Button color="black" style={styles.groupMembersContent} onPress={() => this.DeleteGroup(GroupName)} >Delete Group</Button> :
                   <Button color="black" style={styles.groupMembersContent} onPress={() => this.leaveGroup(GroupName)} >Leave Group</Button>}
 
-                {(admin_id.includes(currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePersonalGroupAccountInfoScreen", this.state.data) }} >
+                {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePersonalGroupAccountInfoScreen", this.state.data) }} >
 
                   <MaterialCommunityIcons
                     name='account-edit'
@@ -643,7 +643,7 @@ AddMembers(){
                   </TouchableOpacity>
 
 
-                  {(admin_id.includes(currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
+                  {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
                     <MaterialIcons
                       name='edit'
 
@@ -674,6 +674,15 @@ AddMembers(){
                   </Text>
                   <Text style={styles.CountMember}>
                     Members: {countMembers}
+                  </Text>
+
+
+<Text style={styles.GroupAdminName}>
+                    Group Admin:  {admin_id.map((prop, key) => {
+                return (
+                prop.profile.full_name
+                );
+              }).join(" , ")}
                   </Text>
 
                   <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>

@@ -89,6 +89,17 @@ export default class JoinPublicGroupRequestScreen extends Component {
         const json = await response.json();
         //  console.log("Error ",json)
         this.setResult(json.result);
+
+        if(this.state.data.length!==0){
+        
+           this.props.navigation.setOptions({
+             tabBarLabel: 'Group Requests '+"*"
+           })
+         }else{
+          this.props.navigation.setOptions({
+            tabBarLabel: 'Group Requests'
+          })
+         }
       }
     } catch (e) {
 

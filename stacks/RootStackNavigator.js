@@ -16,7 +16,9 @@ import ProfileScreenStackNavigator from '../stacks/ProfileStackNavigator';
 import StoryScreen from '../screens/StoryScreen';
 import GroupAppFeatures from '../screens/GroupAppFeatures';
 import ForgotPassword from '../screens/ForgotPassword';
+import ConfirmYourIdentity from '../screens/ConfirmYourIdentity';
 import StartupScreen from '../screens/StartupScreen';
+import ChangePasswordFromForgetPassword from '../screens/ChangePasswordFromForgetPassword';
 
 
 const HeaderLeft = () => {
@@ -59,6 +61,16 @@ const RootMainStackNavigator = () => {
         options={{ headerTitle: "Password Assistance" }}
         name='ForgotPassword'
         component={ForgotPassword} />
+
+<RootMainStack.Screen
+        options={{ headerTitle: "Confirm your identity" }}
+        name='ConfirmYourIdentity'
+        component={ConfirmYourIdentity} />
+
+<RootMainStack.Screen
+        options={{ headerTitle: "Change Password" }}
+        name='ChangePasswordFromForgetPassword'
+        component={ChangePasswordFromForgetPassword} />
 
       <RootMainStack.Screen
         options={{ headerShown: false }}

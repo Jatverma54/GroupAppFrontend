@@ -468,7 +468,7 @@ export default class JoinedGroupgroupBio extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = admin_id.includes(userId) ? true : false;
+      var isAdmin = admin_id.find(id=>id._id===userId) ? true : false;
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -592,7 +592,7 @@ export default class JoinedGroupgroupBio extends Component {
                 {(owner_id.includes(currentUser)) ? <Button color="black" style={styles.groupMembersContent} onPress={() => this.DeleteGroup(GroupName)} >Delete Group</Button> :
                   <Button color="black" style={styles.groupMembersContent} onPress={() => this.leaveGroup(GroupName)} >Leave Group</Button>}
 
-                {(admin_id.includes(currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen", this.state.data) }} >
+                {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen", this.state.data) }} >
 
                   <MaterialCommunityIcons
                     name='account-edit'
@@ -609,7 +609,7 @@ export default class JoinedGroupgroupBio extends Component {
                   </TouchableOpacity>
 
 
-                  {(admin_id.includes(currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
+                  {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
                     <MaterialIcons
                       name='edit'
 
@@ -665,6 +665,16 @@ export default class JoinedGroupgroupBio extends Component {
 
 
                   }}>Group Category: {GroupCategory}</Text>
+
+<Text style={styles.GroupAdminName}>
+                    Group Admin:  {admin_id.map((prop, key) => {
+                return (
+                prop.profile.full_name
+                );
+              }).join(" , ")}
+                  </Text>
+
+
  <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
                   {/* <Text style={styles.GroupAdminName}>
                     Group owner: {GroupAdminName.join(" , ")}

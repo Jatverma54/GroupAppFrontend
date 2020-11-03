@@ -1019,7 +1019,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
                       <View style={styles.socialBarSection}>
 
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", post.item)}>
+                        <TouchableOpacity onPress={() =>{this.setState({ notificationData: []}), this.props.navigation.navigate("Comments", post.item)}}>
                           <View style={styles.socialBarButton}>
                             <Image style={{
                               width: 25,

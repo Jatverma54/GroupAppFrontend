@@ -201,7 +201,7 @@ const DrawerContent = (props,) => {
           <View style={styles.row}>
 
             <View style={styles.section}>
-              <Paragraph style={[styles.paragraph, styles.caption]}>
+              <Paragraph style={[styles.paragraph, styles.caption  ]}>
                 Private | Public | GroupChat
                 </Paragraph>
 
@@ -312,6 +312,9 @@ const DrawerContent = (props,) => {
 }
 
 const styles = StyleSheet.create({
+  Captioncolor:{
+    color: '#CAAC3E'
+  },
   drawerContent: {
     flex: 1,
     backgroundColor: colors.drawerBackgroundcolor,
@@ -327,6 +330,7 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 14,
     lineHeight: 14,
+    
   },
   row: {
     marginTop: 20,

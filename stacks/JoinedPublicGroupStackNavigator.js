@@ -261,7 +261,7 @@ const NotificationGroupTabStackNavigator = ({ route }) => {
   return (
 
 
-    <NotificationGroupTabStack.Navigator initialRouteName="Notification"
+    <NotificationGroupTabStack.Navigator initialRouteName="GroupRequests"
       activeTintColor="black"
       inactiveTintColor="Grey"
       barStyle={{ backgroundColor: 'white' }}

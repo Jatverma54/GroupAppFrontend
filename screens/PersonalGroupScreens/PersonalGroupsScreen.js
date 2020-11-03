@@ -234,7 +234,7 @@ export default class PersonalGroupsScreen extends Component {
                     <Text style={styles.groupName}>{Group.GroupName}</Text>
                   </View>
                   <Text style={styles.countMembers}>
-                    {Group.countMembers} members
+                    {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
                   </Text>
                   <Text style={styles.timeAgo}>
                   Last updated {moment(Group.LastUpdated).fromNow()}

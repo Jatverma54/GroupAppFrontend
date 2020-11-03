@@ -7,9 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Alert,
-  Keyboard
-
+Keyboard,
+Alert
 } from 'react-native';
 import Email_Icon from '../Pictures/Email.png';
 
@@ -21,40 +20,42 @@ export default class ForgotPassword extends Component {
     this.state = {
 
 
-      Email: ""
+      confrimationCode: ""
 
     }
   }
+//   AuthenticateConfirmCode(){
 
-  // authenticateEmail(){
-  //   this.props.navigation.navigate('ConfirmYourIdentity',this.state.Email)
-  // }
-  
-  EmailValidation(matchingString) {
+
+//     this.props.navigation.navigate('ChangePasswordFromForgetPassword')
+//   }
+
+
+resetCodeValidation(matchingString) {
     // matches => ["[@michel:5455345]", "@michel", "5455345"]
-    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let pattern = /^[0-9]+$/;
     let match = matchingString.match(pattern);
     return match ? true : false;
 
   }
 
-  authenticateEmail = async () => {
+  AuthenticateConfirmCode = async () => {
     Keyboard.dismiss();
 
-    const { Email } = this.state
+    const { confrimationCode } = this.state
+  
+   let resetCodeValidation = this.resetCodeValidation(confrimationCode)
 
-    if (Email ) {
+    if (confrimationCode &&resetCodeValidation) {
 
-      let emailValidation = this.EmailValidation(Email)
+  
 
-      if(emailValidation){
-
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true });
       try {
 
-        var EmailInfo = {
-          "Email": Email,
-        
+        var CodeInfo = {
+          "confrimationCode": parseInt(confrimationCode),
+          "Userid":this.props.route.params._id
         }
 
         var myHeaders = new Headers();
@@ -65,11 +66,11 @@ export default class ForgotPassword extends Component {
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(EmailInfo)
+          body: JSON.stringify(CodeInfo)
 
         };
 
-        const response = await fetch("http://192.168.0.104:3000/users/ForgetPassword/AuthenticateEmail", requestOptions
+        const response = await fetch("http://192.168.0.104:3000/users/ForgetPassword/AuthenticateConfirmationCode", requestOptions
 
 
         );
@@ -77,14 +78,15 @@ export default class ForgotPassword extends Component {
 
         if (response.ok) {
           this.setState({ loading: false });
+         
           const json = await response.json();
-
+          
           Alert.alert(
 
-            "Confirmation code sent successfully",
+            "Confirmation code verified successfully",
             "",
             [
-              { text: "Ok", onPress: () =>  this.props.navigation.navigate('ConfirmYourIdentity',json.result)}
+              { text: "Ok", onPress: () =>  this.props.navigation.navigate('ChangePasswordFromForgetPassword',json.result)}
             ],
             { cancelable: false }
           );
@@ -96,8 +98,8 @@ export default class ForgotPassword extends Component {
           this.setState({ loading: false });
           Alert.alert(
 
-            "Please verify your email",
-            "User with Email id "+Email+" does not exist",
+            "Invalid comfirmation code",
+            "Please verify the comfirmation code and try again",
             [
               { text: "Ok", onPress: () => null }
             ],
@@ -120,14 +122,16 @@ export default class ForgotPassword extends Component {
           { cancelable: false }
         );
       }
-    }else{
-      alert("Please enter a valid email id");
-    }
-    } else {
-     
-        alert("Please enter an email id");
+   
+    } else {  
         
-
+        if(!confrimationCode){
+            alert("Please enter a confrimation Code");    
+        }
+        else if(!resetCodeValidation){
+            alert("Please enter a valid Code");  
+        }
+         
     }
 
   }
@@ -147,12 +151,12 @@ export default class ForgotPassword extends Component {
 
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
           <TextInput style={styles.inputs}
-            placeholder="Email"
+            placeholder="Confrimation code"
             multiline={true}
             //  value={this.state.Email}
             maxLength={75}
             editable={true}
-            onChangeText={(Email) => this.setState({ Email })}
+            onChangeText={(confrimationCode) => this.setState({ confrimationCode })}
             //keyboardType="email-address"
             underlineColorAndroid='transparent'
           />
@@ -160,12 +164,12 @@ export default class ForgotPassword extends Component {
         </View>
 
 
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={()=>this.authenticateEmail()}>
-          <Text style={styles.loginText}>Send confirmation code in email</Text>
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={()=>this.AuthenticateConfirmCode()}>
+          <Text style={styles.loginText}>Confirm</Text>
         </TouchableOpacity>
 
 
-        
+
 
 
 

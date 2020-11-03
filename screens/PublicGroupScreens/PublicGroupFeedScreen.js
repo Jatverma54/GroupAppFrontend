@@ -1009,7 +1009,7 @@ this.props.route.params.Notification="";
   
                 <View style={styles.socialBarSection}>
   
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", post.item)}>
+                  <TouchableOpacity onPress={() => {this.setState({ notificationData: []}), this.props.navigation.navigate("Comments", post.item)}}>
                     <View style={styles.socialBarButton}>
                       <Image style={{
                         width: 25,
@@ -1379,7 +1379,7 @@ ListHeaderComponent={()=>this.ListHeaderComponent()}
 
                         <View style={styles.socialBarSection}>
 
-                          <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", post.item)}>
+                          <TouchableOpacity onPress={() =>{this.setState({ notificationData: []}), this.props.navigation.navigate("Comments", post.item)}}>
                             <View style={styles.socialBarButton}>
                               <Image style={{
                                 width: 25,

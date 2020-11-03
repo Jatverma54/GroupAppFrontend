@@ -13,6 +13,7 @@ import PublicGroupBio from '../screens/PublicGroupScreens/PublicGroupBio';
 import { JoinedGroupBioStackNavigator } from '../stacks/JoinedPublicGroupStackNavigator';
 import ViewMembers from '../screens/PublicGroupScreens/ViewMembersPublicGroup';
 import AddMember from '../components/AddMember';
+import BackArrow from '../Pictures/BackArrow.png';
 
 const HeaderLeft = () => {
   const navigation = useNavigation();
@@ -23,6 +24,20 @@ const HeaderLeft = () => {
       <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
         <Image style={styles.ImageIconStyle}
           source={require('../Pictures/menu.png')} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+
+const HeaderLeftBack = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.ImageHeader}>
+      <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.goBack()}>
+        <Image style={styles.ImageIconStyle}
+          source={BackArrow} />
+
       </TouchableOpacity>
     </View>
   );
@@ -116,7 +131,7 @@ const SearchFunctionalityStackNavigator = () => {
 
 
     <SearchFunctionalityStack.Navigator headerMode='screen' screenOptions={{
-      headerLeft: ({ }) => <HeaderLeft />,
+      headerLeft: ({ }) => <HeaderLeftBack />,
 
       cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
@@ -272,6 +287,11 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
   ImageHeaderBio: {
+    padding: 5,
+    marginLeft: 7,
+    justifyContent: 'flex-end'
+  },
+  ImageHeader: {
     padding: 5,
     marginLeft: 7,
     justifyContent: 'flex-end'
