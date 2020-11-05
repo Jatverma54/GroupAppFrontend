@@ -262,7 +262,7 @@ loadingPagination:false
             this.onEndReachedCalledDuringMomentum = true;
           }
         } }
-      onEndReachedThreshold={0}
+      onEndReachedThreshold={0.2}
         renderItem={(item) => {
           const Notification = item.item;
           

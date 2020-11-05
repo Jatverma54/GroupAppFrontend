@@ -662,7 +662,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0.2}
+            onEndReachedThreshold={0.2}
        
           ListEmptyComponent={this.renderEmpty()}
             renderItem={(item) => {

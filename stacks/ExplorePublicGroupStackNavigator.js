@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../constants/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -173,7 +173,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 
           headerTitle: "Create a Public Group",
          
-          headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 60 },
+          headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 55 },
           headerTitleStyle: {
             fontSize: 19,
            marginTop:-30,
@@ -198,8 +198,9 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 function withMyHookCategory(Component, title) {
 
   return function WrappedComponent(props) {
-    const myHookValue = useNavigation();
-    return <Component {...props} Category={title} myHookValue={myHookValue} />;
+    const myHookValue = useRoute();
+    myHookValue.params=title
+    return <Component {...props}  myHookValue={myHookValue} />;
   }
 }
 

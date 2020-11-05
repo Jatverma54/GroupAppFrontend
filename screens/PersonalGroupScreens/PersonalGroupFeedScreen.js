@@ -1221,7 +1221,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.2}
              
             ListEmptyComponent={this.renderEmpty()}
               renderItem={(post) => {

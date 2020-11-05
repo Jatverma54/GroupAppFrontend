@@ -561,7 +561,7 @@ AddMembers(){
         [
           {
             text: "Ok",
-            onPress: () => console.log("Ok Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
          

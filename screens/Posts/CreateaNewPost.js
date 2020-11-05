@@ -130,7 +130,7 @@ export default class CreateaNewPost extends Component {
         type: "application/pdf"
       });
 
-      if (!result.cancelled) {
+      if (result.uri) {
        
 
 

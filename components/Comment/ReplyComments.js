@@ -755,7 +755,7 @@ export default class ReplyComments extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0.2}
+            onEndReachedThreshold={0.2}
        
           ListEmptyComponent={this.renderEmpty()}
 

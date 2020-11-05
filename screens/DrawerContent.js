@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { DrawerActions, useNavigation, useRoute } from '@react-navigation/native';
 import {
   DrawerItem,
 } from '@react-navigation/drawer';
@@ -34,6 +34,7 @@ const { width, height } = Dimensions.get('window');
 
 const DrawerContent = (props,) => {
   const navigation = useNavigation();
+  const route=useRoute();
   const [isVisible, setisVisible] = useState(false);
   const [error, seterror] = useState(null);
   const [loading, setloading] = useState(false);
@@ -95,7 +96,6 @@ const DrawerContent = (props,) => {
 
 
 
-
  const LogOut = async () => {
 
     try {
@@ -123,9 +123,11 @@ const DrawerContent = (props,) => {
 
       if (response.ok) {
         setloading(false)
+
         await AsyncStorage.clear();// removeItem('userData');
+
         navigation.navigate('LoginScreen');
-      
+        route.name=""
       }
       else {
         setloading(false)

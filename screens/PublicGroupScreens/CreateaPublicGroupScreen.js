@@ -46,8 +46,8 @@ export default class CreateaPublicGroupScreen extends Component {
     super(props);
     this.state = {
       Value: false,
-      selectedGroupCategoryValue: this.props.Category.GroupCategory_id?this.props.Category.GroupCategory_id:this.props.Category._id,
-      FirstGroupCategoryValue: this.props.Category.title,
+      selectedGroupCategoryValue: this.props.route.params.GroupCategory_id?this.props.route.params.GroupCategory_id:this.props.route.params._id,
+      FirstGroupCategoryValue: this.props.route.params.title,
       photo: null,
       height: 45,
       GroupName: '',
@@ -207,6 +207,7 @@ export default class CreateaPublicGroupScreen extends Component {
   }
 
   componentDidMount() {
+  
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
   }
@@ -291,7 +292,7 @@ export default class CreateaPublicGroupScreen extends Component {
 
 
   render() {
-console.log( this.props.GroupCategory_id,"ssssssssssss")
+
     const { Value, selectedGroupCategoryValue, photo, GroupName, GroupBioName } = this.state;
    
     return (

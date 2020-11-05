@@ -1148,7 +1148,7 @@ ListHeaderComponent={()=>this.ListHeaderComponent()}
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.2}
              
             ListEmptyComponent={this.renderEmpty()}
           

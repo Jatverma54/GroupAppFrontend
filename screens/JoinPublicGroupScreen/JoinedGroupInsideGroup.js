@@ -390,6 +390,33 @@ setNotificationState(notificationData){
   this.setState({notificationData:notificationData})
 }
 
+AddMembers() {
+
+  if (this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.admin_id.includes(this.props.route.params.groupId.currentUser):this.props.route.params.groupId.admin_id.find(a=>a._id===this.props.route.params.groupId.currentUser)) {
+  
+    this.props.navigation.navigate("AddMembers",this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id)
+  }
+  else {
+
+    Alert.alert(
+      "",
+      "You need to be admin to add members to the group",
+      [
+        {
+          text: "Ok",
+          onPress: () => null,
+          style: "cancel"
+        },
+
+      ],
+      { cancelable: false }
+    );
+
+  }
+
+
+}
+
 
 
 renderEmpty = () => {
@@ -405,7 +432,7 @@ renderEmpty = () => {
       <View style={{ flex: 1 }} >
         <View>
 
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.props.navigation.navigate("AddMembers",this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id)}>
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers()} >
             <View>
               <View style={styles.bodyContentInviteMember}  >
                 <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>
@@ -1211,7 +1238,7 @@ return(
                   this.onEndReachedCalledDuringMomentum = true;
                 }
               } }
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.2}
              
             ListEmptyComponent={this.renderEmpty()}
 

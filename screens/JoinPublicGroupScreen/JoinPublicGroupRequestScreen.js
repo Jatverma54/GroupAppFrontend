@@ -33,6 +33,10 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
       isFetching: false,
 
+      errorPagination: null,
+      skipPagination: 1,
+      loadingPagination: false
+
     }
   }
 
@@ -44,7 +48,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       // do something
 
-      if (this.props.route.params.groupid.admin_id.includes(this.props.route.params.groupid.currentUser)) {
+      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
         this.setState({ data: "" })
         this.getData(); // do something
       }
@@ -63,10 +67,11 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+ 
+    this.setState({ loading: true, data: '', skipPagination: 1 });
 
     try {
-      if (this.props.route.params.groupid.admin_id.includes(this.props.route.params.groupid.currentUser)) {
+      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -85,7 +90,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions);
         const json = await response.json();
         //  console.log("Error ",json)
         this.setResult(json.result);
@@ -112,6 +117,48 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   };
 
+  getPaginationData = async () => {
+
+ 
+    this.setState({ loadingPagination: true });
+
+    try {
+      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
+
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var GroupData = {
+          groupId: this.props.route.params.groupid._id,
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(GroupData),
+        };
+
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions);
+        const json = await response.json();
+        //  console.log("Error ",json)
+        this.setResult(json.result);
+
+      
+      }
+    } catch (e) {
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+
+      console.log("Error ", e)
+    }
+
+
+
+
+  };
 
 
   setResult = (res) => {
@@ -119,14 +166,54 @@ export default class JoinPublicGroupRequestScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false,
+      loadingPagination: false
     });
   }
 
+  loadmoreData() {
+
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
+  }
+
+  FooterComponent() {
+    return (
+
+      this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData();
+            }
+          }  >
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View> :
+        this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+          {/* If you want to image set source here */}
+          {/* <Image
+      source={require('../Pictures/loading.gif')}
+      style={{ height: 80, width: 80 }}
+      resizeMode="contain"
+      resizeMethod="resize"
+    /> */}
+        </View> : null
+    )
+  }
 
   onRefresh() {
-
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
 
@@ -329,6 +416,20 @@ export default class JoinPublicGroupRequestScreen extends Component {
             keyExtractor={(item) => {
               return item._id;
             }}
+
+         
+            ListFooterComponent={() => this.FooterComponent()}
+
+            contentContainerStyle={{ flexGrow: 1 }}
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
+              if (!this.onEndReachedCalledDuringMomentum) {
+                this.loadmoreData();    // LOAD MORE DATA
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            }}
+            onEndReachedThreshold={0.2}
+
             renderItem={(item) => {
               const Notification = item.item;
 
@@ -388,7 +489,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
               );
             }} />
 
-          {(!this.props.route.params.groupid.admin_id.includes(this.props.route.params.groupid.currentUser)) &&
+          {(!this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
               <Image source={NoGroups} style={{
                 alignSelf: "center", alignItems: "center", width: 53,
@@ -398,7 +499,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
               <Text style={{ marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold" }}>Only group admin can accept or reject joining requests.</Text>
             </View>}
 
-          {(this.state.data.length === 0 && this.props.route.params.groupid.admin_id.includes(this.props.route.params.groupid.currentUser)) &&
+          {(this.state.data.length === 0 && this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
               <Image source={NoGroups} style={{
                 alignSelf: "center", alignItems: "center", width: 53,

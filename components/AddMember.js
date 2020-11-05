@@ -155,8 +155,11 @@ export default class AddMembers extends React.Component {
 
     this.state.data[index] = data.item;
 
-    if(data.item.isSelect){
+    if(data.item.isSelect&&!this.state.selected.find(a=>a._id===data.item._id)){
    //   console.log(data.item,"ADDDD")
+
+  // if(!this.state.selected.find(a=>a._id===data.item._id)){
+
   let selectedthing= this.state.data.filter(item => item.isSelect)
 
 for(var data in selectedthing){
@@ -170,7 +173,8 @@ for(var data in selectedthing){
       // dataSearch:this.state.data,
       selected: this.state.selected,
     });
-    }
+   // }
+  }
     else{
     //  console.log(data.item,"REMOVW")
       this.state.selected=  this.state.selected.filter((item) => {
@@ -196,8 +200,9 @@ for(var data in selectedthing){
 
     // const itemss = this.state.data.filter(item => item.isSelect);
     const itemss = this.state.selected;
+  
     if (itemss.length > 0) {
-     // console.log(itemss);
+      // console.log(itemss);
 
 
       try {
@@ -235,7 +240,7 @@ for(var data in selectedthing){
                 { cancelable: false }
               );
     
-              //  console.log(responseJson)
+               //  console.log(responseJson)
              
             }
             else {
@@ -268,11 +273,9 @@ for(var data in selectedthing){
             );
           }
 
-
-
     }
     else {
-      Alert.alert("Please select an user")
+      Alert.alert("Please search and select an user")
     }
 
 
@@ -361,7 +364,7 @@ for(var data in selectedthing){
 
   render() {
     
-    const itemNumber = this.state.data.filter(item => item.isSelect).length;
+    const itemNumber = this.state.selected.length;//this.state.data.filter(item => item.isSelect).length;
 
    
 
@@ -463,7 +466,7 @@ for(var data in selectedthing){
                 raised
                 name="check"
                 type="font-awesome"
-                color="#e3e3e3"
+                color="green"
                 size={30}
                 onPress={() => this.goToStore()}
                 containerStyle={{ backgroundColor: "#FA7B5F" }}

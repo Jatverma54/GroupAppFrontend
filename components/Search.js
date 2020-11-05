@@ -222,7 +222,7 @@ class SearchFunctionality extends Component {
                 />
               </TouchableOpacity> :
 
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("ExplorePublicGroupCategoryBased", item)}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("ExplorePublicGroupCategoryBased", {data:item})}>
                 <ListItem
                   // roundAvatar groupIcon
                   leftAvatar={{ source: { uri: item.image } }}

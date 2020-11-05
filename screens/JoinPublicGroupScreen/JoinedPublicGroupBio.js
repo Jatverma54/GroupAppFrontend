@@ -274,6 +274,35 @@ export default class JoinedGroupgroupBio extends Component {
 
   };
 
+  AddMembers(){
+
+    if(this.state.data.admin_id.find(id=>id._id===this.state.data.currentUser)){
+   
+     this.props.myHookValue.push("AddMembers",this.state.data._id)
+    }
+    else{
+  
+      Alert.alert(
+        "",
+        "You need to be admin to add members to the group",
+        [
+          {
+            text: "Ok",
+            onPress: () => null,
+            style: "cancel"
+          },
+         
+        ],
+        { cancelable: false }
+      );
+  
+    }
+  
+  
+  }
+
+
+
 
   addMemberorShare = () => {
 
@@ -299,7 +328,7 @@ export default class JoinedGroupgroupBio extends Component {
 
           <View>
 
-            <TouchableOpacity style={styles.buttonContainerShare} onPress={() => { this.props.myHookValue.push("AddMembers",this.state.data._id) }}>
+            <TouchableOpacity style={styles.buttonContainerShare} onPress={()=>this.AddMembers()} >
               <View>
                 <View style={styles.bodyContentShare}  >
                   <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>

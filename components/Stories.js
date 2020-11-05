@@ -310,7 +310,7 @@ export default class Stories extends Component {
         [
           {
             text: "Ok",
-            onPress: () => console.log("Ok Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
 
@@ -370,7 +370,7 @@ export default class Stories extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0.2}
+            onEndReachedThreshold={0.2}
             ItemSeparatorComponent={() => {
               return (
                 <View style={styles.separator} />
@@ -485,7 +485,7 @@ export default class Stories extends Component {
             </TouchableOpacity>
           </View>
 
-          {this.props.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>}
+       
         </View>
     );
 

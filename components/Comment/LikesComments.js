@@ -67,7 +67,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -101,7 +101,7 @@ export default class LikesComments extends Component {
         body: JSON.stringify(LikePost)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewCommentlikes?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
 
       this.setResult(json.result);
@@ -357,7 +357,7 @@ export default class LikesComments extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0.2}
+            onEndReachedThreshold={0.2}
             renderItem={this.renderItem} />
          
         </View>

@@ -428,7 +428,7 @@ export default class YourPublicGroupPostscreen extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = this.props.route.params.groupid.admin_id.includes(userId) ? true : false;
+      var isAdmin = this.props.route.params.groupid.admin_id.find(a=>a._id===userId) ? true : false;
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -800,7 +800,7 @@ export default class YourPublicGroupPostscreen extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.2}
            
           ListEmptyComponent={this.renderEmpty()}
 

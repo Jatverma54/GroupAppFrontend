@@ -63,7 +63,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
@@ -102,7 +102,7 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=30&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
@@ -266,7 +266,7 @@ export default class NotificationScreen extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             }}
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.2}
             renderItem={(item) => {
 
               const Notification = item.item;

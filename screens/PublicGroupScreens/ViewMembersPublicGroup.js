@@ -61,7 +61,7 @@ export default class ViewMembersPublicGroup extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -101,7 +101,7 @@ export default class ViewMembersPublicGroup extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -125,6 +125,7 @@ export default class ViewMembersPublicGroup extends Component {
   componentWillUnmount() {
     //this.getData();
     this._unsubscribe;
+  
   }
 
 
@@ -313,7 +314,7 @@ export default class ViewMembersPublicGroup extends Component {
                 this.onEndReachedCalledDuringMomentum = true;
               }
             } }
-          onEndReachedThreshold={0.2}
+            onEndReachedThreshold={0.2}
 
 
 
