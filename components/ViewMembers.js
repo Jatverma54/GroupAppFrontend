@@ -552,7 +552,7 @@ export default class ViewMembers extends Component {
               <Text style={styles.msgTxt}>{item.username}</Text>
             </View>
 
-            {(item.admin_id.includes(item._id)) && <View style={{ marginTop: -20, marginLeft: width - 100 }}>
+            {(item.admin_id.includes(item._id)) && <View style={{ marginTop: -20, marginLeft: width/1.4 }}>
               {/* <FontAwesome name="user-secret" size={15} style={{
 
                 color: "#666",

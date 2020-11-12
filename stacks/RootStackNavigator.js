@@ -46,9 +46,10 @@ const RootMainStackNavigator = () => {
     <RootMainStack.Navigator>
 
       <RootMainStack.Screen
+         options={{ headerShown: false }}
         name='MainScreenPage'
         component={MainScreenPage}
-        options={{ headerShown: false }} />
+      />
 
 
 

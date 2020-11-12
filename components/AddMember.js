@@ -206,6 +206,7 @@ for(var data in selectedthing){
 
 
       try {
+        this.setState({ loading: true });
         const userData = await AsyncStorage.getItem('userData');
             const transformedData = JSON.parse(userData);
             const { token, userId } = transformedData;
@@ -229,7 +230,7 @@ for(var data in selectedthing){
             const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions);
     
             if (response.ok) {
-             
+              this.setState({ loading: false });
               Alert.alert(
     
                 "Users added Successfully",
@@ -245,7 +246,7 @@ for(var data in selectedthing){
             }
             else {
     
-    
+              this.setState({ loading: false });
               Alert.alert(
     
                 "Something went wrong!!",
@@ -261,7 +262,7 @@ for(var data in selectedthing){
     
           } catch (e) {
     
-    
+            this.setState({ loading: false });
             Alert.alert(
     
               "Something went wrong!!",
@@ -292,8 +293,27 @@ for(var data in selectedthing){
         source={{ uri: data.item.image }}
         style={{ width: 40, height: 40, margin: 6 }}
       />
-      <Text style={styles.lightText}>  {data.item.name}  </Text>
-      <Text style={styles.lightText2}>  {data.item.username}  </Text>
+      {/* <Text style={styles.lightText}>  {data.item.name}  </Text>
+      <Text style={styles.lightText2}>{data.item.username}</Text> */}
+
+
+      <View>
+            <View style={styles.nameContainer}>
+              <Text style={styles.nameTxt}  ellipsizeMode="tail"> {data.item.name}</Text>
+
+
+
+            </View>
+            <View style={styles.msgContainer}>
+              <Text style={styles.msgTxt}>{data.item.username}</Text>
+            </View>
+
+</View>
+
+
+
+
+
     </TouchableOpacity>
 
   renderHeader = () => {
@@ -425,8 +445,8 @@ for(var data in selectedthing){
                               source={{ uri: data.item.image }} size={60} />
 
                             {!(data.item.name.length > 9) ?
-                              <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{data.item.name}</Text>
-                              : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{data.item.name.toString().substring(0, 10)}..</Text>}
+                              <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6}}>{data.item.name}</Text>
+                              : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6  }}>{data.item.name.toString().substring(0, 10)}..</Text>}
 
                           </View>
 
@@ -511,16 +531,19 @@ const styles = StyleSheet.create({
     color: "black",
     width: 200,
     paddingLeft: 15,
-    fontSize: 12
+    fontSize: 17,
+    marginTop:-15,
+    fontWeight:"bold"
+   // marginBottom:10
   },
   lightText2: {
     color: "black",
     width: 200,
     paddingLeft: 15,
     fontSize: 12,
-  //  marginTop:10,
+  
    alignSelf:'flex-end',
-   marginLeft:-200
+   marginLeft:-194
 
   },
   line: {
@@ -568,6 +591,39 @@ const styles = StyleSheet.create({
     width: "78%",
     marginLeft: 80
 
+  },
+
+
+
+  nameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: "100%",
+
+
+  },
+  nameTxt: {
+    marginLeft: 15,
+    fontWeight: '600',
+    color: '#222',
+    fontSize: 18,
+    width: 170,
+  },
+  mblTxt: {
+    fontWeight: '200',
+    color: '#777',
+    fontSize: 13,
+  },
+  msgContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  msgTxt: {
+    fontWeight: '400',
+    color: '#008B8B',
+    fontSize: 12,
+    marginLeft: 15,
+    width: "100%"
   },
 
 

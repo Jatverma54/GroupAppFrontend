@@ -23,6 +23,19 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "notification": {
+      "icon": "./assets/icon.png",
+      "androidMode": "collapse"
+    },
+    "android": {
+      "useNextNotificationsApi": true
+     
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#086A87",
+      "translucent": true
     }
+   
   }
 }

@@ -18,13 +18,18 @@ import {
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
-import APIPasswordCollection from '../constants/APIPasswordCollection';
-import { encode } from "base-64";
 import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import APIBaseUrl from '../constants/APIBaseUrl';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+
+
+
+
+
 export default class LoginScreen extends Component {
 
   constructor(props) {
@@ -38,6 +43,27 @@ export default class LoginScreen extends Component {
     };
   }
 
+  
+  // componentDidMount() {
+    
+  //   this._unsubscribe =  this.getPermissionAsync();
+  
+  // }
+
+  // getPermissionAsync = async () => {
+  //   const { status }= Permissions.getAsync(Permissions.NOTIFICATIONS)
+  //   if (status !== 'granted') {
+  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  //     if (status !== 'granted') {
+  //       alert('Notification Permission is not granted');
+  //     }
+  //   }
+  // };
+
+  // componentWillUnmount() {
+  //   this._unsubscribe;
+  // }
+
   login = async () => {
     Keyboard.dismiss();
 
@@ -47,9 +73,22 @@ export default class LoginScreen extends Component {
       this.setState({ loading: true,data:'' });
       try {
 
+
+        let pushToken;
+        let statusObj = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        if (statusObj.status !== 'granted') {
+          statusObj = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        }
+        if (statusObj.status !== 'granted') {
+          pushToken = null;
+        } else {
+          pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+        }
+
         var LoginInfo = {
           "username": userName,
           "password": password,
+          "ownerPushToken":pushToken
         }
 
         var myHeaders = new Headers();

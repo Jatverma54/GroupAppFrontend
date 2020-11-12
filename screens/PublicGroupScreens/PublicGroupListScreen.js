@@ -466,17 +466,17 @@ export default class PublicGroupListScreen extends Component {
     return(
       <View>
        <ImageBackground
-       resizeMode= "contain"
+       resizeMode= 'stretch'
                 style={{flex:1, 
-                width: 400,
-                height: 200,}}
+             
+                height: height/4}}
                 source={{ uri: this.props.route.params.data!==undefined?this.props.route.params.data.CategoryImage:this.props.route.params.image, }}
 >
 <MaterialCommunityIcons name="keyboard-backspace" size={25} style={{ height: 20, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
-    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:18, marginTop:width/2.7}}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
+    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, marginTop:height/5.4}}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
 </ImageBackground>
 
-{this.state.searchResult.length===0?<Divider style={{ height: 0.1,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
+{this.state.searchResult.length===0?<Divider style={{ height: 0.5,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
 
 {this.state.searchResult.length!==0?
 <View>

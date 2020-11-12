@@ -499,7 +499,7 @@ export default class JoinedGroupgroupBio extends Component {
       const { token, userId } = transformedData;
 
       var isAdmin = admin_id.find(id=>id._id===userId) ? true : false;
-
+console.log(isAdmin)
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);

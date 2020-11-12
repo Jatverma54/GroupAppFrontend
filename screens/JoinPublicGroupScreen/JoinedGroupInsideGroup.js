@@ -14,7 +14,8 @@ import {
   RefreshControl,
   Share,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  
 } from 'react-native';
 import {
 
@@ -431,6 +432,17 @@ renderEmpty = () => {
 
       <View style={{ flex: 1 }} >
         <View>
+
+        {/* <ImageBackground
+       resizeMode= "contain"
+                style={{flex:1, 
+                width: 400,
+                height: 200,}}
+                source={{ uri: this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.image:this.props.route.params.groupId.image }}
+>
+<MaterialCommunityIcons name="keyboard-backspace" size={25} style={{ height: 20, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
+    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:18, marginTop:width/2.7}}>{this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.GroupName:this.props.route.params.groupId.GroupName}</Text>
+</ImageBackground> */}
 
           <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers()} >
             <View>

@@ -1,12 +1,26 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { StyleSheet, StatusBar, View, AsyncStorage } from 'react-native';
+import { StyleSheet,  View,  } from 'react-native';
 import colors from './constants/colors';
 import RootMainStackNavigator from './stacks/RootStackNavigator';
 import { NavigationContainer, DrawerActions, Header } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 import UserToken from './constants/APIPasswordCollection'
+import * as Notifications from 'expo-notifications';
+
 //console.disableYellowBox = true;
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      
+    };
+  },
+});
+
 
 export default function App() {
 
@@ -34,8 +48,28 @@ export default function App() {
 
   //   tryLogin();
   // }, []);
+  useEffect(() => {
+    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
+     
+      (response) => {
+       // console.log(response);
 
+      }
+    );
 
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+       // console.log(notification);
+      }
+    );
+
+    return () => {
+      backgroundSubscription.remove();
+      foregroundSubscription.remove();
+    };
+  }, []);
+
+//Notifications.getExpoPushTokenAsync();
   return (
     <NavigationContainer>
       <View style={styles.Rootscreen}>
@@ -43,7 +77,7 @@ export default function App() {
         <StatusBar
           barStyle={colors.StatusBarStyle}
           hidden={false}
-          backgroundColor={colors.StatusbackgroundColor}
+         backgroundColor={colors.StatusbackgroundColor}
           translucent={true}
           networkActivityIndicatorVisible={true}
         />

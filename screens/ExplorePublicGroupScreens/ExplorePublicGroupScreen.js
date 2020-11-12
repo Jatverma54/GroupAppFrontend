@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center",
-    marginTop:width/3.2
+   // marginTop:width/3.2
   },
   cardContent: {
     paddingVertical: 12.5,
@@ -213,25 +213,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    marginTop:-width/12
+   // marginTop:-width/12
 
   },
   cardImage: {
-    height: 190,
+    height: height/4,
     width: "100%",
     alignSelf: 'center'
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     flex: 1,
     color: "black",
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop:height/6
   },
   subTitle: {
     fontSize: 12,
     flex: 1,
     fontWeight: 'bold',
     color:"black",
+    marginTop:-height/24
   },
   icon: {
     height: 20,

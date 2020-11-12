@@ -91,7 +91,7 @@ const PublicGroupFeedStackNavigator = () => {
 
 
 const LikeStack = createStackNavigator();
-const LikeStackNavigator = () => {
+const LikeStackNavigator = ({ route }) => {
 
   return (
 
@@ -131,7 +131,9 @@ const LikeStackNavigator = () => {
         }}
 
         name='Likes'
-        component={Likes} />
+        component={Likes} 
+        initialParams={route.params}
+        />
 
     </LikeStack.Navigator>
 

@@ -98,7 +98,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         if(this.state.data.length!==0){
         
            this.props.navigation.setOptions({
-             tabBarLabel: 'Group Requests '+"*"
+             tabBarLabel: (parseInt(this.state.data.length) > 1) ? this.state.data.length+" Group Requests" :this.state.data.length+" Group Request"
            })
          }else{
           this.props.navigation.setOptions({
@@ -506,7 +506,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft: 130, fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.</Text>
+              <Text style={{ marginLeft: SCREEN_WIDTH/3, fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.</Text>
             </View>}
         </View>
     );

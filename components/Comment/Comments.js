@@ -153,7 +153,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
                   borderRadius: 25,
                 }}
               />
-              <Text style={{ marginLeft: 140, color: "grey", fontWeight: "bold" }}>NO COMMENTS YET</Text>
+              <Text style={{ marginLeft: width/3, color: "grey", fontWeight: "bold" }}>NO COMMENTS YET</Text>
             </View>
     )
   }

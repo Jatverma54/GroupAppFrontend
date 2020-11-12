@@ -393,8 +393,12 @@ export default class YourPublicGroupPostscreen extends Component {
 
   }
 
-  LeaveGroup() {
-    if (this.props.route.params.groupid.owner_id.includes(this.props.route.params.groupid.currentUser)) {
+  LeaveGroup= async()=> {
+
+    const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+    if (this.props.route.params.groupid.owner_id.includes(userId)) {
 
       alert("Group owner cannot leave the group");
 

@@ -126,8 +126,8 @@ const DrawerContent = (props,) => {
 
         await AsyncStorage.clear();// removeItem('userData');
 
-        navigation.navigate('LoginScreen');
-        route.name=""
+        navigation.navigate('MainScreenPage');
+      // route.name=""
       }
       else {
         setloading(false)

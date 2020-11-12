@@ -154,12 +154,12 @@ export default class ReplyComments extends Component {
         size={45}
         color="black"
         style={{
-          alignSelf: "center", alignItems: "center", width: 53,
+          marginLeft:width/3, width: 53,
           height: 53,
           borderRadius: 25,
         }}
       />
-      <Text style={{marginLeft:width/2.9, color: "grey", fontWeight: "bold", }}>No reply yet</Text>
+      <Text style={{marginLeft:width/3, color: "grey", fontWeight: "bold", }}>No reply yet</Text>
     </View>
     )
   }
@@ -1169,7 +1169,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: width - 30 - 140,
     marginTop: -20,
-    fontSize: 11
+    fontSize: 9
   },
   likeBtn: {
     textAlign: 'center',

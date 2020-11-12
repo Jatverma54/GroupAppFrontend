@@ -502,7 +502,7 @@ export default class YourPersonalGroupPostScreen extends Component {
           "User Removed",
           "You left the " + this.props.route.params.groupid.GroupName + " group",
           [
-            { text: "Ok", onPress: () => this.props.navigation.navigate('JoinedPublicGroupsScreen') }
+            { text: "Ok", onPress: () => this.props.navigation.navigate('PersonalGroupsScreen') }
           ],
           { cancelable: false }
         );
