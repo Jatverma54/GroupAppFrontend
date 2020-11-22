@@ -38,7 +38,8 @@ export default class JoinedPublicGroupsScreen extends Component {
 
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      isImageLoaded:true
     }
 
 
@@ -117,10 +118,10 @@ export default class JoinedPublicGroupsScreen extends Component {
   }
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
 
 
@@ -225,7 +226,8 @@ export default class JoinedPublicGroupsScreen extends Component {
                 alignSelf: "center", alignItems: "center", width: 53,
                 height: 53,
                 borderRadius: 25,
-              }} />
+              }}
+               />
               <Text style={{ marginLeft: width/5, fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.{'\n'}You will see all the public groups that you have joined here.</Text>
             </View>
     )
@@ -302,7 +304,14 @@ export default class JoinedPublicGroupsScreen extends Component {
 
                 <View style={styles.container}>
                   <TouchableOpacity onPress={() => this.props.myHookValue.navigate("JoinedPublicGroupBio", Group)}>
-                    <Image source={{ uri: Group.image }} style={styles.avatar} />
+                    <Image source={{ uri: Group.image }} 
+                     style={styles.avatar}
+                     onLoad={ () => this.setState({ isImageLoaded: true }) }
+                     onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+                   />
+                      <ActivityIndicator
+                      animating={this.state.isImageLoaded} color="black"
+         />
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => this.props.myHookValue.navigate("JoinedGroupInsideGroup", Group)}>

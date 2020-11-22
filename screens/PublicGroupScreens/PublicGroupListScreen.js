@@ -56,16 +56,18 @@ export default class PublicGroupListScreen extends Component {
       searchResult:[],
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      isImageLoaded:true
+
     }
   }
 
 
   componentDidMount() {
     
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    this._unsubscribe =    this.props.navigation.addListener('focus', () => {
       this.setState({ data: "", temp: "",searchResult: [] })
-      this.getData(); // do something
+       this.getData(); // do something
     
 
       if(this.props.route.params.data&&this.props.route.params.data.GroupName){
@@ -84,7 +86,17 @@ export default class PublicGroupListScreen extends Component {
     });
     
   }
-
+  componentWillUnmount() {
+    
+    this._unsubscribe();
+    // this.props.navigation.removeListener('focus', () => {
+    //   //this.setState({data:"",temp:""})
+    //   //this.getData(); // do something
+    // });
+  
+    this.getData();
+    this.getPaginationData();
+  }
 
   groupSearchnData = async () => {
 
@@ -134,14 +146,7 @@ export default class PublicGroupListScreen extends Component {
     
   }
 
-  componentWillUnmount() {
-    this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      //this.setState({data:"",temp:""})
-      //this.getData(); // do something
-    });
-   
-  }
+
 
   // componentWillUnmount(){
   //   this.getData();
@@ -466,14 +471,20 @@ export default class PublicGroupListScreen extends Component {
     return(
       <View>
        <ImageBackground
-       resizeMode= 'stretch'
+    
                 style={{flex:1, 
-             
+                  resizeMode:"cover",
                 height: height/4}}
                 source={{ uri: this.props.route.params.data!==undefined?this.props.route.params.data.CategoryImage:this.props.route.params.image, }}
->
-<MaterialCommunityIcons name="keyboard-backspace" size={25} style={{ height: 20, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
-    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, marginTop:height/5.4}}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
+                onLoad={ () => this.setState({ isImageLoaded: true }) }
+                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+              
+   >
+                <ActivityIndicator
+                 animating={this.state.isImageLoaded} color="black"
+    />
+<MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30,marginTop:-10 }} onPress={()=>this.props.navigation.goBack()}/>
+    <Text style={{color:"white",flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, marginTop:height/6.2}}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
 </ImageBackground>
 
 {this.state.searchResult.length===0?<Divider style={{ height: 0.5,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
@@ -509,7 +520,15 @@ export default class PublicGroupListScreen extends Component {
                 <View style={styles.container}>
 
                   <TouchableOpacity onPress={() => this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
-                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} style={styles.avatar} />
+                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} 
+                    
+                    style={styles.avatar}
+                    onLoad={ () => this.setState({ isImageLoaded: true }) }
+                    onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+                  />
+                     <ActivityIndicator
+                     animating={this.state.isImageLoaded} color="black"
+        />
                   </TouchableOpacity>
                   <View style={styles.content}>
                     <View style={mainContentStyle}>
@@ -643,7 +662,7 @@ export default class PublicGroupListScreen extends Component {
 
 
   render() {
-  
+
 // <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
 
     return (
@@ -714,7 +733,14 @@ export default class PublicGroupListScreen extends Component {
                 <View style={styles.container}>
 
                   <TouchableOpacity onPress={() => this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
-                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} style={styles.avatar} />
+                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} 
+                     style={styles.avatar}
+                     onLoad={ () => this.setState({ isImageLoaded: true }) }
+                     onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+                   />
+                      <ActivityIndicator
+                      animating={this.state.isImageLoaded} color="black"
+         />
                   </TouchableOpacity>
                   <View style={styles.content}>
                     <View style={mainContentStyle}>
@@ -765,6 +791,7 @@ const FloatingActionButton = () => {
   return (
     <FloatingAction
       actions={actions}
+     
       onPressItem={name => {
         navigation.push('Create a Public Group');
         //  console.log(`selected button: ${name}`);
@@ -789,6 +816,7 @@ const styles = StyleSheet.create({
     width: 53,
     height: 53,
     borderRadius: 25,
+   
   },
   text: {
     marginBottom: 5,

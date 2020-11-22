@@ -15,17 +15,17 @@ import BackArrow from '../Pictures/BackArrow.png';
 
 
 
-const HeaderLeft = () => {
-  const navigation = useNavigation();
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-        <Image style={styles.ImageIconStyle}
-          source={require('../Pictures/menu.png')} />
-      </TouchableOpacity>
-    </View>
-  );
-};
+// const HeaderLeft = () => {
+//   const navigation = useNavigation();
+//   return (
+//     <View style={{ flexDirection: 'row' }}>
+//       <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+//         <Image style={styles.ImageIconStyle}
+//           source={require('../Pictures/menu.png')} />
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
 
 const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
@@ -131,7 +131,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 
   return (
 
-    <ExplorePublicGroupCategoryBasedStack.Navigator headerMode='float' screenOptions={{
+    <ExplorePublicGroupCategoryBasedStack.Navigator headerMode="screen" screenOptions={{
       cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({
@@ -173,7 +173,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 
           headerTitle: "Create a Public Group",
          
-          headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 55 },
+          headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 50 },
           headerTitleStyle: {
             fontSize: 19,
            marginTop:-30,
@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
   ImageHeader: {
     padding: 5,
     marginLeft: 7,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginTop:16
   }
 });
 

@@ -74,6 +74,7 @@ export default class PublicGroupFeedScreen extends Component {
       skipPagination:0,
       loadingPagination:false,
       errorPagination: null,
+      isImageLoaded:true
     };
 
 
@@ -199,7 +200,13 @@ this.props.route.params.Notification="";
 
 
   }
-
+  _onLoadStart = () => {
+    this.setState({ isImageLoaded: true }) 
+  };
+  _onLoad = status => {
+    this.setState({ isImageLoaded: false })
+  };
+  
   renderEmpty = () => {
  
     return (
@@ -209,7 +216,7 @@ this.props.route.params.Notification="";
         height: 53,
         borderRadius: 25,
       }} />
-      <Text style={{ marginLeft: width/7, color: "grey", fontWeight: "bold" }}>                               No Posts to show.{'\n'}All joined public group posts will be visible here.</Text>
+      <Text style={{ alignSelf:"center", color: "grey", fontWeight: "bold" }}>No Posts to show.{'\n'}All joined public group posts will be visible here.</Text>
     </View>
     )
   }
@@ -776,6 +783,8 @@ this.props.route.params.Notification="";
   )
   }
 
+
+  
   ListHeaderComponent(){
   return(
     
@@ -903,12 +912,20 @@ this.props.route.params.Notification="";
                     isMuted={false}
                     resizeMode='cover'
                     shouldPlay={false}
-                    isLooping={false}
+                    isLooping={true}
                     useNativeControls={true}
-                    style={styles.video}
+                   
                     onFullscreenUpdate={this.onFullscreenUpdate}
   
-                  />
+                    style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
+
+                    onLoadStart={this._onLoadStart}
+                                               onLoad={this._onLoad}
+                                               
+                                             />
+                                                   <ActivityIndicator
+                                        animating={this.state.isImageLoaded} color="black"
+                           />
                   <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
   
                 </View> : ((post.item.document != null) ?
@@ -1273,12 +1290,20 @@ ListHeaderComponent={()=>this.ListHeaderComponent()}
                             isMuted={false}
                             resizeMode='cover'
                             shouldPlay={false}
-                            isLooping={false}
+                            isLooping={true}
                             useNativeControls={true}
-                            style={styles.video}
+                            
                             onFullscreenUpdate={this.onFullscreenUpdate}
 
-                          />
+                            style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
+
+                            onLoadStart={this._onLoadStart}
+                                                       onLoad={this._onLoad}
+                                                       
+                                                     />
+                                                           <ActivityIndicator
+                                                animating={this.state.isImageLoaded} color="black"
+                                   />
                           <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                         </View> : ((post.item.document != null) ?

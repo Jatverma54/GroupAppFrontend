@@ -298,8 +298,8 @@ export default class Stories extends Component {
 
 
   AddMembers() {
-  
-    if (this.props.nav.route.params.groupId.admin_id.includes(this.props.nav.route.params.groupId.currentUser)) {
+    
+    if (this.props.nav.route.params.groupId.admin_id.find(a=>a._id===this.props.nav.route.params.groupId.currentUser)) {
       this.props.nav.myHookValue.navigate("AddMembers",this.props.nav.route.params.groupId._id);
     }
     else {

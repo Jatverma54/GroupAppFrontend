@@ -634,7 +634,7 @@ export default class CreateaNewPost extends Component {
                     isMuted={false}
                     resizeMode="cover"
                     shouldPlay={false}
-                    isLooping={false}
+                    isLooping={true}
                     useNativeControls
                     style={styles.video}
                     onFullscreenUpdate={this.onFullscreenUpdate}

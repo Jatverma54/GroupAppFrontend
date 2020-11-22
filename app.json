@@ -1,11 +1,13 @@
 {
   "expo": {
     "name": "GroupApp",
-    "slug": "GroupApp",  
+    "description":"Group App",
+    "slug": "GroupApp", 
+    "sdkVersion":"39.0.0" ,
+    "privacy":"unlisted",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -26,11 +28,28 @@
     },
     "notification": {
       "icon": "./assets/icon.png",
-      "androidMode": "collapse"
+      "androidMode": "default",
+  "androidCollapsedTitle": "Updates from Colab.notes",
+  "iosDisplayInForeground": true
     },
     "android": {
-      "useNextNotificationsApi": true
-     
+      "package":"uniqueDomain.groupname",
+      "versionCode": 1,
+      "useNextNotificationsApi": true,
+ 
+     "adaptiveIcon":{
+       "foregroundImage":"./assets/icon.png",
+       "backgroundColor":"#171717"
+     },
+     "permissions":[
+       "CAMERA",
+       "NOTIFICATIONS",
+       "USER_FACING_NOTIFICATIONS",
+       "AUDIO_RECORDING",
+       "CAMERA_ROLL",
+       "CALENDAR",
+       "MOTION"
+    ]
     },
     "androidStatusBar": {
       "backgroundColor": "#086A87",

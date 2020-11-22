@@ -42,7 +42,9 @@ export default class ProfileScreen extends Component {
       username:"",
       _id:"",
       data:"",
-      loading:false
+      loading:false,
+      isImageLoaded:true
+
     }
   }
 
@@ -382,8 +384,15 @@ export default class ProfileScreen extends Component {
 
           <View style={styles.headerContent}>
             <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>
-              <Image style={styles.avatar}
-                source={{ uri: this.state.photo }} />
+              <Image 
+                source={{ uri: this.state.photo }} 
+                style={[styles.avatar,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                onLoad={ () => this.setState({ isImageLoaded: true }) }
+                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+              />
+                 <ActivityIndicator
+                 animating={this.state.isImageLoaded} color="black"
+    />
 
               <Button color="white" style={{ marginLeft: 90, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
                 <MaterialIcons

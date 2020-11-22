@@ -308,7 +308,7 @@ const PersonalGroupFeedScreenkNavigator = ({ route }) => {
   let groupname = GroupName.length > 30 ? GroupName.toString().substring(0, 30) + ".." : GroupName;
 
   return (
-    <PersonalGroupFeedScreenStack.Navigator headerMode='float' screenOptions={{
+    <PersonalGroupFeedScreenStack.Navigator headerMode="screen" screenOptions={{
       headerLeft: ({ }) => <HeaderLeftFeed />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({

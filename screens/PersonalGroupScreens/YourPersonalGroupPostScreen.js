@@ -57,6 +57,7 @@ export default class YourPersonalGroupPostScreen extends Component {
       skipPagination:0,
       loadingPagination:false,
       errorPagination: null,
+      isImageLoaded:true
     };
   }
 
@@ -131,6 +132,13 @@ export default class YourPersonalGroupPostScreen extends Component {
     });
   }
 
+  _onLoadStart = () => {
+    this.setState({ isImageLoaded: true }) 
+  };
+  _onLoad = status => {
+    this.setState({ isImageLoaded: false })
+  };
+  
   getPaginationData = async () => {
 
     this.setState({ loadingPagination: true });
@@ -905,12 +913,20 @@ export default class YourPersonalGroupPostScreen extends Component {
                           isMuted={false}
                           resizeMode="cover"
                           shouldPlay={false}
-                          isLooping={false}
+                          isLooping={true}
                           useNativeControls
-                          style={styles.video}
+                         
 
                           onFullscreenUpdate={this.onFullscreenUpdate}
-                        />
+                          style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
+
+                          onLoadStart={this._onLoadStart}
+                                                     onLoad={this._onLoad}
+                                                     
+                                                   />
+                                                         <ActivityIndicator
+                                              animating={this.state.isImageLoaded} color="black"
+                                 />
                         <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                       </View> : ((post.item.document != null) ?

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator,Image } from 'react-native';
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/native';
 import {
   DrawerItem,
@@ -40,6 +40,7 @@ const DrawerContent = (props,) => {
   const [loading, setloading] = useState(false);
   const [userimageUrl, setuserimageUrl] = useState('');
   const [userName, setuserName] = useState('');
+  const [isImageLoaded, setisImageLoaded] = useState(true);
 
 
   // useEffect(() => {
@@ -174,10 +175,15 @@ const DrawerContent = (props,) => {
         <View style={styles.userInfoSection}>
 
           <TouchableOpacity onPress={() => setisVisible(true)}>
-            <Avatar.Image
+            <Image 
               source={{ uri: props.Userdata.profile.profile_pic }}
-              size={90}
-            />
+              style={[styles.avatar,{ display: (!isImageLoaded ? 'flex' : 'none') }]}
+                     onLoad={ () => setisImageLoaded(true) }
+                     onLoadEnd={() => setisImageLoaded(false) }
+                   />
+                      <ActivityIndicator
+                      animating={isImageLoaded} color="black"
+         />
           </TouchableOpacity>
 
 
@@ -290,21 +296,22 @@ const DrawerContent = (props,) => {
           />
 
         </Drawer.Section>
-
+        <View style={styles.drawerSectionFooter}>
         <TouchableOpacity onPress={() => navigation.navigate('StoryScreen')}>
-          <View style={styles.drawerSectionFooter}>
+         
 
             <Avatar.Image
               source={FooterLogo}
-              size={70}
+              size={80}
+              style={{marginLeft:60}}
             />
             <Paragraph style={[styles.paragraphfooter, styles.caption]}>
               Dedicated to all the Fathers
          </Paragraph>
 
-          </View>
+       
         </TouchableOpacity>
-
+        </View>
 
 
       </View>
@@ -326,7 +333,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   title: {
-    marginTop: 20,
+   // marginTop: 5,
     fontWeight: 'bold',
   },
   caption: {
@@ -361,10 +368,12 @@ const styles = StyleSheet.create({
   },
   drawerSectionFooter: {
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
    paddingVertical: "100%",
     alignItems: 'center',
-    marginRight: 15,
+   
+   // marginRight: 15,
+    marginTop:-height/7
     // marginVertical:100
   },
   paragraphfooter: {
@@ -373,6 +382,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#CAAC3E'
   },
+  avatar:{
+    width: 90,
+    height: 90,
+    borderRadius: 25,
+  }
 });
 
 

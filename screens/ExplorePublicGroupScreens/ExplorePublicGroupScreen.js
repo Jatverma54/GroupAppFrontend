@@ -32,7 +32,7 @@ export default class ExplorePublicGroupScreen extends Component {
       data: "",
       loading: false,
       error: null,
-
+      isImageLoaded:true
 
     };
 
@@ -150,16 +150,26 @@ export default class ExplorePublicGroupScreen extends Component {
 
               return (
                 <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => this.props.myHookValue.navigate("ExplorePublicGroupCategoryBased", item)}>
-                <ImageBackground style={styles.cardImage} source={{ uri: item.image }}>
+                <ImageBackground  source={{ uri: item.image }}
+                style={[styles.cardImage]}
+                onLoad={ () => this.setState({ isImageLoaded: true }) }
+                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+              
+   >
+                <ActivityIndicator
+                 animating={this.state.isImageLoaded} color="black"
+    />
                   <View style={styles.cardHeader}>
                     <Text style={styles.title}>{item.title}</Text>
                   </View>
                   {/* <Image style={styles.cardImage} source={{ uri: item.image }} /> */}
-                  <View style={styles.cardFooter}>
+                  {/* <View style={styles.cardFooter}>
                     <Text style={styles.subTitle}>{item.Groups} {(parseInt(item.Groups) > 1) ? "Groups" : "Group"}</Text>
                     
-                  </View>
+                  </View> */}
+       
                   </ImageBackground>
+         
                 </TouchableOpacity>
               )
             }} />
@@ -177,6 +187,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0,
+    
   },
   list: {
     //paddingHorizontal: 5,
@@ -187,23 +198,26 @@ const styles = StyleSheet.create({
   },
   /******** card **************/
   card: {
-    marginHorizontal: 2,
-    marginVertical: 2,
+    marginHorizontal: 4,
+    marginVertical: 4,
     flexBasis: '48%',
+
   },
   cardHeader: {
-    paddingVertical: 17,
-    paddingHorizontal: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center",
+    
    // marginTop:width/3.2
   },
   cardContent: {
     paddingVertical: 12.5,
     paddingHorizontal: 16,
+    
   },
   cardFooter: {
     flexDirection: 'row',
@@ -217,16 +231,18 @@ const styles = StyleSheet.create({
 
   },
   cardImage: {
-    height: height/4,
+    height: height/4.2,
     width: "100%",
-    alignSelf: 'center'
+    alignSelf: 'center',
+    resizeMode:"center",
+  
   },
   title: {
     fontSize: 18,
     flex: 1,
-    color: "black",
+    color: "white",
     fontWeight: 'bold',
-    marginTop:height/6
+    marginTop:height/6.4
   },
   subTitle: {
     fontSize: 12,

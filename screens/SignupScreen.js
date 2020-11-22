@@ -515,7 +515,7 @@ export default class SignupScreen extends Component {
 
 
 <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
+          <Image style={ styles.inputIcon} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Password"
             value={password}

@@ -394,12 +394,17 @@ export default class CreateaPublicGroupScreen extends Component {
       */}
         <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
           <View style={styles.preference}>
-            <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
+    <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
+             
             <View pointerEvents="none">
               <Switch value={Value} />
+              
             </View>
+          
           </View>
+         
         </TouchableRipple>
+        <Text style={{ paddingLeft: 70, marginTop: -20 }}>(Private: Group admin needs to approve the joining request)</Text>
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
@@ -508,9 +513,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
+   
+    marginTop:30
   },
   loginButton: {
     backgroundColor: '#3498db',
+    
   },
   fabookButton: {
     backgroundColor: "#3b5998",

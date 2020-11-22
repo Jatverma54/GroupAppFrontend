@@ -68,7 +68,7 @@ const PublicGroupStackNavigator = () => {
 
   return (
 
-    <PublicGroupStack.Navigator headerMode='float' screenOptions={{
+    <PublicGroupStack.Navigator headerMode="screen" screenOptions={{
       headerRight: ({ }) => <Search />, headerLeft: ({ }) => <HeaderLeft />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({
@@ -88,6 +88,7 @@ const PublicGroupStackNavigator = () => {
       }),
       headerTintColor: colors.StackheaderTintColor,
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
+    
     }} >
 
       <PublicGroupStack.Screen options={{

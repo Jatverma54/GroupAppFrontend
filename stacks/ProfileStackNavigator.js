@@ -31,7 +31,7 @@ const ProfileScreenStackNavigator = () => {
  
   return (
 
-    <ProfileScreenStack.Navigator headerMode='float' screenOptions={{
+    <ProfileScreenStack.Navigator headerMode="screen" screenOptions={{
       headerLeft: ({ }) => <HeaderLeft />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({
@@ -87,7 +87,7 @@ const changePasswordStackNavigator = ({route}) => {
   
   return (
 
-    <changePassword.Navigator headerMode='float' screenOptions={{
+    <changePassword.Navigator headerMode='screen' screenOptions={{
       headerLeft: ({ }) => <HeaderLeftFeed />, cardStyle: { backgroundColor: colors.cardStyleBackgroundColor },
       cardOverlayEnabled: true,
       cardStyleInterpolator: ({ current: { progress } }) => ({

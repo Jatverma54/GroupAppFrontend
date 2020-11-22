@@ -39,7 +39,9 @@ export default class PersonalGroupsScreen extends Component {
       loading: false,
       error: null,
       search:"",
-      searchStarted:false
+      searchStarted:false,
+      isImageLoaded:true
+
     }
   }
 
@@ -225,7 +227,14 @@ export default class PersonalGroupsScreen extends Component {
             <View style={styles.container}>
 
                <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupBio",Group)}>
-              <Image source={{uri:Group.image}} style={styles.avatar}/>
+              <Image source={{uri:Group.image}} 
+              style={[styles.avatar,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+              onLoad={ () => this.setState({ isImageLoaded: true }) }
+              onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+            />
+               <ActivityIndicator
+               animating={this.state.isImageLoaded} color="black"
+  />
               </TouchableOpacity>    
              
              <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupFeed",Group)}>
@@ -256,7 +265,7 @@ export default class PersonalGroupsScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold" }}>Create your first personal group.{'\n'}Personal groups will be visible to members only.</Text>
+              <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" ,width:"100%"}}>Press below plus icon to create your first personal group.{'\n'}Personal groups will be visible to members only.</Text>
             </View>}
      
      <FloatingActionButton/>
@@ -273,6 +282,7 @@ const FloatingActionButton =()=>{
   return(
   <FloatingAction
   actions={actions}
+ 
   onPressItem={name => {
     navigation.push('CreateaPersonalGroup');
    //  console.log(`selected button: ${name}`);

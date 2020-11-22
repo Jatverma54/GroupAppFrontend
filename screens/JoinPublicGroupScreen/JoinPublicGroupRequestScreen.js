@@ -506,7 +506,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft: SCREEN_WIDTH/3, fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.</Text>
+              <Text style={{ marginLeft: SCREEN_WIDTH/2.60, fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.</Text>
             </View>}
         </View>
     );

@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  ActivityIndicator 
 } from 'react-native';
 import ImageView from "react-native-image-viewing";
 
@@ -22,7 +23,8 @@ export default class PostImagesJoinedGroup extends React.Component {
       ImageData: [],
       isVisible: 'false',
       imageindex: null,
-
+      loading: true,
+      isImageLoaded:true
     };
   }
 
@@ -65,19 +67,29 @@ export default class PostImagesJoinedGroup extends React.Component {
 
           <View style={styles.ImageView} >
             <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
-
-              <Image
-                style={styles.stretch}
+              <Image             
                 source={{ uri: images[0] }}
-
+                style={[styles.stretch,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                onLoad={ () => this.setState({ isImageLoaded: true }) }
+                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               />
+                 <ActivityIndicator
+                 animating={this.state.isImageLoaded} color="black"
+    />
             </TouchableOpacity>
           </View>
 
           :
           <TouchableOpacity style={[styles.imageContent, styles.imageContent1]} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
 
-            <Image style={styles.image} source={{ uri: (conditionalRender) ? images[0] : images[0] }} />
+            <Image  source={{ uri: (conditionalRender) ? images[0] : images[0] }} 
+              style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+              onLoad={ () => this.setState({ isImageLoaded: true }) }
+              onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+            />
+               <ActivityIndicator
+               animating={this.state.isImageLoaded} color="black"
+  />
           </TouchableOpacity>
         )}
 
@@ -88,6 +100,12 @@ export default class PostImagesJoinedGroup extends React.Component {
 
     );
   }
+  _onLoadEnd = () => {
+    this.setState({
+      loading: false
+    })
+  }
+
 
   renderTwo() {
     const { images } = this.state;
@@ -108,10 +126,24 @@ export default class PostImagesJoinedGroup extends React.Component {
 
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
-          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[1] : images[0] }} />
+          <Image  source={{ uri: (conditionalRender) ? images[1] : images[0]  }}  
+          style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+          onLoad={ () => this.setState({ isImageLoaded: true }) }
+          onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+        />
+           <ActivityIndicator
+           animating={this.state.isImageLoaded} color="black"
+/>
         </TouchableOpacity>
         { (images.length > 2) && <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
-          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[2] : images[1] }} />
+          <Image  source={{ uri: (conditionalRender) ? images[2] : images[1] }}  
+           style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+           onLoad={ () => this.setState({ isImageLoaded: true }) }
+           onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+         />
+            <ActivityIndicator
+            animating={this.state.isImageLoaded} color="black"
+ />
         </TouchableOpacity>}
 
       </View>
@@ -140,10 +172,24 @@ export default class PostImagesJoinedGroup extends React.Component {
     return (
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
-          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[1] : images[2] }} />
+          <Image  source={{ uri: (conditionalRender) ? images[1] : images[2] }} 
+            style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+            onLoad={ () => this.setState({ isImageLoaded: true }) }
+            onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+          />
+             <ActivityIndicator
+             animating={this.state.isImageLoaded} color="black"
+  />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
-          <Image style={styles.image} source={{ uri: (conditionalRender) ? images[2] : images[3] }} />
+          <Image  source={{ uri: (conditionalRender) ? images[2] : images[3] }} 
+        style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+        onLoad={ () => this.setState({ isImageLoaded: true }) }
+        onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+      />
+         <ActivityIndicator
+         animating={this.state.isImageLoaded} color="black"
+/>
         </TouchableOpacity>
         {overlay}
       </View>
@@ -154,7 +200,14 @@ export default class PostImagesJoinedGroup extends React.Component {
     const { images } = this.state;
     return (
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: images.length - 1 }) }}>
-        <Image style={styles.image} source={{ uri: images[images.length - 1] }} />
+        <Image  source={{ uri: images[images.length - 1] }}  
+         style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+         onLoad={ () => this.setState({ isImageLoaded: true }) }
+         onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+       />
+          <ActivityIndicator
+          animating={this.state.isImageLoaded} color="black"
+/>
       </TouchableOpacity>
     );
   }
@@ -166,7 +219,14 @@ export default class PostImagesJoinedGroup extends React.Component {
     const conditionalRender = images.length == 4 || images.length > +countFrom && +countFrom == 4;
     return (
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: 4 }) }}>
-        <Image style={styles.image} source={{ uri: (conditionalRender) ? images[3] : images[4] }} />
+        <Image source={{ uri: (conditionalRender) ? images[3] : images[4] }}
+          style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+          onLoad={ () => this.setState({ isImageLoaded: true }) }
+          onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+        />
+           <ActivityIndicator
+           animating={this.state.isImageLoaded} color="black"
+/>
         <View style={styles.overlayContent}>
           <View style={{ width: "100%" }}>
             <Text style={styles.count}>+{extra}</Text>
@@ -332,6 +392,13 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     color: "#FFF"
+  },
+  activityIndicator: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   }
 
 });  

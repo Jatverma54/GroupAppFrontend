@@ -73,6 +73,7 @@ export default class PersonalGroupFeedScreen extends Component {
       skipPagination:0,
       loadingPagination:false,
       errorPagination: null,
+      isImageLoaded:true
     };
 
 
@@ -206,7 +207,14 @@ this.props.route.params.Notification="";
      }
  
   }
-
+  _onLoadStart = () => {
+    this.setState({ isImageLoaded: true }) 
+  };
+  _onLoad = status => {
+    this.setState({ isImageLoaded: false })
+  };
+    
+  
 
   getNotificationData = async () => {
     var PostId=this.props.route.params.Notification.post_id._id
@@ -1001,12 +1009,19 @@ this.props.route.params.Notification="";
                   isMuted={false}
                   resizeMode='cover'
                   shouldPlay={false}
-                  isLooping={false}
+                  isLooping={true}
                   useNativeControls={true}
-                  style={styles.video}
+                
                   onFullscreenUpdate={this.onFullscreenUpdate}
+                  style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
 
-                />
+                  onLoadStart={this._onLoadStart}
+                                             onLoad={this._onLoad}
+                                             
+                                           />
+                                                 <ActivityIndicator
+                                      animating={this.state.isImageLoaded} color="black"
+                         />
                 <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
               </View> : ((post.item.document != null) ?
@@ -1331,12 +1346,20 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                             isMuted={false}
                             resizeMode='cover'
                             shouldPlay={false}
-                            isLooping={false}
+                            isLooping={true}
                             useNativeControls={true}
-                            style={styles.video}
+                            
                             onFullscreenUpdate={this.onFullscreenUpdate}
 
-                          />
+                            style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
+
+                            onLoadStart={this._onLoadStart}
+                                                       onLoad={this._onLoad}
+                                                       
+                                                     />
+                                                           <ActivityIndicator
+                                                animating={this.state.isImageLoaded} color="black"
+                                   />
                           <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                         </View> : ((post.item.document != null) ?
