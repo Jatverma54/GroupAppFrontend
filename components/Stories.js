@@ -473,12 +473,12 @@ export default class Stories extends Component {
             <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.nav.myHookValue.push("CreateaNewPost")}>
               <View>
                 <View style={styles.bodyContent}  >
-                  <Text style={{ fontWeight: "bold", width: "100%", marginLeft: 50, marginTop: 11 }}>Start a conversation</Text>
+                <Text style={{ fontWeight: "bold", width: "100%", marginLeft: 50, marginTop: 11 }}>Start a conversation</Text>
                 </View>
                 <View>
 
                   <Image
-                    style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: 350, marginTop: -40 }}
+                     style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width-70-30, marginTop: -40 }}
                     source={Post_Add} />
                 </View>
               </View>

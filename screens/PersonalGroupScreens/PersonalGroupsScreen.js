@@ -265,7 +265,8 @@ export default class PersonalGroupsScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" ,width:"100%"}}>Press below plus icon to create your first personal group.{'\n'}Personal groups will be visible to members only.</Text>
+              <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Press below plus icon to create your first personal group.     </Text>
+                <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Personal groups will be visible to members only.         </Text>
             </View>}
      
      <FloatingActionButton/>

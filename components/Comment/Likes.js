@@ -293,7 +293,7 @@ export default class Likes extends Component {
           borderRadius: 25,
         }}
       />
-      <Text style={{ marginLeft: 170, color: "grey", fontWeight: "bold" }}>No Likes Yet</Text>
+      <Text style={{ alignSelf:"center",alignContent:"center", color: "grey", fontWeight: "bold" }}>No Likes Yet</Text>
     </View>
     )
   }

@@ -484,7 +484,9 @@ export default class PublicGroupListScreen extends Component {
                  animating={this.state.isImageLoaded} color="black"
     />
 <MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30,marginTop:-10 }} onPress={()=>this.props.navigation.goBack()}/>
-    <Text style={{color:"white",flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, marginTop:height/6.2}}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
+   <View style={{justifyContent:"flex-end", flex:1,marginBottom:5}}>
+    <Text style={{color:"white",flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, }}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
+    </View>
 </ImageBackground>
 
 {this.state.searchResult.length===0?<Divider style={{ height: 0.5,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
@@ -652,7 +654,7 @@ export default class PublicGroupListScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft:width/2.4, color: "grey", fontWeight: "bold" }}>No Groups</Text>
+              <Text style={{  alignSelf: "center", alignItems: "center", color: "grey", fontWeight: "bold" }}>No Groups    </Text>
             </View>
     )
   }

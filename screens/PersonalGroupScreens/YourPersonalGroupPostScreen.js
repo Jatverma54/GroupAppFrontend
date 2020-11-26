@@ -216,7 +216,7 @@ export default class YourPersonalGroupPostScreen extends Component {
     renderEmpty = () => {
  
       return (
-        <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>
+        <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", alignItems: "center", justifyContent: "center",color: "grey", fontWeight: "bold" }} >No Posts to Show   </Text></View>
       )
     }    
 

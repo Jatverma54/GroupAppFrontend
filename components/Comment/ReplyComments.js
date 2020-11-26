@@ -414,7 +414,7 @@ export default class ReplyComments extends Component {
         if (response.ok) {
 
           //  this.setState({search:''});  this.setState({data:'',temp:''});  
-          this.setState({ data: '' });
+          this.setState({ data: '',skipPagination:1 });
           this.getData();
         }
         else {

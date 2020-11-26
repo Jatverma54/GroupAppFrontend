@@ -13,7 +13,8 @@ import {
   Alert,
   AsyncStorage,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+
 } from 'react-native';
 
 import {
@@ -296,28 +297,27 @@ export default class CreateaPublicGroupScreen extends Component {
     const { Value, selectedGroupCategoryValue, photo, GroupName, GroupBioName } = this.state;
    
     return (
-
-      <View style={styles.container}>
-
+    
+     
+ < View style={styles.container}>
 <Loader isLoading={this.state.loading} />
+<ScrollView contentContainerStyle={styles.scrollcontainer}>
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 10 }}>
+        <View style={{  padding: 10, marginTop: 50,    backgroundColor: "#B0E0E6", marginBottom: 20,width:"100%" }}>
 
-            <View style={{ flex: 3, backgroundColor: "#B0E0E6" }}>
-
-              <View>
+            
+           
 
                 <Avatar.Image
-                  style={{ alignSelf: "center", marginTop: -70, marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
+                  style={{ alignSelf: "center",  marginHorizontal: 2, borderColor: 'black', borderWidth: 2,  }}
                   source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
 
-                <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%" }}>Choose an Avatar</Text>
+<Text style={{ marginLeft:10, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar  </Text>
               </View>
 
-            </View>
-
-          </View>
+          
+          
         </TouchableOpacity>
 
         <View style={styles.inputContainer}>
@@ -408,7 +408,7 @@ export default class CreateaPublicGroupScreen extends Component {
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
-
+      
 
         <RBSheet
           ref={ref => {
@@ -439,10 +439,10 @@ export default class CreateaPublicGroupScreen extends Component {
 
           </View>
         </RBSheet>
-
-
-      </View>
-
+        </ScrollView>
+        </View>
+    
+     
     );
   }
 }
@@ -471,10 +471,17 @@ const PrivacySettingsPickerList = () => {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 2,
+    flex:1,
     backgroundColor: '#B0E0E6',
-    justifyContent: 'center',
-    alignItems: 'center',
+   justifyContent: 'center',
+  alignItems: 'center',
+
+  },
+  scrollcontainer: {
+    
+    backgroundColor: '#B0E0E6',
+   justifyContent: 'center',
+  alignItems: 'center',
 
   },
   inputContainer: {
@@ -494,7 +501,8 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
-    fontSize: 16
+    fontSize: 16,
+   
   },
   icon: {
     width: 30,
@@ -514,7 +522,8 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 30,
    
-    marginTop:30
+    marginTop:30,
+   
   },
   loginButton: {
     backgroundColor: '#3498db',
@@ -563,7 +572,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     //  paddingVertical: 12,
     paddingHorizontal: 16,
-    marginBottom: 20
+    marginBottom: 20,
+  
   },
 
 

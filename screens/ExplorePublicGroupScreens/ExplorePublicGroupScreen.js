@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     
   },
   cardFooter: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingTop: 20,
     paddingBottom: 25,
@@ -231,18 +231,20 @@ const styles = StyleSheet.create({
 
   },
   cardImage: {
-    height: height/4.2,
+    height: height/4,
     width: "100%",
     alignSelf: 'center',
     resizeMode:"center",
-  
+    justifyContent: 'flex-end',
   },
   title: {
     fontSize: 18,
     flex: 1,
     color: "white",
     fontWeight: 'bold',
-    marginTop:height/6.4
+    justifyContent: 'flex-end',
+    marginBottom:-10
+   // marginTop:height/6.4
   },
   subTitle: {
     fontSize: 12,

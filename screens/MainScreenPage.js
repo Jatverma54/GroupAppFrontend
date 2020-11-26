@@ -1,13 +1,14 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Button, AsyncStorage, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, AsyncStorage, Alert,Dimensions } from 'react-native';
 
 import APIBaseUrl from '../constants/APIBaseUrl';
 import colors from '../constants/colors';
 import MainScreenText from '../constants/MainScreenText';
 
-import menu from '../Pictures/Logo.png';
+import menu from '../Pictures/circle-312343.png';
 
+const { width, height } = Dimensions.get('window');
 
 const MainScreenPage = ({ navigation }) => {
 
@@ -103,8 +104,8 @@ const MainScreenPage = ({ navigation }) => {
 
   return (
 
-    // <View style={styles.Rootscreen}>
-    <ImageBackground source={menu} style={styles.image}>
+    <View style={styles.Rootscreen}>
+    {/* // <ImageBackground source={menu} style={styles.image}> */}
 
       <View style={styles.inputContainers}>
 
@@ -114,16 +115,21 @@ const MainScreenPage = ({ navigation }) => {
         <View>
           <Text style={styles.paragraph}>{MainScreenText.SubHeading} </Text>
         </View>
+        <Image  source={menu}  style={styles.image} />
       </View>
+
+
+
+
 
       <View style={styles.ButtonContainer}>
         <View style={styles.button}><Button title="Login" color={colors.LoginButtonColor} onPress={({ }) => navigation.navigate('LoginScreen')} /></View>
         <View style={styles.button}><Button title="SignUp" color={colors.SignUpButton} onPress={({ }) => navigation.navigate('SignupScreen')} /></View>
 
       </View>
+     </View>
+    // </ImageBackground>
 
-    </ImageBackground>
-    // </View>
 
   );
 
@@ -135,11 +141,17 @@ const MainScreenPage = ({ navigation }) => {
 const styles = StyleSheet.create({
   Rootscreen: {
     flex: 1,
+    backgroundColor:"white"
   },
   image: {
-    justifyContent: 'center',
-    height: "100%",
-    resizeMode: 'cover'
+ // justifyContent: 'center',
+    height:"90%",
+    width:"100%",
+    resizeMode: 'contain',
+    marginTop:50,
+    marginLeft:width/150,
+   
+   // flex:1
   },
   container: {
     paddingTop: 50,
@@ -167,10 +179,10 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     flex: 2,
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: "flex-end",
     alignItems: 'center',
     paddingTop: 10,
-
+marginBottom:20
   },
   button: {
     width: 300,

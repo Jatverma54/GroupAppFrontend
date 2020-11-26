@@ -228,7 +228,9 @@ export default class JoinedPublicGroupsScreen extends Component {
                 borderRadius: 25,
               }}
                />
-              <Text style={{ marginLeft: width/5, fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.{'\n'}You will see all the public groups that you have joined here.</Text>
+              <Text style={{ alignSelf:"center",alignContent:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.   </Text>
+            <Text style={{ alignSelf:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>You will see all the public groups that you have joined     </Text>
+            <Text style={{ alignSelf:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>here.</Text>
             </View>
     )
   }

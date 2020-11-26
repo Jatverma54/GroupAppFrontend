@@ -205,7 +205,7 @@ export default class NotificationScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white", marginTop: height / 4 }}>
 
-        <Text style={{ marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold", marginLeft: width / 3, width: "100%" }}>No new notification</Text>
+<Text style={{alignContent:"center",alignItems:"center",alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold",}}>No new notification     </Text>
       </View>
     )
   }

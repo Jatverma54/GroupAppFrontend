@@ -216,7 +216,8 @@ this.props.route.params.Notification="";
         height: 53,
         borderRadius: 25,
       }} />
-      <Text style={{ alignSelf:"center", color: "grey", fontWeight: "bold" }}>No Posts to show.{'\n'}All joined public group posts will be visible here.</Text>
+      <Text style={{ alignSelf:"center", color: "grey", fontWeight: "bold" }}>No Posts to show.   </Text>
+      <Text style={{ alignSelf:"center", color: "grey", fontWeight: "bold" }}>All joined public group posts will be visible here.       </Text>
     </View>
     )
   }

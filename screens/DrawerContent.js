@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity, ActivityIndicator,Image } from 'rea
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/native';
 import {
   DrawerItem,
+  DrawerContentScrollView
 } from '@react-navigation/drawer';
 import {
   Avatar,
@@ -19,7 +20,8 @@ import {
   Dimensions,
   Text,
   Alert,
-  BackHandler
+  BackHandler,
+ 
 } from 'react-native';
 
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
@@ -165,7 +167,7 @@ const DrawerContent = (props,) => {
           <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
         </Button>
       </View> :
-      // <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView >
       <View {...props}
         style={
           styles.drawerContent
@@ -176,7 +178,7 @@ const DrawerContent = (props,) => {
 
           <TouchableOpacity onPress={() => setisVisible(true)}>
             <Image 
-              source={{ uri: props.Userdata.profile.profile_pic }}
+              source={{ uri:props.Userdata.profile.profile_pic }}
               style={[styles.avatar,{ display: (!isImageLoaded ? 'flex' : 'none') }]}
                      onLoad={ () => setisImageLoaded(true) }
                      onLoadEnd={() => setisImageLoaded(false) }
@@ -315,7 +317,7 @@ const DrawerContent = (props,) => {
 
 
       </View>
-    /* </DrawerContentScrollView> */
+     </DrawerContentScrollView> 
   );
 
 }
@@ -327,7 +329,8 @@ const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
     backgroundColor: colors.drawerBackgroundcolor,
-    paddingTop: 38
+    paddingTop: 38,
+    
   },
   userInfoSection: {
     paddingLeft: 20,
@@ -369,12 +372,14 @@ const styles = StyleSheet.create({
   drawerSectionFooter: {
     flexDirection: 'column',
     justifyContent: "flex-end",
-   paddingVertical: "100%",
+   // alignContent:"center",
+   //paddingVertical: "58%",
     alignItems: 'center',
-   
+   flex:1,
    // marginRight: 15,
-    marginTop:-height/7
-    // marginVertical:100
+  //  marginTop:-10,
+    marginVertical:130
+    
   },
   paragraphfooter: {
     fontWeight: 'bold',

@@ -12,7 +12,8 @@ import {
   Alert,
   Keyboard,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import {
 
@@ -410,23 +411,21 @@ export default class SignupScreen extends Component {
 
 
     return (
+ 
       <View style={styles.container}>
  <Loader isLoading={this.state.loading} />
+ <ScrollView>
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 10, marginTop: 50 }}>
-
-            <View style={{ flex: 3, backgroundColor: "#3498db" }}>
-
-              <View>
+          <View style={{ height: 100, padding: 10, marginTop: 50,   flex: 3, backgroundColor: "#3498db", marginBottom: 60,width:"100%" }}>
 
                 <Avatar.Image
-                  style={{ alignSelf: "center", marginTop: -70, marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
+                  style={{ alignSelf: "center",  marginHorizontal: 2, borderColor: 'black', borderWidth: 2,  }}
                   source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
-                <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%" }}>Choose an Avatar</Text>
-              </View>
+                <Text style={{ marginLeft:130, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar</Text>
+            
 
-            </View>
+           
 
           </View>
         </TouchableOpacity>
@@ -564,7 +563,7 @@ export default class SignupScreen extends Component {
           <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Already have an account?Log in</Text>
         </TouchableOpacity>
 
-   
+        </ScrollView>
 
         {/* List Menu */}
         <RBSheet
@@ -603,6 +602,7 @@ export default class SignupScreen extends Component {
 
 
       </View>
+     
     );
   }
 }
@@ -618,6 +618,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3498db',
+    
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',

@@ -431,7 +431,7 @@ _onLoad = status => {
 renderEmpty = () => {
  
   return (
-    <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>
+    <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", alignItems: "center", justifyContent: "center",color: "grey", fontWeight: "bold" }} >No Posts to Show   </Text></View>
   )
 }
   PostScreen = () => {
@@ -500,7 +500,7 @@ renderEmpty = () => {
             <View>
 
               <Image
-                style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: 350, marginTop: -40 }}
+                style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width-70-30, marginTop: -40 }}
                 source={Post_Add} />
             </View>
           </View>

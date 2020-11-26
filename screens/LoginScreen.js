@@ -11,7 +11,9 @@ import {
   Keyboard,
   AsyncStorage,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView
 } from 'react-native';
 // import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
 // import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
@@ -74,7 +76,7 @@ export default class LoginScreen extends Component {
       try {
 
 
-        let pushToken;
+         let pushToken;
         let statusObj = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         if (statusObj.status !== 'granted') {
           statusObj = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -192,8 +194,9 @@ export default class LoginScreen extends Component {
     const { userName, password } = this.state
     return (
 
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Loader isLoading={this.state.loading} />
+        
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
           <TextInput style={styles.inputs}
@@ -266,7 +269,7 @@ export default class LoginScreen extends Component {
 <Text style={styles.TextStyle}> Login Using Google</Text>
 
 </TouchableOpacity> */}
-      </View>
+      </KeyboardAvoidingView>
 
     );
   }
@@ -280,6 +283,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#B0E0E6',
+    paddingTop:50
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',

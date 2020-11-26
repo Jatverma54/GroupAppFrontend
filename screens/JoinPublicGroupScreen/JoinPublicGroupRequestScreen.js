@@ -496,7 +496,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft: 45, fontSize: 15, color: "grey", fontWeight: "bold" }}>Only group admin can accept or reject joining requests.</Text>
+              <Text style={{ alignContent:"center",alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Only group admin can accept or reject joining requests.       </Text>
             </View>}
 
           {(this.state.data.length === 0 && this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) &&
@@ -506,7 +506,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ marginLeft: SCREEN_WIDTH/2.60, fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.</Text>
+              <Text style={{ alignSelf:"center",alignItems: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.   </Text>
             </View>}
         </View>
     );
