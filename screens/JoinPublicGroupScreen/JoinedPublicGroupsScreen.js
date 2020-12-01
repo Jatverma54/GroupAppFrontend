@@ -24,7 +24,7 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class JoinedPublicGroupsScreen extends Component {
 
-
+  controller = new AbortController();
   constructor(props) {
 
 
@@ -64,15 +64,18 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       //   console.log("Error ",e)
+      this.controller.abort()
+
     }
   };
 
@@ -94,15 +97,18 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
       // console.log("Error ",e)
     
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.controller.abort()
+
       //   console.log("Error ",e)
     }
   };

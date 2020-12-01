@@ -11,7 +11,7 @@ import Loader from './Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 class SearchFunctionality extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
 
@@ -57,14 +57,14 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/groupSearchQuery`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/groupSearchQuery`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
           const json = await response.json();
           //  this.setState({search:''});  this.setState({data:'',temp:''});  
           this.setState({ data: json.result });
-
+          this.controller.abort()
         }
         else {
 
@@ -78,7 +78,7 @@ class SearchFunctionality extends Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
           //  console.log(responseJson);
         }
 
@@ -94,6 +94,7 @@ class SearchFunctionality extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
   };

@@ -40,7 +40,7 @@ MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 export default class SignupScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
 
@@ -248,7 +248,7 @@ export default class SignupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
 
@@ -263,6 +263,7 @@ export default class SignupScreen extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
           // let responseJson = await response.text();
@@ -271,7 +272,7 @@ export default class SignupScreen extends Component {
           let responseJson = await response.json();
           let errorstring = responseJson.error.toString();
           alert(errorstring)
-
+          this.controller.abort()
         }
 
       } catch (err) {
@@ -286,6 +287,7 @@ export default class SignupScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
 
 

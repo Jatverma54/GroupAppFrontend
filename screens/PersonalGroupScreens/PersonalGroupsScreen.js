@@ -28,7 +28,7 @@ const { width, height } = Dimensions.get('window');
 
 export default class PersonalGroupsScreen extends Component {
 
-
+  controller = new AbortController();
   constructor(props) {
   
     super(props);
@@ -85,14 +85,15 @@ export default class PersonalGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPrivateGroups`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPrivateGroups`, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.controller.abort()
       //   console.log("Error ",e)
     }
   };

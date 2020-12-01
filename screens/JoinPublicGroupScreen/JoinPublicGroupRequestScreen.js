@@ -23,7 +23,7 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class JoinPublicGroupRequestScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -45,24 +45,26 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
 
 
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+  //  this._unsubscribe =   this.props.navigation.addListener('focus', () => {
       // do something
 
       if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
         this.setState({ data: "" })
-        this.getData(); // do something
+          this.getData(); // do something
       }
 
-    });
+   // });
 
   }
 
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+   
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
+ 
   }
 
   getData = async () => {
@@ -90,10 +92,12 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
         const json = await response.json();
         //  console.log("Error ",json)
         this.setResult(json.result);
+
+       
 
         if(this.state.data.length!==0){
         
@@ -105,11 +109,15 @@ export default class JoinPublicGroupRequestScreen extends Component {
             tabBarLabel: 'Group Requests'
           })
          }
+         this.controller.abort()
       }
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      
+      this.controller.abort()
+
     }
 
 
@@ -142,10 +150,12 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
         const json = await response.json();
         //  console.log("Error ",json)
         this.setResult(json.result);
+
+        this.controller.abort()
 
       
       }
@@ -153,6 +163,9 @@ export default class JoinPublicGroupRequestScreen extends Component {
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
 
       console.log("Error ", e)
+      
+      this.controller.abort()
+
     }
 
 
@@ -255,7 +268,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(ConfirmRequest),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/confirmGroupRequest`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/confirmGroupRequest`, requestOptions,{signal: this.controller.signal});
       //const json = await response.json();
       //  console.log("Error ",json)
 
@@ -272,6 +285,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
           { cancelable: false }
         );
 
+        this.controller.abort()
+
       }
       else {
         this.setState({ loading: false });
@@ -285,6 +300,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
           ],
           { cancelable: false }
         );
+
+        this.controller.abort()
 
         //  console.log(responseJson);
       }
@@ -301,6 +318,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
         ],
         { cancelable: false }
       );
+
+      this.controller.abort()
 
     }
   }
@@ -332,7 +351,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(RemoveRequest),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/removeGroupRequest`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/removeGroupRequest`, requestOptions,{signal: this.controller.signal});
       //const json = await response.json();
       //  console.log("Error ",json)
 
@@ -349,6 +368,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
           { cancelable: false }
         );
 
+        this.controller.abort()
+
       }
       else {
         this.setState({ loading: false });
@@ -362,6 +383,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
           ],
           { cancelable: false }
         );
+
+        this.controller.abort()
 
         //  console.log(responseJson);
       }
@@ -378,6 +401,8 @@ export default class JoinPublicGroupRequestScreen extends Component {
         ],
         { cancelable: false }
       );
+
+      this.controller.abort()
 
     }
   }

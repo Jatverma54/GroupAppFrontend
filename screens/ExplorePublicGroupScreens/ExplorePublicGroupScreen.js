@@ -24,9 +24,9 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class ExplorePublicGroupScreen extends Component {
-
+  controller = new AbortController()
   constructor(props) {
-
+ 
     super(props);
     this.state = {
       data: "",
@@ -61,14 +61,15 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/admin/GetCategoriesToDB`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/admin/GetCategoriesToDB`, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       this.setState({ error: 'Reload the Page', loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 

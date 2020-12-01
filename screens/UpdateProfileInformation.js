@@ -40,7 +40,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class UpdateProfileInformation extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
 
@@ -199,7 +199,7 @@ export default class UpdateProfileInformation extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserinformation`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserinformation`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -215,6 +215,7 @@ export default class UpdateProfileInformation extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
           // let responseJson = await response.text();
@@ -223,7 +224,7 @@ export default class UpdateProfileInformation extends Component {
           let responseJson = await response.json();
           let errorstring = responseJson.error.toString();
           alert(errorstring)
-
+          this.controller.abort()
         }
 
       } catch (err) {
@@ -238,6 +239,7 @@ export default class UpdateProfileInformation extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
 
 

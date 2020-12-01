@@ -193,7 +193,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
   //       };
 
-  //       const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions);
+  //       const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions,{signal: this.controller.signal});
 
 
   //       if (response.ok) {

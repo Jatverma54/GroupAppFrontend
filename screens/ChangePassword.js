@@ -16,7 +16,7 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 export default class ChangePassword extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -79,7 +79,7 @@ export default class ChangePassword extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPassword`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPassword`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
 
@@ -95,6 +95,7 @@ export default class ChangePassword extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
           // let responseJson = await response.text();
@@ -112,7 +113,7 @@ export default class ChangePassword extends Component {
         //     ],
         //     { cancelable: false }
         //   );
-
+        this.controller.abort()
          }
 
       } catch (err) {
@@ -127,6 +128,7 @@ export default class ChangePassword extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
 
 

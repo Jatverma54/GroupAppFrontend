@@ -25,7 +25,7 @@ import APIBaseUrl from '../constants/APIBaseUrl';
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
 export default class NotificationScreen extends Component {
-
+  controller = new AbortController()
   constructor(props) {
     super(props);
     this.state = {
@@ -63,18 +63,19 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
       this.setResult(json.result);
 
-   
+      this.controller.abort()
 
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       //   console.log("Error ",e)
+      this.controller.abort()
     }
   };
 
@@ -102,16 +103,17 @@ export default class NotificationScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       //   console.log("Error ",e)
+      this.controller.abort()
     }
   };
 
@@ -131,10 +133,10 @@ export default class NotificationScreen extends Component {
   }
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
 
   setResult = (res) => {

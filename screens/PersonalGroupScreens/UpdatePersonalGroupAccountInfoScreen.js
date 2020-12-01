@@ -25,7 +25,7 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class UpdatePersonalGroupAccountInfoScreen extends Component {
-  
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -177,7 +177,7 @@ CreateGroup = async () => {
         //redirect: 'follow'
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -190,6 +190,7 @@ CreateGroup = async () => {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
       else {
 
@@ -202,7 +203,7 @@ CreateGroup = async () => {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
     }
     catch (e) {
@@ -217,6 +218,7 @@ CreateGroup = async () => {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
   }
   else {

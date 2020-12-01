@@ -25,7 +25,7 @@ const { width, height } = Dimensions.get('window');
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import Loader from '../Loader';
 export default class Likes extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -63,14 +63,15 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=14&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=14&page_number="+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 
@@ -94,14 +95,15 @@ export default class Likes extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=14&page_number="+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/viewlikes/` + this.props.route.params._id+"?page_size=14&page_number="+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 

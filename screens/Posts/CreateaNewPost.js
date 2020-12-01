@@ -37,6 +37,7 @@ MDIcon.loadFont();
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class CreateaNewPost extends Component {
+  controller = new AbortController();
   PhotoPresent
   constructor(props) {
     super(props);
@@ -501,7 +502,7 @@ export default class CreateaNewPost extends Component {
        redirect: 'follow'
       };
 //console.log(formdata)
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -515,6 +516,7 @@ export default class CreateaNewPost extends Component {
         //   ],
         //   { cancelable: false }
         // );
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -531,7 +533,7 @@ export default class CreateaNewPost extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
     }else{
       alert("Nothing to share")
@@ -549,6 +551,7 @@ export default class CreateaNewPost extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
   }
 

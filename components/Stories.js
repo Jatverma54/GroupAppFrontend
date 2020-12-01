@@ -25,7 +25,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from './Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 export default class Stories extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -71,15 +71,16 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
      
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       //   console.log("Error ",e)
+      this.controller.abort()
     }
 
 
@@ -111,15 +112,16 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
      
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       //   console.log("Error ",e)
+      this.controller.abort()
     }
 
 

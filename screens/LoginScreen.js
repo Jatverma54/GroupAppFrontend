@@ -33,7 +33,7 @@ import * as Permissions from 'expo-permissions';
 
 
 export default class LoginScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
 
@@ -105,8 +105,8 @@ export default class LoginScreen extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/login`, requestOptions
-
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/login`, requestOptions,
+        {signal: this.controller.signal}
 
         );
 
@@ -129,7 +129,7 @@ export default class LoginScreen extends Component {
             { cancelable: false }
           );
          
-
+          this.controller.abort()
         }
         else {
 
@@ -143,7 +143,7 @@ export default class LoginScreen extends Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
           //  console.log(responseJson);
         }
 
@@ -159,6 +159,7 @@ export default class LoginScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     } else {
 

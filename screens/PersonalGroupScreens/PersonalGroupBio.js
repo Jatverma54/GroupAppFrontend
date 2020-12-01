@@ -35,7 +35,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
 export default class PersonalGroupBio extends Component {
-
+  controller = new AbortController();
   constructor(props) {
 
     super(props);
@@ -143,7 +143,7 @@ export default class PersonalGroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -151,6 +151,7 @@ export default class PersonalGroupBio extends Component {
           let Data = this.state.data;
 
           this.setState({ data: Data });
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -162,6 +163,7 @@ export default class PersonalGroupBio extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         this.CameraOptions.close();
       }
@@ -169,7 +171,7 @@ export default class PersonalGroupBio extends Component {
     } catch (e) {
       console.log(e);
       this.setState({ loading: false });
-    
+      this.controller.abort()
     }
 
   };
@@ -243,7 +245,7 @@ export default class PersonalGroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
 
 
         if (response.ok) {
@@ -252,6 +254,7 @@ export default class PersonalGroupBio extends Component {
           let Data = this.state.data;
 
           this.setState({ data: Data });
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -263,6 +266,7 @@ export default class PersonalGroupBio extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
 
       }
@@ -272,6 +276,7 @@ export default class PersonalGroupBio extends Component {
       //  this.CameraOptions.close(); 
       this.setState({ loading: false });
       console.log(E);
+      this.controller.abort()
     }
 
   };
@@ -377,7 +382,8 @@ export default class PersonalGroupBio extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions,
+      {signal: this.controller.signal}
 
 
       );
@@ -395,7 +401,7 @@ export default class PersonalGroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
 
@@ -409,7 +415,7 @@ export default class PersonalGroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -425,6 +431,7 @@ export default class PersonalGroupBio extends Component {
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
     }
 
   }
@@ -495,7 +502,7 @@ export default class PersonalGroupBio extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -510,7 +517,7 @@ export default class PersonalGroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -524,7 +531,7 @@ export default class PersonalGroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -540,6 +547,7 @@ export default class PersonalGroupBio extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
 

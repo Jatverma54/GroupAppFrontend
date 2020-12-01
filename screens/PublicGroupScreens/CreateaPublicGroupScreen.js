@@ -42,7 +42,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class CreateaPublicGroupScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -158,7 +158,7 @@ export default class CreateaPublicGroupScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -171,6 +171,7 @@ export default class CreateaPublicGroupScreen extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -178,7 +179,7 @@ export default class CreateaPublicGroupScreen extends Component {
 
           let errorstring = responseJson.error.toString();
           alert(errorstring)
-
+          this.controller.abort()
         }
       }
       catch (e) {
@@ -193,6 +194,7 @@ export default class CreateaPublicGroupScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
     else {

@@ -37,7 +37,7 @@ const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class YourPublicGroupPostscreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -74,10 +74,10 @@ export default class YourPublicGroupPostscreen extends Component {
 
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
   
   getData = async () => {
@@ -93,7 +93,8 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
       var GroupData = {
-        groupId: this.props.route.params.groupid._id,
+     //   groupId: this.props.route.params.groupid._id,
+        groupId:  this.props.route.params.groupid.AllPublicFeed!==undefined?this.props.route.params.groupid.Groupid:this.props.route.params.groupid._id,
       }
 
       var myHeaders = new Headers();
@@ -105,15 +106,16 @@ export default class YourPublicGroupPostscreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -134,7 +136,8 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
       var GroupData = {
-        groupId: this.props.route.params.groupid._id,
+       // groupId: this.props.route.params.groupid._id,
+        groupId:  this.props.route.params.groupid.AllPublicFeed!==undefined?this.props.route.params.groupid.Groupid:this.props.route.params.groupid._id,
       }
 
       var myHeaders = new Headers();
@@ -146,16 +149,18 @@ export default class YourPublicGroupPostscreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
 
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -330,7 +335,8 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions,
+      {signal: this.controller.signal}
 
 
       );
@@ -349,7 +355,7 @@ export default class YourPublicGroupPostscreen extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -363,7 +369,7 @@ export default class YourPublicGroupPostscreen extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -379,6 +385,7 @@ export default class YourPublicGroupPostscreen extends Component {
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
     }
   }
 
@@ -407,7 +414,11 @@ export default class YourPublicGroupPostscreen extends Component {
     const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-    if (this.props.route.params.groupid.owner_id.includes(userId)) {
+  
+
+    if (this.props.route.params.groupid.AllPublicFeed!==undefined?this.props.route.params.groupid.GroupOwnerId.includes(userId):this.props.route.params.groupid.owner_id.includes(userId)){
+      
+      //this.props.route.params.groupid.owner_id.includes(userId)) {
 
       alert("Group owner cannot leave the group");
 
@@ -441,14 +452,13 @@ export default class YourPublicGroupPostscreen extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = this.props.route.params.groupid.admin_id.find(a=>a._id===userId) ? true : false;
-
+      var isAdmin = this.props.route.params.groupid.AllPublicFeed!==undefined?this.props.route.params.groupid.GroupAdmin.includes(userId):this.props.route.params.groupid.admin_id.find(a=>a._id===userId);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var RemoveUser = {
-        "groupid": this.props.route.params.groupid._id,
+        "groupid":this.props.route.params.groupid.AllPublicFeed!==undefined?this.props.route.params.groupid.Groupid:this.props.route.params.groupid._id,
         "userId": userId,
         "isAdmin": isAdmin
       }
@@ -460,7 +470,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -475,7 +485,7 @@ export default class YourPublicGroupPostscreen extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -489,13 +499,13 @@ export default class YourPublicGroupPostscreen extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
     } catch (e) {
       this.setState({ loading: false });
-
+console.log(e)
       Alert.alert(
 
         "Something went wrong!!",
@@ -505,6 +515,7 @@ export default class YourPublicGroupPostscreen extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
 
@@ -655,12 +666,12 @@ export default class YourPublicGroupPostscreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
 
         //  this.setState({search:''});  this.setState({data:'',temp:''});  
-
+        this.controller.abort()
 
       }
       else {
@@ -675,7 +686,7 @@ export default class YourPublicGroupPostscreen extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -691,6 +702,7 @@ export default class YourPublicGroupPostscreen extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
   }
@@ -764,7 +776,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
   render() {
 
-   
+  
 
     return (
       this.state.error != null ?

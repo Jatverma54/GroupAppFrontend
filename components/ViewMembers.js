@@ -29,7 +29,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class ViewMembers extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -76,15 +76,16 @@ export default class ViewMembers extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -116,15 +117,16 @@ export default class ViewMembers extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -254,7 +256,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/AdmindeleteUserfromtheGroup`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/AdmindeleteUserfromtheGroup`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -269,7 +271,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -283,7 +285,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -299,6 +301,7 @@ export default class ViewMembers extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
     //  console.log(this.state.data,"updated")
@@ -363,7 +366,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DismissUserAsAdmin`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DismissUserAsAdmin`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -378,7 +381,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -392,7 +395,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -408,6 +411,7 @@ export default class ViewMembers extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
   }
 
@@ -455,7 +459,7 @@ export default class ViewMembers extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/MakeUserAsAdmin`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/MakeUserAsAdmin`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -472,7 +476,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -486,7 +490,7 @@ export default class ViewMembers extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -502,6 +506,7 @@ export default class ViewMembers extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
   }
 

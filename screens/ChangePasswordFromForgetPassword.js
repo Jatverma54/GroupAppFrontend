@@ -16,7 +16,7 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 export default class ChangePasswordFromForgetPassword extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPasswordFromForget`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPasswordFromForget`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
 
@@ -91,6 +91,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
        
@@ -105,7 +106,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
          }
 
       } catch (err) {
@@ -120,6 +121,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
 
 

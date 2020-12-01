@@ -48,7 +48,7 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 
 
 export default class JoinedGroupInsideGroupFeed extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -107,10 +107,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     
     this._unsubscribe;
   
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
 
 
@@ -139,15 +139,16 @@ export default class JoinedGroupInsideGroupFeed extends Component {
        // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/`+PostId, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/`+PostId, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setNotificationResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -188,15 +189,20 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{
+        signal: this.controller.signal
+      });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
 
+    
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -227,15 +233,17 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -345,12 +353,12 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
 
         //  this.setState({search:''});  this.setState({data:'',temp:''});  
-
+        this.controller.abort()
       }
       else {
 
@@ -364,7 +372,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -380,6 +388,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
 
@@ -940,7 +949,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions,{signal: this.controller.signal}
 
 
       );
@@ -959,7 +968,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -973,7 +982,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -989,6 +998,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
     }
 
   }
@@ -1050,7 +1060,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -1065,7 +1075,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -1079,7 +1089,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -1095,6 +1105,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
     //console.log(item._id, "first ")

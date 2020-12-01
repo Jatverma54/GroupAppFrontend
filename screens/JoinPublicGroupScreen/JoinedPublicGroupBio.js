@@ -36,7 +36,7 @@ const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class JoinedGroupgroupBio extends Component {
-
+  controller = new AbortController();
   constructor(props) {
 
     super(props);
@@ -142,7 +142,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -150,6 +150,7 @@ export default class JoinedGroupgroupBio extends Component {
           let Data = this.state.data;
 
           this.setState({ data: Data });
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -161,6 +162,7 @@ export default class JoinedGroupgroupBio extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         this.CameraOptions.close();
       }
@@ -168,6 +170,7 @@ export default class JoinedGroupgroupBio extends Component {
     } catch (E) {
       this.setState({ loading: false });
       console.log(E);
+      this.controller.abort()
     }
 
   };
@@ -241,7 +244,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
 
 
         if (response.ok) {
@@ -250,6 +253,7 @@ export default class JoinedGroupgroupBio extends Component {
           let Data = this.state.data;
 
           this.setState({ data: Data });
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -261,6 +265,7 @@ export default class JoinedGroupgroupBio extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
 
       }
@@ -270,6 +275,7 @@ export default class JoinedGroupgroupBio extends Component {
       //  this.CameraOptions.close(); 
       this.setState({ loading: false });
       console.log(E);
+      this.controller.abort()
     }
 
   };
@@ -399,9 +405,8 @@ export default class JoinedGroupgroupBio extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions
-
-
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions,
+      {signal: this.controller.signal}
       );
 
 
@@ -417,7 +422,7 @@ export default class JoinedGroupgroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
 
@@ -431,7 +436,7 @@ export default class JoinedGroupgroupBio extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -447,6 +452,7 @@ export default class JoinedGroupgroupBio extends Component {
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
     }
 
   }
@@ -517,7 +523,7 @@ console.log(isAdmin)
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -532,7 +538,7 @@ console.log(isAdmin)
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
         this.setState({ loading: false });
@@ -546,7 +552,7 @@ console.log(isAdmin)
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -562,6 +568,7 @@ console.log(isAdmin)
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
 

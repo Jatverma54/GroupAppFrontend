@@ -30,7 +30,7 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 export default class ProfileScreen extends Component {
-
+  controller = new AbortController();
 
   constructor(props) {
     super(props);
@@ -65,10 +65,10 @@ export default class ProfileScreen extends Component {
 
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
 
   
@@ -91,7 +91,7 @@ export default class ProfileScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions,{signal: this.controller.signal});
 
 
       if (response.ok) {
@@ -104,7 +104,7 @@ export default class ProfileScreen extends Component {
            username:json.result.username,
            _id:json.result._id,data:json.result
           })
-         
+          this.controller.abort()
         
       
       } else {
@@ -119,12 +119,14 @@ export default class ProfileScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
       // setuserimageUrl(json.result.profile.profile_pic);
       //setuserName(json.result.profile.full_name);
     } catch (e) {
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 
@@ -231,7 +233,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions,{signal: this.controller.signal});
 
 
         if (response.ok) {
@@ -242,6 +244,7 @@ export default class ProfileScreen extends Component {
           this.setState({ photo: image });
           const json = await response.json();
           this.props.navigation.push('DrawerScreen',json.result)
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -253,6 +256,7 @@ export default class ProfileScreen extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
 
       }
@@ -262,6 +266,7 @@ export default class ProfileScreen extends Component {
       //  this.CameraOptions.close(); 
       this.setState({ loading: false });
       console.log(E);
+      this.controller.abort()
     }
 
   };
@@ -304,7 +309,7 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -312,6 +317,7 @@ export default class ProfileScreen extends Component {
           this.setState({ photo: `data:image/jpg;base64,${result.base64}` });
           const json = await response.json();
           this.props.navigation.push('DrawerScreen',json.result)
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -323,6 +329,7 @@ export default class ProfileScreen extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         this.CameraOptions.close();
       }
@@ -330,6 +337,7 @@ export default class ProfileScreen extends Component {
     } catch (E) {
       this.setState({ loading: false });
       console.log(E);
+      this.controller.abort()
     }
 
   };

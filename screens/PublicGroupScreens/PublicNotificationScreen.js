@@ -25,7 +25,7 @@ import moment from "moment";
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
 export default class PublicNotificationScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -63,15 +63,18 @@ loadingPagination:false
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications?page_size=30&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications?page_size=30&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
-      //  console.log("Error ",json)
+      // console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
       this.setResult(json.result);
-    
+      this.controller.abort()
+
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.controller.abort()
+
       //   console.log("Error ",e)
     }
   };
@@ -99,15 +102,18 @@ loadingPagination:false
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications?page_size=30&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications?page_size=30&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
       //console.log(json,"dddddddddddddddddddddddddddddddddd")
       this.setResult(json.result);
-    
+      this.controller.abort()
+
     } catch (e) {
       // console.log("Error ",e)
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.controller.abort()
+
       //   console.log("Error ",e)
     }
   };
@@ -129,10 +135,10 @@ loadingPagination:false
   }
   componentWillUnmount() {
     this._unsubscribe;
-    this.props.navigation.removeListener('focus', () => {
-      // this.setState({data:""})
-      // this.getData(); // do something
-    });
+    // this.props.navigation.removeListener('focus', () => {
+    //   // this.setState({data:""})
+    //   // this.getData(); // do something
+    // });
   }
 
   setResult = (res) => {

@@ -15,7 +15,7 @@ import Email_Icon from '../Pictures/Email.png';
 import Loader from '../components/Loader';
 
 export default class ForgotPassword extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -71,8 +71,8 @@ resetCodeValidation(matchingString) {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateConfirmationCode`, requestOptions
-
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateConfirmationCode`, requestOptions,
+        {signal: this.controller.signal}
 
         );
 
@@ -91,7 +91,7 @@ resetCodeValidation(matchingString) {
             ],
             { cancelable: false }
           );
-         
+          this.controller.abort()
 
         }
         else {
@@ -106,7 +106,7 @@ resetCodeValidation(matchingString) {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
           //  console.log(responseJson);
         }
 
@@ -122,6 +122,7 @@ resetCodeValidation(matchingString) {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
    
     } else {  

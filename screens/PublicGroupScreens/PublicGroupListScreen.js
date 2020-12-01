@@ -37,7 +37,7 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 export default class PublicGroupListScreen extends Component {
 
-
+  controller = new AbortController();
   constructor(props) {
 
     super(props);
@@ -94,8 +94,9 @@ export default class PublicGroupListScreen extends Component {
     //   //this.getData(); // do something
     // });
   
-    this.getData();
-    this.getPaginationData();
+    // this.getData();
+    // this.getPaginationData();
+   
   }
 
   groupSearchnData = async () => {
@@ -118,16 +119,17 @@ export default class PublicGroupListScreen extends Component {
        // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupListScreen/`+GroupId, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupListScreen/`+GroupId, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //  console.log("Error ",json)
      
       this.setNotificationResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
      
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
 
 
@@ -176,16 +178,17 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
 
        console.log("Error ",e)
+      this.controller.abort()
     }
 
 
@@ -218,16 +221,17 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
       //   console.log("Error ",json)
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
 
          console.log("Error ",e)
+      this.controller.abort()
     }
 
 
@@ -334,7 +338,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DeleteSentJoinRequest`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DeleteSentJoinRequest`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
 
@@ -357,6 +361,7 @@ export default class PublicGroupListScreen extends Component {
           data: this.state.data,
           temp: this.state.temp
         });
+        this.controller.abort()
       } else {
         Alert.alert(
 
@@ -367,11 +372,12 @@ export default class PublicGroupListScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
     catch (e) {
 
-
+      this.controller.abort()
       console.log("Error ", e)
     }
 
@@ -405,7 +411,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/SendJoinRequest`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/SendJoinRequest`, requestOptions,{signal: this.controller.signal});
 
 
 
@@ -441,6 +447,7 @@ export default class PublicGroupListScreen extends Component {
           temp: this.state.temp
 
         });
+        this.controller.abort()
       } else {
         Alert.alert(
 
@@ -451,11 +458,12 @@ export default class PublicGroupListScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
     catch (e) {
 
-
+      this.controller.abort()
       console.log("Error ", e)
     }
 

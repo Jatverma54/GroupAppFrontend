@@ -33,7 +33,7 @@ MDIcon.loadFont();
 import Loader from '../Loader';
 import APIBaseUrl from './../../constants/APIBaseUrl';
 export default class Comments extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -74,14 +74,17 @@ export default class Comments extends Component {
 
       };
 var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.route.params._id
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
+
     }
   };
 
@@ -104,14 +107,17 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
 
       };
 var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.route.params._id
-const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+`?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
+      this.controller.abort()
 
     } catch (e) {
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
+
     }
   };
 
@@ -221,11 +227,12 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/Commentslike`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/Commentslike`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
 
         //  this.setState({search:''});  this.setState({data:'',temp:''});  
+        this.controller.abort()
 
       }
       else {
@@ -240,6 +247,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           ],
           { cancelable: false }
         );
+        this.controller.abort()
 
         //  console.log(responseJson);
       }
@@ -255,7 +263,10 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           { text: "Ok", onPress: () => null }
         ],
         { cancelable: false }
+        
       );
+      this.controller.abort()
+
     }
 
 
@@ -397,13 +408,15 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewComment`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewComment`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
 
           //  this.setState({search:''});  this.setState({data:'',temp:''});  
           this.setState({ data: '',skipPagination:1 });
           this.getData();
+          this.controller.abort()
+
         }
         else {
 
@@ -424,6 +437,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
             ],
             { cancelable: false }
           );
+          this.controller.abort()
 
           //  console.log(responseJson);
         }
@@ -440,6 +454,8 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           ],
           { cancelable: false }
         );
+        this.controller.abort()
+
       }
 
 
@@ -506,7 +522,9 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteComment`, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteComment`, requestOptions,
+      {signal: this.controller.signal}
+
 
 
       );
@@ -525,6 +543,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           ],
           { cancelable: false }
         );
+        this.controller.abort()
 
       }
       else {
@@ -539,6 +558,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           ],
           { cancelable: false }
         );
+        this.controller.abort()
 
         //  console.log(responseJson);
       }
@@ -555,6 +575,8 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
+
     }
 
   }

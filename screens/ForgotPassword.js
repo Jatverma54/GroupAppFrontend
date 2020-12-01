@@ -15,7 +15,7 @@ import Email_Icon from '../Pictures/Email.png';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Loader from '../components/Loader';
 export default class ForgotPassword extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ export default class ForgotPassword extends Component {
         };
 
         const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateEmail`, requestOptions
-
+,{signal: this.controller.signal}
 
         );
 
@@ -90,6 +90,7 @@ export default class ForgotPassword extends Component {
             { cancelable: false }
           );
          
+          this.controller.abort()
 
         }
         else {
@@ -104,6 +105,7 @@ export default class ForgotPassword extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
 
           //  console.log(responseJson);
         }
@@ -120,6 +122,8 @@ export default class ForgotPassword extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
+
       }
     }else{
       alert("Please enter a valid email id");

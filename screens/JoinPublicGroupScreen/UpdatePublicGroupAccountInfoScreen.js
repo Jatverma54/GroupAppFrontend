@@ -41,7 +41,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 
 export default class UpdatePublicGroupAccountInfoScreen extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -190,7 +190,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           //redirect: 'follow'
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -203,6 +203,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
             ],
             { cancelable: false }
           );
+          this.controller.abort()
         }
         else {
 
@@ -215,7 +216,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
         }
       }
       catch (e) {
@@ -230,6 +231,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
     else {

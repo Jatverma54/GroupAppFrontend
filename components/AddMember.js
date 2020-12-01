@@ -18,6 +18,7 @@ import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 
 export default class AddMembers extends React.Component {
+  controller = new AbortController();
   constructor(props) {
     super(props)
     this.state = {
@@ -80,7 +81,7 @@ export default class AddMembers extends React.Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userSearchQuery`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userSearchQuery`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -95,7 +96,7 @@ export default class AddMembers extends React.Component {
                 });
           
           this.setState({ data: jsonResult });
-         
+          this.controller.abort()
         }
         else {
           this.setState({ loading: false });
@@ -109,7 +110,7 @@ export default class AddMembers extends React.Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
           //  console.log(responseJson);
         }
 
@@ -125,6 +126,7 @@ export default class AddMembers extends React.Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
     }
   };
@@ -227,7 +229,7 @@ for(var data in selectedthing){
               body: JSON.stringify(search)
             };
     
-            const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions);
+            const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions,{signal: this.controller.signal});
     
             if (response.ok) {
               this.setState({ loading: false });
@@ -242,7 +244,7 @@ for(var data in selectedthing){
               );
     
                //  console.log(responseJson)
-             
+               this.controller.abort()
             }
             else {
     
@@ -258,6 +260,7 @@ for(var data in selectedthing){
               );
     
               //  console.log(responseJson);
+              this.controller.abort()
             }
     
           } catch (e) {
@@ -272,6 +275,7 @@ for(var data in selectedthing){
               ],
               { cancelable: false }
             );
+            this.controller.abort()
           }
 
     }

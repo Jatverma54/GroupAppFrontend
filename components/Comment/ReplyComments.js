@@ -34,7 +34,7 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 MDIcon.loadFont();
 
 export default class ReplyComments extends Component {
-
+  controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
@@ -78,14 +78,15 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 
@@ -111,14 +112,15 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
 
       this.setResult(json.result);
-
+      this.controller.abort()
     } catch (e) {
       this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
       console.log("Error ", e)
+      this.controller.abort()
     }
   };
 
@@ -230,12 +232,12 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/replyCommentslike`, requestOptions);
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/replyCommentslike`, requestOptions,{signal: this.controller.signal});
 
       if (response.ok) {
 
         //  this.setState({search:''});  this.setState({data:'',temp:''});  
-
+        this.controller.abort()
       }
       else {
 
@@ -249,7 +251,7 @@ export default class ReplyComments extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -265,6 +267,7 @@ export default class ReplyComments extends Component {
         ],
         { cancelable: false }
       );
+      this.controller.abort()
     }
 
 
@@ -409,13 +412,14 @@ export default class ReplyComments extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/addNewReplyComment`, requestOptions);
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/addNewReplyComment`, requestOptions,{signal: this.controller.signal});
 
         if (response.ok) {
 
           //  this.setState({search:''});  this.setState({data:'',temp:''});  
           this.setState({ data: '',skipPagination:1 });
           this.getData();
+          this.controller.abort()
         }
         else {
 
@@ -436,7 +440,7 @@ export default class ReplyComments extends Component {
             ],
             { cancelable: false }
           );
-
+          this.controller.abort()
           //  console.log(responseJson);
         }
 
@@ -452,6 +456,7 @@ export default class ReplyComments extends Component {
           ],
           { cancelable: false }
         );
+        this.controller.abort()
       }
 
 
@@ -522,7 +527,8 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteReplyComment`, requestOptions
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteReplyComment`, requestOptions,
+      {signal: this.controller.signal}
 
 
       );
@@ -541,7 +547,7 @@ export default class ReplyComments extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
       }
       else {
 
@@ -555,7 +561,7 @@ export default class ReplyComments extends Component {
           ],
           { cancelable: false }
         );
-
+        this.controller.abort()
         //  console.log(responseJson);
       }
 
@@ -571,6 +577,7 @@ export default class ReplyComments extends Component {
         { cancelable: false }
       );
       console.log('error deleting the group: ', err)
+      this.controller.abort()
     }
 
   }
