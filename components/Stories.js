@@ -123,7 +123,7 @@ export default class Stories extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false, disabled:false });
+      this.setState({ errorPagination: 'Reload the Page', isFetching: false, loading: false, disabled:false });
       //   console.log("Error ",e)
       this.controller.abort()
     }
@@ -180,9 +180,9 @@ export default class Stories extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();
+              this.getPaginationData();this.setState({disabled:true});
             }
-          }  >
+          }  disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View>:

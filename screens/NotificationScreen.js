@@ -190,9 +190,9 @@ export default class NotificationScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();
+              this.getPaginationData();this.setState({disabled:true});
             }
-          }  >
+          }  disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :

@@ -282,9 +282,9 @@ export default class PublicGroupListScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();
+              this.getPaginationData();this.setState({disabled:true});
             }
-          }  
+          }  disabled={this.state.disabled} 
           title="Reload the page"  
           />
         </View>:

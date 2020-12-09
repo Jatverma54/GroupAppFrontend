@@ -824,9 +824,9 @@ this.props.route.params.Notification="";
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();
+              this.getPaginationData();this.setState({disabled:true});
             }
-          }  >
+          }  disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View>:this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
