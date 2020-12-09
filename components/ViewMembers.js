@@ -27,8 +27,19 @@ import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class ViewMembers extends Component {
+    cleanup = null;
+
   controller = new AbortController();
   constructor(props) {
     super(props);
@@ -47,7 +58,8 @@ export default class ViewMembers extends Component {
 
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     };
   }
 
@@ -83,7 +95,7 @@ export default class ViewMembers extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', isFetching: false, disabled:false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -93,6 +105,15 @@ export default class ViewMembers extends Component {
 
   };
 
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
   getPaginationData = async () => {
 
     this.setState({ loadingPagination: true });
@@ -124,7 +145,7 @@ export default class ViewMembers extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', isFetching: false, disabled:false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -136,11 +157,16 @@ export default class ViewMembers extends Component {
 
 
   componentDidMount() {
-    this._unsubscribe = this.getData();
+     let unsubscribe1  = this.getData();
+    this._openRewarded();
+
+    this.cleanup = () => { unsubscribe1 }
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+    //this._unsubscribe;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
   }
 
@@ -151,7 +177,8 @@ export default class ViewMembers extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     });
   }
 
@@ -720,9 +747,9 @@ export default class ViewMembers extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -756,6 +783,10 @@ export default class ViewMembers extends Component {
             }
 
             renderItem={this.renderItem} />
+                  <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
     );
   }

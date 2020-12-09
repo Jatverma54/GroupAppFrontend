@@ -13,6 +13,15 @@ Alert
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Email_Icon from '../Pictures/Email.png';
 import Loader from '../components/Loader';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class ForgotPassword extends Component {
   controller = new AbortController();
@@ -30,7 +39,15 @@ export default class ForgotPassword extends Component {
 
 //     this.props.navigation.navigate('ChangePasswordFromForgetPassword')
 //   }
-
+_openRewarded = async () => {
+  try {
+   
+    await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+    await AdMobRewarded.showAdAsync()
+  } catch (error) {
+    console.log(error)
+  } 
+  }
 
 resetCodeValidation(matchingString) {
     // matches => ["[@michel:5455345]", "@michel", "5455345"]
@@ -39,6 +56,19 @@ resetCodeValidation(matchingString) {
     return match ? true : false;
 
   }
+  // cleanup = null;
+componentDidMount(){
+   this._openRewarded();
+ 
+
+
+}
+
+// componentWillUnmount(){
+//    if (this.cleanup) this.cleanup();
+//       this.cleanup = null;
+  
+// }
 
   AuthenticateConfirmCode = async () => {
     Keyboard.dismiss();
@@ -56,7 +86,7 @@ resetCodeValidation(matchingString) {
 
         var CodeInfo = {
           "confrimationCode": parseInt(confrimationCode),
-          "Userid":this.props.route.params._id
+          "Userid":this.props.route.params
         }
 
         var myHeaders = new Headers();
@@ -138,7 +168,9 @@ resetCodeValidation(matchingString) {
 
   }
 
-
+  bannerError=(error)=>{
+    console.log("Error while loading banner"+error)
+    }
 
   render() {
 
@@ -148,7 +180,11 @@ resetCodeValidation(matchingString) {
       <View style={styles.container}>
 
 <Loader isLoading={this.state.loading} />
-
+<View style={{justifyContent:"flex-start",flex:1}} >
+        <AdMobBanner style={{marginBottom:70}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         <View style={styles.inputContainer}>
 
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
@@ -173,8 +209,7 @@ resetCodeValidation(matchingString) {
 
 
 
-
-
+        </View>
       </View>
 
     );
@@ -188,7 +223,7 @@ resetCodeValidation(matchingString) {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#B0E0E6',
     justifyContent: 'center',
     alignItems: 'center',
@@ -230,7 +265,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-
+    marginLeft:30
   },
   loginButton: {
     backgroundColor: '#3498db',

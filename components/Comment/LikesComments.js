@@ -24,7 +24,19 @@ MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
 import Loader from '../Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+ setTestDeviceIDAsync('EMULATOR')
 export default class LikesComments extends Component {
+
+   cleanup = null;
+
   controller = new AbortController();
   constructor(props) {
     super(props);
@@ -38,7 +50,8 @@ export default class LikesComments extends Component {
 
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     };
   }
 
@@ -73,7 +86,7 @@ export default class LikesComments extends Component {
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -108,7 +121,7 @@ export default class LikesComments extends Component {
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -116,11 +129,15 @@ export default class LikesComments extends Component {
 
 
   componentDidMount() {
-    this._unsubscribe = this.getData();
+    let unsubscribe1 = this.getData();
+   this.cleanup = () => { unsubscribe1; }
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+   // this._unsubscribe;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.getData();
   }
 
@@ -138,7 +155,7 @@ export default class LikesComments extends Component {
       temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
   }
@@ -321,9 +338,9 @@ export default class LikesComments extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -361,7 +378,10 @@ export default class LikesComments extends Component {
             } }
             onEndReachedThreshold={0.2}
             renderItem={this.renderItem} />
-         
+              <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
     );
   }

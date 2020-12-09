@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "GroupApp",
+    "name": "Groupyy",
     "description":"Group App",
-    "slug": "GroupApp", 
+    "slug": "Groupyy", 
     "sdkVersion":"39.0.0" ,
     "privacy":"unlisted",
     "platforms": [
@@ -36,7 +36,10 @@
       "package":"uniqueDomain.groupname",
       "versionCode": 1,
       "useNextNotificationsApi": true,
- 
+      "config": {
+        
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713" 
+      },
      "adaptiveIcon":{
        "foregroundImage":"./assets/icon.png",
        "backgroundColor":"#171717"

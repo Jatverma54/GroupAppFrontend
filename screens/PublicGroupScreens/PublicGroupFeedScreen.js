@@ -45,7 +45,14 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 
 
 export default class PublicGroupFeedScreen extends Component {
@@ -74,28 +81,34 @@ export default class PublicGroupFeedScreen extends Component {
       skipPagination: 0,
       loadingPagination: false,
       errorPagination: null,
-      isImageLoaded: true
+      isImageLoaded: true,
+      disabled:false
     };
 
 
 
   }
 
-
+   cleanup = null;
   componentDidMount() {
 
-    this.DetectOrientation();
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    let unsubscribe2 =  this.DetectOrientation();
+    let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({ data: "", skipPagination: 0 })
+       this.setState({ data: "", skipPagination: 0 })
       this.getData(); // do something
 
 
     });
+     this.cleanup = () => { unsubscribe1();unsubscribe2 }
+
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+    //this._unsubscribe;
+     if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -130,7 +143,7 @@ export default class PublicGroupFeedScreen extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -169,7 +182,7 @@ export default class PublicGroupFeedScreen extends Component {
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload',  disabled:false,isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -187,7 +200,7 @@ export default class PublicGroupFeedScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination: false
     });
 
@@ -734,7 +747,7 @@ export default class PublicGroupFeedScreen extends Component {
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.error('An error occurred', err));
+      .catch((err) => console.log('An error occurred', err));
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -1142,6 +1155,9 @@ export default class PublicGroupFeedScreen extends Component {
     )
   }
 
+  bannerError=(error)=>{
+    console.log("Error while loading banner"+error)
+    }
 
   render() {
 
@@ -1157,9 +1173,9 @@ export default class PublicGroupFeedScreen extends Component {
             <Text>{this.state.error}</Text>
             <Button onPress={
               () => {
-                this.getData();
+                this.getData();this.setState({disabled:true});
               }
-            }  >
+            } disabled={this.state.disabled} >
               <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
             </Button>
           </View> :
@@ -1458,7 +1474,10 @@ export default class PublicGroupFeedScreen extends Component {
 
                 )
               }} />
-
+{/* <AdMobBanner  style={{alignItems:"center"}}   bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        /> */}
             <RBSheet
               ref={ref => {
                 this.AdminOptions = ref;

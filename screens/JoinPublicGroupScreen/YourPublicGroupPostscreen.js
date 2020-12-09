@@ -36,6 +36,17 @@ import moment from "moment";
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
+
 export default class YourPublicGroupPostscreen extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -57,27 +68,45 @@ export default class YourPublicGroupPostscreen extends Component {
       skipPagination:0,
       loadingPagination:false,
       errorPagination: null,
-      isImageLoaded:true
+      isImageLoaded:true,
+      disabled:false
     };
   }
 
-
+   cleanup = null;
   componentDidMount() {
 
     this.DetectOrientation();
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+     let unsubscribe1 =    this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({ data: "",skipPagination:0 })
+     this.setState({ data: "",skipPagination:0 })
       this.getData(); // do something
+     
     });
+    this._openRewarded()
+ this.cleanup = () => { unsubscribe1(); }
+
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+   // this._unsubscribe;
+   
+ if (this.cleanup) this.cleanup();
+    this.cleanup = null;
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
     // });
+  }
+
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
   }
   
   getData = async () => {
@@ -113,7 +142,7 @@ export default class YourPublicGroupPostscreen extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -157,7 +186,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
 
       console.log("Error ", e)
       this.controller.abort()
@@ -174,7 +203,7 @@ export default class YourPublicGroupPostscreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
   }
@@ -723,7 +752,7 @@ console.log(e)
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.error('An error occurred', err));
+      .catch((err) => console.log('An error occurred', err));
   };
 
 
@@ -784,9 +813,9 @@ console.log(e)
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -1078,7 +1107,11 @@ console.log(e)
               )
             }} />
 
-
+	
+<AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
 
     );

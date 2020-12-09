@@ -22,6 +22,14 @@ import {
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 
 export default class ExplorePublicGroupScreen extends Component {
   controller = new AbortController()
@@ -32,8 +40,8 @@ export default class ExplorePublicGroupScreen extends Component {
       data: "",
       loading: false,
       error: null,
-      isImageLoaded:true
-
+      isImageLoaded:true,
+      disabled:false
     };
 
   }
@@ -67,18 +75,20 @@ export default class ExplorePublicGroupScreen extends Component {
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ error: 'Reload the Page', loading: false });
+      this.setState({ error: 'Reload the Page',disabled:false,isFetching: false, loading: false});
       console.log("Error ", e)
       this.controller.abort()
     }
   };
+    cleanup = null;
 
   componentDidMount() {
-    this._unsubscribe = this.getData();  
+    let unsubscribe1 = this.getData();  
 
       BackHandler.addEventListener("hardwareBackPress", this.backAction);
     
-  
+       this.cleanup = () => { unsubscribe1; }
+
   }
 
   backAction = () => {
@@ -98,9 +108,13 @@ export default class ExplorePublicGroupScreen extends Component {
   };
 
   componentWillUnmount() {
-    this._unsubscribe;
-    // this.getData();
+  //  this._unsubscribe;
+   
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+
+     if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
   }
 
   setResult = (res) => {
@@ -108,7 +122,8 @@ export default class ExplorePublicGroupScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false
+      isFetching: false, disabled:false,
+     
     });
   }
 
@@ -124,9 +139,9 @@ export default class ExplorePublicGroupScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -174,6 +189,12 @@ export default class ExplorePublicGroupScreen extends Component {
                 </TouchableOpacity>
               )
             }} />
+              <View>
+              <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+</View>
         </View>
     );
   }

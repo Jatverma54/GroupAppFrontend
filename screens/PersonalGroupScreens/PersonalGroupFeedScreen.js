@@ -45,7 +45,14 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 
 
 export default class PersonalGroupFeedScreen extends Component {
@@ -73,32 +80,41 @@ export default class PersonalGroupFeedScreen extends Component {
       skipPagination:0,
       loadingPagination:false,
       errorPagination: null,
-      isImageLoaded:true
+      isImageLoaded:true,
+      disabled:false
     };
 
 
 
   }
 
-
+   cleanup = null;
   componentDidMount() {
     
     this.DetectOrientation();
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+  //  this._unsubscribe3 =  this.props.navigation.addListener('focus', () => {
      
       // do something
-      this.setState({ data: "",skipPagination:0 })
-      this.getData(); // do something
+      let unsubscribe1 =   this.setState({ data: "",skipPagination:0 })
+      let unsubscribe2 =     this.getData(); // do something
       
+       this.cleanup = () => { unsubscribe1; unsubscribe2;}
 
 
-    });
+  //  });
   
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
-   
+
+  //  this._unsubscribe;
+  //  this._unsubscribe2;
+   // this.state;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
+this.DetectOrientation();
+  //  this._unsubscribe3;
     // this.props.navigation.removeListener('focus', () => {
       
     //   // this.setState({data:""})
@@ -108,6 +124,11 @@ export default class PersonalGroupFeedScreen extends Component {
     
   }
 
+  bannerError=(error)=>{
+		console.log("Error while loading banner"+error)
+	  }
+
+    
   getData = async () => {
 
     this.setState({ loading: true,data:'' });
@@ -140,7 +161,7 @@ export default class PersonalGroupFeedScreen extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',  disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -180,7 +201,7 @@ export default class PersonalGroupFeedScreen extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload',  disabled:false, isFetching: false, loading: false });
 
       console.log("Error ", e)
       this.controller.abort()
@@ -196,7 +217,7 @@ export default class PersonalGroupFeedScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
 
@@ -839,7 +860,7 @@ this.props.route.params.Notification="";
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.error('An error occurred', err));
+      .catch((err) => console.log('An error occurred', err));
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -880,9 +901,9 @@ this.props.route.params.Notification="";
             <Text>{this.state.error}</Text>
             <Button onPress={
               () => {
-                this.getData();
+                this.getData();this.setState({disabled:true});
               }
-            }  >
+            } disabled={this.state.disabled} >
               <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
             </Button>
           </View> :
@@ -1492,6 +1513,13 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
                 )
               }} />
+
+<View >
+                    <AdMobBanner style={{alignItems:"center"}}  bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+        </View>
 
             <RBSheet
               ref={ref => {

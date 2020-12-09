@@ -24,6 +24,14 @@ import moment from "moment";
 import APIBaseUrl from '../constants/APIBaseUrl';
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 export default class NotificationScreen extends Component {
   controller = new AbortController()
   constructor(props) {
@@ -36,7 +44,8 @@ export default class NotificationScreen extends Component {
 
       errorPagination: null,
       skipPagination: 1,
-      loadingPagination: false
+      loadingPagination: false,
+      disabled:false
     }
   }
 
@@ -73,7 +82,7 @@ export default class NotificationScreen extends Component {
 
     } catch (e) {
       // console.log("Error ",e)
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       //   console.log("Error ",e)
       this.controller.abort()
     }
@@ -111,7 +120,7 @@ export default class NotificationScreen extends Component {
       this.controller.abort()
     } catch (e) {
       // console.log("Error ",e)
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false, disabled:false });
       //   console.log("Error ",e)
       this.controller.abort()
     }
@@ -122,17 +131,23 @@ export default class NotificationScreen extends Component {
     this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
+    cleanup = null;
 
   componentDidMount() {
-
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "" })
+    let unsubscribe2;
+    let unsubscribe1 =    this.props.navigation.addListener('focus', () => {
+      unsubscribe2 =     this.setState({ data: "" })
       this.getData(); // do something
+
     });
+ this.cleanup = () => { unsubscribe1();  unsubscribe2;}
 
   }
   componentWillUnmount() {
-    this._unsubscribe;
+    //this._unsubscribe;
+     if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -146,7 +161,8 @@ export default class NotificationScreen extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination: false
+      loadingPagination: false,
+      disabled:false
     });
   }
   renderViewMore(onPress) {
@@ -231,9 +247,9 @@ export default class NotificationScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -330,7 +346,10 @@ export default class NotificationScreen extends Component {
             }} />
 
 
-
+<AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
     );
   }

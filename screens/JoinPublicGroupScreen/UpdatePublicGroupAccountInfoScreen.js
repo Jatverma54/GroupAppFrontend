@@ -39,13 +39,23 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class UpdatePublicGroupAccountInfoScreen extends Component {
   controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
-      Value: this.props.route.params.privacy.toString().includes("Closed Group") ? true : false,
+      Value: this.props.route.params.privacy.toString().includes("Private Group") ? true : false,
       selectedGroupCategoryValue: this.props.route.params.GroupCategory_id,
       FirstGroupCategoryValue: this.props.route.params.GroupCategory,
       photo: null,
@@ -105,19 +115,32 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
 
     );
   }
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
-
-
+   cleanup = null;
 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+      this._openRewarded();
+     
+
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
-  }
+  // componentWillUnmount() {
+  
+
+  //   this.getPermissionAsync();
+  //   this.getCameraPermissionAsync();
+  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -206,7 +229,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           this.controller.abort()
         }
         else {
-
+          this.setState({ loading: false });
           Alert.alert(
             "Something went wrong.",
             "Please try again.",

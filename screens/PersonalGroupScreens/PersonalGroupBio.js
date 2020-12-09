@@ -51,18 +51,18 @@ export default class PersonalGroupBio extends Component {
     }
   }
 
-
+ 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
 
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+  // componentWillUnmount() {
+  //   this.getPermissionAsync();
+  //   this.getCameraPermissionAsync();
 
-  }
+  // }
 
   getuser = async () => {
     const userData = await AsyncStorage.getItem('userData');
@@ -619,9 +619,9 @@ AddMembers(){
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :

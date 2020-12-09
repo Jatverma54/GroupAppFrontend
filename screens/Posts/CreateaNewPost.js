@@ -36,6 +36,16 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 export default class CreateaNewPost extends Component {
   controller = new AbortController();
   PhotoPresent
@@ -75,13 +85,31 @@ export default class CreateaNewPost extends Component {
       height
     });
   }
-
+  cleanup = null;
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
     //this.changeScreenOrientation();
+   this._openRewarded();
+    
+
   }
 
+//   componentWillUnmount(){
+//     if (this.cleanup) this.cleanup();
+//     this.cleanup = null;
+
+//   }
+
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
   getPermissionAsync = async () => {
     // if (Constants.platform.ios) {
@@ -214,7 +242,7 @@ export default class CreateaNewPost extends Component {
         }
 
         this.setState({ video: result.uri });
-
+      
         this.setState({ videoToBeSentToDb: img });
 
         this.CameraOptions.close();
@@ -434,6 +462,7 @@ export default class CreateaNewPost extends Component {
     Keyboard.dismiss();
 
     const { PhotoToBeSentToDb,ClickedPhotoToBeSentToDb, videoToBeSentToDb, documentToBeSentToDb, newValue } = this.state;
+  
     try {
       if(PhotoToBeSentToDb.length!==0||ClickedPhotoToBeSentToDb||videoToBeSentToDb||documentToBeSentToDb||newValue!==""){
       this.setState({ loading: true });

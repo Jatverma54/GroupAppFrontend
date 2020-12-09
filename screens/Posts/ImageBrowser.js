@@ -30,10 +30,19 @@ export default class ImageBrowser extends React.Component {
       hasNextPage: true
     }
   }
-
+   cleanup = null;
   componentDidMount() {
-    this.getPhotos();
-    this.setState({ badgeColor: this.props.badgeColor ? this.props.badgeColor : '#007aff' })
+     let unsubscribe1 =  this.getPhotos();
+     let unsubscribe2 = this.setState({ badgeColor: this.props.badgeColor ? this.props.badgeColor : '#007aff' })
+
+     this.cleanup = () => { unsubscribe1;unsubscribe2; }
+
+  }
+
+  componentWillUnmount(){
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
   }
 
   selectImage = (index) => {

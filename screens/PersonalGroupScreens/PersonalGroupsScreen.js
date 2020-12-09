@@ -25,6 +25,15 @@ import moment from "moment";
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+
 
 export default class PersonalGroupsScreen extends Component {
 
@@ -40,10 +49,11 @@ export default class PersonalGroupsScreen extends Component {
       error: null,
       search:"",
       searchStarted:false,
-      isImageLoaded:true
-
+      isImageLoaded:true,
+      disabled:false
     }
   }
+    cleanup = null;
 
   componentDidMount() {
 
@@ -52,13 +62,19 @@ export default class PersonalGroupsScreen extends Component {
     //   // do something
       
     // });
-    this._unsubscribe =  this.getData();
+    let unsubscribe1 =  this.getData();
   //  if(this.state.data===""){
   //   this.getData();
   //  }
+   this.cleanup = () => { unsubscribe1; }
+
   }
   componentWillUnmount() {
-    this._unsubscribe;
+  //  this._unsubscribe;
+  
+ if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //  //  this.getData(); // do something
@@ -66,6 +82,9 @@ export default class PersonalGroupsScreen extends Component {
    
   }
 
+  bannerError=(error)=>{
+		console.log("Error while loading banner"+error)
+	  }
 
   getData = async () => {
 
@@ -92,7 +111,7 @@ export default class PersonalGroupsScreen extends Component {
       this.controller.abort()
     } catch (e) {
       // console.log("Error ",e)
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       this.controller.abort()
       //   console.log("Error ",e)
     }
@@ -109,7 +128,7 @@ export default class PersonalGroupsScreen extends Component {
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
       error: res.error || null,
-      loading: false,
+      loading: false, disabled:false,
       isFetching: false
     });
   }
@@ -192,9 +211,9 @@ export default class PersonalGroupsScreen extends Component {
         <Text>{this.state.error}</Text>
         <Button onPress={
           () => {
-            this.getData();
+            this.getData();this.setState({disabled:true});
           }
-        }  >
+        } disabled={this.state.disabled} >
           <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
         </Button>
       </View> :
@@ -229,7 +248,7 @@ export default class PersonalGroupsScreen extends Component {
 
                <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupBio",Group)}>
               <Image source={{uri:Group.image}} 
-              style={[styles.avatar,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+              style={styles.avatar}
               onLoad={ () => this.setState({ isImageLoaded: true }) }
               onLoadEnd={() => this.setState({ isImageLoaded: false }) }
             />
@@ -258,6 +277,10 @@ export default class PersonalGroupsScreen extends Component {
                
           );
         }}/>
+         <AdMobBanner style={{backgroundColor:"white"}} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
 
 {this.state.data.length === 0 &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -284,7 +307,7 @@ const FloatingActionButton =()=>{
   return(
   <FloatingAction
   actions={actions}
- 
+ //animated={false}
   onPressItem={name => {
     navigation.push('CreateaPersonalGroup');
    //  console.log(`selected button: ${name}`);

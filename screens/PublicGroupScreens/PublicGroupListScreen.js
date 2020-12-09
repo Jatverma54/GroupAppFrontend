@@ -35,8 +35,16 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 export default class PublicGroupListScreen extends Component {
-
+  cleanup = null;
   controller = new AbortController();
   constructor(props) {
 
@@ -57,19 +65,19 @@ export default class PublicGroupListScreen extends Component {
       errorPagination: null,
       skipPagination:1,
       loadingPagination:false,
-      isImageLoaded:true
+      isImageLoaded:true,
+      disabled:false
 
     }
   }
 
-
+    cleanup = null;
   componentDidMount() {
     
-    this._unsubscribe =    this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "", temp: "",searchResult: [] })
+     let unsubscribe1 =    this.props.navigation.addListener('focus', () => {
+     this.setState({ data: "", temp: "",searchResult: [] });
        this.getData(); // do something
     
-
       if(this.props.route.params.data&&this.props.route.params.data.GroupName){
      
     //    this.setState({ searchResult: [] })
@@ -84,11 +92,13 @@ export default class PublicGroupListScreen extends Component {
 
 
     });
-    
+    this.cleanup = () => { unsubscribe1(); }
   }
   componentWillUnmount() {
-    
-    this._unsubscribe();
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
+ 
     // this.props.navigation.removeListener('focus', () => {
     //   //this.setState({data:"",temp:""})
     //   //this.getData(); // do something
@@ -127,7 +137,7 @@ export default class PublicGroupListScreen extends Component {
       this.controller.abort()
     } catch (e) {
      
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',   disabled:false,isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -143,7 +153,8 @@ export default class PublicGroupListScreen extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     });
     
   }
@@ -180,12 +191,12 @@ export default class PublicGroupListScreen extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
       const json = await response.json();
-      //   console.log("Error ",json)
+        
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',  disabled:false, isFetching: false, loading: false });
 
        console.log("Error ",e)
       this.controller.abort()
@@ -228,7 +239,7 @@ export default class PublicGroupListScreen extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload',  disabled:false, isFetching: false, loading: false });
 
          console.log("Error ",e)
       this.controller.abort()
@@ -245,7 +256,7 @@ export default class PublicGroupListScreen extends Component {
       temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false,  disabled:false,
       loadingPagination:false
     });
   }
@@ -681,9 +692,9 @@ export default class PublicGroupListScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData(),this.setState({searchResult:[]});
+              this.getData(),this.setState({searchResult:[],disabled:true});
             }
-          }  
+          }  disabled={this.state.disabled} 
           title="Reload the page"  
           />
         </View> :
@@ -786,7 +797,10 @@ export default class PublicGroupListScreen extends Component {
 
               );
             }} />
-         
+          <AdMobBanner  bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
           <FloatingActionButton />
         </View>
 
@@ -801,7 +815,7 @@ const FloatingActionButton = () => {
   return (
     <FloatingAction
       actions={actions}
-     
+     // animated={false}
       onPressItem={name => {
         navigation.push('Create a Public Group');
         //  console.log(`selected button: ${name}`);

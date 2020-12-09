@@ -51,6 +51,7 @@ export default class ReplyComments extends Component {
       skipPagination:1,
       loadingPagination:false,
       errorPagination: null,
+      disabled:false
     }
     this.send = this.send.bind(this);
 
@@ -84,7 +85,7 @@ export default class ReplyComments extends Component {
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -118,7 +119,7 @@ export default class ReplyComments extends Component {
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -129,21 +130,26 @@ export default class ReplyComments extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
   }
-
+    cleanup = null;
   componentDidMount() {
-    this.setState({skipPagination:1 })
-    this.props.navigation.setOptions({
+    let unsubscribe1 =  this.setState({skipPagination:1 })
+      this.props.navigation.setOptions({
       headerTitle: `Replying to ` + this.props.route.params.name,
     })
-    this._unsubscribe = this.getData();
+    let unsubscribe2 =   this.getData();
+
+     this.cleanup = () => { unsubscribe1; unsubscribe2;}
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+   // this._unsubscribe;
+   if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     this.send();
   }
 
@@ -645,9 +651,9 @@ export default class ReplyComments extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :

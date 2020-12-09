@@ -29,6 +29,16 @@ MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+
+
 export default class ProfileScreen extends Component {
   controller = new AbortController();
 
@@ -43,32 +53,45 @@ export default class ProfileScreen extends Component {
       _id:"",
       data:"",
       loading:false,
-      isImageLoaded:true
+      isImageLoaded:true,
+      disabled:false
 
     }
   }
 
-  
+  bannerError=(error)=>{
+		console.log("Error while loading banner"+error)
+	  }
+      cleanup = null;
+
 
   componentDidMount() {
-    
+    let unsubscribe2;
 
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+     let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
       // do something
    
-      this.setState({ data: "" })
+      unsubscribe2 =   this.setState({ data: "" })
       this.getData(); // do something
     });
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+
+     this.cleanup = () => { unsubscribe1(); unsubscribe2;}
+
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+  //  this._unsubscribe;
+   if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
     // });
+    // this.getPermissionAsync();
+    // this.getCameraPermissionAsync();
   }
 
   
@@ -95,7 +118,7 @@ export default class ProfileScreen extends Component {
 
 
       if (response.ok) {
-        this.setState({ loading: false });
+        this.setState({ loading: false, disabled:false });
         const json = await response.json();
 
         this.setState({photo:json.result.profile.profile_pic,
@@ -109,7 +132,7 @@ export default class ProfileScreen extends Component {
       
       } else {
 
-        this.setState({ loading: false });
+        this.setState({ loading: false, disabled:false });
         Alert.alert(
 
           "Something went wrong!!",
@@ -124,7 +147,7 @@ export default class ProfileScreen extends Component {
       // setuserimageUrl(json.result.profile.profile_pic);
       //setuserName(json.result.profile.full_name);
     } catch (e) {
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -362,13 +385,13 @@ export default class ProfileScreen extends Component {
         <Text>{this.state.error}</Text>
         <Button onPress={
           () => {
-            this.getData();
+            this.getData();this.setState({disabled:true});
           }
-        }  >
+        } disabled={this.state.disabled}>
           <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
         </Button>
       </View> :
-      <View style={styles.container}>
+      <View style={{flex:1}}>
          <Loader isLoading={this.state.loading} />
         <View style={styles.header}>
 
@@ -394,7 +417,7 @@ export default class ProfileScreen extends Component {
             <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>
               <Image 
                 source={{ uri: this.state.photo }} 
-                style={[styles.avatar,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                style={styles.avatar} //,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }
                 onLoad={ () => this.setState({ isImageLoaded: true }) }
                 onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               />
@@ -422,8 +445,7 @@ export default class ProfileScreen extends Component {
                 />}
 
               <Text style={styles.name}>
-              {this.state.ProfileName}
-                </Text>
+              {this.state.ProfileName}</Text>
             </TouchableOpacity>
           </View>
 
@@ -446,9 +468,12 @@ export default class ProfileScreen extends Component {
 
           </View>
         </View>
-
-
-
+<View style={{flex:1,justifyContent:"flex-end",alignItems:"center"}}>
+        <AdMobBanner  bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+</View>
 
         {/* List Menu */}
         <RBSheet
@@ -517,8 +542,9 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     color: "#FFFFFF",
-    fontWeight: '600',
+  //  fontWeight: '600',
     alignSelf: "center",
+   // width:"100%"
     //marginRight:20
   },
   bodyContent: {

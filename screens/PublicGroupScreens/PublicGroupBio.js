@@ -20,6 +20,16 @@ const { width, height } = Dimensions.get('window');
 import moment from "moment";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import Loader from '../../components/Loader';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+setTestDeviceIDAsync('EMULATOR')
+
 export default class PublicGroupBio extends Component {
 
   constructor(props) {
@@ -117,6 +127,9 @@ export default class PublicGroupBio extends Component {
 
   }
 
+  bannerError=(error)=>{
+    console.log("Error while loading banner"+error)
+  }
 
 
   render() {
@@ -147,13 +160,13 @@ export default class PublicGroupBio extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
-        <View style={styles.container}>
+        <View style={{flex:1}}>
  <Loader isLoading={this.state.loading} />
 
 
@@ -234,8 +247,14 @@ export default class PublicGroupBio extends Component {
                 </View>
               </View>
             </View>
+          
           </ScrollView>
-
+          <View style={{flex:1,justifyContent:"flex-end"}} >
+            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+            </View>
         </View>
 
     );

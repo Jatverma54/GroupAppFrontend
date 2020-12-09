@@ -33,6 +33,9 @@ MDIcon.loadFont();
 import Loader from '../Loader';
 import APIBaseUrl from './../../constants/APIBaseUrl';
 export default class Comments extends Component {
+
+   cleanup = null;
+
   controller = new AbortController();
   constructor(props) {
     super(props);
@@ -49,7 +52,8 @@ export default class Comments extends Component {
       error: null,
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     }
     this.send = this.send.bind(this);
 
@@ -81,7 +85,7 @@ var id= this.props.routeData!==undefined?this.props.routeData._id:this.props.rou
       this.controller.abort()
 
     } catch (e) {
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
 
@@ -114,7 +118,7 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
       this.controller.abort()
 
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false, disabled:false });
       console.log("Error ", e)
       this.controller.abort()
 
@@ -127,19 +131,23 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
   }
 
 
   componentDidMount() {
-    this.setState({skipPagination:1 })
-    this._unsubscribe = this.getData();
+    let unsubscribe1 = this.setState({skipPagination:1 })
+    let unsubscribe2 =    this.getData();
+
+     this.cleanup = () => { unsubscribe1; unsubscribe2;}
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
+   // this._unsubscribe;
+   if (this.cleanup) this.cleanup();
+    this.cleanup = null;
     this.send();
   }
 
@@ -644,9 +652,9 @@ const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getComments/` +id+
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :

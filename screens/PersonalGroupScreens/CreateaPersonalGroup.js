@@ -38,6 +38,15 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class CreateaPersonalGroup extends Component {
   controller = new AbortController();
@@ -63,7 +72,15 @@ export default class CreateaPersonalGroup extends Component {
       });
     }
   }
-
+  _openRewarded = async () => {
+		try {
+		 
+		  await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+		  await AdMobRewarded.showAdAsync()
+		} catch (error) {
+		  console.log(error)
+		} 
+	  }
  
 
 
@@ -157,16 +174,22 @@ export default class CreateaPersonalGroup extends Component {
     }
 
   }
-
+  cleanup = null;
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+      this._openRewarded();
+    // this.cleanup = () => { unsubscribe1; }
+
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
-  }
+//   componentWillUnmount() {
+//     if (this.cleanup) this.cleanup();
+//     this.cleanup = null;
+
+// this.getPermissionAsync();
+// this.getCameraPermissionAsync();
+//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -252,7 +275,7 @@ export default class CreateaPersonalGroup extends Component {
  <Loader isLoading={this.state.loading} />
 
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 10 }}>
+          <View style={{ height: 100, padding: 50 }}>
 
             <View style={{ flex: 3, backgroundColor: "#B0E0E6" }}>
 
@@ -376,7 +399,10 @@ export default class CreateaPersonalGroup extends Component {
           </View>
         </RBSheet>
 
-
+        <AdMobBanner style={{alignItems:"center",marginTop:30}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
       </View>
 
     );
@@ -393,7 +419,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0E0E6',
     justifyContent: 'center',
     alignItems: 'center',
-
+paddingTop:170
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -404,7 +430,7 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-
+marginTop:30
     //alignItems:'center'
   },
   inputs: {

@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
+import { enableScreens } from 'react-native-screens';
 import React, { useEffect } from 'react';
-import { StyleSheet,  View,  } from 'react-native';
+import { StyleSheet,  View, LogBox  } from 'react-native';
 import colors from './constants/colors';
 import RootMainStackNavigator from './stacks/RootStackNavigator';
 import { NavigationContainer, DrawerActions, Header } from '@react-navigation/native';
@@ -8,8 +9,9 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import UserToken from './constants/APIPasswordCollection'
 import * as Notifications from 'expo-notifications';
-
+enableScreens();
 //console.disableYellowBox = true;
+//LogBox.ignoreAllLogs()
 
 
 Notifications.setNotificationHandler({

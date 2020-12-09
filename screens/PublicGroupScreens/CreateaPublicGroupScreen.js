@@ -40,6 +40,16 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
+ setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class CreateaPublicGroupScreen extends Component {
   controller = new AbortController();
@@ -112,6 +122,16 @@ export default class CreateaPublicGroupScreen extends Component {
       </Picker>
 
     );
+  }
+
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
   }
 
   CreateGroup = async () => {
@@ -208,17 +228,23 @@ export default class CreateaPublicGroupScreen extends Component {
     }
 
   }
-
+  cleanup = null;
   componentDidMount() {
   
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+     this._openRewarded();
+   
+
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
-  }
+//   componentWillUnmount() {
+//     this.getPermissionAsync();
+//     this.getCameraPermissionAsync();
+//      if (this.cleanup) this.cleanup();
+//     this.cleanup = null;
+
+//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -441,7 +467,13 @@ export default class CreateaPublicGroupScreen extends Component {
 
           </View>
         </RBSheet>
+
+    
         </ScrollView>
+        <AdMobBanner style={{flex:1,justifyContent:"flex-end"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
     
      

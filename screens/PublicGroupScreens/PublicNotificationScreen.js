@@ -24,6 +24,16 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 import moment from "moment";
 import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 export default class PublicNotificationScreen extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -36,10 +46,20 @@ export default class PublicNotificationScreen extends Component {
 
 errorPagination: null,
 skipPagination:1,
-loadingPagination:false
+loadingPagination:false,
+disabled:false
     }
   }
 
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
   getData = async () => {
 
@@ -72,7 +92,7 @@ loadingPagination:false
 
     } catch (e) {
       // console.log("Error ",e)
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',  disabled:false, isFetching: false, loading: false });
       this.controller.abort()
 
       //   console.log("Error ",e)
@@ -111,7 +131,7 @@ loadingPagination:false
 
     } catch (e) {
       // console.log("Error ",e)
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload',   disabled:false,isFetching: false, loading: false });
       this.controller.abort()
 
       //   console.log("Error ",e)
@@ -123,18 +143,24 @@ loadingPagination:false
   
     this.setState({ isFetching: true, data: "",skipPagination:1  }, function () { this.getData() });
   }
-
+  cleanup = null;
   
   componentDidMount() {
 
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "" })
+     let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
+         this.setState({ data: "" })
       this.getData(); // do something
+     
     });
+    this._openRewarded();
+     this.cleanup = () => { unsubscribe1(); }
 
   }
   componentWillUnmount() {
-    this._unsubscribe;
+ //   this._unsubscribe;
+ if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -148,7 +174,7 @@ loadingPagination:false
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false
+      loadingPagination:false,  disabled:false
     });
   }
   renderViewMore(onPress) {
@@ -231,9 +257,9 @@ loadingPagination:false
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View>:
@@ -326,8 +352,10 @@ loadingPagination:false
             </View>
           );
         }} />
-               
-          
+       <AdMobBanner  style={{alignItems:"center"}}   bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        /> 
 
         </View>
     );

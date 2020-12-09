@@ -23,6 +23,15 @@ import Constants from 'expo-constants';
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class UpdatePersonalGroupAccountInfoScreen extends Component {
   controller = new AbortController();
@@ -64,15 +73,30 @@ export default class UpdatePersonalGroupAccountInfoScreen extends Component {
 
 
 
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
-
+   cleanup = null;
 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+     this._openRewarded();
+     
+
   }
 
-
+// componentWillUnmount(){
+//    if (this.cleanup) this.cleanup();
+//     this.cleanup = null;
+// }
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);

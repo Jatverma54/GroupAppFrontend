@@ -13,7 +13,9 @@ import {
   ActivityIndicator,
   Dimensions,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  BackHandler
+ 
 } from 'react-native';
 // import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
 // import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
@@ -27,8 +29,14 @@ const { width, height } = Dimensions.get('window');
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import {
+  AdMobBanner,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
-
+ //AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
+ setTestDeviceIDAsync('EMULATOR')
+//AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 
 
@@ -41,17 +49,45 @@ export default class LoginScreen extends Component {
       userName: '',
       Password: '',
       loading: false,
-      hidePassword: true
+      hidePassword: true,
+
+   
     };
   }
 
-  
-  // componentDidMount() {
-    
-  //   this._unsubscribe =  this.getPermissionAsync();
-  
-  // }
+  backAction = () => {
+    if(this.props.navigation.isFocused()){
+    Alert.alert("See You Later!", "Do you want to exit from App", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  }else{
+    false;
+  }
+  };
 
+  
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+   // this._unsubscribe =  this.getPermissionAsync();
+  //  this._openInterstitial()
+   // this._openRewarded()
+  }
+
+  componentWillUnmount() {
+    //  this._unsubscribe;
+     
+      BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  
+       if (this.cleanup) this.cleanup();
+      this.cleanup = null;
+  
+    }
   // getPermissionAsync = async () => {
   //   const { status }= Permissions.getAsync(Permissions.NOTIFICATIONS)
   //   if (status !== 'granted') {
@@ -188,16 +224,25 @@ export default class LoginScreen extends Component {
       })
     );
   };
-
+  bannerError=(error)=>{
+    console.log("Error while loading banner "+error)
+  }
 
   render() {
- 
+   
     const { userName, password } = this.state
     return (
 
       <KeyboardAvoidingView style={styles.container}>
+        <View style={{marginBottom:50}}>
+        <AdMobBanner  bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+        </View>
+          
         <Loader isLoading={this.state.loading} />
-        
+      
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
           <TextInput style={styles.inputs}
@@ -270,6 +315,7 @@ export default class LoginScreen extends Component {
 <Text style={styles.TextStyle}> Login Using Google</Text>
 
 </TouchableOpacity> */}
+    
       </KeyboardAvoidingView>
 
     );
@@ -284,7 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#B0E0E6',
-    paddingTop:50
+   // paddingTop:50
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -295,7 +341,8 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 15,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    
   },
   inputs: {
     height: 45,

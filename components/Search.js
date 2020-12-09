@@ -21,7 +21,8 @@ class SearchFunctionality extends Component {
       error: null,
       search: null,
       loading: false,
-      groupName: ""
+      groupName: "",
+      disabled:false
     }
     this.getData = this.getData.bind(this);
   }
@@ -197,9 +198,9 @@ class SearchFunctionality extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :

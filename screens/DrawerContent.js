@@ -73,7 +73,7 @@ const DrawerContent = (props,) => {
   //    } catch (e) {
   //    setloading(false)
   //     seterror("Reload the Page")
-  //       //this.setState({ error: 'Reload the Page',  });
+  //       //this.setState({ error: 'Reload the Page',disabled:false,  });
   //       console.log("Error ",e)
   //    }
 
@@ -179,7 +179,7 @@ const DrawerContent = (props,) => {
           <TouchableOpacity onPress={() => setisVisible(true)}>
             <Image 
               source={{ uri:props.Userdata.profile.profile_pic }}
-              style={[styles.avatar,{ display: (!isImageLoaded ? 'flex' : 'none') }]}
+              style={styles.avatar}
                      onLoad={ () => setisImageLoaded(true) }
                      onLoadEnd={() => setisImageLoaded(false) }
                    />
@@ -205,7 +205,7 @@ const DrawerContent = (props,) => {
 
           <Title style={styles.title}>{props.Userdata.profile.full_name}</Title>
           <Paragraph style={[styles.paragraph, styles.caption]}>
-            Groups App
+          Groupyy App
                 </Paragraph>
           <Caption style={styles.caption}>Its All About Groups</Caption>
           <View style={styles.row}>

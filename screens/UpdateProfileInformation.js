@@ -38,6 +38,15 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class UpdateProfileInformation extends Component {
   controller = new AbortController();
@@ -80,17 +89,23 @@ export default class UpdateProfileInformation extends Component {
     this.showMode('time');
   };
 
-
+   cleanup = null;
 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+      this._openRewarded();
+    // this.cleanup = () => { unsubscribe1; }
+
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
-  }
+//   componentWillUnmount() {
+// //     if (this.cleanup) this.cleanup();
+// //     this.cleanup = null;
+
+//     this.getPermissionAsync();
+//     this.getCameraPermissionAsync();
+//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -101,7 +116,15 @@ export default class UpdateProfileInformation extends Component {
     }
   };
 
-
+  _openRewarded = async () => {
+		try {
+		 
+		  await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+		  await AdMobRewarded.showAdAsync()
+		} catch (error) {
+		  console.log(error)
+		} 
+	  }
   _pickImage = async () => {
     try {
 

@@ -54,7 +54,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
         var personInfo = {  
       
           password: password,   
-          UserId:this.props.route.params._id   
+          UserId:this.props.route.params   
         }
 
         var myHeaders = new Headers();

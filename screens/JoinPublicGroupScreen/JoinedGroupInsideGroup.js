@@ -45,7 +45,14 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 
 export default class JoinedGroupInsideGroupFeed extends Component {
   controller = new AbortController();
@@ -72,7 +79,8 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     skipPagination:0,
     loadingPagination:false,
     errorPagination: null,
-    isImageLoaded:true
+    isImageLoaded:true,
+    disabled:false
     };
 
 
@@ -81,18 +89,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
   onNotificationRefresh(){
     this.setState({ notificationData: [] ,isFetching:false})
   }
-
+  cleanup = null;
   componentDidMount() {
 
-    this.DetectOrientation();
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+     let unsubscribe1 = this.DetectOrientation();
+    let unsubscribe2 =  this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({ data: "",skipPagination:0 })
+         this.setState({ data: "",skipPagination:0 })
       this.getData(); // do something
     
       if(this.props.route.params&&this.props.route.params.Notification){
   
-        this.setState({ notificationData: [] })
+            this.setState({ notificationData: [] })
       //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
      
   //let arr=this.state.notificationData.push(notificationData)
@@ -101,12 +109,17 @@ export default class JoinedGroupInsideGroupFeed extends Component {
   this.props.route.params.Notification="";
        }
     });
+
+     this.cleanup = () => { unsubscribe2();unsubscribe1; }
+
   }
 
   componentWillUnmount() {
     
-    this._unsubscribe;
-  
+   // this._unsubscribe;
+    //this._unsubscribe1;
+     if (this.cleanup) this.cleanup();
+    this.cleanup = null;
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -146,7 +159,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -161,7 +174,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false
+      loadingPagination:false, disabled:false
     });
   }
 
@@ -200,7 +213,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page',  disabled:false,isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -241,7 +254,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload',  disabled:false,isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -257,7 +270,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination:false
     });
   }
@@ -1162,7 +1175,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.error('An error occurred', err));
+      .catch((err) => console.log('An error occurred', err));
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -1221,6 +1234,10 @@ return(
 )
 }
 
+bannerError=(error)=>{
+  console.log("Error while loading banner"+error)
+  }
+
   render() {
  // console.log(this.props.route.params,"ssssssssssssssssss")
     const { orientationIsLandscape } = this.state;
@@ -1235,9 +1252,9 @@ return(
             <Text>{this.state.error}</Text>
             <Button onPress={
               () => {
-                this.getData(),this.setState({skipPagination:0});
+                this.getData(),this.setState({skipPagination:0,disabled:true});
               }
-            }  >
+            } disabled={this.state.disabled}  >
               <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
             </Button>
           </View> :
@@ -1521,11 +1538,19 @@ return(
                       </View>
 
                     </View>
-
+                
                   </View>
+                  
 
                 )
               }} />
+    <View >
+                    <AdMobBanner style={{alignItems:"center"}}  bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+        </View>
+
 
             <RBSheet
               ref={ref => {

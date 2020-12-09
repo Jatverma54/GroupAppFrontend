@@ -14,6 +14,15 @@ import {
 import Email_Icon from '../Pictures/Email.png';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Loader from '../components/Loader';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+
 export default class ForgotPassword extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -38,6 +47,11 @@ export default class ForgotPassword extends Component {
     return match ? true : false;
 
   }
+
+  bannerError=(error)=>{
+		console.log("Error while loading banner"+error)
+	  }
+
 
   authenticateEmail = async () => {
     Keyboard.dismiss();
@@ -147,7 +161,12 @@ export default class ForgotPassword extends Component {
       <View style={styles.container}>
 
 <Loader isLoading={this.state.loading} />
-
+<View style={{justifyContent:"flex-start",flex:1}} >
+        <AdMobBanner style={{marginBottom:70}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+       
         <View style={styles.inputContainer}>
 
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
@@ -175,7 +194,7 @@ export default class ForgotPassword extends Component {
 
 
       </View>
-
+      </View>
     );
   }
 }
@@ -187,7 +206,7 @@ export default class ForgotPassword extends Component {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#B0E0E6',
     justifyContent: 'center',
     alignItems: 'center',
@@ -229,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-
+marginLeft:30
   },
   loginButton: {
     backgroundColor: '#3498db',

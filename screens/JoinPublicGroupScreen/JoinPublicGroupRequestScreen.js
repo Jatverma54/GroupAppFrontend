@@ -22,6 +22,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+
 export default class JoinPublicGroupRequestScreen extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -35,11 +44,12 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
       errorPagination: null,
       skipPagination: 1,
-      loadingPagination: false
+      loadingPagination: false,
+      disabled:false
 
     }
   }
-
+   cleanup = null;
 
   componentDidMount() {
 
@@ -47,19 +57,22 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   //  this._unsubscribe =   this.props.navigation.addListener('focus', () => {
       // do something
-
+       let unsubscribe1 ;
+       let unsubscribe2 ;
       if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
-        this.setState({ data: "" })
-          this.getData(); // do something
+         unsubscribe1 =    this.setState({ data: "" })
+         unsubscribe2 =  this.getData(); // do something
       }
 
    // });
+    this.cleanup = () => { unsubscribe1; unsubscribe2; }
 
   }
 
   componentWillUnmount() {
-    this._unsubscribe;
-   
+   // this._unsubscribe;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -113,7 +126,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
       }
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
       console.log("Error ", e)
       
       this.controller.abort()
@@ -160,7 +173,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
       
       }
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
 
       console.log("Error ", e)
       
@@ -179,7 +192,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,
+      isFetching: false, disabled:false,
       loadingPagination: false
     });
   }
@@ -416,9 +429,9 @@ export default class JoinPublicGroupRequestScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> : <View style={{ flex: 1, }} >
@@ -533,6 +546,11 @@ export default class JoinPublicGroupRequestScreen extends Component {
               }} />
               <Text style={{ alignSelf:"center",alignItems: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.   </Text>
             </View>}
+
+            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
         </View>
     );
   }

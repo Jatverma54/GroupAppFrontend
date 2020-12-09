@@ -35,6 +35,15 @@ MDIcon.loadFont();
 const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+ setTestDeviceIDAsync('EMULATOR')
 export default class JoinedGroupgroupBio extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -47,7 +56,7 @@ export default class JoinedGroupgroupBio extends Component {
       isVisible: false,
       loading: false,
       error: null,
-
+      disabled:false
 
     }
   }
@@ -59,11 +68,11 @@ export default class JoinedGroupgroupBio extends Component {
 
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+  // componentWillUnmount() {
+  //   this.getPermissionAsync();
+  //   this.getCameraPermissionAsync();
 
-  }
+  // }
 
   getuser = async () => {
     const userData = await AsyncStorage.getItem('userData');
@@ -613,13 +622,13 @@ console.log(isAdmin)
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
-        <View style={styles.container}>
+        <View style={{flex:1}}>
  <Loader isLoading={this.state.loading} />
 
           <ScrollView >
@@ -737,7 +746,12 @@ console.log(isAdmin)
 
           </ScrollView>
 
-
+          <View style={{flex:1,justifyContent:"flex-end"}} >
+            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
+            </View>
 
           <RBSheet
             ref={ref => {
@@ -777,8 +791,7 @@ console.log(isAdmin)
 
 
 
-
-
+        
 
 
 

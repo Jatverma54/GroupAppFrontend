@@ -25,6 +25,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from './Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 export default class Stories extends Component {
+   cleanup = null;
+
+
   controller = new AbortController();
   constructor(props) {
     super(props);
@@ -42,7 +45,8 @@ export default class Stories extends Component {
 
       errorPagination: null,
       skipPagination:1,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     };
   }
 
@@ -78,7 +82,7 @@ export default class Stories extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', isFetching: false, disabled:false, loading: false });
       //   console.log("Error ",e)
       this.controller.abort()
     }
@@ -119,7 +123,7 @@ export default class Stories extends Component {
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', isFetching: false, loading: false, disabled:false });
       //   console.log("Error ",e)
       this.controller.abort()
     }
@@ -130,12 +134,15 @@ export default class Stories extends Component {
   };
 
   componentDidMount() {
-    this._unsubscribe = this.getData();
+    let unsubscribe1 = this.getData();
+    this.cleanup = () => { unsubscribe1; }
   }
 
   componentWillUnmount() {
    
-    this._unsubscribe;
+     if (this.cleanup) this.cleanup();
+        this.cleanup = null;
+    
     
   }
  
@@ -147,7 +154,8 @@ export default class Stories extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false
+      loadingPagination:false,
+      disabled:false
     });
   }
 
@@ -335,9 +343,9 @@ export default class Stories extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -399,7 +407,7 @@ export default class Stories extends Component {
                             style={{ marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
                             source={{ uri: item.profile.profile_pic }} size={53} />
 
-                          {!(item.profile.full_name > 9) ?
+                          {!(item.profile.full_name.length > 9) ?
                             <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.profile.full_name}</Text>
                             : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{item.profile.full_name.toString().substring(0, 10)}..</Text>}
 

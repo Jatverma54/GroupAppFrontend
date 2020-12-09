@@ -1,6 +1,6 @@
 export default{
 
-    PrimaryHeaderText: 'Welcome to the Groups App',
+    PrimaryHeaderText: 'Welcome to the Groupyy App',
      SubHeading: 'Share with anyone, anywhere.\n A home for all the groups'
     
 };

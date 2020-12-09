@@ -39,6 +39,17 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+
+
+
 export default class SignupScreen extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -102,10 +113,10 @@ export default class SignupScreen extends Component {
     this.getCameraPermissionAsync();
   }
 
-  componentWillUnmount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
-  }
+  // componentWillUnmount() {
+  //   this.getPermissionAsync();
+  //   this.getCameraPermissionAsync();
+  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -317,7 +328,7 @@ export default class SignupScreen extends Component {
         alert("Enter a valid Email Id");
       }
      else if (!underAgeValidate) {
-      alert("User must be at least 18 years old to have an account");
+      alert("User must be at least 12 years old to have an account");
     }
       else if (!this.PasswordValidation(password)) {
 
@@ -361,7 +372,7 @@ export default class SignupScreen extends Component {
     // calculate age comparing current date and borthday
     var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
   
-    if(myAge < 18) {
+    if(myAge < 12) {
              return false;
           }else{
         return true;
@@ -398,7 +409,9 @@ export default class SignupScreen extends Component {
 
 
 
-
+  bannerError=(error)=>{
+    console.log("Error while loading banner"+error)
+  }
 
 
 
@@ -599,7 +612,10 @@ export default class SignupScreen extends Component {
         </RBSheet>
 
 
-
+       <AdMobBanner style={{flex:1,justifyContent:"flex-end"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
 
 
 

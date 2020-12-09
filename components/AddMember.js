@@ -16,8 +16,20 @@ import {
 } from 'react-native';
 import APIBaseUrl from '../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class AddMembers extends React.Component {
+    cleanup = null;
+
   controller = new AbortController();
   constructor(props) {
     super(props)
@@ -28,11 +40,34 @@ export default class AddMembers extends React.Component {
       isFetching: false,
       loading: false,
       selected: [],
-      userName:""
+      userName:"",
+      disabled:false
     };
   }
 
+  // _openRewarded = async () => {
+  //   try {
+     
+  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+  //     await AdMobRewarded.showAdAsync()
+  //   } catch (error) {
+  //     console.log(error)
+  //   } 
+  // }
 
+  // componentDidMount(){
+  //    this._openRewarded();
+   
+  // }
+
+  // componentWillUnmount() {
+   
+  //    if (this.cleanup) this.cleanup();
+  //       this.cleanup = null;
+    
+    
+  // }
+ 
 // fetchData = () => {this.setState({loading: true});
 
   // fetch("https://jsonplaceholder.typicode.com/photos")
@@ -323,7 +358,7 @@ for(var data in selectedthing){
   renderHeader = () => {
     return <SearchBar
 
-      placeholder="Type a name.."
+      placeholder="Type a username.."
       lightTheme round editable={true}
       // containerStyle={{height:35,paddingBottom:40,}}
       containerStyle={{
@@ -400,9 +435,9 @@ for(var data in selectedthing){
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();
+              this.getData();this.setState({disabled:true});
             }
-          }  >
+          } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
