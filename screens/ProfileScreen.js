@@ -421,9 +421,9 @@ export default class ProfileScreen extends Component {
                 onLoad={ () => this.setState({ isImageLoaded: true }) }
                 onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               />
-                 <ActivityIndicator
-                 animating={this.state.isImageLoaded} color="black"
-    />
+                           <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
 
               <Button color="white" style={{ marginLeft: 90, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
                 <MaterialIcons

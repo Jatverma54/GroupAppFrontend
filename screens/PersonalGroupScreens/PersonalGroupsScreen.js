@@ -10,7 +10,9 @@ import {
   RefreshControl,
   Dimensions,
   AsyncStorage,
-  ActivityIndicator
+  ActivityIndicator,
+  BackHandler,
+  Alert
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -62,6 +64,7 @@ export default class PersonalGroupsScreen extends Component {
     //   // do something
       
     // });
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
     let unsubscribe1 =  this.getData();
   //  if(this.state.data===""){
   //   this.getData();
@@ -69,9 +72,25 @@ export default class PersonalGroupsScreen extends Component {
    this.cleanup = () => { unsubscribe1; }
 
   }
+  backAction = () => {
+    if(this.props.navigation.isFocused()){
+    Alert.alert("See You Later!", "Do you want to exit from App", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  }else{
+    false;
+  }
+  };
+
   componentWillUnmount() {
   //  this._unsubscribe;
-  
+   BackHandler.removeEventListener("hardwareBackPress", this.backAction);
  if (this.cleanup) this.cleanup();
     this.cleanup = null;
 
@@ -252,9 +271,9 @@ export default class PersonalGroupsScreen extends Component {
               onLoad={ () => this.setState({ isImageLoaded: true }) }
               onLoadEnd={() => this.setState({ isImageLoaded: false }) }
             />
-               <ActivityIndicator
-               animating={this.state.isImageLoaded} color="black"
-  />
+            <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
               </TouchableOpacity>    
              
              <TouchableOpacity  onPress={()=>this.props.myHookValue.navigate("PersonalGroupFeed",Group)}>

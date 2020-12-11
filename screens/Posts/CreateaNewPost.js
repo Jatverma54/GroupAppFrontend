@@ -73,9 +73,9 @@ export default class CreateaNewPost extends Component {
       downloadProgress: null,
       PhotoToBeSentToDb: [],
       videoToBeSentToDb: null,
-      loading:false,
-      documentToBeSentToDb:null,
-      ClickedPhotoToBeSentToDb:null
+      loading: false,
+      documentToBeSentToDb: null,
+      ClickedPhotoToBeSentToDb: null
       //  photos: []
     };
   }
@@ -85,41 +85,41 @@ export default class CreateaNewPost extends Component {
       height
     });
   }
-  cleanup = null;
+  cleanup = null;
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
     //this.changeScreenOrientation();
-   this._openRewarded();
-    
+    this._openRewarded();
+
 
   }
 
-//   componentWillUnmount(){
-//     if (this.cleanup) this.cleanup();
-//     this.cleanup = null;
+  //   componentWillUnmount(){
+  //     if (this.cleanup) this.cleanup();
+  //     this.cleanup = null;
 
-//   }
+  //   }
 
   _openRewarded = async () => {
     try {
-     
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
       console.log(error)
-    } 
+    }
   }
 
   getPermissionAsync = async () => {
     // if (Constants.platform.ios) {
-      const { status }= Permissions.getAsync(Permissions.CAMERA_ROLL)
-      if (status !== 'granted') {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { status } = Permissions.getAsync(Permissions.CAMERA_ROLL)
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     }
-  }
     //}
   };
 
@@ -163,7 +163,7 @@ export default class CreateaNewPost extends Component {
       });
 
       if (result.uri) {
-       
+
 
 
         let mediaUrl_string = result.uri.trim().split("/");
@@ -242,7 +242,7 @@ export default class CreateaNewPost extends Component {
         }
 
         this.setState({ video: result.uri });
-      
+
         this.setState({ videoToBeSentToDb: img });
 
         this.CameraOptions.close();
@@ -260,13 +260,13 @@ export default class CreateaNewPost extends Component {
 
   getCameraPermissionAsync = async () => {
     // if (Constants.platform.ios) {
-      const { status }= Permissions.getAsync(Permissions.CAMERA)
-      if (status !== 'granted') {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = Permissions.getAsync(Permissions.CAMERA)
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     }
-  }
     // }
   };
 
@@ -298,8 +298,8 @@ export default class CreateaNewPost extends Component {
         this.state.photo.push(result.uri);
 
 
-       // this.state.PhotoToBeSentToDb.push(img);
-        this.setState({ ClickedPhotoToBeSentToDb:img })
+        // this.state.PhotoToBeSentToDb.push(img);
+        this.setState({ ClickedPhotoToBeSentToDb: img })
 
         console.log(this.state.PhotoToBeSentToDb);
         // this.state.photo.push(`data:image/jpg;base64,${result.base64}` )
@@ -422,20 +422,20 @@ export default class CreateaNewPost extends Component {
       //     uri : item.uri,
       //     name : item.filename,
       //     type : mime.getType(item.uri),
-          
+
       // }
-   
+
       //   return img;
       // });
 
 
-   // console.log(PhotoToBeSentToDb)
-      
-    //  console.log(PhotoToBeSentToDb,"final")
-      this.setState({ PhotoToBeSentToDb:photo })
+      // console.log(PhotoToBeSentToDb)
+
+      //  console.log(PhotoToBeSentToDb,"final")
+      this.setState({ PhotoToBeSentToDb: photo })
 
 
-      
+
       // console.log(this.state.photos[0].uri,"final")
       //for
     }).catch((e) => console.log(e))
@@ -461,112 +461,112 @@ export default class CreateaNewPost extends Component {
 
     Keyboard.dismiss();
 
-    const { PhotoToBeSentToDb,ClickedPhotoToBeSentToDb, videoToBeSentToDb, documentToBeSentToDb, newValue } = this.state;
-  
+    const { PhotoToBeSentToDb, ClickedPhotoToBeSentToDb, videoToBeSentToDb, documentToBeSentToDb, newValue } = this.state;
+
     try {
-      if(PhotoToBeSentToDb.length!==0||ClickedPhotoToBeSentToDb||videoToBeSentToDb||documentToBeSentToDb||newValue!==""){
-      this.setState({ loading: true });
-      const userData = await AsyncStorage.getItem('userData');
-      const transformedData = JSON.parse(userData);
-      const { token, userId } = transformedData;
-    
+      if (PhotoToBeSentToDb.length !== 0 || ClickedPhotoToBeSentToDb || videoToBeSentToDb || documentToBeSentToDb || newValue !== "") {
+        this.setState({ loading: true });
+        const userData = await AsyncStorage.getItem('userData');
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
 
         var formdata = new FormData();
 
 
-      if(PhotoToBeSentToDb.length!==0){
-    
+        if (PhotoToBeSentToDb.length !== 0) {
 
-        PhotoToBeSentToDb.map((item,index)=>{
 
-          formdata.append("file",{
-                  uri : item.uri,
-                  name : item.filename,
-                  type : mime.getType(item.uri),
-          });
-          
-        })
-  
-   formdata.append("content", "image");
-  
+          PhotoToBeSentToDb.map((item, index) => {
+
+            formdata.append("file", {
+              uri: item.uri,
+              name: item.filename,
+              type: mime.getType(item.uri),
+            });
+
+          })
+
+          formdata.append("content", "image");
+
+        }
+        else if (ClickedPhotoToBeSentToDb) {
+          formdata.append("file", ClickedPhotoToBeSentToDb);
+          formdata.append("content", "image");
+        }
+        else if (videoToBeSentToDb) {
+          formdata.append("file", videoToBeSentToDb);
+          formdata.append("content", "video");
+        }
+        else if (documentToBeSentToDb) {
+          formdata.append("file", documentToBeSentToDb);
+          formdata.append("content", "document");
+        } else {
+          formdata.append("file", null);
+          formdata.append("content", "");
+
+        }
+
+        formdata.append("GroupId", this.props.GroupName._id);
+        formdata.append("postMetaData", newValue);
+        formdata.append("OnwerId", userId);
+
+
+        //  var formdata = new FormData();
+        // formdata.append("file", videoToBeSentToDb);
+        // formdata.append("userDetails", JSON.stringify(PostInfo));
+        //  console.log(formdata)
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "multipart/form-data");
+        // myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: formdata,//JSON.stringify(PostInfo),//formdata
+          redirect: 'follow'
+        };
+        //console.log(formdata)
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions, { signal: this.controller.signal });
+
+        if (response.ok) {
+          this.setState({ loading: false });
+          this.props.navigation.goBack();
+          // Alert.alert(
+
+          //   "Post created successfully",
+          //   "",
+          //   [
+          //     { text: "Ok", onPress: () => this.props.navigation.goBack()}
+          //   ],
+          //   { cancelable: false }
+          // );
+          this.controller.abort()
+        }
+        else {
+          this.setState({ loading: false });
+          // let responseJson = await response.json();
+
+          //  let errorstring= responseJson.error.toString();
+          //  alert(errorstring )
+          Alert.alert(
+
+            "Something went wrong!!",
+            "Please try again",
+            [
+              { text: "Ok", onPress: () => null }
+            ],
+            { cancelable: false }
+          );
+          this.controller.abort()
+        }
+      } else {
+        alert("Nothing to share")
       }
-      else if(ClickedPhotoToBeSentToDb){
-        formdata.append("file", ClickedPhotoToBeSentToDb);
-        formdata.append("content", "image");
-      }
-      else if(videoToBeSentToDb){
-        formdata.append("file", videoToBeSentToDb);
-        formdata.append("content", "video");
-      }
-      else if (documentToBeSentToDb){
-        formdata.append("file", documentToBeSentToDb);
-        formdata.append("content", "document");
-      }else{
-        formdata.append("file", null);
-        formdata.append("content", "");
-
-      }
-      
-      formdata.append("GroupId", this.props.GroupName._id);
-      formdata.append("postMetaData", newValue);
-      formdata.append("OnwerId", userId);
-      
-      
-      //  var formdata = new FormData();
-      // formdata.append("file", videoToBeSentToDb);
-      // formdata.append("userDetails", JSON.stringify(PostInfo));
-      //  console.log(formdata)
-
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "multipart/form-data");
-     // myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("Authorization", "Bearer " + token);
-
-    
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,//JSON.stringify(PostInfo),//formdata
-       redirect: 'follow'
-      };
-//console.log(formdata)
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions,{signal: this.controller.signal});
-
-      if (response.ok) {
-        this.setState({ loading: false });
-        this.props.navigation.goBack();
-        // Alert.alert(
-
-        //   "Post created successfully",
-        //   "",
-        //   [
-        //     { text: "Ok", onPress: () => this.props.navigation.goBack()}
-        //   ],
-        //   { cancelable: false }
-        // );
-        this.controller.abort()
-      }
-      else {
-        this.setState({ loading: false });
-        // let responseJson = await response.json();
-
-        //  let errorstring= responseJson.error.toString();
-        //  alert(errorstring )
-        Alert.alert(
-
-          "Something went wrong!!",
-          "Please try again",
-          [
-            { text: "Ok", onPress: () => null }
-          ],
-          { cancelable: false }
-        );
-        this.controller.abort()
-      }
-    }else{
-      alert("Nothing to share")
-    }
     }
     catch (e) {
       this.setState({ loading: false });
@@ -611,7 +611,7 @@ export default class CreateaNewPost extends Component {
 
     return (
       <View style={styles.containerNewPost}>
-         <Loader isLoading={this.state.loading} />
+        <Loader isLoading={this.state.loading} />
         <View style={styles.container} >
 
           <ScrollView>
@@ -646,7 +646,7 @@ export default class CreateaNewPost extends Component {
               <View style={styles.ImageView} >
 
 
-                {this.state.photo.length > 0 && <TouchableOpacity onPress={() => this.setState({ photo: [],PhotoToBeSentToDb:[], PhotoPresent: false })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                {this.state.photo.length > 0 && <TouchableOpacity onPress={() => this.setState({ photo: [], PhotoToBeSentToDb: [], PhotoPresent: false })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
 
 
 
@@ -658,7 +658,7 @@ export default class CreateaNewPost extends Component {
 
               (this.state.video) ?
                 <View style={styles.ImageView} >
-                  {this.state.video && <TouchableOpacity onPress={() => this.setState({ video: null,videoToBeSentToDb:null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                  {this.state.video && <TouchableOpacity onPress={() => this.setState({ video: null, videoToBeSentToDb: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
                   <Video
                     source={{ uri: this.state.video }}
                     rate={1.0}
@@ -679,7 +679,7 @@ export default class CreateaNewPost extends Component {
 
                     <View style={styles.ImageView} >
 
-                      {this.state.document && <TouchableOpacity onPress={() => this.setState({ document: null,documentToBeSentToDb:null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
+                      {this.state.document && <TouchableOpacity onPress={() => this.setState({ document: null, documentToBeSentToDb: null })} ><Text style={{ marginLeft: 5 }}>Remove</Text></TouchableOpacity>}
 
                       <TouchableHighlight style={styles.DocumentIcon}
 
@@ -874,7 +874,7 @@ const styles = StyleSheet.create({
   },
   video: {
     width: width,
-    height: height / 3
+    height: height / 2
   },
   textTitleNewPost: {
     fontSize: 25,
@@ -1131,6 +1131,7 @@ const styles = StyleSheet.create({
     //justifyContent:'center',
     width: '100%',
     height: "100%",
+    resizeMode: "cover",
     //  resizeMode: "stretch",
   },
   inputIconLeft: {
@@ -1200,10 +1201,10 @@ const styles = StyleSheet.create({
     height: height / 3,
     resizeMode: "contain",
   },
-  video: {
-    width: width,
-    height: height / 3
-  },
+  // video: {
+  //   width: width,
+  //   height: height / 2
+  // },
 
 });
 

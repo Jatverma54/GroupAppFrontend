@@ -15,7 +15,7 @@ import {
   Share,
   ActivityIndicator,
   AsyncStorage,
-  
+
 } from 'react-native';
 import {
 
@@ -75,51 +75,51 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width,
       orientationIsLandscape: false,
-      notificationData:[],
-    skipPagination:0,
-    loadingPagination:false,
-    errorPagination: null,
-    isImageLoaded:true,
-    disabled:false
+      notificationData: [],
+      skipPagination: 0,
+      loadingPagination: false,
+      errorPagination: null,
+      isImageLoaded: true,
+      disabled: false
     };
 
 
 
   }
-  onNotificationRefresh(){
-    this.setState({ notificationData: [] ,isFetching:false})
+  onNotificationRefresh() {
+    this.setState({ notificationData: [], isFetching: false })
   }
-  cleanup = null;
+  cleanup = null;
   componentDidMount() {
 
-     let unsubscribe1 = this.DetectOrientation();
-    let unsubscribe2 =  this.props.navigation.addListener('focus', () => {
+    let unsubscribe1 = this.DetectOrientation();
+    let unsubscribe2 = this.props.navigation.addListener('focus', () => {
       // do something
-         this.setState({ data: "",skipPagination:0 })
+      this.setState({ data: "", skipPagination: 0 })
       this.getData(); // do something
-    
-      if(this.props.route.params&&this.props.route.params.Notification){
-  
-            this.setState({ notificationData: [] })
-      //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
-     
-  //let arr=this.state.notificationData.push(notificationData)
- // this.setState({ notificationData: [notificationData] })
- this.getNotificationData();
-  this.props.route.params.Notification="";
-       }
+
+      if (this.props.route.params && this.props.route.params.Notification) {
+
+        this.setState({ notificationData: [] })
+        //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
+
+        //let arr=this.state.notificationData.push(notificationData)
+        // this.setState({ notificationData: [notificationData] })
+        this.getNotificationData();
+        this.props.route.params.Notification = "";
+      }
     });
 
-     this.cleanup = () => { unsubscribe2();unsubscribe1; }
+    this.cleanup = () => { unsubscribe2(); unsubscribe1; }
 
   }
 
   componentWillUnmount() {
-    
-   // this._unsubscribe;
+
+    // this._unsubscribe;
     //this._unsubscribe1;
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
     //   // this.getData(); // do something
@@ -128,7 +128,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
 
   getNotificationData = async () => {
-    var PostId=this.props.route.params.Notification.post_id._id
+    var PostId = this.props.route.params.Notification.post_id._id
     this.setState({ loading: true });
 
     try {
@@ -137,29 +137,29 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-     // var GroupData = {
-      
-     // }
-    
-   
-     
+      // var GroupData = {
+
+      // }
+
+
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-       // body: JSON.stringify(GroupData),
+        // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/`+PostId, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setNotificationResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -174,14 +174,14 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false, disabled:false
+      loadingPagination: false, disabled: false
     });
   }
 
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true, data: '' });
 
     try {
 
@@ -190,9 +190,9 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const { token, userId } = transformedData;
 
       var GroupData = {
-        groupId:this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id,
+        groupId: this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.Groupid : this.props.route.params.groupId._id,
       }
-    
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -202,18 +202,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, {
         signal: this.controller.signal
       });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
 
-    
+
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page',  disabled:false,isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -234,9 +234,9 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const { token, userId } = transformedData;
 
       var GroupData = {
-        groupId:this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id,
+        groupId: this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.Groupid : this.props.route.params.groupId._id,
       }
-    
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -246,7 +246,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -254,7 +254,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload',  disabled:false,isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -270,8 +270,8 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
-      loadingPagination:false
+      isFetching: false, disabled: false,
+      loadingPagination: false
     });
   }
 
@@ -366,7 +366,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
 
@@ -411,59 +411,94 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
 
 
-setNotificationState(notificationData){
-  this.setState({notificationData:notificationData})
-}
-
-AddMembers() {
-
-  if (this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.admin_id.includes(this.props.route.params.groupId.currentUser):this.props.route.params.groupId.admin_id.find(a=>a._id===this.props.route.params.groupId.currentUser)) {
-  
-    this.props.navigation.navigate("AddMembers",this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id)
-  }
-  else {
-
-    Alert.alert(
-      "",
-      "You need to be admin to add members to the group",
-      [
-        {
-          text: "Ok",
-          onPress: () => null,
-          style: "cancel"
-        },
-
-      ],
-      { cancelable: false }
-    );
-
+  setNotificationState(notificationData) {
+    this.setState({ notificationData: notificationData })
   }
 
+  AddMembers() {
 
-}
+    if (this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.admin_id.includes(this.props.route.params.groupId.currentUser) : this.props.route.params.groupId.admin_id.find(a => a._id === this.props.route.params.groupId.currentUser)) {
 
-_onLoadStart = () => {
-  this.setState({ isImageLoaded: true }) 
-};
-_onLoad = status => {
-  this.setState({ isImageLoaded: false })
-};
+      this.props.navigation.navigate("AddMembers", this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.Groupid : this.props.route.params.groupId._id)
+    }
+    else {
+
+      Alert.alert(
+        "",
+        "You need to be admin to add members to the group",
+        [
+          {
+            text: "Ok",
+            onPress: () => null,
+            style: "cancel"
+          },
+
+        ],
+        { cancelable: false }
+      );
+
+    }
 
 
-renderEmpty = () => {
- 
-  return (
-    <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height/3.5}}><Text style={{ alignSelf: "center", alignItems: "center", justifyContent: "center",color: "grey", fontWeight: "bold" }} >No Posts to Show   </Text></View>
-  )
-}
+  }
+
+  _onPlaybackStatusUpdate = playbackStatus => {
+    if (!playbackStatus.isLoaded) {
+      // Update your UI for the unloaded state
+      if (playbackStatus.error) {
+        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        // Send Expo team the error on Slack or the forums so we can help you debug!
+      }
+    } else {
+      // Update your UI for the loaded state
+
+      if (playbackStatus.isPlaying) {
+        // Update your UI for the playing state
+
+      } else {
+        // Update your UI for the paused state
+      }
+
+      if (playbackStatus.isBuffering) {
+        // Update your UI for the buffering state
+        this.setState({ isImageLoaded: true })
+      } else {
+        this.setState({ isImageLoaded: false })
+      }
+
+
+      if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        // The player has just finished playing and will stop. Maybe you want to play something else?
+      }
+
+
+    }
+  };
+
+
+
+  _onLoadStart = () => {
+    this.setState({ isImageLoaded: true })
+  };
+  _onLoad = status => {
+    this.setState({ isImageLoaded: false })
+  };
+
+
+  renderEmpty = () => {
+
+    return (
+      <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: height / 3.5 }}><Text style={{ alignSelf: "center", alignItems: "center", justifyContent: "center", color: "grey", fontWeight: "bold" }} >No Posts to Show   </Text></View>
+    )
+  }
   PostScreen = () => {
-  
+
     return (
 
       <View style={{ flex: 1 }} >
         <View>
 
-        {/* <ImageBackground
+          {/* <ImageBackground
        resizeMode= "contain"
                 style={{flex:1, 
                 width: 400,
@@ -522,7 +557,7 @@ renderEmpty = () => {
             <View>
 
               <Image
-                style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width-70-30, marginTop: -40 }}
+                style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width - 70 - 30, marginTop: -40 }}
                 source={Post_Add} />
             </View>
           </View>
@@ -530,180 +565,180 @@ renderEmpty = () => {
         {/* {this.state.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>} */}
 
 
-{this.state.notificationData.length!==0 &&
+        {this.state.notificationData.length !== 0 &&
 
-<View >
-<Text style={{fontWeight:"bold",  backgroundColor: "#E6E6E6"}}>Post from Notifications <Text style={{fontWeight:"normal", fontSize:10, color:"grey"}}>- Drag screen to hide</Text></Text>
-  <FlatList style={styles.list}
+          <View >
+            <Text style={{ fontWeight: "bold", backgroundColor: "#E6E6E6" }}>Post from Notifications <Text style={{ fontWeight: "normal", fontSize: 10, color: "grey" }}>- Drag screen to hide</Text></Text>
+            <FlatList style={styles.list}
 
-    data={this.state.notificationData}
-  
-    keyExtractor={(item) => {
-      return item._id;
-    }}
-    refreshControl={
-      <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onNotificationRefresh()} />
-    }
-    renderItem={(post) => {
-      //  const post.item = post.item;
+              data={this.state.notificationData}
 
-      return (
+              keyExtractor={(item) => {
+                return item._id;
+              }}
+              refreshControl={
+                <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onNotificationRefresh()} />
+              }
+              renderItem={(post) => {
+                //  const post.item = post.item;
 
-        <View style={styles.card}>
+                return (
 
-          <View style={styles.cardHeader}>
+                  <View style={styles.card}>
 
-            <View>
-              <Avatar.Image size={45}
-                style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
-                source={{ uri: post.item.OnwerProfilePic }} />
+                    <View style={styles.cardHeader}>
 
-              {!(post.item.OnwerName.length > 30) ?
-                <Text style={styles.title}>{post.item.OnwerName}</Text>
-                : <Text style={styles.title}>{post.item.OnwerName.toString().substring(0, 30)}..</Text>}
-              <Text style={styles.time}>{moment(post.item.createdAt).fromNow()}</Text>
+                      <View>
+                        <Avatar.Image size={45}
+                          style={{ marginHorizontal: 5, borderColor: 'black', borderWidth: 2 }}
+                          source={{ uri: post.item.OnwerProfilePic }} />
 
-            </View>
+                        {!(post.item.OnwerName.length > 30) ?
+                          <Text style={styles.title}>{post.item.OnwerName}</Text>
+                          : <Text style={styles.title}>{post.item.OnwerName.toString().substring(0, 30)}..</Text>}
+                        <Text style={styles.time}>{moment(post.item.createdAt).fromNow()}</Text>
 
-
-            {(post.item.GroupAdmin.includes(post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
-
-              <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ GroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
-
-                <FontAwesome
-                  name="ellipsis-v"
-                  size={20}
-                  style={{ height: 20, width: 20 }}
-                />
-
-                {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
-              </TouchableOpacity>}
+                      </View>
 
 
-          </View>
+                      {(post.item.GroupAdmin.includes(post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
 
-          <View style={styles.cardContent}>
-            <TouchableOpacity onPress={() => this.copyText(post.item.postMetaData)}>
-              <ViewMoreText
-                numberOfLines={14}
-                renderViewMore={this.renderViewMore}
-                renderViewLess={this.renderViewLess}
-                textStyle={styles.title2}
-              >
+                        <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ GroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
 
-                <ParsedText style={styles.title2} parse={[
-                  { type: 'url', style: styles.url, onPress: this.handleUrlPress },
-                  {
-                    type: 'phone',
-                    style: styles.phone,
-                    onPress: this.handlePhonePress,
-                  },
-                  {
-                    type: 'email',
-                    style: styles.email,
-                    onPress: this.handleEmailPress,
-                  },
-                  {
-                    pattern: /Bob|David/,
-                    style: styles.name,
-                    onPress: this.handleNamePress,
-                  },
-                  {
-                    pattern: /@(\w+)/,
-                    style: styles.username,
-                    onPress: this.handleNamePress,
-                    renderText: this.renderText,
-                  },
+                          <FontAwesome
+                            name="ellipsis-v"
+                            size={20}
+                            style={{ height: 20, width: 20 }}
+                          />
 
-                  {
-                    pattern: /@(\w+)_(\w+)/,
-                    style: styles.username,
-                    onPress: this.handleNamePress,
-                    renderText: this.renderText,
-                  },
-                  { pattern: /42/, style: styles.magicNumber },
-                  { pattern: /#(\w+)/, style: styles.hashTag },
-                ]}
-
-                >{post.item.postMetaData}</ParsedText>
-
-              </ViewMoreText>
-            </TouchableOpacity>
-
-          </View>
+                          {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+                        </TouchableOpacity>}
 
 
-          {(post.item.image.length !== 0) ?
-            <View>
-              <FbImages imagesdata={post.item.image} />
+                    </View>
 
-              <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
-            </View>
-            :
+                    <View style={styles.cardContent}>
+                      <TouchableOpacity onPress={() => this.copyText(post.item.postMetaData)}>
+                        <ViewMoreText
+                          numberOfLines={14}
+                          renderViewMore={this.renderViewMore}
+                          renderViewLess={this.renderViewLess}
+                          textStyle={styles.title2}
+                        >
 
-            (post.item.video != null) ?
-              <View style={styles.ImageView} >
+                          <ParsedText style={styles.title2} parse={[
+                            { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+                            {
+                              type: 'phone',
+                              style: styles.phone,
+                              onPress: this.handlePhonePress,
+                            },
+                            {
+                              type: 'email',
+                              style: styles.email,
+                              onPress: this.handleEmailPress,
+                            },
+                            {
+                              pattern: /Bob|David/,
+                              style: styles.name,
+                              onPress: this.handleNamePress,
+                            },
+                            {
+                              pattern: /@(\w+)/,
+                              style: styles.username,
+                              onPress: this.handleNamePress,
+                              renderText: this.renderText,
+                            },
 
-                <Video
-                  source={{ uri: post.item.video }}
-                  rate={1.0}
-                  volume={1.0}
-                  isMuted={false}
-                  resizeMode='cover'
-                  shouldPlay={false}
-                  isLooping={true}
-                  useNativeControls={true}
-                  style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]} 
+                            {
+                              pattern: /@(\w+)_(\w+)/,
+                              style: styles.username,
+                              onPress: this.handleNamePress,
+                              renderText: this.renderText,
+                            },
+                            { pattern: /42/, style: styles.magicNumber },
+                            { pattern: /#(\w+)/, style: styles.hashTag },
+                          ]}
 
-                  onLoadStart={this._onLoadStart}
-                                             onLoad={this._onLoad}
-                                             
-                                           />
-                                                 <ActivityIndicator
-                                      animating={this.state.isImageLoaded} color="black"
-                         />
-                <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+                          >{post.item.postMetaData}</ParsedText>
 
-              </View> : ((post.item.document != null) ?
-                (
+                        </ViewMoreText>
+                      </TouchableOpacity>
+
+                    </View>
 
 
+                    {(post.item.image.length !== 0) ?
+                      <View>
+                        <FbImages imagesdata={post.item.image} />
 
-                  <View style={styles.ImageView} >
+                        <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+                      </View>
+                      :
+
+                      (post.item.video != null) ?
+                        <View style={styles.ImageView} >
+
+                          <Video
+                            source={{ uri: post.item.video }}
+                            rate={1.0}
+                            volume={1.0}
+                            isMuted={false}
+                            resizeMode='cover'
+                            shouldPlay={false}
+                            isLooping={true}
+                            useNativeControls={true}
+                            style={styles.video}
+
+                            onLoadStart={this._onLoadStart}
+                            onLoad={this._onLoad}
+                            onPlaybackStatusUpdate={this._onPlaybackStatusUpdate}
+
+                          />
+                          <ActivityIndicator
+                            animating={this.state.isImageLoaded} size="large" style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 110, left: 0, right: 0, height: 45 }} color="white" />
+                          <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+
+                        </View> : ((post.item.document != null) ?
+                          (
 
 
 
-                    <TouchableHighlight style={{
-                      marginTop: 10,
-                      alignSelf: "center"
-                    }}
-
-                      onPress={() => this.openDocument(post.item.document)}>
-                      <MaterialCommunityIcons
-                        name="file-document"
-                        size={70}
-                      // style={styles.DocumentIcon} 
-                      />
-                    </TouchableHighlight>
-
-                    <Text style={{ alignSelf: "center" }}>PDF</Text>
+                            <View style={styles.ImageView} >
 
 
-                    {/* {this.state.isDocumentVisible===true&&
+
+                              <TouchableHighlight style={{
+                                marginTop: 10,
+                                alignSelf: "center"
+                              }}
+
+                                onPress={() => this.openDocument(post.item.document)}>
+                                <MaterialCommunityIcons
+                                  name="file-document"
+                                  size={70}
+                                // style={styles.DocumentIcon} 
+                                />
+                              </TouchableHighlight>
+
+                              <Text style={{ alignSelf: "center" }}>PDF</Text>
+
+
+                              {/* {this.state.isDocumentVisible===true&&
 
 <Modal>
 
 <View style={{height:height,width:width,flex:1}}>
 */}
 
-                    {/* <PDFReader style={{height:height,width:width}} 
+                              {/* <PDFReader style={{height:height,width:width}} 
 source={{
 uri: this.state.OpenDucumentUri,
 
 }}    /> */}
 
 
-                    {/* <TouchableHighlight
+                              {/* <TouchableHighlight
 style={styles.overlayCancel}
 onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
@@ -720,133 +755,133 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 </Modal> */}
 
 
-                    {/* }    */}
-                    <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
+                              {/* }    */}
+                              <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
-                  </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
+                            </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
 
-          { this.renderGroupMembers(post.item)}
+                    { this.renderGroupMembers(post.item)}
 
-          <View style={styles.cardFooter}>
-
-
-            <View style={styles.socialBarContainer}>
-
-              <View style={styles.socialBarSection}>
+                    <View style={styles.cardFooter}>
 
 
-                {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
+                      <View style={styles.socialBarContainer}>
+
+                        <View style={styles.socialBarSection}>
 
 
-                <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
-
-                  {/* <Image style={styles.icon} source={Like}/> */}
-                  {post.item.isLiked ?
-                    <AntDesign
-                      name="like1"
-                      size={25}
-                      color="#1E90FF"
-                      style={styles.icon}
-                    /> : <AntDesign
-                      name="like1"
-                      size={25}
-                      color="black"
-                      style={styles.icon}
-                    />}
+                          {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
 
 
-                  <Text style={{ marginRight: 40, marginLeft: 5, color: "grey" }}>{(parseInt(post.item.countLikes) === 0) ? "" : post.item.countLikes} {(parseInt(post.item.countLikes) > 1) ? "Likes" : "Like"}</Text>
-                </TouchableOpacity>
-              </View>
+                          <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
+
+                            {/* <Image style={styles.icon} source={Like}/> */}
+                            {post.item.isLiked ?
+                              <AntDesign
+                                name="like1"
+                                size={25}
+                                color="#1E90FF"
+                                style={styles.icon}
+                              /> : <AntDesign
+                                name="like1"
+                                size={25}
+                                color="black"
+                                style={styles.icon}
+                              />}
+
+
+                            <Text style={{ marginRight: 40, marginLeft: 5, color: "grey" }}>{(parseInt(post.item.countLikes) === 0) ? "" : post.item.countLikes} {(parseInt(post.item.countLikes) > 1) ? "Likes" : "Like"}</Text>
+                          </TouchableOpacity>
+                        </View>
 
 
 
-              <View style={styles.socialBarSection}>
+                        <View style={styles.socialBarSection}>
 
-                <TouchableOpacity onPress={() => {this.setState({ notificationData: []}),this.props.navigation.navigate("Comments", post.item)}}>
-                  <View style={styles.socialBarButton}>
-                    <Image style={{
-                      width: 25,
-                      height: 25,
+                          <TouchableOpacity onPress={() => { this.setState({ notificationData: [] }), this.props.navigation.navigate("Comments", post.item) }}>
+                            <View style={styles.socialBarButton}>
+                              <Image style={{
+                                width: 25,
+                                height: 25,
 
-                      marginLeft: 200
-                    }} source={Comment} />
+                                marginLeft: 200
+                              }} source={Comment} />
 
-                    <Text style={{ marginLeft: 5, color: "grey", }} >{(parseInt(post.item.countcomments) === 0) ? "" : post.item.countcomments} {(parseInt(post.item.countcomments) > 1) ? "Comments" : "Comment"}</Text>
+                              <Text style={{ marginLeft: 5, color: "grey", }} >{(parseInt(post.item.countcomments) === 0) ? "" : post.item.countcomments} {(parseInt(post.item.countcomments) > 1) ? "Comments" : "Comment"}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+
+
+
+                      </View>
+
+                    </View>
+
                   </View>
-                </TouchableOpacity>
+
+                )
+              }} />
+
+            <RBSheet
+              ref={ref => {
+                this.AdminOptions = ref;
+              }}
+              height={330}
+
+            >
+              <View style={styles.listContainerNewPost}>
+
+                <Text style={styles.listTitleNewPost}>Admin Options</Text>
+
+                {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
+                  <View>
+                    <TouchableOpacity
+
+                      style={styles.listButtonNewPost}
+                      onPress={() => this.delete(this.state.AdminTab.item)}
+                    >
+                      <MDIcon name="delete" style={styles.listIconNewPost} />
+                      <Text style={styles.listLabelNewPost}>Delete post from {this.state.PostUsertitle}</Text>
+                    </TouchableOpacity>
+
+
+                    <TouchableOpacity
+
+                      style={styles.listButtonNewPost}
+                      onPress={() => this.deletePostandUserfromGroup(this.state.AdminTab.item)}
+                    >
+                      <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
+                      <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
+                    </TouchableOpacity></View> :
+                  <View>
+                    <TouchableOpacity
+
+                      style={styles.listButtonNewPost}
+                      onPress={() => this.delete(this.state.AdminTab.item)}
+                    >
+                      <MDIcon name="delete" style={styles.listIconNewPost} />
+                      <Text style={styles.listLabelNewPost}>Delete your post</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                }
+
+
+
+
+
               </View>
+            </RBSheet>
 
 
-
-            </View>
-
+            <Text style={{ fontWeight: "bold" }}>Group Activities</Text>
           </View>
 
-        </View>
-
-      )
-    }} />
-
-  <RBSheet
-    ref={ref => {
-      this.AdminOptions = ref;
-    }}
-    height={330}
-
-  >
-    <View style={styles.listContainerNewPost}>
-
-      <Text style={styles.listTitleNewPost}>Admin Options</Text>
-
-      {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
-        <View>
-          <TouchableOpacity
-
-            style={styles.listButtonNewPost}
-            onPress={() => this.delete(this.state.AdminTab.item)}
-          >
-            <MDIcon name="delete" style={styles.listIconNewPost} />
-            <Text style={styles.listLabelNewPost}>Delete post from {this.state.PostUsertitle}</Text>
-          </TouchableOpacity>
 
 
-          <TouchableOpacity
+        }
 
-            style={styles.listButtonNewPost}
-            onPress={() => this.deletePostandUserfromGroup(this.state.AdminTab.item)}
-          >
-            <MaterialCommunityIcons name="exit-to-app" style={styles.listIconNewPost} />
-            <Text style={styles.listLabelNewPost}>Delete post and remove {this.state.PostUsertitle}</Text>
-          </TouchableOpacity></View> :
-        <View>
-          <TouchableOpacity
-
-            style={styles.listButtonNewPost}
-            onPress={() => this.delete(this.state.AdminTab.item)}
-          >
-            <MDIcon name="delete" style={styles.listIconNewPost} />
-            <Text style={styles.listLabelNewPost}>Delete your post</Text>
-          </TouchableOpacity>
-        </View>
-
-      }
-
-
-
-
-
-    </View>
-  </RBSheet>
-
-
-  <Text style={{fontWeight:"bold"}}>Group Activities</Text>
-</View>
-
-    
-
-}
-    
       </View>
     );
 
@@ -943,7 +978,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true, data: '' });
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
@@ -962,7 +997,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions,{signal: this.controller.signal}
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions, { signal: this.controller.signal }
 
 
       );
@@ -970,14 +1005,14 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       if (response.ok) {
         this.setState({ loading: false });
-        this.setState({ data: "",notificationData: [] });
-     
+        this.setState({ data: "", notificationData: [] });
+
         Alert.alert(
 
           "",
           "Post deleted successfully",
           [
-            { text: "Ok", onPress: () => {this.getData(),this.setState({skipPagination:0})} }
+            { text: "Ok", onPress: () => { this.getData(), this.setState({ skipPagination: 0 }) } }
           ],
           { cancelable: false }
         );
@@ -1045,8 +1080,8 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
     try {
       this.AdminOptions.close();
-      this.setState({ loading: true,data:'' });
-    
+      this.setState({ loading: true, data: '' });
+
       //console.log(item.id, "first ")
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 
@@ -1073,18 +1108,18 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions, { signal: this.controller.signal });
 
 
       if (response.ok) {
         this.setState({ loading: false });
-        this.setState({ data: '',notificationData: [] });
+        this.setState({ data: '', notificationData: [] });
         Alert.alert(
 
           "User Removed",
           this.state.PostUsertitle + " removed from the group",
           [
-            { text: "Ok", onPress: () => {this.getData(),this.setState({skipPagination:0})} }
+            { text: "Ok", onPress: () => { this.getData(), this.setState({ skipPagination: 0 }) } }
           ],
           { cancelable: false }
         );
@@ -1160,9 +1195,9 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "",skipPagination:0, notificationData: []}, function () { this.getData() });
+    this.setState({ isFetching: true, data: "", skipPagination: 0, notificationData: [] }, function () { this.getData() });
   }
- 
+
 
   openDocument(url) {
 
@@ -1197,53 +1232,88 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
     }
   }
 
-loadmoreData(){
+  loadmoreData() {
 
-  this.setState({skipPagination:parseInt(this.state.skipPagination)+10,loadingPagination:true},()=>{this.getPaginationData()})
-}
- 
-FooterComponent(){
-return(
-  this.state.errorPagination != null ?
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 10, loadingPagination: true }, () => { this.getPaginationData() })
+  }
+
+  FooterComponent() {
+    return (
+      this.state.errorPagination != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
-        </View>: this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-  height: 100,
-  width: 100,
-  borderRadius: 10,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',alignSelf:"center"}}>
-  <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-<Text>Loading...</Text>
-  {/* If you want to image set source here */}
-  {/* <Image
+        </View> : this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+          {/* If you want to image set source here */}
+          {/* <Image
     source={require('../Pictures/loading.gif')}
     style={{ height: 80, width: 80 }}
     resizeMode="contain"
     resizeMethod="resize"
   /> */}
-</View>:null
-)
-}
-
-bannerError=(error)=>{
-  console.log("Error while loading banner"+error)
+        </View> : null
+    )
   }
 
+  bannerError = (error) => {
+    console.log("Error while loading banner" + error)
+  }
+
+  _onPlaybackStatusUpdate = playbackStatus => {
+    if (!playbackStatus.isLoaded) {
+      // Update your UI for the unloaded state
+      if (playbackStatus.error) {
+        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        // Send Expo team the error on Slack or the forums so we can help you debug!
+      }
+    } else {
+      // Update your UI for the loaded state
+
+      if (playbackStatus.isPlaying) {
+        // Update your UI for the playing state
+
+      } else {
+        // Update your UI for the paused state
+      }
+
+      if (playbackStatus.isBuffering) {
+        // Update your UI for the buffering state
+        this.setState({ isImageLoaded: true })
+      } else {
+        this.setState({ isImageLoaded: false })
+      }
+
+
+      if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        // The player has just finished playing and will stop. Maybe you want to play something else?
+      }
+
+
+    }
+  };
+
   render() {
- // console.log(this.props.route.params,"ssssssssssssssssss")
+    // console.log(this.props.route.params,"ssssssssssssssssss")
     const { orientationIsLandscape } = this.state;
     try {
 
-     
+
 
       return (
 
@@ -1252,7 +1322,7 @@ bannerError=(error)=>{
             <Text>{this.state.error}</Text>
             <Button onPress={
               () => {
-                this.getData(),this.setState({skipPagination:0,disabled:true});
+                this.getData(), this.setState({ skipPagination: 0, disabled: true });
               }
             } disabled={this.state.disabled}  >
               <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
@@ -1262,7 +1332,7 @@ bannerError=(error)=>{
             Width_Layout: event.nativeEvent.layout.width,
 
           }, () => this.DetectOrientation())}>
- <Loader isLoading={this.state.loading} />
+            <Loader isLoading={this.state.loading} />
 
 
 
@@ -1279,20 +1349,20 @@ bannerError=(error)=>{
               keyExtractor={(item) => {
                 return item._id;
               }}
-             ListFooterComponent={()=>this.FooterComponent()}
-             
+              ListFooterComponent={() => this.FooterComponent()}
+
               contentContainerStyle={{ flexGrow: 1 }}
-            
-              onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-              onEndReached={() =>{
+
+              onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+              onEndReached={() => {
                 if (!this.onEndReachedCalledDuringMomentum) {
                   this.loadmoreData();    // LOAD MORE DATA
                   this.onEndReachedCalledDuringMomentum = true;
                 }
-              } }
-            onEndReachedThreshold={0.2}
-             
-            ListEmptyComponent={this.renderEmpty()}
+              }}
+              onEndReachedThreshold={0.2}
+
+              ListEmptyComponent={this.renderEmpty()}
 
               renderItem={(post) => {
                 //  const post.item = post.item;
@@ -1314,7 +1384,7 @@ bannerError=(error)=>{
                         <Text style={styles.time}>{moment(moment.utc(post.item.createdAt).toDate()).local().fromNow()}</Text>
 
                       </View>
-                     
+
 
 
 
@@ -1407,17 +1477,17 @@ bannerError=(error)=>{
                             shouldPlay={false}
                             isLooping={true}
                             useNativeControls={true}
-                          
-                            style={[styles.video,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+
+                            style={styles.video}
                             onFullscreenUpdate={this.onFullscreenUpdate}
-                          
+
                             onLoadStart={this._onLoadStart}
                             onLoad={this._onLoad}
-                            
+                            onPlaybackStatusUpdate={this._onPlaybackStatusUpdate}
                           />
-                                <ActivityIndicator
-                     animating={this.state.isImageLoaded} color="black"
-        />
+                          <ActivityIndicator
+                            animating={this.state.isImageLoaded} size="large" style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 110, left: 0, right: 0, height: 45 }} color="white" />
+
                           <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                         </View> : ((post.item.document != null) ?
@@ -1519,7 +1589,7 @@ bannerError=(error)=>{
 
                         <View style={styles.socialBarSection}>
 
-                          <TouchableOpacity onPress={() => {this.setState({ notificationData: []}),this.props.navigation.navigate("Comments", post.item)}}>
+                          <TouchableOpacity onPress={() => { this.setState({ notificationData: [] }), this.props.navigation.navigate("Comments", post.item) }}>
                             <View style={styles.socialBarButton}>
                               <Image style={{
                                 width: 25,
@@ -1538,18 +1608,18 @@ bannerError=(error)=>{
                       </View>
 
                     </View>
-                
+
                   </View>
-                  
+
 
                 )
               }} />
-    <View >
-                    <AdMobBanner style={{alignItems:"center"}}  bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-        </View>
+            <View >
+              <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+                servePersonalizedAds={true}
+                onDidFailToReceiveAdWithError={this.bannerError}
+              />
+            </View>
 
 
             <RBSheet
@@ -1813,7 +1883,7 @@ const styles = StyleSheet.create({
     //justifyContent:'center',
     width: '100%',
     height: "100%",
-    //  resizeMode: "stretch",
+     resizeMode: "cover",
   },
   overlayCancel: {
     padding: 20,
@@ -1834,7 +1904,7 @@ const styles = StyleSheet.create({
   },
   video: {
     width: width,
-    height: height / 3
+    height: height/2 
   },
 
 

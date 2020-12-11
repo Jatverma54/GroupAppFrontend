@@ -172,9 +172,9 @@ export default class ExplorePublicGroupScreen extends Component {
                 onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               
    >
-                <ActivityIndicator
-                 animating={this.state.isImageLoaded} color="black"
-    />
+            <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
                   <View style={styles.cardHeader}>
                     <Text style={styles.title}>{item.title}</Text>
                   </View>

@@ -499,10 +499,10 @@ export default class PublicGroupListScreen extends Component {
                 onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               
    >
-                <ActivityIndicator
-                 animating={this.state.isImageLoaded} color="black"
-    />
-<MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30,marginTop:-10 }} onPress={()=>this.props.navigation.goBack()}/>
+            <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
+<MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
    <View style={{justifyContent:"flex-end", flex:1,marginBottom:5}}>
     <Text style={{color:"white",flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, }}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
     </View>
@@ -547,9 +547,9 @@ export default class PublicGroupListScreen extends Component {
                     onLoad={ () => this.setState({ isImageLoaded: true }) }
                     onLoadEnd={() => this.setState({ isImageLoaded: false }) }
                   />
-                     <ActivityIndicator
-                     animating={this.state.isImageLoaded} color="black"
-        />
+                  <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
                   </TouchableOpacity>
                   <View style={styles.content}>
                     <View style={mainContentStyle}>
@@ -759,8 +759,8 @@ export default class PublicGroupListScreen extends Component {
                      onLoad={ () => this.setState({ isImageLoaded: true }) }
                      onLoadEnd={() => this.setState({ isImageLoaded: false }) }
                    />
-                      <ActivityIndicator
-                      animating={this.state.isImageLoaded} color="black"
+                 <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
          />
                   </TouchableOpacity>
                   <View style={styles.content}>

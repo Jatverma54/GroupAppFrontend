@@ -14,7 +14,8 @@ import {
   RefreshControl,
   Share,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  BackHandler
 } from 'react-native';
 import {
 
@@ -82,32 +83,49 @@ export default class PublicGroupFeedScreen extends Component {
       loadingPagination: false,
       errorPagination: null,
       isImageLoaded: true,
-      disabled:false
+      disabled: false
     };
 
 
 
   }
 
-   cleanup = null;
+  cleanup = null;
   componentDidMount() {
-
-    let unsubscribe2 =  this.DetectOrientation();
-    let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    let unsubscribe2 = this.DetectOrientation();
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+    
       // do something
-       this.setState({ data: "", skipPagination: 0 })
+      this.setState({ data: "", skipPagination: 0 })
       this.getData(); // do something
 
 
     });
-     this.cleanup = () => { unsubscribe1();unsubscribe2 }
+    this.cleanup = () => { unsubscribe1(); unsubscribe2 }
 
   }
 
+  backAction = () => {
+    if(this.props.navigation.isFocused()){
+    Alert.alert("See You Later!", "Do you want to exit from App", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  }else{
+    false;
+  }
+  };
   componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     //this._unsubscribe;
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
     // this.props.navigation.removeListener('focus', () => {
     //   // this.setState({data:""})
@@ -136,14 +154,14 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -174,7 +192,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
       console.log(this.state.skipPagination, "Pagination")
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setResult(json.result);
@@ -182,7 +200,7 @@ export default class PublicGroupFeedScreen extends Component {
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload',  disabled:false,isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
       console.log("Error ", e)
       this.controller.abort()
     }
@@ -200,7 +218,7 @@ export default class PublicGroupFeedScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
+      isFetching: false, disabled: false,
       loadingPagination: false
     });
 
@@ -263,7 +281,7 @@ export default class PublicGroupFeedScreen extends Component {
         // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       //  console.log("Error ",json)
       this.setNotificationResult(json.result);
@@ -379,7 +397,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
 
@@ -534,7 +552,7 @@ export default class PublicGroupFeedScreen extends Component {
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/` + item._id, requestOptions,
-      {signal: this.controller.signal}
+        { signal: this.controller.signal }
 
 
       );
@@ -644,7 +662,7 @@ export default class PublicGroupFeedScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions, { signal: this.controller.signal });
 
 
       if (response.ok) {
@@ -781,9 +799,9 @@ export default class PublicGroupFeedScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> : this.state.loadingPagination ? <View style={{
@@ -808,6 +826,38 @@ export default class PublicGroupFeedScreen extends Component {
     )
   }
 
+  _onPlaybackStatusUpdate = playbackStatus => {
+    if (!playbackStatus.isLoaded) {
+      // Update your UI for the unloaded state
+      if (playbackStatus.error) {
+        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        // Send Expo team the error on Slack or the forums so we can help you debug!
+      }
+    } else {
+      // Update your UI for the loaded state
+
+      if (playbackStatus.isPlaying) {
+        // Update your UI for the playing state
+
+      } else {
+        // Update your UI for the paused state
+      }
+
+      if (playbackStatus.isBuffering) {
+        // Update your UI for the buffering state
+        this.setState({ isImageLoaded: true })
+      } else {
+        this.setState({ isImageLoaded: false })
+      }
+
+
+      if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        // The player has just finished playing and will stop. Maybe you want to play something else?
+      }
+
+
+    }
+  };
 
 
   ListHeaderComponent() {
@@ -959,15 +1009,14 @@ export default class PublicGroupFeedScreen extends Component {
 
                           onFullscreenUpdate={this.onFullscreenUpdate}
 
-                          style={[styles.video, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                          style={styles.video}
 
                           onLoadStart={this._onLoadStart}
                           onLoad={this._onLoad}
-
+                          onPlaybackStatusUpdate={this._onPlaybackStatusUpdate}
                         />
                         <ActivityIndicator
-                          animating={this.state.isImageLoaded} color="black"
-                        />
+                          animating={this.state.isImageLoaded} size="large" style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 110, left: 0, right: 0, height: 45 }} color="white" />
                         <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                       </View> : ((post.item.document != null) ?
@@ -1155,9 +1204,9 @@ export default class PublicGroupFeedScreen extends Component {
     )
   }
 
-  bannerError=(error)=>{
-    console.log("Error while loading banner"+error)
-    }
+  bannerError = (error) => {
+    console.log("Error while loading banner" + error)
+  }
 
   render() {
 
@@ -1173,7 +1222,7 @@ export default class PublicGroupFeedScreen extends Component {
             <Text>{this.state.error}</Text>
             <Button onPress={
               () => {
-                this.getData();this.setState({disabled:true});
+                this.getData(); this.setState({ disabled: true });
               }
             } disabled={this.state.disabled} >
               <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
@@ -1340,15 +1389,14 @@ export default class PublicGroupFeedScreen extends Component {
 
                             onFullscreenUpdate={this.onFullscreenUpdate}
 
-                            style={[styles.video, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                            style={styles.video}
 
                             onLoadStart={this._onLoadStart}
                             onLoad={this._onLoad}
-
+                            onPlaybackStatusUpdate={this._onPlaybackStatusUpdate}
                           />
                           <ActivityIndicator
-                            animating={this.state.isImageLoaded} color="black"
-                          />
+                            animating={this.state.isImageLoaded} size="large" style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 110, left: 0, right: 0, height: 45 }} color="white" />
                           <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                         </View> : ((post.item.document != null) ?
@@ -1474,7 +1522,7 @@ export default class PublicGroupFeedScreen extends Component {
 
                 )
               }} />
-{/* <AdMobBanner  style={{alignItems:"center"}}   bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            {/* <AdMobBanner  style={{alignItems:"center"}}   bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
         servePersonalizedAds={true}
         onDidFailToReceiveAdWithError={this.bannerError} 
         /> */}
@@ -1743,6 +1791,7 @@ const styles = StyleSheet.create({
     //justifyContent:'center',
     width: '100%',
     height: "100%",
+    resizeMode: "cover",
     //  resizeMode: "stretch",
   },
   overlayCancel: {
@@ -1764,7 +1813,7 @@ const styles = StyleSheet.create({
   },
   video: {
     width: width,
-    height: height / 3
+    height: height / 2
   },
 
   GroupName: {

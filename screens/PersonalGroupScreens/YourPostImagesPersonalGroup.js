@@ -73,9 +73,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
                 onLoad={ () => this.setState({ isImageLoaded: true }) }
                 onLoadEnd={() => this.setState({ isImageLoaded: false }) }
               />
-                 <ActivityIndicator
-                 animating={this.state.isImageLoaded} color="black"
-    />
+      <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
             </TouchableOpacity>
           </View>
 
@@ -87,9 +87,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
               onLoad={ () => this.setState({ isImageLoaded: true }) }
               onLoadEnd={() => this.setState({ isImageLoaded: false }) }
             />
-               <ActivityIndicator
-               animating={this.state.isImageLoaded} color="black"
-  />
+          <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
           </TouchableOpacity>
         )}
 
@@ -131,9 +131,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
           onLoad={ () => this.setState({ isImageLoaded: true }) }
           onLoadEnd={() => this.setState({ isImageLoaded: false }) }
         />
-           <ActivityIndicator
-           animating={this.state.isImageLoaded} color="black"
-/>
+      <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
         </TouchableOpacity>
         { (images.length > 2) && <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
           <Image  source={{ uri: (conditionalRender) ? images[2] : images[1] }}  
@@ -141,9 +141,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
            onLoad={ () => this.setState({ isImageLoaded: true }) }
            onLoadEnd={() => this.setState({ isImageLoaded: false }) }
          />
-            <ActivityIndicator
-            animating={this.state.isImageLoaded} color="black"
- />
+     <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
         </TouchableOpacity>}
 
       </View>
@@ -177,9 +177,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
             onLoad={ () => this.setState({ isImageLoaded: true }) }
             onLoadEnd={() => this.setState({ isImageLoaded: false }) }
           />
-             <ActivityIndicator
-             animating={this.state.isImageLoaded} color="black"
-  />
+              <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
           <Image  source={{ uri: (conditionalRender) ? images[2] : images[3] }} 
@@ -187,9 +187,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
         onLoad={ () => this.setState({ isImageLoaded: true }) }
         onLoadEnd={() => this.setState({ isImageLoaded: false }) }
       />
-         <ActivityIndicator
-         animating={this.state.isImageLoaded} color="black"
-/>
+       <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
         </TouchableOpacity>
         {overlay}
       </View>
@@ -205,9 +205,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
          onLoad={ () => this.setState({ isImageLoaded: true }) }
          onLoadEnd={() => this.setState({ isImageLoaded: false }) }
        />
-          <ActivityIndicator
-          animating={this.state.isImageLoaded} color="black"
-/>
+    <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
       </TouchableOpacity>
     );
   }
@@ -224,9 +224,9 @@ export default class YourPostImagesPersonalGroup extends React.Component {
           onLoad={ () => this.setState({ isImageLoaded: true }) }
           onLoadEnd={() => this.setState({ isImageLoaded: false }) }
         />
-           <ActivityIndicator
-           animating={this.state.isImageLoaded} color="black"
-/>
+      <ActivityIndicator
+                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+         />
         <View style={styles.overlayContent}>
           <View style={{ width: "100%" }}>
             <Text style={styles.count}>+{extra}</Text>
