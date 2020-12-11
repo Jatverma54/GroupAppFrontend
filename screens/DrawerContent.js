@@ -183,8 +183,8 @@ const DrawerContent = (props,) => {
                      onLoad={ () => setisImageLoaded(true) }
                      onLoadEnd={() => setisImageLoaded(false) }
                    />
-                      <ActivityIndicator
-                      animating={isImageLoaded} color="black"
+                 <ActivityIndicator
+                      animating={isImageLoaded} style={{  position: 'absolute', flexDirection: "row",   bottom: 0, left: 0, right: 0, height: 45 }} color="black"
          />
           </TouchableOpacity>
 
@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     borderRadius: 25,
+    marginBottom:10
   }
 });
 
