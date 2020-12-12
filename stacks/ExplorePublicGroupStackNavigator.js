@@ -124,9 +124,9 @@ const ExplorePublicGroupStackNavigator = () => {
 const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
 const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
   const { title } = route.params;
-  var SearchTitle=''
-  if(route.params.GroupCategory!=undefined){
-    SearchTitle=  route.params.GroupCategory;
+  var SearchTitle = ''
+  if (route.params.GroupCategory != undefined) {
+    SearchTitle = route.params.GroupCategory;
   }
 
   return (
@@ -155,28 +155,28 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
       },
       headerTintColor: colors.StackheaderTintColor,
       headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 60 },
-      
+
     }} >
       <ExplorePublicGroupCategoryBasedStack.Screen
 
         options={{
           headerShown: false
-         // headerTitle: title!==undefined?title:SearchTitle
+          // headerTitle: title!==undefined?title:SearchTitle
         }}
         name='Public Groups List'
-        component={withMyHookCategory(PublicGroupListScreen,route.params)}
-       />
+        component={withMyHookCategory(PublicGroupListScreen, route.params)}
+      />
 
 
       <ExplorePublicGroupCategoryBasedStack.Screen
         options={{
 
           headerTitle: "Create a Public Group",
-         
+
           headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor, height: 50 },
           headerTitleStyle: {
             fontSize: 19,
-           marginTop:-30,
+            marginTop: -30,
             // fontWeight: "200",//colors.TabLabelStylefontWeight,
             width: colors.TabLabelStylewidth
           },
@@ -199,8 +199,8 @@ function withMyHookCategory(Component, title) {
 
   return function WrappedComponent(props) {
     const myHookValue = useRoute();
-    myHookValue.params=title
-    return <Component {...props}  myHookValue={myHookValue} />;
+    myHookValue.params = title
+    return <Component {...props} myHookValue={myHookValue} />;
   }
 }
 
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginLeft: 7,
     justifyContent: 'flex-end',
-    marginTop:16
+    marginTop: 16
   }
 });
 

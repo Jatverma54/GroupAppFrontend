@@ -28,7 +28,7 @@ const HeaderLeft = () => {
 
 const ProfileScreenStack = createStackNavigator();
 const ProfileScreenStackNavigator = () => {
- 
+
   return (
 
     <ProfileScreenStack.Navigator headerMode="screen" screenOptions={{
@@ -69,11 +69,11 @@ const ProfileScreenStackNavigator = () => {
         name='UpdateAccountProfileInformation'
         component={UpdateAccountProfileInformationStackNavigator} />
 
-<ProfileScreenStack.Screen
+      <ProfileScreenStack.Screen
 
-options={{ headerShown: false }}
-name='changePassword'
-component={changePasswordStackNavigator} />
+        options={{ headerShown: false }}
+        name='changePassword'
+        component={changePasswordStackNavigator} />
 
 
     </ProfileScreenStack.Navigator>
@@ -83,8 +83,8 @@ component={changePasswordStackNavigator} />
 };
 
 const changePassword = createStackNavigator();
-const changePasswordStackNavigator = ({route}) => {
-  
+const changePasswordStackNavigator = ({ route }) => {
+
   return (
 
     <changePassword.Navigator headerMode='screen' screenOptions={{
@@ -117,12 +117,12 @@ const changePasswordStackNavigator = ({route}) => {
 
         options={{
           headerTitle: 'Change Password',
-       
+
         }}
         name='changePassword'
-        component={changePasswordscreen} 
+        component={changePasswordscreen}
         initialParams={route.params}
-        />
+      />
 
 
     </changePassword.Navigator>
@@ -139,8 +139,8 @@ const changePasswordStackNavigator = ({route}) => {
 
 
 const UpdateAccountProfileInformation = createStackNavigator();
-const UpdateAccountProfileInformationStackNavigator = ({route}) => {
-  
+const UpdateAccountProfileInformationStackNavigator = ({ route }) => {
+
   return (
 
     <UpdateAccountProfileInformation.Navigator headerMode='float' screenOptions={{
@@ -172,13 +172,13 @@ const UpdateAccountProfileInformationStackNavigator = ({route}) => {
       <UpdateAccountProfileInformation.Screen
 
         options={{
-         // headerTitle: 'Change Password',
-         headerTitle: 'Update Account Information',
+          // headerTitle: 'Change Password',
+          headerTitle: 'Update Account Information',
         }}
         name='UpdateProfileInformation'
-        component={UpdateProfileInformation} 
+        component={UpdateProfileInformation}
         initialParams={route.params}
-        />
+      />
 
 
     </UpdateAccountProfileInformation.Navigator>

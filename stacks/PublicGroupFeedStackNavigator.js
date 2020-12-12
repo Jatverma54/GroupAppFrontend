@@ -131,9 +131,9 @@ const LikeStackNavigator = ({ route }) => {
         }}
 
         name='Likes'
-        component={Likes} 
+        component={Likes}
         initialParams={route.params}
-        />
+      />
 
     </LikeStack.Navigator>
 

@@ -83,7 +83,7 @@ export default class YourPublicGroupPostscreen extends Component {
       this.getData(); // do something
 
     });
-    this._openRewarded()
+   // this._openRewarded()
     this.cleanup = () => { unsubscribe1(); }
 
   }

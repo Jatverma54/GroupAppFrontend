@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import React,{useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StyleSheet, TouchableOpacity, View, Image,AsyncStorage,Alert,BackHandler } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, AsyncStorage, Alert, BackHandler } from 'react-native';
 import MainScreenPage from '../screens/MainScreenPage';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -40,13 +40,13 @@ const HeaderLeft = () => {
 const RootMainStack = createStackNavigator();
 const RootMainStackNavigator = () => {
 
-  
+
   return (
 
     <RootMainStack.Navigator>
 
       <RootMainStack.Screen
-         options={{ headerShown: false }}
+        options={{ headerShown: false }}
         name='MainScreenPage'
         component={MainScreenPage}
       />
@@ -60,29 +60,32 @@ const RootMainStackNavigator = () => {
 
 
       <RootMainStack.Screen
-        options={{ headerTitle: "Password Assistance" ,
-        headerTintColor: colors.StackheaderTintColor,
-       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+        options={{
+          headerTitle: "Password Assistance",
+          headerTintColor: colors.StackheaderTintColor,
+          headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
 
-      }}
+        }}
         name='ForgotPassword'
         component={ForgotPassword} />
 
-<RootMainStack.Screen
-        options={{ headerTitle: "Confirm your identity",
-        headerTintColor: colors.StackheaderTintColor,
-       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+      <RootMainStack.Screen
+        options={{
+          headerTitle: "Confirm your identity",
+          headerTintColor: colors.StackheaderTintColor,
+          headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
 
-      }}
+        }}
         name='ConfirmYourIdentity'
         component={ConfirmYourIdentity} />
 
-<RootMainStack.Screen
-        options={{ headerTitle: "Change Password",
-        headerTintColor: colors.StackheaderTintColor,
-       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+      <RootMainStack.Screen
+        options={{
+          headerTitle: "Change Password",
+          headerTintColor: colors.StackheaderTintColor,
+          headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
 
-      }}
+        }}
         name='ChangePasswordFromForgetPassword'
         component={ChangePasswordFromForgetPassword} />
 
@@ -91,15 +94,15 @@ const RootMainStackNavigator = () => {
         name='SignupScreen'
         component={SignupScreen} />
 
-<RootMainStack.Screen
-      options={{
-        headerTitle: "Terms And Conditions",
+      <RootMainStack.Screen
+        options={{
+          headerTitle: "Terms And Conditions",
 
-        headerTintColor: colors.StackheaderTintColor,
-       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
+          headerTintColor: colors.StackheaderTintColor,
+          headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
 
 
-      }}
+        }}
         name='TermsAndCondition'
         component={TermsAndCondition} />
 
@@ -156,9 +159,9 @@ const RootMainStackNavigator = () => {
 
 
 const DrawerStack = createDrawerNavigator();
-const DrawerScreen = ({ route,navigation }) => {
+const DrawerScreen = ({ route, navigation }) => {
 
-  
+
 
   // useEffect(() => {
   //   BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -171,15 +174,15 @@ const DrawerScreen = ({ route,navigation }) => {
 
   // useEffect(() => {
   //   const tryLogin = async () => {
-     
+
   //     try {
   //       const userData = await AsyncStorage.getItem('userData');
-       
+
   //       const transformedData = JSON.parse(userData);
   //       const { token, userId } = transformedData;
   //       //const expirationDate = new Date(expiryDate);
 
-        
+
   //       //  const expirationTime = expirationDate.getTime() - new Date().getTime();
 
 
@@ -197,7 +200,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
 
   //       if (response.ok) {
-         
+
   //         const json = await response.json();
   //         setuserdata(json.result)
   //        // navigation.navigate('DrawerScreen', json.result)
@@ -240,7 +243,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
   //   tryLogin();
   // }, []);
-  
+
   return (
 
 
@@ -259,7 +262,7 @@ const DrawerScreen = ({ route,navigation }) => {
 
           fontFamily: 'SomeFont',
         }}
-        //initialRouteName="Public Groups"
+      //initialRouteName="Public Groups"
       />}
       initialRouteName="Public Groups"
     >

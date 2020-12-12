@@ -201,8 +201,8 @@ export default class PersonalGroupsScreen extends Component {
 
             this.state.data = this.state.temp.filter(function(item){
                 return item.GroupName.includes(search);
-              }).map(function({_id, GroupName, image,countMembers}){
-                return {_id, GroupName, image,countMembers};
+              }).map(function({_id, GroupName, image,countMembers,GroupAdminName,GroupCategory_id,LastUpdated,admin_id,createdAt,currentUser,groupCreateddate,group_Bio,group_type,owner_id,post,updatedAt}){
+                return {_id, GroupName, image,countMembers,GroupAdminName,GroupCategory_id,LastUpdated,admin_id,createdAt,currentUser,groupCreateddate,group_Bio,group_type,owner_id,post,updatedAt};
             });
         });
 
@@ -261,6 +261,8 @@ export default class PersonalGroupsScreen extends Component {
           if(Group.attachment) {
             mainContentStyle = styles.mainContent;
           }
+         
+        
           return(
           
             <View style={styles.container}>
@@ -296,10 +298,7 @@ export default class PersonalGroupsScreen extends Component {
                
           );
         }}/>
-         <AdMobBanner style={{backgroundColor:"white"}} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+        
 
 {this.state.data.length === 0 &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -311,7 +310,10 @@ export default class PersonalGroupsScreen extends Component {
               <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Press below plus icon to create your first personal group.     </Text>
                 <Text style={{alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Personal groups will be visible to members only.         </Text>
             </View>}
-     
+            <AdMobBanner style={{backgroundColor:"white"}} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={this.bannerError} 
+        />
      <FloatingActionButton/>
      
     </View> 

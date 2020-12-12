@@ -147,7 +147,7 @@ export default class ViewMembersPublicGroup extends Component {
   cleanup = null;
   componentDidMount() {
      let unsubscribe1 = this.getData();
-      this._openRewarded();
+     // this._openRewarded();
      this.cleanup = () => { unsubscribe1; }
 
   }

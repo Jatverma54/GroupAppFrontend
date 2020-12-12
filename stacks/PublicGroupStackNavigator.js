@@ -88,7 +88,7 @@ const PublicGroupStackNavigator = () => {
       }),
       headerTintColor: colors.StackheaderTintColor,
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
-    
+
     }} >
 
       <PublicGroupStack.Screen options={{
@@ -97,7 +97,7 @@ const PublicGroupStackNavigator = () => {
         name='Public Group'
         component={ExplorePublicGroupTabStackNavigator} />
 
-      <PublicGroupStack.Screen    options={{ headerShown: false }}
+      <PublicGroupStack.Screen options={{ headerShown: false }}
         name='Search Public Group'
         component={SearchFunctionalityStackNavigator} />
 
@@ -127,7 +127,7 @@ const PublicGroupStackNavigator = () => {
 
 const SearchFunctionalityStack = createStackNavigator();
 const SearchFunctionalityStackNavigator = () => {
- 
+
   return (
 
 
@@ -166,7 +166,7 @@ const SearchFunctionalityStackNavigator = () => {
         name='Search Public Group'
         component={SearchFunctionality} />
 
-    
+
 
     </SearchFunctionalityStack.Navigator>
 

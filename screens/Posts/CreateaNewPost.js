@@ -90,7 +90,7 @@ export default class CreateaNewPost extends Component {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
     //this.changeScreenOrientation();
-    this._openRewarded();
+  // this._openRewarded();
 
 
   }

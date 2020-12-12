@@ -148,8 +148,8 @@ const PersonalGroupBioStackNavigator = ({ route }) => {
           headerTitle: "Add Members"
         }}
         name='AddMembers'
-        component={withMyHook(AddMember)} 
-        />
+        component={withMyHook(AddMember)}
+      />
 
 
       <PersonalGroupBioStack.Screen
@@ -244,9 +244,9 @@ const PersonalGroupInsideGroupTabStackNavigator = ({ route }) => {
       }}
 
         name='Feed'
-        component={withMyHook(PersonalGroupFeedScreen)} 
+        component={withMyHook(PersonalGroupFeedScreen)}
         initialParams={{ groupId: route.params.groupId }}
-        />
+      />
 
 
 
@@ -260,9 +260,9 @@ const PersonalGroupInsideGroupTabStackNavigator = ({ route }) => {
 
 
         name='Your Posts'
-        component={YourPersonalGroupPostScreen} 
+        component={YourPersonalGroupPostScreen}
         initialParams={{ groupid: route.params.groupId }}
-        />
+      />
 
 
 
@@ -274,9 +274,9 @@ const PersonalGroupInsideGroupTabStackNavigator = ({ route }) => {
 
 
         name='Notification'
-        component={NotificationScreen} 
+        component={NotificationScreen}
         initialParams={{ groupid: route.params.groupId }}
-        />
+      />
 
     </PersonalGroupInsideGroupTabStack.Navigator>
 
@@ -345,7 +345,7 @@ const PersonalGroupFeedScreenkNavigator = ({ route }) => {
         name='PersonalGroupFeed'
         component={PersonalGroupInsideGroupTabStackNavigator}
         initialParams={{ groupId: route.params }}
-        />
+      />
 
 
       <PersonalGroupFeedScreenStack.Screen

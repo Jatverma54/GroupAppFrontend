@@ -43,7 +43,7 @@ const JoinedPublicGroupStackNavigator = (props) => {
         component={withMyHook(JoinedPublicGroupsScreen)} />
 
 
-        
+
 
     </JoinedPublicGroupStack.Navigator>
 
@@ -225,7 +225,7 @@ const JoinedGroupInsideGroupTabStackNavigator = ({ route }) => {
           //   console.log("entered")
           // }
 
-        return  focused ?
+          return focused ?
             <MaterialCommunityIcons name="bell" color="black" size={26} /> :
             <MaterialCommunityIcons name="bell-ring" color="black" size={26} />
 
@@ -300,10 +300,10 @@ const NotificationGroupTabStackNavigator = ({ route }) => {
 
 
         name='Notification'
-        component={NotificationScreen} 
+        component={NotificationScreen}
         initialParams={{ groupid: route.params.groupid }}
-        />
-        
+      />
+
 
     </NotificationGroupTabStack.Navigator>
 
