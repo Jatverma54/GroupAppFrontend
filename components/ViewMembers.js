@@ -158,7 +158,7 @@ export default class ViewMembers extends Component {
 
   componentDidMount() {
      let unsubscribe1  = this.getData();
-    this._openRewarded();
+    //this._openRewarded();
 
     this.cleanup = () => { unsubscribe1 }
   }

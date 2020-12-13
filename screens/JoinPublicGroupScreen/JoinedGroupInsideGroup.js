@@ -1309,7 +1309,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
   };
 
   render() {
-    // console.log(this.props.route.params,"ssssssssssssssssss")
+     
     const { orientationIsLandscape } = this.state;
     try {
 

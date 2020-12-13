@@ -9,6 +9,12 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import UserToken from './constants/APIPasswordCollection'
 import * as Notifications from 'expo-notifications';
+import {
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
+AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 enableScreens();
 //console.disableYellowBox = true;
 //LogBox.ignoreAllLogs()
@@ -25,6 +31,15 @@ Notifications.setNotificationHandler({
 
 
 export default function App() {
+  _openRewarded = async () => {
+    try {
+     
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    } 
+  }
 
   // useEffect(() => {
   //   const tryLogin = async () => {
@@ -51,6 +66,11 @@ export default function App() {
   //   tryLogin();
   // }, []);
   useEffect(() => {
+
+     const time=   setTimeout(() => {
+          this._openRewarded();
+        }, 10000);
+
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
 
       (response) => {
@@ -68,6 +88,7 @@ export default function App() {
     return () => {
       backgroundSubscription.remove();
       foregroundSubscription.remove();
+      clearTimeout(time)
     };
   }, []);
 
