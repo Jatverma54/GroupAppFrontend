@@ -111,6 +111,19 @@ export default class SignupScreen extends Component {
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
+    this.PasswordInfoshowAlert();
+  }
+
+  PasswordInfoshowAlert(){
+    Alert.alert(
+
+      "Password must contain",
+      "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
+      [
+        { text: "Ok", onPress: () => null }
+      ],
+      { cancelable: false }
+    );
   }
 
   // componentWillUnmount() {
