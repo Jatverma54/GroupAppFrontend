@@ -18,8 +18,8 @@ import {
 import {
 
   Divider,
-  
-  
+
+
 
 } from 'react-native-paper';
 
@@ -61,34 +61,29 @@ export default class PublicGroupListScreen extends Component {
       isDialogVisible: false,
       inputText: '',
       itemData: '',
-      searchResult:[],
+      searchResult: [],
       errorPagination: null,
-      skipPagination:1,
-      loadingPagination:false,
-      isImageLoaded:true,
-      disabled:false
+      skipPagination: 1,
+      loadingPagination: false,
+      isImageLoaded: true,
+      disabled: false
 
     }
   }
 
-    cleanup = null;
+  cleanup = null;
   componentDidMount() {
-    
-     let unsubscribe1 =    this.props.navigation.addListener('focus', () => {
-     this.setState({ data: "", temp: "",searchResult: [] });
-       this.getData(); // do something
-    
-      if(this.props.route.params.data&&this.props.route.params.data.GroupName){
-     
-    //    this.setState({ searchResult: [] })
-      //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
-     
-  //let arr=this.state.notificationData.push(notificationData)
- // this.setState({ searchResult: [this.props.Category] })
 
-  this.groupSearchnData();
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+      this.setState({ data: "", temp: "", searchResult: [] });
+      this.getData(); // do something
 
-       }
+      if (this.props.route.params.data && this.props.route.params.data.GroupName) {
+
+
+        this.groupSearchnData();
+
+      }
 
 
     });
@@ -98,20 +93,12 @@ export default class PublicGroupListScreen extends Component {
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
 
- 
-    // this.props.navigation.removeListener('focus', () => {
-    //   //this.setState({data:"",temp:""})
-    //   //this.getData(); // do something
-    // });
-  
-    // this.getData();
-    // this.getPaginationData();
-   
+
   }
 
   groupSearchnData = async () => {
 
-    var GroupId=this.props.route.params.data._id
+    var GroupId = this.props.route.params.data._id
     this.setState({ loading: true });
 
     try {
@@ -119,26 +106,23 @@ export default class PublicGroupListScreen extends Component {
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-     
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-       // body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupListScreen/`+GroupId, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupListScreen/` + GroupId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
-     
       this.setNotificationResult(json.result);
       this.controller.abort()
     } catch (e) {
-     
-      this.setState({ error: 'Reload the Page',   disabled:false,isFetching: false, loading: false });
-      console.log("Error ", e)
+
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
     }
 
@@ -153,21 +137,15 @@ export default class PublicGroupListScreen extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false,
-      disabled:false
+      loadingPagination: false,
+      disabled: false
     });
-    
+
   }
 
-
-
-  // componentWillUnmount(){
-  //   this.getData();
-  // }
-
   getData = async () => {
-    
-    this.setState({ loading: true,data:'',skipPagination:1 });
+
+    this.setState({ loading: true, data: '', skipPagination: 1 });
 
     try {
 
@@ -175,9 +153,9 @@ export default class PublicGroupListScreen extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-     
+
       var GroupData = {
-        GroupCategory_id: this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory_id:this.props.route.params._id,
+        GroupCategory_id: this.props.route.params.data !== undefined ? this.props.route.params.data.GroupCategory_id : this.props.route.params._id,
       }
 
       var myHeaders = new Headers();
@@ -189,16 +167,16 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-        
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page',  disabled:false, isFetching: false, loading: false });
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
 
-       console.log("Error ",e)
+
       this.controller.abort()
     }
 
@@ -209,7 +187,7 @@ export default class PublicGroupListScreen extends Component {
 
 
   getPaginationData = async () => {
-    
+
     this.setState({ loadingPagination: true, });
 
     try {
@@ -218,9 +196,9 @@ export default class PublicGroupListScreen extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-     
+
       var GroupData = {
-        GroupCategory_id: this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory_id:this.props.route.params._id,
+        GroupCategory_id: this.props.route.params.data !== undefined ? this.props.route.params.data.GroupCategory_id : this.props.route.params._id,
       }
 
       var myHeaders = new Headers();
@@ -232,16 +210,15 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //   console.log("Error ",json)
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload',  disabled:false, isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
 
-         console.log("Error ",e)
+
       this.controller.abort()
     }
 
@@ -256,8 +233,8 @@ export default class PublicGroupListScreen extends Component {
       temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false,  disabled:false,
-      loadingPagination:false
+      isFetching: false, disabled: false,
+      loadingPagination: false
     });
   }
 
@@ -265,47 +242,43 @@ export default class PublicGroupListScreen extends Component {
 
 
   onRefresh() {
-  
-    this.setState({ isFetching: true, data: "",temp:"",skipPagination:1,searchResult:[]}, function () { this.getData() });
+
+    this.setState({ isFetching: true, data: "", temp: "", skipPagination: 1, searchResult: [] }, function () { this.getData() });
   }
 
-  loadmoreData(){
+  loadmoreData() {
 
-    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
   }
-   
-  FooterComponent(){
-  return(
-    
-    this.state.errorPagination != null ?
+
+  FooterComponent() {
+    return (
+
+      this.state.errorPagination != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled} 
-          title="Reload the page"  
+          } disabled={this.state.disabled}
+            title="Reload the page"
           />
-        </View>:
-    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',alignSelf:"center"}}>
-    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-  <Text>Loading...</Text>
-    {/* If you want to image set source here */}
-    {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
-  </View>:null
-  )
+        </View> :
+        this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+
+        </View> : null
+    )
   }
 
 
@@ -349,7 +322,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DeleteSentJoinRequest`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/DeleteSentJoinRequest`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
 
@@ -389,7 +362,7 @@ export default class PublicGroupListScreen extends Component {
     catch (e) {
 
       this.controller.abort()
-      console.log("Error ", e)
+
     }
 
 
@@ -409,8 +382,8 @@ export default class PublicGroupListScreen extends Component {
         groupid: data.item._id,
         GroupName: data.item.GroupName,
         requestMessage: inputText,
-        privacy:data.item.privacy,
-        GroupCategory_id:data.item.GroupCategory_id
+        privacy: data.item.privacy,
+        GroupCategory_id: data.item.GroupCategory_id
       }
 
       var myHeaders = new Headers();
@@ -422,7 +395,7 @@ export default class PublicGroupListScreen extends Component {
         body: JSON.stringify(GroupRequestData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/SendJoinRequest`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/SendJoinRequest`, requestOptions, { signal: this.controller.signal });
 
 
 
@@ -430,12 +403,12 @@ export default class PublicGroupListScreen extends Component {
 
       if (response.ok) {
 
-        if(data.item.privacy==="Open Group"){
+        if (data.item.privacy === "Open Group") {
           data.item.isJoined = !data.item.isJoined;
-        }else{
+        } else {
           data.item.isRequested = !data.item.isRequested;
         }
-       
+
 
 
         const index = this.state.data.findIndex(
@@ -475,179 +448,117 @@ export default class PublicGroupListScreen extends Component {
     catch (e) {
 
       this.controller.abort()
-      console.log("Error ", e)
+
     }
-
-
-    //console.log(this.state.data,"Ccccccccccccccccccccccc")
 
   }
 
 
 
   renderHeader = () => {
-   // console.log(this.props)
-    return(
+
+    return (
       <View>
-       <ImageBackground
-    
-                style={{flex:1, 
-                  resizeMode:"cover",
-                height: height/4}}
-                source={{ uri: this.props.route.params.data!==undefined?this.props.route.params.data.CategoryImage:this.props.route.params.image, }}
-                onLoad={ () => this.setState({ isImageLoaded: true }) }
-                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-              
-   >
-            <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
-<MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
-   <View style={{justifyContent:"flex-end", flex:1,marginBottom:5}}>
-    <Text style={{color:"white",flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:20, }}>{this.props.route.params.data!==undefined?this.props.route.params.data.GroupCategory:this.props.route.params.title}</Text>
-    </View>
-</ImageBackground>
+        <ImageBackground
 
-{this.state.searchResult.length===0?<Divider style={{ height: 0.5,  marginBottom:5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />:null}
+          style={{
+            flex: 1,
+            resizeMode: "cover",
+            height: height / 4
+          }}
+          source={{ uri: this.props.route.params.data !== undefined ? this.props.route.params.data.CategoryImage : this.props.route.params.image, }}
+          onLoad={() => this.setState({ isImageLoaded: true })}
+          onLoadEnd={() => this.setState({ isImageLoaded: false })}
 
-{this.state.searchResult.length!==0?
-<View>
-<Text style={{fontWeight:"bold", marginLeft:7,backgroundColor: "#E6E6E6"}}>Recent Search<Text style={{fontWeight:"normal", fontSize:10, color:"grey"}}>- Drag screen to hide</Text></Text>
-<FlatList
-            style={styles.root}
-            data={this.state.searchResult}
-            extraData={this.state}
-          
-            // refreshControl={
-            //   <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onSearchRefresh()} />
-            // }
+        >
+          <ActivityIndicator
+            animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+          />
+          <MaterialCommunityIcons name="keyboard-backspace" size={30} color="white" style={{ height: 30, width: 30, }} onPress={() => this.props.navigation.goBack()} />
+          <View style={{ justifyContent: "flex-end", flex: 1, marginBottom: 5 }}>
+            <Text style={{ color: "white", flexDirection: "row", fontWeight: "bold", marginLeft: 7, fontSize: 20, }}>{this.props.route.params.data !== undefined ? this.props.route.params.data.GroupCategory : this.props.route.params.title}</Text>
+          </View>
+        </ImageBackground>
 
-            ItemSeparatorComponent={() => {
-              return (
-                <View style={styles.separator} />
-              )
-            }}
-            keyExtractor={(item) => {
-              return item._id;
-            }}
+        {this.state.searchResult.length === 0 ? <Divider style={{ height: 0.5, marginBottom: 5, marginLeft: 20, width: "90%", backgroundColor: "grey" }} /> : null}
 
-            renderItem={(item) => {
-              const Group = item.item;
-              let mainContentStyle;
-              if (Group.attachment) {
-                mainContentStyle = styles.mainContent;
-              } //uri:Group.image
-              return (
-                <View style={styles.container}>
+        {this.state.searchResult.length !== 0 ?
+          <View>
+            <Text style={{ fontWeight: "bold", marginLeft: 7, backgroundColor: "#E6E6E6" }}>Recent Search<Text style={{ fontWeight: "normal", fontSize: 10, color: "grey" }}>- Drag screen to hide</Text></Text>
+            <FlatList
+              style={styles.root}
+              data={this.state.searchResult}
+              extraData={this.state}
 
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
-                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} 
-                    
-                    style={styles.avatar}
-                    onLoad={ () => this.setState({ isImageLoaded: true }) }
-                    onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-                  />
-                  <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
-                  </TouchableOpacity>
-                  <View style={styles.content}>
-                    <View style={mainContentStyle}>
-                      <View style={styles.text}>
-                        <TouchableOpacity onPress={() => Group.isJoined ? this.props.navigation.navigate("JoinedGroupInsideGroup", Group) : this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
-                          <Text style={styles.groupName}>{Group.GroupName}</Text>
-                        </TouchableOpacity>
-                      </View>
+              ItemSeparatorComponent={() => {
+                return (
+                  <View style={styles.separator} />
+                )
+              }}
+              keyExtractor={(item) => {
+                return item._id;
+              }}
 
-                      <Text style={styles.countMembers}>
-                        {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
-                  </Text>
-                  
-                      <View style={styles.ButtonContainer}>
-                        <View style={styles.button}>
+              renderItem={(item) => {
+                const Group = item.item;
+                let mainContentStyle;
+                if (Group.attachment) {
+                  mainContentStyle = styles.mainContent;
+                }
+                return (
+                  <View style={styles.container}>
 
-                          {Group.isJoined ?
-                            <Button title="Joined" />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
+                      <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage}
 
-                            : (Group.isRequested) ?
-                              <Button title="Requested" color="grey" onPress={() => this.DeleteJoinRequest(item)} />
+                        style={styles.avatar}
+                        onLoad={() => this.setState({ isImageLoaded: true })}
+                        onLoadEnd={() => this.setState({ isImageLoaded: false })}
+                      />
+                      <ActivityIndicator
+                        animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+                      />
+                    </TouchableOpacity>
+                    <View style={styles.content}>
+                      <View style={mainContentStyle}>
+                        <View style={styles.text}>
+                          <TouchableOpacity onPress={() => Group.isJoined ? this.props.navigation.navigate("JoinedGroupInsideGroup", Group) : this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
+                            <Text style={styles.groupName}>{Group.GroupName}</Text>
+                          </TouchableOpacity>
+                        </View>
 
-                              : <Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={() => this.showDialog(true, item)} />
-                          }
+                        <Text style={styles.countMembers}>
+                          {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
+                        </Text>
 
+                        <View style={styles.ButtonContainer}>
+                          <View style={styles.button}>
+
+                            {Group.isJoined ?
+                              <Button title="Joined" />
+
+                              : (Group.isRequested) ?
+                                <Button title="Requested" color="grey" onPress={() => this.DeleteJoinRequest(item)} />
+
+                                : <Button title="Join Group" color={colors.ExploreGroupsLoginButtonColor} onPress={() => this.showDialog(true, item)} />
+                            }
+
+                          </View>
                         </View>
                       </View>
+
                     </View>
 
                   </View>
 
-                </View>
-
-    );
-            }} /><Text style={{fontWeight:"bold", marginLeft:7, backgroundColor: "#E6E6E6"}}>Groups</Text></View>:null}
-              
-    {/* <SearchBar
-      // height: 0.5,
-      // backgroundColor: "#CCCCCC",
-      // width:"78%",
-      // marginLeft:80
-
-      placeholder="Type a group name.."
-      lightTheme round editable={true}
-      // containerStyle={{height:35,paddingBottom:40,}}
-      containerStyle={{
-        borderBottomColor: "#CCCCCC",
-        borderBottomWidth: 0.5,
-        borderBottomStartRadius: 170,
-        borderBottomEndRadius: 40,
-      }}
-      platform="android"
-      inputStyle={{ color: "black" }}
-      value={this.state.search}
+                );
+              }} /><Text style={{ fontWeight: "bold", marginLeft: 7, backgroundColor: "#E6E6E6" }}>Groups</Text></View> : null}
 
 
-      onChangeText={this.updateSearch} />
       </View>
     )
   };
 
-  updateSearch = search => {
-    this.setState({ search }, () => {
-      if ('' == search) {
-
-
-        this.setState({
-          data: [...this.state.temp],
-
-        });
-        return;
-      }
-
-      this.setState({
-
-        searchStarted: true
-
-
-      })
-
-      this.state.data = this.state.temp.filter(function (item) {
-        return item.GroupName.includes(search);
-      }).map(function ({ _id, GroupName, image, countMembers, isJoined, isRequested, GroupCategory }) {
-        return { _id, GroupName, image, countMembers, isJoined, isRequested, GroupCategory };
-      });
-    });
-
-
-    this.setState({
-
-      searchStarted: false
-
-
-    }) */}
-   </View>
-    )
-  };
-  
 
 
 
@@ -665,16 +576,16 @@ export default class PublicGroupListScreen extends Component {
 
 
   renderEmpty = () => {
- 
+
     return (
-      <View style={{ flex: 1,marginTop:height/5 }}>
-              <Image source={NoGroups} style={{
-                alignSelf: "center", alignItems: "center", width: 53,
-                height: 53,
-                borderRadius: 25,
-              }} />
-              <Text style={{  alignSelf: "center", alignItems: "center", color: "grey", fontWeight: "bold" }}>No Groups    </Text>
-            </View>
+      <View style={{ flex: 1, marginTop: height / 5 }}>
+        <Image source={NoGroups} style={{
+          alignSelf: "center", alignItems: "center", width: 53,
+          height: 53,
+          borderRadius: 25,
+        }} />
+        <Text style={{ alignSelf: "center", alignItems: "center", color: "grey", fontWeight: "bold" }}>No Groups    </Text>
+      </View>
     )
   }
 
@@ -684,22 +595,20 @@ export default class PublicGroupListScreen extends Component {
 
   render() {
 
-// <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
-
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData(),this.setState({searchResult:[],disabled:true});
+              this.getData(), this.setState({ searchResult: [], disabled: true });
             }
-          }  disabled={this.state.disabled} 
-          title="Reload the page"  
+          } disabled={this.state.disabled}
+            title="Reload the page"
           />
         </View> :
         <View style={styles.FloatButtonPlacement} >
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
 
           <DialogInput isDialogVisible={this.state.isDialogVisible}
@@ -731,16 +640,16 @@ export default class PublicGroupListScreen extends Component {
               return item._id;
             }}
 
-            ListFooterComponent={()=>this.FooterComponent()}
-             
+            ListFooterComponent={() => this.FooterComponent()}
+
             contentContainerStyle={{ flexGrow: 1 }}
-            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-            onEndReached={() =>{
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
               if (!this.onEndReachedCalledDuringMomentum) {
                 this.loadmoreData();    // LOAD MORE DATA
                 this.onEndReachedCalledDuringMomentum = true;
               }
-            } }
+            }}
             onEndReachedThreshold={0.2}
 
             renderItem={(item) => {
@@ -748,20 +657,20 @@ export default class PublicGroupListScreen extends Component {
               let mainContentStyle;
               if (Group.attachment) {
                 mainContentStyle = styles.mainContent;
-              } //uri:Group.image
+              }
               return (
 
                 <View style={styles.container}>
 
                   <TouchableOpacity onPress={() => this.props.navigation.navigate("PublicGroupBio", { groupInformation: Group })}>
-                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage} 
-                     style={styles.avatar}
-                     onLoad={ () => this.setState({ isImageLoaded: true }) }
-                     onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-                   />
-                 <ActivityIndicator
+                    <Image source={Group.image ? { uri: Group.image } : PlaceHolderImage}
+                      style={styles.avatar}
+                      onLoad={() => this.setState({ isImageLoaded: true })}
+                      onLoadEnd={() => this.setState({ isImageLoaded: false })}
+                    />
+                    <ActivityIndicator
                       animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+                    />
                   </TouchableOpacity>
                   <View style={styles.content}>
                     <View style={mainContentStyle}>
@@ -773,8 +682,8 @@ export default class PublicGroupListScreen extends Component {
 
                       <Text style={styles.countMembers}>
                         {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
-                  </Text>
-                  
+                      </Text>
+
                       <View style={styles.ButtonContainer}>
                         <View style={styles.button}>
 
@@ -797,10 +706,10 @@ export default class PublicGroupListScreen extends Component {
 
               );
             }} />
-          <AdMobBanner  bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+          <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
           <FloatingActionButton />
         </View>
 
@@ -815,10 +724,9 @@ const FloatingActionButton = () => {
   return (
     <FloatingAction
       actions={actions}
-     // animated={false}
       onPressItem={name => {
         navigation.push('Create a Public Group');
-        //  console.log(`selected button: ${name}`);
+
       }} />
   )
 }
@@ -840,7 +748,7 @@ const styles = StyleSheet.create({
     width: 53,
     height: 53,
     borderRadius: 25,
-   
+
   },
   text: {
     marginBottom: 5,
@@ -890,19 +798,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   button: {
-    //flexDirection:'row',
     width: "50%",
     fontWeight: "bold",
-    // justifyContent: 'center',
-    //alignItems: 'center',
   },
   ButtonContainer: {
     flex: 2,
     width: '100%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    //paddingTop: 10,
     marginVertical: 10,
-    // marginRight: -40
   },
 });   

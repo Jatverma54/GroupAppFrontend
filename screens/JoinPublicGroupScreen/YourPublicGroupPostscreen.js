@@ -78,25 +78,19 @@ export default class YourPublicGroupPostscreen extends Component {
 
     this.DetectOrientation();
     let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-      // do something
       this.setState({ data: "", skipPagination: 0 })
-      this.getData(); // do something
+      this.getData();
 
     });
-   // this._openRewarded()
     this.cleanup = () => { unsubscribe1(); }
 
   }
 
   componentWillUnmount() {
-    // this._unsubscribe;
 
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
+
   }
 
   _openRewarded = async () => {
@@ -105,7 +99,7 @@ export default class YourPublicGroupPostscreen extends Component {
       await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -122,7 +116,6 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
       var GroupData = {
-        //   groupId: this.props.route.params.groupid._id,
         groupId: this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.Groupid : this.props.route.params.groupid._id,
       }
 
@@ -137,13 +130,12 @@ export default class YourPublicGroupPostscreen extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -165,7 +157,6 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
       var GroupData = {
-        // groupId: this.props.route.params.groupid._id,
         groupId: this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.Groupid : this.props.route.params.groupid._id,
       }
 
@@ -180,7 +171,6 @@ export default class YourPublicGroupPostscreen extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
       this.setResult(json.result);
       this.controller.abort()
 
@@ -188,7 +178,7 @@ export default class YourPublicGroupPostscreen extends Component {
 
       this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
 
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -284,17 +274,11 @@ export default class YourPublicGroupPostscreen extends Component {
   DetectOrientation() {
 
     if (this.state.Width_Layout > this.state.Height_Layout) {
-
-      // Write Your own code here, which you want to execute on Landscape Mode.
-
       this.setState({
         OrientationStatus: 'Landscape Mode'
       });
     }
     else {
-
-      // Write Your own code here, which you want to execute on Portrait Mode.
-
       this.setState({
         OrientationStatus: 'Portrait Mode'
       });
@@ -332,7 +316,7 @@ export default class YourPublicGroupPostscreen extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deletearray(item) }
@@ -354,9 +338,6 @@ export default class YourPublicGroupPostscreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
       var requestOptions = {
         method: 'DELETE',
         headers: myHeaders,
@@ -399,7 +380,7 @@ export default class YourPublicGroupPostscreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -413,7 +394,7 @@ export default class YourPublicGroupPostscreen extends Component {
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
+
       this.controller.abort()
     }
   }
@@ -428,7 +409,7 @@ export default class YourPublicGroupPostscreen extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => null }
@@ -447,7 +428,6 @@ export default class YourPublicGroupPostscreen extends Component {
 
     if (this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupOwnerId.includes(userId) : this.props.route.params.groupid.owner_id.includes(userId)) {
 
-      //this.props.route.params.groupid.owner_id.includes(userId)) {
 
       alert("Group owner cannot leave the group");
 
@@ -459,7 +439,7 @@ export default class YourPublicGroupPostscreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
           { text: "Yes", onPress: () => this.ExitGroup() }
@@ -476,16 +456,15 @@ export default class YourPublicGroupPostscreen extends Component {
     try {
 
       this.setState({ loading: true, data: '' });
-      //console.log(item.id, "first ")
+
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupAdmin.includes(userId) : this.props.route.params.groupid.admin_id.find(a => a._id === userId);
+      var isAdmin = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupAdmin.find(a => a._id === userId) : this.props.route.params.groupid.admin_id.find(a => a._id === userId);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var RemoveUser = {
         "groupid": this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.Groupid : this.props.route.params.groupid._id,
         "userId": userId,
@@ -529,12 +508,12 @@ export default class YourPublicGroupPostscreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
       this.setState({ loading: false });
-      console.log(e)
+
       Alert.alert(
 
         "Something went wrong!!",
@@ -555,25 +534,25 @@ export default class YourPublicGroupPostscreen extends Component {
 
 
   handleUrlPress(url) {
-    //console.log(`url: ${url} has been pressed!`);
+    ;
     Linking.openURL(url);
   }
 
   handlePhonePress(phone) {
-    // console.log(`phone ${phone} has been pressed!`);
+
   }
 
   handleNamePress(name) {
-    //  console.log(`Hello ${name}`);
+
   }
 
   handleEmailPress(email) {
-    // console.log(`send email to ${email}`);
+
     Linking.openURL("mailto:" + email);
   }
 
   renderText(matchingString, matches) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+
     let pattern = /@(\w+)/;
     let match = matchingString.match(pattern);
     return `${match[1]}`;
@@ -623,10 +602,6 @@ export default class YourPublicGroupPostscreen extends Component {
                 </View>
               </View>
             </TouchableOpacity>
-
-            {/* {(this.state.data.length === 0) &&
-
-              <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>} */}
           </View>
 
 
@@ -682,7 +657,6 @@ export default class YourPublicGroupPostscreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var LikePost = {
         "PostId": data.item._id,
         "isLiked": data.item.isLiked
@@ -699,7 +673,6 @@ export default class YourPublicGroupPostscreen extends Component {
 
       if (response.ok) {
 
-        //  this.setState({search:''});  this.setState({data:'',temp:''});  
         this.controller.abort()
 
       }
@@ -716,7 +689,7 @@ export default class YourPublicGroupPostscreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -748,11 +721,11 @@ export default class YourPublicGroupPostscreen extends Component {
         if (!supported) {
           alert("File type is not supported")
         } else {
-          //  console.log("Supported!")
+
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.log('An error occurred', err));
+      .catch((err) => null);
   };
 
 
@@ -779,13 +752,7 @@ export default class YourPublicGroupPostscreen extends Component {
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-        source={require('../Pictures/loading.gif')}
-        style={{ height: 80, width: 80 }}
-        resizeMode="contain"
-        resizeMethod="resize"
-      /> */}
+
         </View> : null
     )
   }
@@ -808,7 +775,7 @@ export default class YourPublicGroupPostscreen extends Component {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
@@ -898,9 +865,6 @@ export default class YourPublicGroupPostscreen extends Component {
               return (
 
                 <View style={styles.card}>
-
-
-                  {/* <Stories Number_of_run={this.state.Number_of_run}/>                   */}
                   <View style={styles.cardHeader}>
                     <View>
                       <Avatar.Image size={45}
@@ -915,7 +879,7 @@ export default class YourPublicGroupPostscreen extends Component {
                     </View>
 
                     <TouchableOpacity onPress={() => this.delete(item)}>
-                      {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
+
                       <MaterialCommunityIcons name="delete-outline" size={15} style={{ height: 15, width: 15, }} />
                     </TouchableOpacity>
                   </View>
@@ -1024,59 +988,14 @@ export default class YourPublicGroupPostscreen extends Component {
                               <MaterialCommunityIcons
                                 name="file-document"
                                 size={70}
-                              // style={styles.DocumentIcon} 
                               />
                             </TouchableHighlight>
 
                             <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                            {/* {this.state.isDocumentVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-      
-
- <PDFReader style={{height:height,width:width}} 
-        source={{
-          uri: this.state.OpenDucumentUri,
-
-        }}    />
-        
-   
-
-
-
-      <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isDocumentVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={27}
-             style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal>
-    
-    
-    }   
-       */}
-
-
-
                             <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                           </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
-
-
-
-
 
                   { this.renderGroupMembers(item)}
 
@@ -1086,10 +1005,6 @@ export default class YourPublicGroupPostscreen extends Component {
                     <View style={styles.socialBarContainer}>
 
                       <View style={styles.socialBarSection}>
-
-
-                        {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
 
                         <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
 
@@ -1158,14 +1073,12 @@ export default class YourPublicGroupPostscreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop:5,
   },
   list: {
     paddingHorizontal: 4,
     backgroundColor: "#E6E6E6",
   },
   separator: {
-    // marginTop: 0,
   },
   /******** card **************/
   card: {
@@ -1202,7 +1115,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: -5,
-    paddingBottom: 15,//15
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -1254,8 +1167,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignSelf: "center",
-    marginTop: 10,//50
-    // marginLeft:-60
+    marginTop: 10,
   },
 
   socialBarSection: {
@@ -1264,8 +1176,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     flex: 1,
-    // marginLeft:-70,
-
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -1283,11 +1193,9 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
     resizeMode: "cover",
-    //  resizeMode: "stretch",
   },
   overlayCancel: {
     padding: 20,
@@ -1301,7 +1209,6 @@ const styles = StyleSheet.create({
 
   },
   stretch: {
-    // flex:1,
     width: width,
     height: height / 3,
     resizeMode: "contain",
@@ -1328,13 +1235,10 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
 
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
     height: 45,
-    // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -1348,17 +1252,11 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
 
   bodyContentShare: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
 
 

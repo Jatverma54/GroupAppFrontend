@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity,  Dimensions, AsyncStorage, Alert, Image } from "react-native";
-import {  SearchBar } from "react-native-elements";
+import { View, Text, FlatList, TouchableOpacity, Dimensions, AsyncStorage, Alert, Image } from "react-native";
+import { SearchBar } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchIcon from '../Pictures/SearchIcon.png';
 import {
@@ -22,7 +22,7 @@ class SearchFunctionality extends Component {
       search: null,
       loading: false,
       groupName: "",
-      disabled:false
+      disabled: false
     }
     this.getData = this.getData.bind(this);
   }
@@ -46,7 +46,6 @@ class SearchFunctionality extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
 
         var search = {
           "groupSearchQuery": this.state.groupName,
@@ -58,12 +57,11 @@ class SearchFunctionality extends Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/groupSearchQuery`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/groupSearchQuery`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
           const json = await response.json();
-          //  this.setState({search:''});  this.setState({data:'',temp:''});  
           this.setState({ data: json.result });
           this.controller.abort()
         }
@@ -80,7 +78,6 @@ class SearchFunctionality extends Component {
             { cancelable: false }
           );
           this.controller.abort()
-          //  console.log(responseJson);
         }
 
       } catch (e) {
@@ -109,7 +106,7 @@ class SearchFunctionality extends Component {
       placeholder="Type a group name..."
       placeholderTextColor="grey"
       lightTheme round editable={true}
-      // containerStyle={{height:35,paddingBottom:40,}}
+
       containerStyle={{
         borderBottomColor: "#CCCCCC",
         borderBottomWidth: 0.5,
@@ -119,7 +116,7 @@ class SearchFunctionality extends Component {
       platform="android"
       inputStyle={{ color: "black" }}
       value={this.state.groupName}
-      //onChangeText={this.updateSearch}
+
       onChangeText={groupName => this.setState({ groupName })}
       onSubmitEditing={() => this.getData()}
       returnKeyType="send"
@@ -129,40 +126,6 @@ class SearchFunctionality extends Component {
       onClear={() => this.setState({ data: [] })}
 
     />
-
-
-    //     <TextInput
-    //     style={{ flex: 1, flexDirection: 'row',
-    //     alignSelf: 'center',
-    //     padding: 10,
-    //     height: 40,
-    //      width:  width,
-    //      //marginLeft:90,
-    //     //marginRight: 140,
-    //     backgroundColor: 'white',
-    //     margin: 10,
-    //     shadowColor: '#3d3d3d',
-    //     shadowRadius: 2,
-    //     shadowOpacity: 0.5,
-    //     shadowOffset: {
-    //       height: 1,
-    //     },
-    //     borderColor: '#696969',
-    //     borderWidth: 1,
-    //     borderRadius: 30,
-    //     borderBottomWidth: 1,
-
-    // }}
-    //     editable={true}
-    //     placeholder="Type a group name..."
-    //     multiline={true}
-    //     value={this.state.groupName}
-    //     placeholderTextColor = "grey"            
-    //     onChangeText={groupName => this.setState({ groupName })}
-    //       blurOnSubmit={true}
-    //     onSubmitEditing={() => this.getData()}
-    //       returnKeyType="send"
-    //   />
   };
 
 
@@ -198,7 +161,7 @@ class SearchFunctionality extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
@@ -228,8 +191,6 @@ class SearchFunctionality extends Component {
                   source={{ uri: item.image }}
                   style={{ width: 40, height: 40, margin: 6 }}
                 />
-                {/* <Text style={styles.lightText}>  {data.item.name}  </Text>
-            <Text style={styles.lightText2}>{data.item.username}</Text> */}
 
 
                 <View>
@@ -277,9 +238,6 @@ class SearchFunctionality extends Component {
                     source={{ uri: item.image }}
                     style={{ width: 40, height: 40, margin: 6 }}
                   />
-                  {/* <Text style={styles.lightText}>  {data.item.name}  </Text>
-            <Text style={styles.lightText2}>{data.item.username}</Text> */}
-
 
                   <View>
                     <View style={{
@@ -313,31 +271,8 @@ class SearchFunctionality extends Component {
 
                   </View>
 
-
-
-
-
                 </TouchableOpacity>
 
-
-
-              // <TouchableOpacity onPress={() => this.props.navigation.navigate("JoinedGroupInsideGroup", item)}>
-              //   <ListItem
-              //     leftAvatar={{ source: { uri: item.image } }}
-
-              //     title={`${item.GroupName}`}
-              //     subtitle={item.GroupCategory}
-
-              //   />
-              // </TouchableOpacity> :<TouchableOpacity onPress={() => this.props.navigation.navigate("ExplorePublicGroupCategoryBased", {data:item})}>
-              //   <ListItem
-              //     // roundAvatar groupIcon
-              //     leftAvatar={{ source: { uri: item.image } }}
-              //     title={`${item.GroupName}`}
-              //     subtitle={item.GroupCategory}
-
-              //   />
-              // </TouchableOpacity>
             )}
           />
 

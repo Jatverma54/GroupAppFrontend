@@ -25,14 +25,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from './Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 export default class Stories extends Component {
-   cleanup = null;
+  cleanup = null;
 
 
   controller = new AbortController();
   constructor(props) {
     super(props);
     this.state = {
-      data:'',
+      data: '',
       isVisible: false,
       Groupimages: [],
       loading: false,
@@ -44,17 +44,17 @@ export default class Stories extends Component {
       Width_Layout: Dimensions.get('window').width,
 
       errorPagination: null,
-      skipPagination:1,
-      loadingPagination:false,
-      disabled:false
+      skipPagination: 1,
+      loadingPagination: false,
+      disabled: false
     };
   }
 
 
   getData = async () => {
 
- 
-    this.setState({ loading: true,data:'',skipPagination:1 });
+
+    this.setState({ loading: true, data: '', skipPagination: 1 });
     try {
 
       const userData = await AsyncStorage.getItem('userData');
@@ -65,7 +65,7 @@ export default class Stories extends Component {
       var GroupData = {
         groupid: this.props.nav.route.params.groupId._id,
       }
-     
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -75,15 +75,14 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-     
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', isFetching: false, disabled:false, loading: false });
-      //   console.log("Error ",e)
+      this.setState({ error: 'Reload the Page', isFetching: false, disabled: false, loading: false });
       this.controller.abort()
     }
 
@@ -94,7 +93,7 @@ export default class Stories extends Component {
 
   getPaginationData = async () => {
 
- 
+
     this.setState({ loadingPagination: true });
     try {
 
@@ -106,7 +105,7 @@ export default class Stories extends Component {
       var GroupData = {
         groupid: this.props.nav.route.params.groupId._id,
       }
-     
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -116,15 +115,14 @@ export default class Stories extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-     
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload the Page', isFetching: false, loading: false, disabled:false });
-      //   console.log("Error ",e)
+      this.setState({ errorPagination: 'Reload the Page', isFetching: false, loading: false, disabled: false });
       this.controller.abort()
     }
 
@@ -134,28 +132,28 @@ export default class Stories extends Component {
   };
 
   componentDidMount() {
-    let unsubscribe1 = this.getData();
-    this.cleanup = () => { unsubscribe1; }
+    let unsubscribe1 = this.getData();
+    this.cleanup = () => { unsubscribe1; }
   }
 
   componentWillUnmount() {
-   
-     if (this.cleanup) this.cleanup();
-        this.cleanup = null;
-    
-    
+
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
+
   }
- 
+
 
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
-     
+
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false,
-      disabled:false
+      loadingPagination: false,
+      disabled: false
     });
   }
 
@@ -164,61 +162,52 @@ export default class Stories extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "", skipPagination:1 }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
-  loadmoreData(){
+  loadmoreData() {
 
-    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
   }
-   
-  FooterComponent(){
-  return(
-    
-    this.state.errorPagination != null ?
+
+  FooterComponent() {
+    return (
+
+      this.state.errorPagination != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
-        </View>:
-    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',alignSelf:"center"}}>
-    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-  <Text>Loading...</Text>
-    {/* If you want to image set source here */}
-    {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
-  </View>:null
-  )
+        </View> :
+        this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+        </View> : null
+    )
   }
 
   DetectOrientation() {
 
     if (this.state.Width_Layout > this.state.Height_Layout) {
 
-      // Write Your own code here, which you want to execute on Landscape Mode.
-
       this.setState({
         OrientationStatus: 'Landscape Mode'
       });
     }
     else {
-
-      // Write Your own code here, which you want to execute on Portrait Mode.
 
       this.setState({
         OrientationStatus: 'Portrait Mode'
@@ -244,13 +233,13 @@ export default class Stories extends Component {
         // dismissed
       }
 
-     
+
     } catch (error) {
       alert(error.message);
     }
   };
 
- 
+
 
 
 
@@ -266,13 +255,10 @@ export default class Stories extends Component {
 
 
             <View>
-              <TouchableOpacity onPress={() => this.props.nav.myHookValue.navigate("ViewMembers",{ Group: this.props.nav.route.params.groupId })}>
+              <TouchableOpacity onPress={() => this.props.nav.myHookValue.navigate("ViewMembers", { Group: this.props.nav.route.params.groupId })}>
                 <Avatar.Image
                   style={{ marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
                   source={{ uri: this.props.nav.route.params.groupId.image }} size={53} />
-                {/* <View style={styles.iconWrapper}>
-                            <Icon name='plus'  size={12} color='black' />
-                        </View> */}
                 <Text maxLength={0} style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>Members</Text>
               </TouchableOpacity>
             </View>
@@ -291,7 +277,6 @@ export default class Stories extends Component {
 
 
   openGroupPic(item) {
-    //console.log(item,"itemmmm")
     { this.setState({ isVisible: true }) }
     const images = [
       {
@@ -302,15 +287,13 @@ export default class Stories extends Component {
 
     { this.setState({ Groupimages: images }) }
 
-    //console.log(this.state.Groupimages,"visible")
-
   }
 
 
   AddMembers() {
-    
-    if (this.props.nav.route.params.groupId.admin_id.find(a=>a._id===this.props.nav.route.params.groupId.currentUser)) {
-      this.props.nav.myHookValue.navigate("AddMembers",this.props.nav.route.params.groupId._id);
+
+    if (this.props.nav.route.params.groupId.admin_id.find(a => a._id === this.props.nav.route.params.groupId.currentUser)) {
+      this.props.nav.myHookValue.navigate("AddMembers", this.props.nav.route.params.groupId._id);
     }
     else {
 
@@ -343,7 +326,7 @@ export default class Stories extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
@@ -354,7 +337,7 @@ export default class Stories extends Component {
 
         }, () => this.DetectOrientation())}>
 
-<Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
 
           <FlatList style={styles.list}
@@ -370,16 +353,16 @@ export default class Stories extends Component {
 
 
 
-            ListFooterComponent={()=>this.FooterComponent()}
-             
+            ListFooterComponent={() => this.FooterComponent()}
+
             contentContainerStyle={{ flexGrow: 1 }}
-            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-            onEndReached={() =>{
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
               if (!this.onEndReachedCalledDuringMomentum) {
                 this.loadmoreData();    // LOAD MORE DATA
                 this.onEndReachedCalledDuringMomentum = true;
               }
-            } }
+            }}
             onEndReachedThreshold={0.2}
             ItemSeparatorComponent={() => {
               return (
@@ -483,19 +466,19 @@ export default class Stories extends Component {
             <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.nav.myHookValue.push("CreateaNewPost")}>
               <View>
                 <View style={styles.bodyContent}  >
-                <Text style={{ fontWeight: "bold", width: "100%", marginLeft: 50, marginTop: 11 }}>Start a conversation</Text>
+                  <Text style={{ fontWeight: "bold", width: "100%", marginLeft: 50, marginTop: 11 }}>Start a conversation</Text>
                 </View>
                 <View>
 
                   <Image
-                     style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width-70-30, marginTop: -40 }}
+                    style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width - 70 - 30, marginTop: -40 }}
                     source={Post_Add} />
                 </View>
               </View>
             </TouchableOpacity>
           </View>
 
-       
+
         </View>
     );
 
@@ -510,17 +493,13 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop:5,
+
   },
   list: {
-    // paddingHorizontal: 4,
     backgroundColor: "white",
-    // paddingHorizontal: 4,
-    //paddingStart: 5,
-    // paddingEnd: 5,
   },
   separator: {
-    // marginTop: 0,
+
   },
   /******** card **************/
   card: {
@@ -629,8 +608,6 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
 
-    // marginVertical:-5,
-
   },
   buttonContainer: {
     marginTop: 10,
@@ -647,9 +624,6 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -668,13 +642,10 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
 
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
     height: 45,
-    //  marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -687,8 +658,6 @@ const styles = StyleSheet.create({
     marginTop: -10,
     marginLeft: 45,
     borderRadius: 30,
-    //  height: 40,
-    // width: 40,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center'

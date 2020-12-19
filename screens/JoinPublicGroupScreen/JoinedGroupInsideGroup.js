@@ -94,17 +94,14 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     let unsubscribe1 = this.DetectOrientation();
     let unsubscribe2 = this.props.navigation.addListener('focus', () => {
-      // do something
+
       this.setState({ data: "", skipPagination: 0 })
-      this.getData(); // do something
+      this.getData();
 
       if (this.props.route.params && this.props.route.params.Notification) {
 
         this.setState({ notificationData: [] })
-        //  var notificationData= this.props.route.params.Notification;//this.state.data.find(data=>data._id===this.props.route.params.Notification.post_id._id)
 
-        //let arr=this.state.notificationData.push(notificationData)
-        // this.setState({ notificationData: [notificationData] })
         this.getNotificationData();
         this.props.route.params.Notification = "";
       }
@@ -116,14 +113,8 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
   componentWillUnmount() {
 
-    // this._unsubscribe;
-    //this._unsubscribe1;
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
   }
 
 
@@ -137,30 +128,24 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      // var GroupData = {
-
-      // }
-
-
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-        // body: JSON.stringify(GroupData),
+
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setNotificationResult(json.result);
       this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -206,7 +191,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
         signal: this.controller.signal
       });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
 
 
@@ -214,7 +199,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -248,14 +233,13 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -353,7 +337,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var LikePost = {
         "PostId": data.item._id,
         "isLiked": data.item.isLiked
@@ -369,8 +352,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/like`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
-
-        //  this.setState({search:''});  this.setState({data:'',temp:''});  
         this.controller.abort()
       }
       else {
@@ -386,7 +367,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -417,7 +398,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
   AddMembers() {
 
-    if (this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.admin_id.includes(this.props.route.params.groupId.currentUser) : this.props.route.params.groupId.admin_id.find(a => a._id === this.props.route.params.groupId.currentUser)) {
+    if ( this.props.route.params.groupId.admin_id.find(a => a._id === this.props.route.params.groupId.currentUser)) {
 
       this.props.navigation.navigate("AddMembers", this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.Groupid : this.props.route.params.groupId._id)
     }
@@ -446,7 +427,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
@@ -497,18 +478,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
       <View style={{ flex: 1 }} >
         <View>
-
-          {/* <ImageBackground
-       resizeMode= "contain"
-                style={{flex:1, 
-                width: 400,
-                height: 200,}}
-                source={{ uri: this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.image:this.props.route.params.groupId.image }}
->
-<MaterialCommunityIcons name="keyboard-backspace" size={25} style={{ height: 20, width: 30, }} onPress={()=>this.props.navigation.goBack()}/>
-    <Text style={{flexDirection:"row",fontWeight:"bold",marginLeft:7,fontSize:18, marginTop:width/2.7}}>{this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.GroupName:this.props.route.params.groupId.GroupName}</Text>
-</ImageBackground> */}
-
           <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.AddMembers()} >
             <View>
               <View style={styles.bodyContentInviteMember}  >
@@ -562,8 +531,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        {/* {this.state.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold" ,width:"100%",marginLeft:width/0.74}} >No Posts to Show</Text></View>} */}
-
 
         {this.state.notificationData.length !== 0 &&
 
@@ -580,7 +547,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
                 <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onNotificationRefresh()} />
               }
               renderItem={(post) => {
-                //  const post.item = post.item;
 
                 return (
 
@@ -611,7 +577,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
                             style={{ height: 20, width: 20 }}
                           />
 
-                          {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                         </TouchableOpacity>}
 
 
@@ -717,45 +682,12 @@ export default class JoinedGroupInsideGroupFeed extends Component {
                                 <MaterialCommunityIcons
                                   name="file-document"
                                   size={70}
-                                // style={styles.DocumentIcon} 
+
                                 />
                               </TouchableHighlight>
 
                               <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                              {/* {this.state.isDocumentVisible===true&&
-
-<Modal>
-
-<View style={{height:height,width:width,flex:1}}>
-*/}
-
-                              {/* <PDFReader style={{height:height,width:width}} 
-source={{
-uri: this.state.OpenDucumentUri,
-
-}}    /> */}
-
-
-                              {/* <TouchableHighlight
-style={styles.overlayCancel}
-onPress={()=>{this.setState({isDocumentVisible: false})}}>
-
-  <MaterialCommunityIcons
-    name="close"                
-    size={27}
-   style={styles.cancelIcon} 
-  />
-
-
-</TouchableHighlight>
-</View>
-
-</Modal> */}
-
-
-                              {/* }    */}
                               <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                             </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -769,13 +701,8 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
                         <View style={styles.socialBarSection}>
 
-
-                          {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                           <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
 
-                            {/* <Image style={styles.icon} source={Like}/> */}
                             {post.item.isLiked ?
                               <AntDesign
                                 name="like1"
@@ -965,7 +892,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deletearray(item) }
@@ -987,8 +914,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
       var requestOptions = {
         method: 'DELETE',
@@ -1031,7 +956,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -1045,7 +970,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
       this.controller.abort()
     }
 
@@ -1053,8 +977,8 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
 
   deletePostandUserfromGroup(item) {
-
-    if (this.props.route.params.groupId.owner_id.includes(item.OnwerId)) {
+    let OwnerId= this.props.route.params.groupId.AllPublicFeed !== undefined ? this.props.route.params.groupId.GroupOwnerId : this.props.route.params.groupId.owner_id;
+    if(OwnerId.includes(item.OnwerId)) {
 
       alert("Group owner cannot be deleted from the group");
 
@@ -1065,7 +989,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
           { text: "Yes", onPress: () => this.deletePostandUserfromGrouparray(item) }
@@ -1077,15 +1001,11 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
   deletePostandUserfromGrouparray = async (item) => {
 
-
     try {
       this.AdminOptions.close();
       this.setState({ loading: true, data: '' });
 
-      //console.log(item.id, "first ")
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
-
-
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
@@ -1093,9 +1013,8 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var RemoveUser = {
-        "groupid": item.GroupId,
+        "groupid": item.GroupId!==undefined?item.GroupId:item.Groupid,
         "userId": item.OnwerId,
         "isAdmin": isAdmin,
         "postId": item._id
@@ -1108,7 +1027,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions, { signal: this.controller.signal });
+     const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteDataAndUserfromGroup`, requestOptions, { signal: this.controller.signal });
 
 
       if (response.ok) {
@@ -1138,7 +1057,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -1156,29 +1075,22 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
       this.controller.abort()
     }
 
-    //console.log(item._id, "first ")
-
-
-
-    // console.log(this.state.data,"updated")
   }
 
 
   handleUrlPress(url) {
-    //console.log(`url: ${url} has been pressed!`);
     Linking.openURL(url);
   }
 
   handlePhonePress(phone) {
-    //  console.log(`phone ${phone} has been pressed!`);
+
   }
 
   handleNamePress(name) {
-    //  console.log(`Hello ${name}`);
+
   }
 
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
     Linking.openURL("mailto:" + email);
   }
 
@@ -1206,11 +1118,10 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         if (!supported) {
           alert("File type is not supported")
         } else {
-          //  console.log("Supported!")
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.log('An error occurred', err));
+      .catch((err) => null);
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -1260,26 +1171,20 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-    source={require('../Pictures/loading.gif')}
-    style={{ height: 80, width: 80 }}
-    resizeMode="contain"
-    resizeMethod="resize"
-  /> */}
+
         </View> : null
     )
   }
 
   bannerError = (error) => {
-    console.log("Error while loading banner" + error)
+
   }
 
   _onPlaybackStatusUpdate = playbackStatus => {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
@@ -1309,7 +1214,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
   };
 
   render() {
-     
+
     const { orientationIsLandscape } = this.state;
     try {
 
@@ -1365,7 +1270,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
               ListEmptyComponent={this.renderEmpty()}
 
               renderItem={(post) => {
-                //  const post.item = post.item;
 
                 return (
 
@@ -1400,7 +1304,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                             style={{ height: 20, width: 20 }}
                           />
 
-                          {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                         </TouchableOpacity>}
 
 
@@ -1508,45 +1411,12 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                                 <MaterialCommunityIcons
                                   name="file-document"
                                   size={70}
-                                // style={styles.DocumentIcon} 
+
                                 />
                               </TouchableHighlight>
 
                               <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                              {/* {this.state.isDocumentVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-       */}
-
-                              {/* <PDFReader style={{height:height,width:width}} 
-        source={{
-          uri: this.state.OpenDucumentUri,
-
-        }}    /> */}
-
-
-                              {/* <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isDocumentVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={27}
-             style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal> */}
-
-
-                              {/* }    */}
                               <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                             </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -1560,13 +1430,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
                         <View style={styles.socialBarSection}>
 
-
-                          {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                           <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
-
-                            {/* <Image style={styles.icon} source={Like}/> */}
                             {post.item.isLiked ?
                               <AntDesign
                                 name="like1"
@@ -1679,7 +1543,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       );
     } catch (e) {
-      console.log(e);
+
     }
   }
 }
@@ -1691,7 +1555,6 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop:5,
   },
   list: {
     paddingHorizontal: 4,
@@ -1735,7 +1598,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: -5,
-    paddingBottom: 15,//15
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -1792,8 +1655,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignSelf: "center",
-    marginTop: 10,//50
-    // marginLeft:-60
+    marginTop: 10,
   },
 
   socialBarSection: {
@@ -1802,8 +1664,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     flex: 1,
-    // marginLeft:-70,
-
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -1820,9 +1680,6 @@ const styles = StyleSheet.create({
   bodyContent: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainer: {
     marginTop: 10,
@@ -1840,9 +1697,6 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -1860,14 +1714,10 @@ const styles = StyleSheet.create({
   bodyContentShare: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
     height: 45,
-    // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -1880,10 +1730,9 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
-     resizeMode: "cover",
+    resizeMode: "cover",
   },
   overlayCancel: {
     padding: 20,
@@ -1897,14 +1746,13 @@ const styles = StyleSheet.create({
 
   },
   stretch: {
-    // flex:1,
     width: width,
     height: height / 3,
     resizeMode: "contain",
   },
   video: {
     width: width,
-    height: height/2 
+    height: height / 2
   },
 
 

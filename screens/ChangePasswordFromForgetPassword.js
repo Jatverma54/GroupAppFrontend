@@ -22,18 +22,18 @@ export default class ChangePasswordFromForgetPassword extends Component {
     this.state = {
       password: '',
       ConfirmPassword: '',
- 
-      loading:false,
+
+      loading: false,
       hidePassword: true,
       hideConfirmPassword: true,
-    
+
     }
   }
-  
-  setPasswordVisibility(){
+
+  setPasswordVisibility() {
     this.setState({ hidePassword: !this.state.hidePassword });
   }
-  setConfirmPasswordVisibility(){
+  setConfirmPasswordVisibility() {
     this.setState({ hideConfirmPassword: !this.state.hideConfirmPassword });
   }
 
@@ -42,46 +42,37 @@ export default class ChangePasswordFromForgetPassword extends Component {
 
     Keyboard.dismiss();
 
-    const {  password, ConfirmPassword } = this.state
+    const { password, ConfirmPassword } = this.state
 
-    //let PasswordValidation = this.PasswordValidation(password)
-
-    if ( password === ConfirmPassword  && password && this.PasswordValidation(password)) {
-      this.setState({ loading: true,data:'' });
+    if (password === ConfirmPassword && password && this.PasswordValidation(password)) {
+      this.setState({ loading: true, data: '' });
       try {
 
 
-        var personInfo = {  
-      
-          password: password,   
-          UserId:this.props.route.params   
+        var personInfo = {
+
+          password: password,
+          UserId: this.props.route.params
         }
 
         var myHeaders = new Headers();
-        //myHeaders.append("Content-Type", "multipart/form-data");
-        myHeaders.append("Content-Type", "application/json");
-     
-       // myHeaders.append("Accept", "application/json");
 
-        // var formdata = new FormData();
-        // ImageFormData?formdata.append("file", img):formdata.append("file",null);
-        // formdata.append("userDetails", JSON.stringify(personInfo));
-        // console.log(formdata)
+        myHeaders.append("Content-Type", "application/json");
 
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(personInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(personInfo),
+
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPasswordFromForget`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserPasswordFromForget`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
 
 
           this.setState({ loading: false });
-         
+
           Alert.alert(
 
             "Password changed Successfully",
@@ -94,10 +85,10 @@ export default class ChangePasswordFromForgetPassword extends Component {
           this.controller.abort()
         }
         else {
-       
+
           this.setState({ loading: false });
-         
-        Alert.alert(
+
+          Alert.alert(
 
             "Something went wrong!!",
             "Please try again",
@@ -107,11 +98,10 @@ export default class ChangePasswordFromForgetPassword extends Component {
             { cancelable: false }
           );
           this.controller.abort()
-         }
+        }
 
       } catch (err) {
         this.setState({ loading: false });
-        console.log('error signing up: ', err)
         Alert.alert(
 
           "Something went wrong!!",
@@ -126,14 +116,14 @@ export default class ChangePasswordFromForgetPassword extends Component {
 
 
     } else {
-        
-     
-       if (!password) {
+
+
+      if (!password) {
         alert("Please enter Password");
       }
-       else if (!(password === ConfirmPassword)) {
+      else if (!(password === ConfirmPassword)) {
         alert("Confirm Password and Password does not match");
-       }
+      }
       else if (!this.PasswordValidation(password)) {
 
 
@@ -155,7 +145,6 @@ export default class ChangePasswordFromForgetPassword extends Component {
   }
 
   PasswordValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
 
     let match = matchingString.match(pattern);
@@ -171,7 +160,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
 
       <View style={styles.container}>
 
-<Loader isLoading={this.state.loading} />
+        <Loader isLoading={this.state.loading} />
 
 
 
@@ -179,7 +168,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
 
 
 
-<View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="New password"
@@ -188,38 +177,38 @@ export default class ChangePasswordFromForgetPassword extends Component {
             underlineColorAndroid='transparent'
             onChangeText={(password) => this.setState({ password })}
           />
-            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
-           {(this.state.hidePassword)?
-            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
-<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
-           
-         
-         
+          <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={() => this.setPasswordVisibility()}>
+            {(this.state.hidePassword) ?
+              <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} /> :
+              <MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+
+
+
           </TouchableOpacity>
         </View>
-		
-        
+
+
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
           <TextInput style={styles.inputs}
             placeholder="Confirm new password"
-            value={this.state.ConfirmPassword}   
+            value={this.state.ConfirmPassword}
             secureTextEntry={this.state.hideConfirmPassword}
             underlineColorAndroid='transparent'
             onChangeText={(ConfirmPassword) => this.setState({ ConfirmPassword })}
           />
-            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setConfirmPasswordVisibility()}>
-           {(this.state.hideConfirmPassword)?
-            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
-<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
-           
-         
-         
+          <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={() => this.setConfirmPasswordVisibility()}>
+            {(this.state.hideConfirmPassword) ?
+              <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} /> :
+              <MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+
+
+
           </TouchableOpacity>
         </View>
-		
 
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}  onPress={()=> this.signUp()} >
+
+        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.signUp()} >
           <Text style={styles.loginText}>Change Password</Text>
         </TouchableOpacity>
 
@@ -256,8 +245,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-
-    //alignItems:'center'
   },
   inputs: {
     height: 45,
@@ -313,12 +300,6 @@ const styles = StyleSheet.create({
   },
 
   Imagecontainer: {
-
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -329,7 +310,6 @@ const styles = StyleSheet.create({
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20
   },
@@ -360,11 +340,10 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   touachableButton: {
-    //position: 'absolute',
     right: 3,
     height: 40,
     width: 35,
     padding: 2,
-    marginTop:10
+    marginTop: 10
   },
 });

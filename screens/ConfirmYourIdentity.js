@@ -7,8 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-Keyboard,
-Alert
+  Keyboard,
+  Alert
 } from 'react-native';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Email_Icon from '../Pictures/Email.png';
@@ -34,65 +34,54 @@ export default class ForgotPassword extends Component {
       loading: false,
     }
   }
-//   AuthenticateConfirmCode(){
 
+  _openRewarded = async () => {
+    try {
 
-//     this.props.navigation.navigate('ChangePasswordFromForgetPassword')
-//   }
-_openRewarded = async () => {
-  try {
-   
-    await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
-    await AdMobRewarded.showAdAsync()
-  } catch (error) {
-    console.log(error)
-  } 
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+
+    }
   }
 
-resetCodeValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+  resetCodeValidation(matchingString) {
+
     let pattern = /^[0-9]+$/;
     let match = matchingString.match(pattern);
     return match ? true : false;
 
   }
-  // cleanup = null;
-componentDidMount(){
-   this._openRewarded();
- 
+
+  componentDidMount() {
+    this._openRewarded();
 
 
-}
 
-// componentWillUnmount(){
-//    if (this.cleanup) this.cleanup();
-//       this.cleanup = null;
-  
-// }
+  }
+
 
   AuthenticateConfirmCode = async () => {
     Keyboard.dismiss();
 
     const { confrimationCode } = this.state
-  
-   let resetCodeValidation = this.resetCodeValidation(confrimationCode)
 
-    if (confrimationCode &&resetCodeValidation) {
+    let resetCodeValidation = this.resetCodeValidation(confrimationCode)
 
-  
+    if (confrimationCode && resetCodeValidation) {
+
+
 
       this.setState({ loading: true });
       try {
 
         var CodeInfo = {
           "confrimationCode": parseInt(confrimationCode),
-          "Userid":this.props.route.params
+          "Userid": this.props.route.params
         }
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
         var requestOptions = {
           method: 'POST',
@@ -102,22 +91,22 @@ componentDidMount(){
         };
 
         const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateConfirmationCode`, requestOptions,
-        {signal: this.controller.signal}
+          { signal: this.controller.signal }
 
         );
 
 
         if (response.ok) {
           this.setState({ loading: false });
-         
+
           const json = await response.json();
-          
+
           Alert.alert(
 
             "Confirmation code verified successfully",
             "",
             [
-              { text: "Ok", onPress: () =>  this.props.navigation.navigate('ChangePasswordFromForgetPassword',json.result)}
+              { text: "Ok", onPress: () => this.props.navigation.navigate('ChangePasswordFromForgetPassword', json.result) }
             ],
             { cancelable: false }
           );
@@ -137,12 +126,11 @@ componentDidMount(){
             { cancelable: false }
           );
           this.controller.abort()
-          //  console.log(responseJson);
+
         }
 
       } catch (err) {
         this.setState({ loading: false });
-        console.log('error signing up: ', err)
         Alert.alert(
 
           "Something went wrong!!",
@@ -154,23 +142,23 @@ componentDidMount(){
         );
         this.controller.abort()
       }
-   
-    } else {  
-        
-        if(!confrimationCode){
-            alert("Please enter a confrimation Code");    
-        }
-        else if(!resetCodeValidation){
-            alert("Please enter a valid Code");  
-        }
-         
+
+    } else {
+
+      if (!confrimationCode) {
+        alert("Please enter a confrimation Code");
+      }
+      else if (!resetCodeValidation) {
+        alert("Please enter a valid Code");
+      }
+
     }
 
   }
 
-  bannerError=(error)=>{
-    console.log("Error while loading banner"+error)
-    }
+  bannerError = (error) => {
+
+  }
 
   render() {
 
@@ -179,32 +167,30 @@ componentDidMount(){
 
       <View style={styles.container}>
 
-<Loader isLoading={this.state.loading} />
-<View style={{justifyContent:"flex-start",flex:1}} >
-        <AdMobBanner style={{marginBottom:70}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-        <View style={styles.inputContainer}>
-
-          <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Confrimation code"
-            multiline={true}
-            //  value={this.state.Email}
-            maxLength={75}
-            editable={true}
-            onChangeText={(confrimationCode) => this.setState({ confrimationCode })}
-            //keyboardType="email-address"
-            underlineColorAndroid='transparent'
+        <Loader isLoading={this.state.loading} />
+        <View style={{ justifyContent: "flex-start", flex: 1 }} >
+          <AdMobBanner style={{ marginBottom: 70 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
           />
+          <View style={styles.inputContainer}>
 
-        </View>
+            <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
+            <TextInput style={styles.inputs}
+              placeholder="Confrimation code"
+              multiline={true}
+              maxLength={75}
+              editable={true}
+              onChangeText={(confrimationCode) => this.setState({ confrimationCode })}
+              underlineColorAndroid='transparent'
+            />
+
+          </View>
 
 
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={()=>this.AuthenticateConfirmCode()}>
-          <Text style={styles.loginText}>Confirm</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.AuthenticateConfirmCode()}>
+            <Text style={styles.loginText}>Confirm</Text>
+          </TouchableOpacity>
 
 
 
@@ -238,8 +224,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-
-    //alignItems:'center'
   },
   inputs: {
     height: 45,
@@ -265,7 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    marginLeft:30
+    marginLeft: 30
   },
   loginButton: {
     backgroundColor: '#3498db',
@@ -295,12 +279,6 @@ const styles = StyleSheet.create({
   },
 
   Imagecontainer: {
-
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -311,7 +289,6 @@ const styles = StyleSheet.create({
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20
   },

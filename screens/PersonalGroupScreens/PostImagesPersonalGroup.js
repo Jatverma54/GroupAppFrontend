@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
   Image,
-  ActivityIndicator 
+  ActivityIndicator
 } from 'react-native';
 import ImageView from "react-native-image-viewing";
 
@@ -24,35 +24,10 @@ export default class PostImagesPersonalGroup extends React.Component {
       isVisible: 'false',
       imageindex: null,
       loading: true,
-      isImageLoaded:true
+      isImageLoaded: true
     };
   }
 
-
-
-
-  //   clickEventListener() {
-  //   //  Alert.alert('Alert', 'image clicked');
-  // console.log();
-  // const images = [
-  //   {
-  //       source: {
-  //           uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
-  //       },
-  //       title: 'Paris',
-  //       width: 806,
-  //       height: 720,
-  //   },
-  // ];
-
-  // <ImageView
-  //   images={images}
-  //   imageIndex={0}
-  //   isVisible={true}
-  //   renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
-  // />
-
-  //   }
 
   renderOne() {
     const { images } = this.state;
@@ -67,29 +42,29 @@ export default class PostImagesPersonalGroup extends React.Component {
 
           <View style={styles.ImageView} >
             <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
-              <Image             
+              <Image
                 source={{ uri: images[0] }}
-                style={[styles.stretch,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-                onLoad={ () => this.setState({ isImageLoaded: true }) }
-                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+                style={[styles.stretch, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+                onLoad={() => this.setState({ isImageLoaded: true })}
+                onLoadEnd={() => this.setState({ isImageLoaded: false })}
               />
-           <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+              <ActivityIndicator
+                animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+              />
             </TouchableOpacity>
           </View>
 
           :
           <TouchableOpacity style={[styles.imageContent, styles.imageContent1]} onPress={() => { this.setState({ isVisible: true, imageindex: 0 }) }}>
 
-            <Image  source={{ uri: (conditionalRender) ? images[0] : images[0] }} 
-              style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-              onLoad={ () => this.setState({ isImageLoaded: true }) }
-              onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+            <Image source={{ uri: (conditionalRender) ? images[0] : images[0] }}
+              style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+              onLoad={() => this.setState({ isImageLoaded: true })}
+              onLoadEnd={() => this.setState({ isImageLoaded: false })}
             />
-              <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+            <ActivityIndicator
+              animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+            />
           </TouchableOpacity>
         )}
 
@@ -126,24 +101,24 @@ export default class PostImagesPersonalGroup extends React.Component {
 
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
-          <Image  source={{ uri: (conditionalRender) ? images[1] : images[0]  }}  
-          style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-          onLoad={ () => this.setState({ isImageLoaded: true }) }
-          onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-        />
-           <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+          <Image source={{ uri: (conditionalRender) ? images[1] : images[0] }}
+            style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+            onLoad={() => this.setState({ isImageLoaded: true })}
+            onLoadEnd={() => this.setState({ isImageLoaded: false })}
+          />
+          <ActivityIndicator
+            animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+          />
         </TouchableOpacity>
         { (images.length > 2) && <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
-          <Image  source={{ uri: (conditionalRender) ? images[2] : images[1] }}  
-           style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-           onLoad={ () => this.setState({ isImageLoaded: true }) }
-           onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-         />
-     <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+          <Image source={{ uri: (conditionalRender) ? images[2] : images[1] }}
+            style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+            onLoad={() => this.setState({ isImageLoaded: true })}
+            onLoadEnd={() => this.setState({ isImageLoaded: false })}
+          />
+          <ActivityIndicator
+            animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+          />
         </TouchableOpacity>}
 
       </View>
@@ -172,24 +147,24 @@ export default class PostImagesPersonalGroup extends React.Component {
     return (
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index }) }}>
-          <Image  source={{ uri: (conditionalRender) ? images[1] : images[2] }} 
-            style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-            onLoad={ () => this.setState({ isImageLoaded: true }) }
-            onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+          <Image source={{ uri: (conditionalRender) ? images[1] : images[2] }}
+            style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+            onLoad={() => this.setState({ isImageLoaded: true })}
+            onLoadEnd={() => this.setState({ isImageLoaded: false })}
           />
-              <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+          <ActivityIndicator
+            animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+          />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: index1 }) }}>
-          <Image  source={{ uri: (conditionalRender) ? images[2] : images[3] }} 
-        style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-        onLoad={ () => this.setState({ isImageLoaded: true }) }
-        onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-      />
-      <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+          <Image source={{ uri: (conditionalRender) ? images[2] : images[3] }}
+            style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+            onLoad={() => this.setState({ isImageLoaded: true })}
+            onLoadEnd={() => this.setState({ isImageLoaded: false })}
+          />
+          <ActivityIndicator
+            animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+          />
         </TouchableOpacity>
         {overlay}
       </View>
@@ -200,14 +175,14 @@ export default class PostImagesPersonalGroup extends React.Component {
     const { images } = this.state;
     return (
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: images.length - 1 }) }}>
-        <Image  source={{ uri: images[images.length - 1] }}  
-         style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-         onLoad={ () => this.setState({ isImageLoaded: true }) }
-         onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-       />
-      <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+        <Image source={{ uri: images[images.length - 1] }}
+          style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+          onLoad={() => this.setState({ isImageLoaded: true })}
+          onLoadEnd={() => this.setState({ isImageLoaded: false })}
+        />
+        <ActivityIndicator
+          animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+        />
       </TouchableOpacity>
     );
   }
@@ -220,13 +195,13 @@ export default class PostImagesPersonalGroup extends React.Component {
     return (
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => { this.setState({ isVisible: true, imageindex: 4 }) }}>
         <Image source={{ uri: (conditionalRender) ? images[3] : images[4] }}
-          style={[styles.image,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
-          onLoad={ () => this.setState({ isImageLoaded: true }) }
-          onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+          style={[styles.image, { display: (!this.state.isImageLoaded ? 'flex' : 'none') }]}
+          onLoad={() => this.setState({ isImageLoaded: true })}
+          onLoadEnd={() => this.setState({ isImageLoaded: false })}
         />
         <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+          animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+        />
         <View style={styles.overlayContent}>
           <View style={{ width: "100%" }}>
             <Text style={styles.count}>+{extra}</Text>
@@ -356,20 +331,14 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
-    //  resizeMode: 'cover',
   },
   stretch: {
     flex: 1,
-    // justifyContent:'center',
-    // width: '100%',
-    // height: "100%",
     resizeMode: "contain",
     width: 400,
     height: 200,
-    // alignSelf:"center",
 
   },
   overlayCancel: {

@@ -13,20 +13,6 @@ import PublicGroupListScreen from '../screens/PublicGroupScreens/PublicGroupList
 import BackArrow from '../Pictures/BackArrow.png';
 
 
-
-
-// const HeaderLeft = () => {
-//   const navigation = useNavigation();
-//   return (
-//     <View style={{ flexDirection: 'row' }}>
-//       <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-//         <Image style={styles.ImageIconStyle}
-//           source={require('../Pictures/menu.png')} />
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
 const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
 const ExplorePublicGroupTabStackNavigator = () => {
@@ -40,10 +26,6 @@ const ExplorePublicGroupTabStackNavigator = () => {
         inactiveTintColor: colors.TabinactiveTintColor,
 
         style: {
-          // borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-          // borderTopRightRadius: colors.TabStyleTopRightRadius,
-          //  borderTopColor: colors.TabStyleBorderTopColour,
-          //  borderTopWidth: colors.TabStyleborderTopWidth,
           width: colors.TabStylewidth,
           backgroundColor: colors.TabStylebackgroundColor,
           shadowColor: colors.TabStyleShadowColor,
@@ -71,8 +53,7 @@ const ExplorePublicGroupTabStackNavigator = () => {
 
           paddingVertical: colors.TabTabStylepaddingVertical,
           backgroundColor: colors.TabTabStylebackgroundColor,
-          //  borderTopLeftRadius: colors.TabStyleborderTopLeftRadius,
-          //  borderTopRightRadius: colors.TabStyleTopRightRadius,
+
         },
 
       }}>
@@ -161,7 +142,6 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
 
         options={{
           headerShown: false
-          // headerTitle: title!==undefined?title:SearchTitle
         }}
         name='Public Groups List'
         component={withMyHookCategory(PublicGroupListScreen, route.params)}
@@ -177,7 +157,7 @@ const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
           headerTitleStyle: {
             fontSize: 19,
             marginTop: -30,
-            // fontWeight: "200",//colors.TabLabelStylefontWeight,
+
             width: colors.TabLabelStylewidth
           },
           headerLeft: ({ }) => <HeaderLeftCreateaPublicGroup />,
@@ -204,52 +184,6 @@ function withMyHookCategory(Component, title) {
   }
 }
 
-
-//   const CreateaPublicGroupStack = createStackNavigator();
-//   const CreateaPublicGroupStackNavigator= (title)=>{
-
-//     return (
-
-//         <CreateaPublicGroupStack.Navigator   headerMode='float' screenOptions={{ headerLeft:({})=><HeaderLeftCreateaPublicGroup/> ,cardStyle: { backgroundColor: colors.cardStyleCreatePublicGroupBackgroundColor},
-//         cardOverlayEnabled: true,
-//         cardStyleInterpolator: ({ current: { progress } }) => ({
-//           cardStyle: {
-//             opacity: progress.interpolate({
-//               inputRange: [0, 0.5, 0.9, 1],
-//               outputRange: [0, 0.25, 0.7, 1],
-//             }),
-//           },
-//           overlayStyle: {
-//             opacity: progress.interpolate({
-//               inputRange: [0, 1],
-//               outputRange: [0, 0.5],
-//               extrapolate: 'clamp',
-//             }),
-//           },
-//         }),     
-//         headerTitleStyle: {
-
-//           marginTop:-25
-//         },
-//             headerTintColor: colors.StackheaderTintColor,
-//             headerStyle: { backgroundColor: colors.StackheaderCreatePublicStyleBackgroundColor,height:60 },
-//           }} >
-
-// <CreateaPublicGroupStack.Screen 
-
-// options={{
-
-//   headerTitle: "Create a Public Group" }} 
-//   name='Create a Public Group' 
-//   component={withMyHookCategory(CreateaPublicGroupScreen,title)}/>
-
-// {/* //title */}
-
-// </CreateaPublicGroupStack.Navigator>
-
-
-//     );
-//   };
 
 const HeaderLeftCreateaPublicGroup = () => {
   const navigation = useNavigation();
@@ -285,8 +219,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.rootscreenColor,
   }
   , ImageIconStyle: {
-
-    //padding: 10,
     margin: 10,
     height: 30,
     width: 50,

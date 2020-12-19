@@ -55,9 +55,7 @@ export default class UpdateProfileInformation extends Component {
 
     this.state = {
       userName: this.props.route.params.username,
-     // email: this.props.route.params.email,
       Full_Name: this.props.route.params.profile.full_name,
-      // Last_name: '',   
       loading: false,
     };
   }
@@ -89,23 +87,16 @@ export default class UpdateProfileInformation extends Component {
     this.showMode('time');
   };
 
-   cleanup = null;
+  cleanup = null;
 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-      this._openRewarded();
-    // this.cleanup = () => { unsubscribe1; }
+    this._openRewarded();
 
   }
 
-//   componentWillUnmount() {
-// //     if (this.cleanup) this.cleanup();
-// //     this.cleanup = null;
 
-//     this.getPermissionAsync();
-//     this.getCameraPermissionAsync();
-//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -117,14 +108,14 @@ export default class UpdateProfileInformation extends Component {
   };
 
   _openRewarded = async () => {
-		try {
-		 
-		  await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
-		  await AdMobRewarded.showAdAsync()
-		} catch (error) {
-		  console.log(error)
-		} 
-	  }
+    try {
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+
+    }
+  }
   _pickImage = async () => {
     try {
 
@@ -137,18 +128,13 @@ export default class UpdateProfileInformation extends Component {
       });
       if (!result.cancelled) {
 
-        // let imageUri = pickerResult ?     `data:image/jpg;base64,${pickerResult.base64}` : null
-        // this.setState({ photo: result });
         this.setState({ photo: `data:image/jpg;base64,${result.base64}`, ImageFormData: result });
         this.CameraOptions.close();
 
-        //  console.log(result)
-
       }
 
-      // console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -178,9 +164,7 @@ export default class UpdateProfileInformation extends Component {
         this.CameraOptions.close();
       }
 
-      // console.log(result);
     } catch (E) {
-      console.log(E);
     }
 
   };
@@ -193,56 +177,50 @@ export default class UpdateProfileInformation extends Component {
 
     Keyboard.dismiss();
 
-    const { userName,   Full_Name } = this.state
+    const { userName, Full_Name } = this.state
 
-   
 
-    if ( userName &&  Full_Name ) {
-      this.setState({ loading: true,data:'' });
+
+    if (userName && Full_Name) {
+      this.setState({ loading: true, data: '' });
       try {
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
-  
+
         var personInfo = {
           username: userName,
-          full_name: Full_Name,         
+          full_name: Full_Name,
         }
 
         var myHeaders = new Headers();
-        //myHeaders.append("Content-Type", "multipart/form-data");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-      //  myHeaders.append("Accept", "application/json");
 
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(personInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(personInfo),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserinformation`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserinformation`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
           const json = await response.json();
 
-         console.log(json.result)
           Alert.alert(
 
             "Account information updated Successfully",
             "",
             [
-              { text: "Ok", onPress: () => this.props.navigation.push('DrawerScreen',json.result) }
+              { text: "Ok", onPress: () => this.props.navigation.push('DrawerScreen', json.result) }
             ],
             { cancelable: false }
           );
           this.controller.abort()
         }
         else {
-          // let responseJson = await response.text();
-          // console.log(responseJson)
           this.setState({ loading: false });
           let responseJson = await response.json();
           let errorstring = responseJson.error.toString();
@@ -252,7 +230,6 @@ export default class UpdateProfileInformation extends Component {
 
       } catch (err) {
         this.setState({ loading: false });
-        console.log('error signing up: ', err)
         Alert.alert(
 
           "Something went wrong!!",
@@ -271,11 +248,11 @@ export default class UpdateProfileInformation extends Component {
       if (!userName) {
         alert("Please enter an Username");
       }
-     
+
       else if (!Full_Name) {
         alert("Please enter the Full Name");
       }
-     
+
 
     }
 
@@ -284,22 +261,18 @@ export default class UpdateProfileInformation extends Component {
 
   render() {
 
-   
 
-    let {  userName,  email, Full_Name,  } = this.state;
 
-    // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
-    // imageUri && console.log({uri: imageUri.slice(0, 100)});
-
+    let { userName, email, Full_Name, } = this.state;
 
     return (
       <View style={styles.container}>
 
-<Loader isLoading={this.state.loading} />
+        <Loader isLoading={this.state.loading} />
 
         <View style={styles.inputContainer}>
-          {/* <Image style={styles.inputIcon} source={Email_Icon}/> */}
-        
+
+
           <FontAwesome name="users" size={25} style={styles.inputIconUsername} />
           <TextInput style={styles.inputs}
             placeholder="Username"
@@ -309,17 +282,6 @@ export default class UpdateProfileInformation extends Component {
             underlineColorAndroid='transparent'
             onChangeText={(userName) => this.setState({ userName })} />
         </View>
-
-        {/* <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={Email_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Email"
-            value={email}
-            keyboardType="email-address"
-            underlineColorAndroid='transparent'
-            onChangeText={(email) => this.setState({ email })} />
-        </View> */}
-
 
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={person} />
@@ -331,32 +293,9 @@ export default class UpdateProfileInformation extends Component {
             underlineColorAndroid='transparent'
             onChangeText={(Full_Name) => this.setState({ Full_Name })} />
         </View>
-
-
-        {/* <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={person}/>
-          <TextInput style={styles.inputs}
-              placeholder="Last Name"
-              maxLength={15}
-              value={Last_name}
-              keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              onChangeText={(Last_name) => this.setState({Last_name})}/>
-        </View> */}
-
-
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
           <Text style={styles.signUpText}>Update Information</Text>
         </TouchableHighlight>
-
-        
-
-
-       
-
-
-
-
       </View>
     );
   }

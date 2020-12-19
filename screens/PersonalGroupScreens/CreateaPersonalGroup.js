@@ -53,7 +53,7 @@ export default class CreateaPersonalGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+
       photo: null,
       height: 45,
       GroupName: '',
@@ -73,15 +73,15 @@ export default class CreateaPersonalGroup extends Component {
     }
   }
   _openRewarded = async () => {
-		try {
-		 
-		  await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
-		  await AdMobRewarded.showAdAsync()
-		} catch (error) {
-		  console.log(error)
-		} 
-	  }
- 
+    try {
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+
+    }
+  }
+
 
 
 
@@ -91,12 +91,12 @@ export default class CreateaPersonalGroup extends Component {
 
 
 
-    const {   photo, GroupName, GroupBioName } = this.state;
+    const { photo, GroupName, GroupBioName } = this.state;
 
-    if (  GroupName && GroupBioName) {
+    if (GroupName && GroupBioName) {
 
       try {
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true, data: '' });
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -106,10 +106,9 @@ export default class CreateaPersonalGroup extends Component {
           group_Bio: GroupBioName,
           owner_id: userId,
           group_type: "private",
-          admin_id: userId,       
+          admin_id: userId,
           image: photo,
-          GroupCategory_id:userId,
-         // groupCreateddate:new Date()
+          GroupCategory_id: userId,
         }
 
         var myHeaders = new Headers();
@@ -120,11 +119,11 @@ export default class CreateaPersonalGroup extends Component {
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(GroupInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(GroupInfo),
+
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -150,7 +149,7 @@ export default class CreateaPersonalGroup extends Component {
       }
       catch (e) {
         this.setState({ loading: false });
-        console.log('error signing up: ', e)
+
         Alert.alert(
 
           "Something went wrong!!",
@@ -174,22 +173,13 @@ export default class CreateaPersonalGroup extends Component {
     }
 
   }
-  cleanup = null;
+  cleanup = null;
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-  //    this._openRewarded();
-    // this.cleanup = () => { unsubscribe1; }
 
   }
 
-//   componentWillUnmount() {
-//     if (this.cleanup) this.cleanup();
-//     this.cleanup = null;
-
-// this.getPermissionAsync();
-// this.getCameraPermissionAsync();
-//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -215,9 +205,8 @@ export default class CreateaPersonalGroup extends Component {
         this.CameraOptions.close();
       }
 
-      //console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -246,9 +235,9 @@ export default class CreateaPersonalGroup extends Component {
         this.CameraOptions.close();
       }
 
-      //  console.log(result);
+
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -267,12 +256,12 @@ export default class CreateaPersonalGroup extends Component {
 
   render() {
 
-    const {  photo, GroupName, GroupBioName } = this.state;
-   
+    const { photo, GroupName, GroupBioName } = this.state;
+
     return (
 
       <View style={styles.container}>
- <Loader isLoading={this.state.loading} />
+        <Loader isLoading={this.state.loading} />
 
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
           <View style={{ height: 100, padding: 50 }}>
@@ -304,8 +293,6 @@ export default class CreateaPersonalGroup extends Component {
             maxLength={75}
             editable={true}
             value={GroupName}
-            //keyboardType="email-address"
-
             underlineColorAndroid='transparent'
             onChangeText={(GroupName) => this.setState({ GroupName })}
 
@@ -338,7 +325,6 @@ export default class CreateaPersonalGroup extends Component {
               multiline={true}
               editable={true}
               value={GroupBioName}
-              // keyboardType="email-address"
               underlineColorAndroid='transparent'
               onChangeText={(GroupBioName) => this.setState({ GroupBioName })}
 
@@ -352,18 +338,6 @@ export default class CreateaPersonalGroup extends Component {
 
         </View>
 
-
-
-
-
-    
-
-        {/* <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/envelope/androidL/40/3498db'}}/>
-         <PrivacySettingsPickerList/>
-        </View>
-      */}
-      
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
@@ -399,9 +373,9 @@ export default class CreateaPersonalGroup extends Component {
           </View>
         </RBSheet>
 
-        <AdMobBanner style={{alignItems:"center",marginTop:30}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
+        <AdMobBanner style={{ alignItems: "center", marginTop: 30 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          servePersonalizedAds={true}
+          onDidFailToReceiveAdWithError={this.bannerError}
         />
       </View>
 
@@ -419,7 +393,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0E0E6',
     justifyContent: 'center',
     alignItems: 'center',
-paddingTop:170
+    paddingTop: 170
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -430,8 +404,7 @@ paddingTop:170
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-marginTop:30
-    //alignItems:'center'
+    marginTop: 30
   },
   inputs: {
     height: 45,
@@ -487,11 +460,6 @@ marginTop:30
 
   Imagecontainer: {
 
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -502,7 +470,6 @@ marginTop:30
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20
   },

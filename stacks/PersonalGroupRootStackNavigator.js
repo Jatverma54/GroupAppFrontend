@@ -99,7 +99,6 @@ const PersonalGroupRootStackNavigator = () => {
 
 const PersonalGroupBioStack = createStackNavigator();
 const PersonalGroupBioStackNavigator = ({ route }) => {
-  //const { GroupName } = route.params;
 
   return (
     <PersonalGroupBioStack.Navigator headerMode='float' screenOptions={{
@@ -330,7 +329,7 @@ const PersonalGroupFeedScreenkNavigator = ({ route }) => {
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
       headerTitleStyle: {
         fontSize: 18,
-        // fontWeight: "200",//colors.TabLabelStylefontWeight,
+
         width: colors.TabLabelStylewidth
       },
     }}>

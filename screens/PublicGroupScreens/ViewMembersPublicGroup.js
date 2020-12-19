@@ -27,7 +27,7 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
- setTestDeviceIDAsync('EMULATOR')
+setTestDeviceIDAsync('EMULATOR')
 AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class ViewMembersPublicGroup extends Component {
@@ -43,15 +43,15 @@ export default class ViewMembersPublicGroup extends Component {
       isFetching: false,
 
       errorPagination: null,
-      skipPagination:1,
-      loadingPagination:false,
-      disabled:false
+      skipPagination: 1,
+      loadingPagination: false,
+      disabled: false
     };
   }
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'',temp: '',skipPagination:1 });
+    this.setState({ loading: true, data: '', temp: '', skipPagination: 1 });
 
     try {
 
@@ -73,16 +73,16 @@ export default class ViewMembersPublicGroup extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page',  disabled:false, isFetching: false, loading: false });
-      //   console.log("Error ",e)
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
 
     }
@@ -116,16 +116,16 @@ export default class ViewMembersPublicGroup extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/ViewGroupMembers?page_size=14&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
 
-      this.setState({ errorPagination: 'Reload',   disabled:false,isFetching: false, loading: false });
-      //   console.log("Error ",e)
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
 
     }
@@ -137,28 +137,24 @@ export default class ViewMembersPublicGroup extends Component {
 
   _openRewarded = async () => {
     try {
-     
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
-    } 
+
+    }
   }
-  cleanup = null;
+  cleanup = null;
   componentDidMount() {
-     let unsubscribe1 = this.getData();
-     // this._openRewarded();
-     this.cleanup = () => { unsubscribe1; }
+    let unsubscribe1 = this.getData();
+    this.cleanup = () => { unsubscribe1; }
 
   }
 
   componentWillUnmount() {
-    //this.getData();
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
- //   this._unsubscribe;
-  
   }
 
 
@@ -169,55 +165,51 @@ export default class ViewMembersPublicGroup extends Component {
       error: res.error || null,
       loading: false,
       isFetching: false,
-      loadingPagination:false,  disabled:false
+      loadingPagination: false, disabled: false
     });
   }
 
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "", temp: "",skipPagination:1 }, function () { this.getData() });
- 
+    this.setState({ isFetching: true, data: "", temp: "", skipPagination: 1 }, function () { this.getData() });
+
   }
 
 
-  loadmoreData(){
+  loadmoreData() {
 
-    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
   }
-   
-  FooterComponent(){
-  return(
-    
-    this.state.errorPagination != null ?
+
+  FooterComponent() {
+    return (
+
+      this.state.errorPagination != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
-        </View>:
-    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',alignSelf:"center"}}>
-    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-  <Text>Loading...</Text>
-    {/* If you want to image set source here */}
-    {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
-  </View>:null
-  )
+        </View> :
+        this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+
+        </View> : null
+    )
   }
 
 
@@ -237,13 +229,9 @@ export default class ViewMembersPublicGroup extends Component {
             <Text style={styles.msgTxt}>{item.username}</Text>
           </View>
 
-          {(item.admin_id.includes(item._id)) && <View style={{ marginTop: -20, marginLeft: width/1.4 }}>
-            {/* <FontAwesome name="user-secret" size={15} style={{
+          {(item.admin_id.includes(item._id)) && <View style={{ marginTop: -20, marginLeft: width / 1.4 }}>
 
-              color: "#666",
-
-            }} /> */}
-             <Text>Admin</Text>
+            <Text>Admin</Text>
           </View>}
 
 
@@ -262,7 +250,6 @@ export default class ViewMembersPublicGroup extends Component {
 
       placeholder="Type a name or username"
       lightTheme round editable={true}
-      //  containerStyle={{height:35,paddingBottom:40,}}
       containerStyle={{
         borderBottomColor: "#CCCCCC",
         borderBottomWidth: 0.5,
@@ -312,7 +299,7 @@ export default class ViewMembersPublicGroup extends Component {
 
   render() {
 
-   
+
     return (
 
       this.state.error != null ?
@@ -320,14 +307,14 @@ export default class ViewMembersPublicGroup extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
         <View style={{ flex: 1, backgroundColor: 'white', }} >
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
           <FlatList
             ListHeaderComponent={this.renderHeader}
             extraData={this.state}
@@ -337,16 +324,16 @@ export default class ViewMembersPublicGroup extends Component {
               return item._id;
             }}
 
-            ListFooterComponent={()=>this.FooterComponent()}
-             
+            ListFooterComponent={() => this.FooterComponent()}
+
             contentContainerStyle={{ flexGrow: 1 }}
-            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-            onEndReached={() =>{
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
               if (!this.onEndReachedCalledDuringMomentum) {
                 this.loadmoreData();    // LOAD MORE DATA
                 this.onEndReachedCalledDuringMomentum = true;
               }
-            } }
+            }}
             onEndReachedThreshold={0.2}
 
 
@@ -356,10 +343,10 @@ export default class ViewMembersPublicGroup extends Component {
             }
 
             renderItem={this.renderItem} />
-                  <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
         </View>
     );
   }
@@ -369,9 +356,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    //borderColor: '#DCDCDC',
     backgroundColor: 'white',
-    // borderBottomWidth: 1,
     padding: 10,
 
   },

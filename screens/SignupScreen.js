@@ -62,23 +62,22 @@ export default class SignupScreen extends Component {
       confirmPassword: '',
       photo: null,
       Full_Name: '',
-      // Last_name: '',
-      date:  Date.now(),
+      date: Date.now(),
       mode: 'date',
       show: false,
       datechanged: false,
       ImageFormData: null,
       loading: false,
       hidePassword: true,
-      hideConfirmPassword:true
+      hideConfirmPassword: true
     };
   }
 
-  setPasswordVisibility(){
+  setPasswordVisibility() {
     this.setState({ hidePassword: !this.state.hidePassword });
   }
 
-  setConfirmPasswordVisibility(){
+  setConfirmPasswordVisibility() {
     this.setState({ hideConfirmPassword: !this.state.hideConfirmPassword });
   }
 
@@ -114,7 +113,7 @@ export default class SignupScreen extends Component {
     this.PasswordInfoshowAlert();
   }
 
-  PasswordInfoshowAlert(){
+  PasswordInfoshowAlert() {
     Alert.alert(
 
       "Password must contain",
@@ -126,10 +125,6 @@ export default class SignupScreen extends Component {
     );
   }
 
-  // componentWillUnmount() {
-  //   this.getPermissionAsync();
-  //   this.getCameraPermissionAsync();
-  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -152,19 +147,13 @@ export default class SignupScreen extends Component {
         quality: 1,
       });
       if (!result.cancelled) {
-
-        // let imageUri = pickerResult ?     `data:image/jpg;base64,${pickerResult.base64}` : null
-        // this.setState({ photo: result });
         this.setState({ photo: `data:image/jpg;base64,${result.base64}`, ImageFormData: result });
         this.CameraOptions.close();
 
-        //  console.log(result)
-
       }
 
-      // console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -193,10 +182,8 @@ export default class SignupScreen extends Component {
 
         this.CameraOptions.close();
       }
-
-      // console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -213,66 +200,38 @@ export default class SignupScreen extends Component {
 
     let emailValidation = this.EmailValidation(email)
 
-    let underAgeValidate=this.underAgeValidate(date.toString())
+    let underAgeValidate = this.underAgeValidate(date.toString())
 
-    if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password)&&underAgeValidate) {
-      this.setState({ loading: true,data:'' });
+    if (datechanged && password === confirmPassword && userName && password && email && Full_Name && emailValidation && this.PasswordValidation(password) && underAgeValidate) {
+      this.setState({ loading: true, data: '' });
       try {
 
         var personInfo = {
           username: userName,
           password: password,
           email: email,
-
-          // lastName: Last_name,
-          // enabled: true,
-          //  role:"user",
-          //  phoneNumber:"123456789",
-
-          //  profilePic:photo 
           profile: {
             profilePic: photo,
             dob: this.formatDate(date),
             full_name: Full_Name,
-            //  role:"User"
           }
 
         }
 
-        //     var img=''
-        //     if(ImageFormData){
-        //     let  mediaUrl_string = ImageFormData.uri.trim().split("/");
-        // 		let mediaUrl_Length = mediaUrl_string.length - 1;
-        //     let Media_Name = ImageFormData.uri.split("/")[mediaUrl_Length];
-
-        //      img =  {
-        //       uri : ImageFormData.uri,
-        //       name: Media_Name,
-        //       type: mime.getType(ImageFormData.uri)
-        //   }
-        // }
-
-
 
         var myHeaders = new Headers();
-        //myHeaders.append("Content-Type", "multipart/form-data");
         myHeaders.append("Content-Type", "application/json");
 
         myHeaders.append("Accept", "application/json");
 
-        // var formdata = new FormData();
-        // ImageFormData?formdata.append("file", img):formdata.append("file",null);
-        // formdata.append("userDetails", JSON.stringify(personInfo));
-        // console.log(formdata)
-
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(personInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(personInfo),
+
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
 
@@ -290,8 +249,7 @@ export default class SignupScreen extends Component {
           this.controller.abort()
         }
         else {
-          // let responseJson = await response.text();
-          // console.log(responseJson)
+
           this.setState({ loading: false });
           let responseJson = await response.json();
           let errorstring = responseJson.error.toString();
@@ -301,7 +259,6 @@ export default class SignupScreen extends Component {
 
       } catch (err) {
         this.setState({ loading: false });
-        console.log('error signing up: ', err)
         Alert.alert(
 
           "Something went wrong!!",
@@ -329,9 +286,6 @@ export default class SignupScreen extends Component {
       else if (!Full_Name) {
         alert("Please enter the Full Name");
       }
-      // else if(!Last_name){
-      //   alert("Please enter the Last Name");
-      // }
       else if (!datechanged) {
         alert("Please Select the D.O.B");
       } else if (!(password === confirmPassword)) {
@@ -340,9 +294,9 @@ export default class SignupScreen extends Component {
       } else if (!emailValidation) {
         alert("Enter a valid Email Id");
       }
-     else if (!underAgeValidate) {
-      alert("User must be at least 12 years old to have an account");
-    }
+      else if (!underAgeValidate) {
+        alert("User must be at least 12 years old to have an account");
+      }
       else if (!this.PasswordValidation(password)) {
 
 
@@ -364,37 +318,35 @@ export default class SignupScreen extends Component {
   }
 
   EmailValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let match = matchingString.match(pattern);
     return match ? true : false;
 
   }
 
-   underAgeValidate(birthday){
-     
+  underAgeValidate(birthday) {
+
     // it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
     var optimizedBirthday = birthday.replace(/-/g, "/");
-  
+
     //set date based on birthday at 01:00:00 hours GMT+0100 (CET)
     var myBirthday = new Date(optimizedBirthday);
-  
+
     // set current day on 01:00:00 hours GMT+0100 (CET)
-    var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
-  
+    var currentDate = new Date().toJSON().slice(0, 10) + ' 01:00:00';
+
     // calculate age comparing current date and borthday
     var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
-  
-    if(myAge < 12) {
-             return false;
-          }else{
-        return true;
+
+    if (myAge < 12) {
+      return false;
+    } else {
+      return true;
     }
-  
-  } 
+
+  }
 
   PasswordValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
 
     let match = matchingString.match(pattern);
@@ -402,9 +354,6 @@ export default class SignupScreen extends Component {
 
   }
 
-  // let pattern = /@(\w+)/;
-  // let match = matchingString.match(pattern);
-  // return `${match[1]}`;
   formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -422,178 +371,161 @@ export default class SignupScreen extends Component {
 
 
 
-  bannerError=(error)=>{
-    console.log("Error while loading banner"+error)
+  bannerError = (error) => {
+
   }
 
 
 
 
   render() {
-   
+
 
     let { photo, date, show, mode, userName, password, email, Full_Name, confirmPassword, } = this.state;
 
-    // let imageUri = photo ? `data:image/jpg;base64,${photo.base64}` : null;
-    // imageUri && console.log({uri: imageUri.slice(0, 100)});
-
-
     return (
- 
+
       <View style={styles.container}>
- <Loader isLoading={this.state.loading} />
- <ScrollView>
-        <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 10, marginTop: 50,   flex: 3, backgroundColor: "#3498db", marginBottom: 60,width:"100%" }}>
+        <Loader isLoading={this.state.loading} />
+        <ScrollView>
+          <TouchableOpacity onPress={() => this.CameraOptions.open()}>
+            <View style={{ height: 100, padding: 10, marginTop: 50, flex: 3, backgroundColor: "#3498db", marginBottom: 60, width: "100%" }}>
 
-                <Avatar.Image
-                  style={{ alignSelf: "center",  marginHorizontal: 2, borderColor: 'black', borderWidth: 2,  }}
-                  source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
+              <Avatar.Image
+                style={{ alignSelf: "center", marginHorizontal: 2, borderColor: 'black', borderWidth: 2, }}
+                source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
-                <Text style={{ marginLeft:130, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar</Text>
-            
+              <Text style={{ marginLeft: 130, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar</Text>
 
-           
 
+
+
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.inputContainer}>
+
+            <FontAwesome name="users" size={25} style={styles.inputIconUsername} />
+            <TextInput style={styles.inputs}
+              placeholder="Username"
+              maxLength={21}
+              keyboardType="email-address"
+              value={userName}
+              underlineColorAndroid='transparent'
+              onChangeText={(userName) => this.setState({ userName })} />
           </View>
-        </TouchableOpacity>
 
-        <View style={styles.inputContainer}>
-          {/* <Image style={styles.inputIcon} source={Email_Icon}/> */}
-          <FontAwesome name="users" size={25} style={styles.inputIconUsername} />
-          <TextInput style={styles.inputs}
-            placeholder="Username"
-            maxLength={21}
-            keyboardType="email-address"
-            value={userName}
-            underlineColorAndroid='transparent'
-            onChangeText={(userName) => this.setState({ userName })} />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={Email_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Email"
-            value={email}
-            keyboardType="email-address"
-            underlineColorAndroid='transparent'
-            onChangeText={(email) => this.setState({ email })} />
-        </View>
-
-
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={person} />
-          <TextInput style={styles.inputs}
-            placeholder="Full Name"
-            maxLength={15}
-            value={Full_Name}
-            keyboardType="email-address"
-            underlineColorAndroid='transparent'
-            onChangeText={(Full_Name) => this.setState({ Full_Name })} />
-        </View>
-
-
-        {/* <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={person}/>
-          <TextInput style={styles.inputs}
-              placeholder="Last Name"
-              maxLength={15}
-              value={Last_name}
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={Email_Icon} />
+            <TextInput style={styles.inputs}
+              placeholder="Email"
+              value={email}
               keyboardType="email-address"
               underlineColorAndroid='transparent'
-              onChangeText={(Last_name) => this.setState({Last_name})}/>
-        </View> */}
+              onChangeText={(email) => this.setState({ email })} />
+          </View>
 
 
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={person} />
+            <TextInput style={styles.inputs}
+              placeholder="Full Name"
+              maxLength={15}
+              value={Full_Name}
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              onChangeText={(Full_Name) => this.setState({ Full_Name })} />
+          </View>
 
-        <View style={styles.inputContainer}>
+
+          <View style={styles.inputContainer}>
 
 
-          <TouchableOpacity onPress={this.showDatepicker}>
-            <View>
+            <TouchableOpacity onPress={this.showDatepicker}>
+              <View>
 
 
-              <Image style={styles.inputIcon} source={person} />
-              <Text style={{ marginLeft: 60, marginTop: -22, color: 'grey' }}>
-                DOB:
+                <Image style={styles.inputIcon} source={person} />
+                <Text style={{ marginLeft: 60, marginTop: -22, color: 'grey' }}>
+                  DOB:
              <Text style={{ color: 'black' }}>{this.formatDate(date)}</Text>
 
 
-              </Text>
+                </Text>
 
-            </View>
+              </View>
 
-            {show && (
-              <DateTimePicker
-                testID="DOB"
-                value={date}
-                timeZoneOffsetInMinutes={0}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={this.onChange}
-              />
+              {show && (
+                <DateTimePicker
+                  testID="DOB"
+                  value={date}
+                  timeZoneOffsetInMinutes={0}
+                  mode={mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.onChange}
+                />
 
-            )}
+              )}
 
+            </TouchableOpacity>
+
+          </View>
+
+
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={lock_Icon} />
+            <TextInput style={styles.inputs}
+              placeholder="Password"
+              value={password}
+              secureTextEntry={this.state.hidePassword}
+              underlineColorAndroid='transparent'
+              onChangeText={(password) => this.setState({ password })}
+            />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={() => this.setPasswordVisibility()}>
+              {(this.state.hidePassword) ?
+                <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} /> :
+                <MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+
+
+
+            </TouchableOpacity>
+          </View>
+
+
+          <View style={styles.inputContainer}>
+            <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
+            <TextInput style={styles.inputs}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              secureTextEntry={this.state.hideConfirmPassword}
+              underlineColorAndroid='transparent'
+              onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+            />
+            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={() => this.setConfirmPasswordVisibility()}>
+              {(this.state.hideConfirmPassword) ?
+                <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} /> :
+                <MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+
+
+
+            </TouchableOpacity>
+          </View>
+
+          <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
+            <Text style={styles.signUpText}>Sign up</Text>
+          </TouchableHighlight>
+          <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('TermsAndCondition')}   >
+            <Text style={{ width: "100%", marginLeft: 100 }}>By signing in, you agree to the <Text style={{ fontWeight: 'bold', }}>terms and conditions</Text></Text>
           </TouchableOpacity>
 
-        </View>
-
-
-<View style={styles.inputContainer}>
-          <Image style={ styles.inputIcon} source={lock_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Password"
-            value={password}
-            secureTextEntry={this.state.hidePassword}
-            underlineColorAndroid='transparent'
-            onChangeText={(password) => this.setState({ password })}
-          />
-            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
-           {(this.state.hidePassword)?
-            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
-<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
-           
-         
-         
+          <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('LoginScreen')}   >
+            <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Already have an account?Log in</Text>
           </TouchableOpacity>
-        </View>
-  
-
-<View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={lock_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            secureTextEntry={this.state.hideConfirmPassword}
-            underlineColorAndroid='transparent'
-            onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
-          />
-            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setConfirmPasswordVisibility()}>
-           {(this.state.hideConfirmPassword)?
-            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
-<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
-           
-         
-         
-          </TouchableOpacity>
-        </View>
-
-        <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
-          <Text style={styles.signUpText}>Sign up</Text>
-        </TouchableHighlight>
-        <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('TermsAndCondition')}   >
-          <Text style={{  width: "100%", marginLeft: 100 }}>By signing in, you agree to the <Text style={{fontWeight: 'bold',}}>terms and conditions</Text></Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('LoginScreen')}   >
-          <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Already have an account?Log in</Text>
-        </TouchableOpacity>
 
         </ScrollView>
 
-        {/* List Menu */}
+
         <RBSheet
           ref={ref => {
             this.CameraOptions = ref;
@@ -625,15 +557,15 @@ export default class SignupScreen extends Component {
         </RBSheet>
 
 
-       <AdMobBanner style={{flex:1,justifyContent:"flex-end"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
+        <AdMobBanner style={{ flex: 1, justifyContent: "flex-end" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          servePersonalizedAds={true}
+          onDidFailToReceiveAdWithError={this.bannerError}
         />
 
 
 
       </View>
-     
+
     );
   }
 }
@@ -649,7 +581,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3498db',
-    
+
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -733,12 +665,11 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   touachableButton: {
-    //position: 'absolute',
     right: 3,
     height: 40,
     width: 35,
     padding: 2,
-    marginTop:10
+    marginTop: 10
   },
 });
 

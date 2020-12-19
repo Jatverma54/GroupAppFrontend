@@ -13,21 +13,21 @@ import {
 
 
 const TermsAndCondition = ({ navigation }) => {
- 
+
   return (
-   
-      <View style={styles.container}>
-        <ScrollView>
 
-          
+    <View style={styles.container}>
+      <ScrollView>
 
-          <Text style={{fontWeight:'900'}}>Terms
+
+
+        <Text style={{ fontWeight: '900' }}>Terms
        </Text>
 
 
-        </ScrollView>
+      </ScrollView>
 
-      </View>
+    </View>
   );
 
 }
@@ -41,9 +41,6 @@ const TermsAndCondition = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    //backgroundColor: '#3498db',
     marginTop: 10,
     marginLeft: 10
   },

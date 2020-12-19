@@ -117,30 +117,24 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
   }
   _openRewarded = async () => {
     try {
-     
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
-    } 
+
+    }
   }
 
-   cleanup = null;
+  cleanup = null;
 
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-      this._openRewarded();
-     
+    this._openRewarded();
+
 
   }
 
-  // componentWillUnmount() {
-  
-
-  //   this.getPermissionAsync();
-  //   this.getCameraPermissionAsync();
-  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -165,9 +159,8 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         this.CameraOptions.close();
       }
 
-      //console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -179,7 +172,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
     const { Value, selectedGroupCategoryValue, photo, Group_name, Group_Bio } = this.state;
 
     if (selectedGroupCategoryValue && Group_name && Group_Bio) {
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true, data: '' });
       try {
 
         const userData = await AsyncStorage.getItem('userData');
@@ -189,15 +182,9 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         var GroupInfo = {
           GroupName: Group_name,
           group_Bio: Group_Bio,
-          // GroupCategory: selectedGroupCategoryValue,
           privacy: Value ? "Private Group" : "Open Group",
-          //owner_id: userId,
-          // groupMembers:userId,
-           group_type:"public",
-          // admin_id : userId,
+          group_type: "public",
           GroupCategory_id: selectedGroupCategoryValue,
-          // image:photo
-          //  countMembers:1,
           groupid: this.props.route.params._id
         }
 
@@ -209,11 +196,10 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(GroupInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(GroupInfo),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupinformation`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -244,7 +230,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
       }
       catch (e) {
         this.setState({ loading: false });
-        console.log('error Updating group: ', e)
+
         Alert.alert(
 
           "Something went wrong!!",
@@ -292,9 +278,8 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         this.CameraOptions.close();
       }
 
-      //  console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -302,7 +287,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
 
   render() {
 
-   
+
     const { Value, selectedGroupCategoryValue, photo } = this.state;
 
 
@@ -310,7 +295,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
 
       <View style={styles.container}>
 
-<Loader isLoading={this.state.loading} />
+        <Loader isLoading={this.state.loading} />
 
         <View style={styles.inputContainer}>
 
@@ -322,7 +307,6 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
             maxLength={75}
             editable={true}
             onChangeText={(Group_name) => this.setState({ Group_name })}
-            //keyboardType="email-address"
             underlineColorAndroid='transparent'
           />
 
@@ -352,7 +336,6 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
               placeholder="Group Bio"
               multiline={true}
               editable={true}
-              // keyboardType="email-address"
               onChangeText={(Group_Bio) => this.setState({ Group_Bio })}
               underlineColorAndroid='transparent'
               onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
@@ -373,12 +356,6 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
           <Image style={[styles.icon, styles.inputIcon]} source={Category} />
           {this.GroupCategoryPickerList()}
         </View>
-
-        {/* <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/envelope/androidL/40/3498db'}}/>
-         <PrivacySettingsPickerList/>
-        </View>
-      */}
         <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
           <View style={styles.preference}>
             <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
@@ -439,8 +416,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-
-    //alignItems:'center'
   },
   inputs: {
     height: 45,
@@ -495,12 +470,6 @@ const styles = StyleSheet.create({
   },
 
   Imagecontainer: {
-
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -511,7 +480,6 @@ const styles = StyleSheet.create({
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20
   },

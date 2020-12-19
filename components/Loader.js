@@ -34,14 +34,8 @@ class Loader extends Component {
         <View style={styles.modalBackground}>
           <View style={styles.activityIndicatorWrapper}>
             <ActivityIndicator animating={this.state.loading} color="black" />
-<Text>Loading...</Text>
-            {/* If you want to image set source here */}
-            {/* <Image
-              source={require('../Pictures/loading.gif')}
-              style={{ height: 80, width: 80 }}
-              resizeMode="contain"
-              resizeMethod="resize"
-            /> */}
+            <Text>Loading...</Text>
+
           </View>
         </View>
       </Modal>

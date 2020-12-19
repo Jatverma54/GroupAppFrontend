@@ -48,7 +48,7 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
- setTestDeviceIDAsync('EMULATOR')
+setTestDeviceIDAsync('EMULATOR')
 AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class CreateaPublicGroupScreen extends Component {
@@ -57,7 +57,7 @@ export default class CreateaPublicGroupScreen extends Component {
     super(props);
     this.state = {
       Value: false,
-      selectedGroupCategoryValue: this.props.route.params.GroupCategory_id?this.props.route.params.GroupCategory_id:this.props.route.params._id,
+      selectedGroupCategoryValue: this.props.route.params.GroupCategory_id ? this.props.route.params.GroupCategory_id : this.props.route.params._id,
       FirstGroupCategoryValue: this.props.route.params.title,
       photo: null,
       height: 45,
@@ -116,7 +116,7 @@ export default class CreateaPublicGroupScreen extends Component {
         <Picker.Item label="Home Remedies" value="5fd46d4396aedd2228764e3f" />
         <Picker.Item label="New Trend & Style" value="5fd46d4396aedd2228764e40" />
         <Picker.Item label="Spirituality" value="5fd46d4396aedd2228764e41" />
-        <Picker.Item label="Consultation" value="5fd46d4396aedd2228764e42" />              
+        <Picker.Item label="Consultation" value="5fd46d4396aedd2228764e42" />
         <Picker.Item label="Art & Hobbies" value="5fd46d4396aedd2228764e43" />
         <Picker.Item label="Automobile" value="5fd46d4396aedd2228764e44" />
         <Picker.Item label="Others" value="5fd46d4396aedd2228764e45" />
@@ -128,12 +128,12 @@ export default class CreateaPublicGroupScreen extends Component {
 
   _openRewarded = async () => {
     try {
-     
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
-    } 
+
+    }
   }
 
   CreateGroup = async () => {
@@ -147,7 +147,7 @@ export default class CreateaPublicGroupScreen extends Component {
     if (selectedGroupCategoryValue && GroupName && GroupBioName) {
 
       try {
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true, data: '' });
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -155,17 +155,12 @@ export default class CreateaPublicGroupScreen extends Component {
         var GroupInfo = {
           GroupName: GroupName,
           group_Bio: GroupBioName,
-          // GroupCategory: selectedGroupCategoryValue,
           privacy: Value ? "Private Group" : "Open Group",
           owner_id: userId,
-          // groupMembers:userId,
           group_type: "public",
           admin_id: userId,
           GroupCategory_id: selectedGroupCategoryValue,
           image: photo,
-        //  groupCreateddate:new Date()
-          //  countMembers:1,
-
         }
 
         var myHeaders = new Headers();
@@ -176,11 +171,11 @@ export default class CreateaPublicGroupScreen extends Component {
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(GroupInfo), //formdata,
-          //redirect: 'follow'
+          body: JSON.stringify(GroupInfo),
+
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/createNewGroup`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -206,7 +201,6 @@ export default class CreateaPublicGroupScreen extends Component {
       }
       catch (e) {
         this.setState({ loading: false });
-        console.log('error signing up: ', e)
         Alert.alert(
 
           "Something went wrong!!",
@@ -230,23 +224,14 @@ export default class CreateaPublicGroupScreen extends Component {
     }
 
   }
-  cleanup = null;
+  cleanup = null;
   componentDidMount() {
-  
+
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-   //  this._openRewarded();
-   
+
 
   }
-
-//   componentWillUnmount() {
-//     this.getPermissionAsync();
-//     this.getCameraPermissionAsync();
-//      if (this.cleanup) this.cleanup();
-//     this.cleanup = null;
-
-//   }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -271,10 +256,8 @@ export default class CreateaPublicGroupScreen extends Component {
         this.setState({ photo: `data:image/jpg;base64,${result.base64}` });
         this.CameraOptions.close();
       }
-
-      //console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -303,9 +286,9 @@ export default class CreateaPublicGroupScreen extends Component {
         this.CameraOptions.close();
       }
 
-      //  console.log(result);
+
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -325,160 +308,152 @@ export default class CreateaPublicGroupScreen extends Component {
   render() {
 
     const { Value, selectedGroupCategoryValue, photo, GroupName, GroupBioName } = this.state;
-   
+
     return (
-    
-     
- < View style={styles.container}>
-<Loader isLoading={this.state.loading} />
-<ScrollView contentContainerStyle={styles.scrollcontainer}>
-        <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-        <View style={{  padding: 10, marginTop: 50,    backgroundColor: "#B0E0E6", marginBottom: 20,width:"100%" }}>
-
-            
-           
-
-                <Avatar.Image
-                  style={{ alignSelf: "center",  marginHorizontal: 2, borderColor: 'black', borderWidth: 2,  }}
-                  source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
 
-<Text style={{ marginLeft:10, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar  </Text>
-              </View>
-
-          
-          
-        </TouchableOpacity>
-
-        <View style={styles.inputContainer}>
-
-          <Image style={[styles.icon, styles.inputIcon]} source={Group_Name} />
-          <TextInput style={styles.inputs}
-            placeholder="Group Name"
-            multiline={true}
-
-            maxLength={75}
-            editable={true}
-            value={GroupName}
-            //keyboardType="email-address"
-
-            underlineColorAndroid='transparent'
-            onChangeText={(GroupName) => this.setState({ GroupName })}
-
-          />
-
-        </View>
+      < View style={styles.container}>
+        <Loader isLoading={this.state.loading} />
+        <ScrollView contentContainerStyle={styles.scrollcontainer}>
+          <TouchableOpacity onPress={() => this.CameraOptions.open()}>
+            <View style={{ padding: 10, marginTop: 50, backgroundColor: "#B0E0E6", marginBottom: 20, width: "100%" }}>
 
 
 
 
-
-        <View style={{
-          borderBottomColor: '#F5FCFF',
-          backgroundColor: '#FFFFFF',
-          borderRadius: 30,
-          borderBottomWidth: 1,
-          width: 300,
-          height: this.state.height,
-          marginBottom: 19,
-          flexDirection: 'row',
+              <Avatar.Image
+                style={{ alignSelf: "center", marginHorizontal: 2, borderColor: 'black', borderWidth: 2, }}
+                source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
 
-        }}>
+              <Text style={{ marginLeft: 10, fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%", }}>Choose an Avatar  </Text>
+            </View>
 
-          <Image style={[styles.icon, styles.inputIcon]} source={GroupBio} />
 
-          <ScrollView>
+
+          </TouchableOpacity>
+
+          <View style={styles.inputContainer}>
+
+            <Image style={[styles.icon, styles.inputIcon]} source={Group_Name} />
             <TextInput style={styles.inputs}
-              placeholder="Group Bio"
+              placeholder="Group Name"
               multiline={true}
-              editable={true}
-              value={GroupBioName}
-              // keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              onChangeText={(GroupBioName) => this.setState({ GroupBioName })}
 
-              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-              multiline style={{
-                width: '100%', height: this.state.height, marginLeft: 10, fontSize: 16, padding: 10
-              }}
+              maxLength={75}
+              editable={true}
+              value={GroupName}
+              underlineColorAndroid='transparent'
+              onChangeText={(GroupName) => this.setState({ GroupName })}
 
             />
-          </ScrollView>
 
-        </View>
-
+          </View>
 
 
 
 
-        <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={Category} />
-          {this.GroupCategoryPickerList()}
-        </View>
 
-        {/* <View style={styles.inputContainer}>
-          <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/envelope/androidL/40/3498db'}}/>
-         <PrivacySettingsPickerList/>
-        </View>
-      */}
-        <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
-          <View style={styles.preference}>
-    <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
-             
-            <View pointerEvents="none">
-              <Switch value={Value} />
-              
+          <View style={{
+            borderBottomColor: '#F5FCFF',
+            backgroundColor: '#FFFFFF',
+            borderRadius: 30,
+            borderBottomWidth: 1,
+            width: 300,
+            height: this.state.height,
+            marginBottom: 19,
+            flexDirection: 'row',
+
+
+          }}>
+
+            <Image style={[styles.icon, styles.inputIcon]} source={GroupBio} />
+
+            <ScrollView>
+              <TextInput style={styles.inputs}
+                placeholder="Group Bio"
+                multiline={true}
+                editable={true}
+                value={GroupBioName}
+
+                underlineColorAndroid='transparent'
+                onChangeText={(GroupBioName) => this.setState({ GroupBioName })}
+
+                onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+                multiline style={{
+                  width: '100%', height: this.state.height, marginLeft: 10, fontSize: 16, padding: 10
+                }}
+
+              />
+            </ScrollView>
+
+          </View>
+
+
+
+
+
+          <View style={styles.inputContainer}>
+            <Image style={[styles.icon, styles.inputIcon]} source={Category} />
+            {this.GroupCategoryPickerList()}
+          </View>
+          <TouchableRipple onPress={() => this.IsPrivate(!Value)}  >
+            <View style={styles.preference}>
+              <Text style={{ paddingRight: 70, marginTop: 1 }}>Private Group</Text>
+
+              <View pointerEvents="none">
+                <Switch value={Value} />
+
+              </View>
+
             </View>
-          
-          </View>
-         
-        </TouchableRipple>
-        <Text style={{ paddingLeft: 70, marginTop: -20 }}>(Private: Group admin needs to approve the joining request)</Text>
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
-          <Text style={styles.loginText}>Create Group</Text>
-        </TouchableOpacity>
-      
 
-        <RBSheet
-          ref={ref => {
-            this.CameraOptions = ref;
-          }}
-          height={330}
-        >
-          <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Upload Group Avatar</Text>
+          </TouchableRipple>
+          <Text style={{ paddingLeft: 70, marginTop: -20 }}>(Private: Group admin needs to approve the joining request)</Text>
+          <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
+            <Text style={styles.loginText}>Create Group</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
 
-              style={styles.listButton}
-              onPress={() => this._clickImage()}
-            >
-              <MDIcon name="photo-camera" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Take photo</Text>
-            </TouchableOpacity>
+          <RBSheet
+            ref={ref => {
+              this.CameraOptions = ref;
+            }}
+            height={330}
+          >
+            <View style={styles.listContainer}>
+              <Text style={styles.listTitle}>Upload Group Avatar</Text>
 
-            <TouchableOpacity
+              <TouchableOpacity
 
-              style={styles.listButton}
-              onPress={() => this._pickImage()}
-            >
-              <MDIcon name="photo" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Choose image</Text>
-            </TouchableOpacity>
+                style={styles.listButton}
+                onPress={() => this._clickImage()}
+              >
+                <MDIcon name="photo-camera" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Take photo</Text>
+              </TouchableOpacity>
 
-          </View>
-        </RBSheet>
+              <TouchableOpacity
 
-    
+                style={styles.listButton}
+                onPress={() => this._pickImage()}
+              >
+                <MDIcon name="photo" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Choose image</Text>
+              </TouchableOpacity>
+
+            </View>
+          </RBSheet>
+
+
         </ScrollView>
-        <AdMobBanner style={{flex:1,justifyContent:"flex-end"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
+        <AdMobBanner style={{ flex: 1, justifyContent: "flex-end" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          servePersonalizedAds={true}
+          onDidFailToReceiveAdWithError={this.bannerError}
         />
-        </View>
-    
-     
+      </View>
+
+
     );
   }
 }
@@ -507,17 +482,17 @@ const PrivacySettingsPickerList = () => {
 const styles = StyleSheet.create({
 
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#B0E0E6',
-   justifyContent: 'center',
-  alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
 
   },
   scrollcontainer: {
-    
+
     backgroundColor: '#B0E0E6',
-   justifyContent: 'center',
-  alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
 
   },
   inputContainer: {
@@ -530,7 +505,6 @@ const styles = StyleSheet.create({
     marginBottom: 19,
     flexDirection: 'row',
 
-    //alignItems:'center'
   },
   inputs: {
     height: 45,
@@ -538,7 +512,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#FFFFFF',
     flex: 1,
     fontSize: 16,
-   
+
   },
   icon: {
     width: 30,
@@ -557,13 +531,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-   
-    marginTop:30,
-   
+
+    marginTop: 30,
+
   },
   loginButton: {
     backgroundColor: '#3498db',
-    
+
   },
   fabookButton: {
     backgroundColor: "#3b5998",
@@ -590,12 +564,6 @@ const styles = StyleSheet.create({
   },
 
   Imagecontainer: {
-
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -606,10 +574,9 @@ const styles = StyleSheet.create({
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20,
-  
+
   },
 
 

@@ -73,7 +73,8 @@ export default class PublicGroupFeedScreen extends Component {
       loading: false,
       error: null,
       currentUserOnwerId: '',
-      GroupAdmin: '',
+      GroupAdmin: [],
+      NotificationGroupAdmin:[],
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width,
       orientationIsLandscape: false,
@@ -95,42 +96,35 @@ export default class PublicGroupFeedScreen extends Component {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
     let unsubscribe2 = this.DetectOrientation();
     let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-    
+
       // do something
       this.setState({ data: "", skipPagination: 0 })
       this.getData(); // do something
-
-
     });
     this.cleanup = () => { unsubscribe1(); unsubscribe2 }
 
   }
 
   backAction = () => {
-    if(this.props.navigation.isFocused()){
-    Alert.alert("See You Later!", "Do you want to exit from App", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: "YES", onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
-  }else{
-    false;
-  }
+    if (this.props.navigation.isFocused()) {
+      Alert.alert("See You Later!", "Do you want to exit from App", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    } else {
+      false;
+    }
   };
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-    //this._unsubscribe;
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
 
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
   }
 
   getData = async () => {
@@ -156,13 +150,13 @@ export default class PublicGroupFeedScreen extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -191,17 +185,17 @@ export default class PublicGroupFeedScreen extends Component {
         headers: myHeaders,
 
       };
-      console.log(this.state.skipPagination, "Pagination")
+
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPublicJoinedPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -227,8 +221,6 @@ export default class PublicGroupFeedScreen extends Component {
       this.setState({ notificationData: [] })
       this.getNotificationData();
       this.props.route.params.Notification = "";
-    } else {
-      this.setState({ notificationData: [] })
     }
 
 
@@ -265,32 +257,25 @@ export default class PublicGroupFeedScreen extends Component {
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-
-      // var GroupData = {
-
-      // }
-
-
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-        // body: JSON.stringify(GroupData),
+
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setNotificationResult(json.result);
       this.controller.abort()
 
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -384,7 +369,6 @@ export default class PublicGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var LikePost = {
         "PostId": data.item._id,
         "isLiked": data.item.isLiked
@@ -401,7 +385,6 @@ export default class PublicGroupFeedScreen extends Component {
 
       if (response.ok) {
 
-        //  this.setState({search:''});  this.setState({data:'',temp:''});  
         this.controller.abort()
       }
       else {
@@ -417,7 +400,7 @@ export default class PublicGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -519,7 +502,7 @@ export default class PublicGroupFeedScreen extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deletearray(item) }
@@ -541,8 +524,6 @@ export default class PublicGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
       var requestOptions = {
         method: 'DELETE',
@@ -586,7 +567,7 @@ export default class PublicGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -600,7 +581,7 @@ export default class PublicGroupFeedScreen extends Component {
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
+
       this.controller.abort()
     }
 
@@ -609,7 +590,7 @@ export default class PublicGroupFeedScreen extends Component {
 
   deletePostandUserfromGroup(item) {
 
-    if (this.props.route.params.groupId.owner_id.includes(item.OnwerId)) {
+    if (item.GroupOwnerId.includes(item.OnwerId)) {
 
       alert("Group owner cannot be deleted from the group");
 
@@ -620,7 +601,7 @@ export default class PublicGroupFeedScreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
           { text: "Yes", onPress: () => this.deletePostandUserfromGrouparray(item) }
@@ -636,7 +617,7 @@ export default class PublicGroupFeedScreen extends Component {
     try {
       this.AdminOptions.close();
       this.setState({ loading: true, data: '' });
-      //console.log(item.id, "first ")
+
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 
 
@@ -647,9 +628,8 @@ export default class PublicGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var RemoveUser = {
-        "groupid": item.GroupId,
+        "groupid": item.GroupId!==undefined?item.GroupId:item.Groupid,
         "userId": item.OnwerId,
         "isAdmin": isAdmin,
         "postId": item._id
@@ -692,7 +672,7 @@ export default class PublicGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -710,29 +690,24 @@ export default class PublicGroupFeedScreen extends Component {
       this.controller.abort()
     }
 
-    //console.log(item._id, "first ")
-
-
-
-    // console.log(this.state.data,"updated")
   }
 
 
   handleUrlPress(url) {
-    //console.log(`url: ${url} has been pressed!`);
+
     Linking.openURL(url);
   }
 
   handlePhonePress(phone) {
-    //  console.log(`phone ${phone} has been pressed!`);
+
   }
 
   handleNamePress(name) {
-    //  console.log(`Hello ${name}`);
+
   }
 
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
+
     Linking.openURL("mailto:" + email);
   }
 
@@ -761,11 +736,11 @@ export default class PublicGroupFeedScreen extends Component {
         if (!supported) {
           alert("File type is not supported")
         } else {
-          //  console.log("Supported!")
+
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.log('An error occurred', err));
+      .catch((err) => null);
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -815,13 +790,6 @@ export default class PublicGroupFeedScreen extends Component {
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
         </View> : null
     )
   }
@@ -830,7 +798,7 @@ export default class PublicGroupFeedScreen extends Component {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
@@ -861,6 +829,7 @@ export default class PublicGroupFeedScreen extends Component {
 
 
   ListHeaderComponent() {
+  
     return (
 
       this.state.notificationData.length !== 0 ?
@@ -881,7 +850,6 @@ export default class PublicGroupFeedScreen extends Component {
 
 
             renderItem={(post) => {
-              //  const post.item = post.item;
 
               return (
 
@@ -917,11 +885,11 @@ export default class PublicGroupFeedScreen extends Component {
                         <Text style={styles.time}>{moment(post.item.createdAt).fromNow()}</Text>
                       </View>
                     </View>
-
+                    
 
                     {(post.item.GroupAdmin.includes(post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
 
-                      <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ GroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
+                      <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ NotificationGroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
 
                         <FontAwesome
                           name="ellipsis-v"
@@ -929,10 +897,7 @@ export default class PublicGroupFeedScreen extends Component {
                           style={{ height: 20, width: 20 }}
                         />
 
-                        {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                       </TouchableOpacity>}
-
-
                   </View>
 
                   <View style={styles.cardContent}>
@@ -1037,45 +1002,11 @@ export default class PublicGroupFeedScreen extends Component {
                               <MaterialCommunityIcons
                                 name="file-document"
                                 size={70}
-                              // style={styles.DocumentIcon} 
                               />
                             </TouchableHighlight>
 
                             <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                            {/* {this.state.isDocumentVisible===true&&
-  
-  <Modal>
-  
-  <View style={{height:height,width:width,flex:1}}>
-  */}
-
-                            {/* <PDFReader style={{height:height,width:width}} 
-  source={{
-  uri: this.state.OpenDucumentUri,
-  
-  }}    /> */}
-
-
-                            {/* <TouchableHighlight
-  style={styles.overlayCancel}
-  onPress={()=>{this.setState({isDocumentVisible: false})}}>
-  
-    <MaterialCommunityIcons
-      name="close"                
-      size={27}
-     style={styles.cancelIcon} 
-    />
-  
-  
-  </TouchableHighlight>
-  </View>
-  
-  </Modal> */}
-
-
-                            {/* }    */}
                             <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                           </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -1089,13 +1020,8 @@ export default class PublicGroupFeedScreen extends Component {
 
                       <View style={styles.socialBarSection}>
 
-
-                        {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                         <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
 
-                          {/* <Image style={styles.icon} source={Like}/> */}
                           {post.item.isLiked ?
                             <AntDesign
                               name="like1"
@@ -1143,7 +1069,7 @@ export default class PublicGroupFeedScreen extends Component {
               )
             }} />
 
-          <RBSheet
+          {/* <RBSheet
             ref={ref => {
               this.AdminOptions = ref;
             }}
@@ -1154,7 +1080,7 @@ export default class PublicGroupFeedScreen extends Component {
 
               <Text style={styles.listTitleNewPost}>Admin Options</Text>
 
-              {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
+              {(this.state.NotificationGroupAdmin.includes(this.state.currentUserOnwerId)) ?
                 <View>
                   <TouchableOpacity
 
@@ -1192,7 +1118,7 @@ export default class PublicGroupFeedScreen extends Component {
 
 
             </View>
-          </RBSheet>
+          </RBSheet> */}
 
 
           <Text style={{ fontWeight: "bold", backgroundColor: "#E6E6E6", }}>Group Activities</Text>
@@ -1205,7 +1131,7 @@ export default class PublicGroupFeedScreen extends Component {
   }
 
   bannerError = (error) => {
-    console.log("Error while loading banner" + error)
+
   }
 
   render() {
@@ -1213,7 +1139,7 @@ export default class PublicGroupFeedScreen extends Component {
     const { orientationIsLandscape } = this.state;
     try {
 
-
+      
 
       return (
 
@@ -1264,8 +1190,7 @@ export default class PublicGroupFeedScreen extends Component {
               ListEmptyComponent={this.renderEmpty()}
 
               renderItem={(post) => {
-                //  const post.item = post.item;
-
+            
                 return (
 
                   <View style={styles.card}>
@@ -1299,7 +1224,7 @@ export default class PublicGroupFeedScreen extends Component {
                       </View>
 
 
-                      {(post.item.GroupAdmin.includes(post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
+                      {(post.item.GroupAdmin.find(a=>a._id===post.item.currentUser) || post.item.OnwerId === post.item.currentUser) &&
 
                         <TouchableOpacity onPress={() => { this.AdminOptions.open(); this.setState({ GroupAdmin: post.item.GroupAdmin, currentUserOnwerId: post.item.currentUser, AdminTab: post, PostUsertitle: post.item.OnwerName.length > 15 ? post.item.OnwerName.toString().substring(0, 15) + ".." : post.item.OnwerName }) }}>
 
@@ -1309,7 +1234,6 @@ export default class PublicGroupFeedScreen extends Component {
                             style={{ height: 20, width: 20 }}
                           />
 
-                          {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                         </TouchableOpacity>}
 
 
@@ -1417,45 +1341,11 @@ export default class PublicGroupFeedScreen extends Component {
                                 <MaterialCommunityIcons
                                   name="file-document"
                                   size={70}
-                                // style={styles.DocumentIcon} 
                                 />
                               </TouchableHighlight>
 
                               <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                              {/* {this.state.isDocumentVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-       */}
-
-                              {/* <PDFReader style={{height:height,width:width}} 
-        source={{
-          uri: this.state.OpenDucumentUri,
-
-        }}    /> */}
-
-
-                              {/* <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isDocumentVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={27}
-             style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal> */}
-
-
-                              {/* }    */}
                               <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                             </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -1469,13 +1359,8 @@ export default class PublicGroupFeedScreen extends Component {
 
                         <View style={styles.socialBarSection}>
 
-
-                          {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                           <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
 
-                            {/* <Image style={styles.icon} source={Like}/> */}
                             {post.item.isLiked ?
                               <AntDesign
                                 name="like1"
@@ -1522,10 +1407,7 @@ export default class PublicGroupFeedScreen extends Component {
 
                 )
               }} />
-            {/* <AdMobBanner  style={{alignItems:"center"}}   bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        /> */}
+
             <RBSheet
               ref={ref => {
                 this.AdminOptions = ref;
@@ -1537,7 +1419,7 @@ export default class PublicGroupFeedScreen extends Component {
 
                 <Text style={styles.listTitleNewPost}>Admin Options</Text>
 
-                {(this.state.GroupAdmin.includes(this.state.currentUserOnwerId)) ?
+                {(this.state.GroupAdmin.find(a=>a._id===this.state.currentUserOnwerId)||this.state.NotificationGroupAdmin.includes(this.state.currentUserOnwerId)) ?
                   <View>
                     <TouchableOpacity
 
@@ -1573,21 +1455,11 @@ export default class PublicGroupFeedScreen extends Component {
               </View>
             </RBSheet>
 
-            {/* {this.state.data.length === 0 &&
-            <View style={{ flex: 1,  backgroundColor: "#E6E6E6",}}>
-              <Image source={NoGroups} style={{
-                alignSelf: "center", alignItems: "center", width: 53,
-                height: 53,
-                borderRadius: 25,
-              }} />
-              <Text style={{ marginLeft: 100, color: "grey", fontWeight: "bold" }}>No Posts to show.{'\n'}Public group posts will be visible here.</Text>
-            </View>} */}
-
           </View>
 
       );
     } catch (e) {
-      console.log(e);
+
     }
   }
 }
@@ -1599,7 +1471,6 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop:5,
   },
   list: {
     paddingHorizontal: 4,
@@ -1643,7 +1514,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: -5,
-    paddingBottom: 15,//15
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -1700,8 +1571,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignSelf: "center",
-    marginTop: 10,//50
-    // marginLeft:-60
+    marginTop: 10,
   },
 
   socialBarSection: {
@@ -1710,8 +1580,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     flex: 1,
-    // marginLeft:-70,
-
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -1728,9 +1596,6 @@ const styles = StyleSheet.create({
   bodyContent: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainer: {
     marginTop: 10,
@@ -1748,9 +1613,6 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -1768,14 +1630,10 @@ const styles = StyleSheet.create({
   bodyContentShare: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
     height: 45,
-    // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -1786,13 +1644,10 @@ const styles = StyleSheet.create({
 
   },
   ImageView: {
-
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
     resizeMode: "cover",
-    //  resizeMode: "stretch",
   },
   overlayCancel: {
     padding: 20,
@@ -1806,7 +1661,6 @@ const styles = StyleSheet.create({
 
   },
   stretch: {
-    // flex:1,
     width: width,
     height: height / 3,
     resizeMode: "contain",
@@ -1818,19 +1672,11 @@ const styles = StyleSheet.create({
 
   GroupName: {
     fontSize: 13,
-    // fontWeight:'bold',
-    //flex:1,
     marginLeft: 60,
     marginTop: 2,
-    //width:"70%",
-    // flexDirection:"row",
-    // flexWrap:'wrap',
     color: "#808080",
     fontWeight: "900",
     flexDirection: "row",
-    //  alignItems: 'center',
-    //  height: 50,
-    // paddingHorizontal: 10,
     width: width - 30 - 20 - 70,
 
   },

@@ -55,7 +55,7 @@ const PublicGroupFeedStackNavigator = () => {
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
       headerTitleStyle: {
         fontSize: 18,
-        // fontWeight: "200",//colors.TabLabelStylefontWeight,
+
         width: colors.TabLabelStylewidth
       },
     }}>
@@ -118,7 +118,6 @@ const LikeStackNavigator = ({ route }) => {
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
       headerTitleStyle: {
         fontSize: 18,
-        // fontWeight: "200",//colors.TabLabelStylefontWeight,
         width: colors.TabLabelStylewidth
       },
     }}>
@@ -170,7 +169,6 @@ function CommentStackNavigator({ route }) {
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
       headerTitleStyle: {
         fontSize: 18,
-        // fontWeight: "200",//colors.TabLabelStylefontWeight,
         width: colors.TabLabelStylewidth
       },
     }}>

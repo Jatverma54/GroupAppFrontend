@@ -91,42 +91,29 @@ export default class PersonalGroupFeedScreen extends Component {
   cleanup = null;
   componentDidMount() {
 
-   this.DetectOrientation();
- 
-   let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
+    this.DetectOrientation();
 
-    // do something
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+
+      // do something
       this.setState({ data: "", skipPagination: 0 })
-          this.getData(); // do something
-
-  
+      this.getData(); // do something
 
 
-     });
-      this.cleanup = () => { unsubscribe1();  }
+
+
+    });
+    this.cleanup = () => { unsubscribe1(); }
   }
 
   componentWillUnmount() {
 
-    //  this._unsubscribe;
-    //  this._unsubscribe2;
-    // this.state;
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
-
-    
-    //  this._unsubscribe3;
-    // this.props.navigation.removeListener('focus', () => {
-
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
-
-
   }
 
   bannerError = (error) => {
-    console.log("Error while loading banner" + error)
+
   }
 
 
@@ -163,7 +150,7 @@ export default class PersonalGroupFeedScreen extends Component {
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -197,14 +184,14 @@ export default class PersonalGroupFeedScreen extends Component {
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
 
       this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
 
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -249,31 +236,22 @@ export default class PersonalGroupFeedScreen extends Component {
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-
-      // var GroupData = {
-
-      // }
-
-
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-        // body: JSON.stringify(GroupData),
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllPostofGroup/` + PostId, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
       this.setNotificationResult(json.result);
       this.controller.abort()
     } catch (e) {
 
       this.setState({ error: 'Reload the Page', isFetching: false, loading: false });
-      console.log("Error ", e)
+
       this.controller.abort()
     }
 
@@ -374,7 +352,6 @@ export default class PersonalGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var LikePost = {
         "PostId": data.item._id,
         "isLiked": data.item.isLiked
@@ -391,7 +368,6 @@ export default class PersonalGroupFeedScreen extends Component {
 
       if (response.ok) {
 
-        //  this.setState({search:''});  this.setState({data:'',temp:''});  
         this.controller.abort()
       }
       else {
@@ -407,7 +383,7 @@ export default class PersonalGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -496,7 +472,6 @@ export default class PersonalGroupFeedScreen extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        {/* {this.state.data.length === 0 && <View style={{ alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 270 }}><Text style={{ alignSelf: "center", color: "grey", fontWeight: "bold",width:"100%",marginLeft:width/0.74 }} >No Posts to Show</Text></View>} */}
       </View>
     );
 
@@ -580,7 +555,7 @@ export default class PersonalGroupFeedScreen extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deletearray(item) }
@@ -602,9 +577,6 @@ export default class PersonalGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
       var requestOptions = {
         method: 'DELETE',
         headers: myHeaders,
@@ -647,7 +619,7 @@ export default class PersonalGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -661,7 +633,7 @@ export default class PersonalGroupFeedScreen extends Component {
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
+
       this.controller.abort()
     }
 
@@ -681,7 +653,7 @@ export default class PersonalGroupFeedScreen extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
+            onPress: () => null,
             style: "cancel"
           },
           { text: "Yes", onPress: () => this.deletePostandUserfromGrouparray(item) }
@@ -697,7 +669,7 @@ export default class PersonalGroupFeedScreen extends Component {
     try {
       this.AdminOptions.close();
       this.setState({ loading: true, data: '' });
-      //console.log(item.id, "first ")
+
       var isAdmin = item.GroupAdmin.includes(item.OnwerId) ? true : false;
 
 
@@ -708,9 +680,8 @@ export default class PersonalGroupFeedScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var RemoveUser = {
-        "groupid": item.GroupId,
+        "groupid": item.GroupId!==undefined?item.GroupId:item.Groupid,
         "userId": item.OnwerId,
         "isAdmin": isAdmin,
         "postId": item._id
@@ -753,7 +724,7 @@ export default class PersonalGroupFeedScreen extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -770,30 +741,24 @@ export default class PersonalGroupFeedScreen extends Component {
       );
       this.controller.abort()
     }
-
-    //console.log(item._id, "first ")
-
-
-
-    // console.log(this.state.data,"updated")
   }
 
 
   handleUrlPress(url) {
-    //console.log(`url: ${url} has been pressed!`);
+
     Linking.openURL(url);
   }
 
   handlePhonePress(phone) {
-    //  console.log(`phone ${phone} has been pressed!`);
+
   }
 
   handleNamePress(name) {
-    //  console.log(`Hello ${name}`);
+
   }
 
   handleEmailPress(email) {
-    console.log(`send email to ${email}`);
+
     Linking.openURL("mailto:" + email);
   }
 
@@ -841,13 +806,7 @@ export default class PersonalGroupFeedScreen extends Component {
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
+
         </View> : null
     )
   }
@@ -859,11 +818,11 @@ export default class PersonalGroupFeedScreen extends Component {
         if (!supported) {
           alert("File type is not supported")
         } else {
-          //  console.log("Supported!")
+
           return Linking.openURL(url);
         }
       })
-      .catch((err) => console.log('An error occurred', err));
+      .catch((err) => null);
   };
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
@@ -894,7 +853,7 @@ export default class PersonalGroupFeedScreen extends Component {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
       if (playbackStatus.error) {
-        console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+
         // Send Expo team the error on Slack or the forums so we can help you debug!
       }
     } else {
@@ -967,7 +926,6 @@ export default class PersonalGroupFeedScreen extends Component {
                     return item._id;
                   }}
                   renderItem={(post) => {
-                    //  const post.item = post.item;
 
                     return (
 
@@ -998,7 +956,6 @@ export default class PersonalGroupFeedScreen extends Component {
                                 style={{ height: 20, width: 20 }}
                               />
 
-                              {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                             </TouchableOpacity>}
 
 
@@ -1105,45 +1062,12 @@ export default class PersonalGroupFeedScreen extends Component {
                                     <MaterialCommunityIcons
                                       name="file-document"
                                       size={70}
-                                    // style={styles.DocumentIcon} 
+
                                     />
                                   </TouchableHighlight>
 
                                   <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                                  {/* {this.state.isDocumentVisible===true&&
-
-<Modal>
-
-<View style={{height:height,width:width,flex:1}}>
-*/}
-
-                                  {/* <PDFReader style={{height:height,width:width}} 
-source={{
-uri: this.state.OpenDucumentUri,
-
-}}    /> */}
-
-
-                                  {/* <TouchableHighlight
-style={styles.overlayCancel}
-onPress={()=>{this.setState({isDocumentVisible: false})}}>
-
-  <MaterialCommunityIcons
-    name="close"                
-    size={27}
-   style={styles.cancelIcon} 
-  />
-
-
-</TouchableHighlight>
-</View>
-
-</Modal> */}
-
-
-                                  {/* }    */}
                                   <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                                 </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -1157,13 +1081,8 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
                             <View style={styles.socialBarSection}>
 
-
-                              {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                               <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
 
-                                {/* <Image style={styles.icon} source={Like}/> */}
                                 {post.item.isLiked ?
                                   <AntDesign
                                     name="like1"
@@ -1303,7 +1222,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
               ListEmptyComponent={this.renderEmpty()}
               renderItem={(post) => {
-                //  const post.item = post.item;
 
                 return (
 
@@ -1334,7 +1252,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                             style={{ height: 20, width: 20 }}
                           />
 
-                          {/* <Image style={{height:20,width:20}} source={Close_icon} /> */}
                         </TouchableOpacity>}
 
 
@@ -1443,45 +1360,11 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                                 <MaterialCommunityIcons
                                   name="file-document"
                                   size={70}
-                                // style={styles.DocumentIcon} 
                                 />
                               </TouchableHighlight>
 
                               <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                              {/* {this.state.isDocumentVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-       */}
-
-                              {/* <PDFReader style={{height:height,width:width}} 
-        source={{
-          uri: this.state.OpenDucumentUri,
-
-        }}    /> */}
-
-
-                              {/* <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isDocumentVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={27}
-             style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal> */}
-
-
-                              {/* }    */}
                               <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />
 
                             </View>) : <Divider style={{ height: 0.5, marginTop: 10, marginLeft: 20, width: "90%", backgroundColor: "grey" }} />)}
@@ -1495,13 +1378,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
                         <View style={styles.socialBarSection}>
 
-
-                          {/* <Button style={{ marginLeft:-40}} color="black" onPress={()=>this.props.navigation.push("Likes")} >View</Button> */}
-
-
                           <TouchableOpacity style={styles.socialBarButton} onPress={() => this.Likes(post)}>
-
-                            {/* <Image style={styles.icon} source={Like}/> */}
                             {post.item.isLiked ?
                               <AntDesign
                                 name="like1"
@@ -1519,8 +1396,6 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
                             <Text style={{ marginRight: 40, marginLeft: 5, color: "grey" }}>{(parseInt(post.item.countLikes) === 0) ? "" : post.item.countLikes} {(parseInt(post.item.countLikes) > 1) ? "Likes" : "Like"}</Text>
                           </TouchableOpacity>
                         </View>
-
-
 
                         <View style={styles.socialBarSection}>
 
@@ -1613,7 +1488,7 @@ onPress={()=>{this.setState({isDocumentVisible: false})}}>
 
       );
     } catch (e) {
-      console.log(e);
+
     }
   }
 }
@@ -1625,7 +1500,6 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop:5,
   },
   list: {
     paddingHorizontal: 4,
@@ -1669,7 +1543,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: -5,
-    paddingBottom: 15,//15
+    paddingBottom: 15,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
@@ -1726,8 +1600,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignSelf: "center",
-    marginTop: 10,//50
-    // marginLeft:-60
+    marginTop: 10,
   },
 
   socialBarSection: {
@@ -1736,8 +1609,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     flex: 1,
-    // marginLeft:-70,
-
   },
   socialBarlabel: {
     marginLeft: 8,
@@ -1754,9 +1625,6 @@ const styles = StyleSheet.create({
   bodyContent: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainer: {
     marginTop: 10,
@@ -1774,9 +1642,6 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -1794,14 +1659,10 @@ const styles = StyleSheet.create({
   bodyContentShare: {
     flex: 1,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
     height: 45,
-    // marginLeft:width/2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -1814,11 +1675,10 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
     resizeMode: "cover",
-    //  resizeMode: "stretch",
+
   },
   overlayCancel: {
     padding: 20,
@@ -1832,7 +1692,6 @@ const styles = StyleSheet.create({
 
   },
   stretch: {
-    // flex:1,
     width: width,
     height: height / 3,
     resizeMode: "contain",

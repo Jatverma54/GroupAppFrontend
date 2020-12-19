@@ -36,21 +36,17 @@ export default class ForgotPassword extends Component {
     }
   }
 
-  // authenticateEmail(){
-  //   this.props.navigation.navigate('ConfirmYourIdentity',this.state.Email)
-  // }
-  
+
   EmailValidation(matchingString) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let match = matchingString.match(pattern);
     return match ? true : false;
 
   }
 
-  bannerError=(error)=>{
-		console.log("Error while loading banner"+error)
-	  }
+  bannerError = (error) => {
+
+  }
 
 
   authenticateEmail = async () => {
@@ -58,62 +54,73 @@ export default class ForgotPassword extends Component {
 
     const { Email } = this.state
 
-    if (Email ) {
+    if (Email) {
 
       let emailValidation = this.EmailValidation(Email)
 
-      if(emailValidation){
+      if (emailValidation) {
 
-      this.setState({ loading: true,data:'' });
-      try {
+        this.setState({ loading: true, data: '' });
+        try {
 
-        var EmailInfo = {
-          "Email": Email,
-        
-        }
+          var EmailInfo = {
+            "Email": Email,
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+          }
 
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(EmailInfo)
 
-        var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: JSON.stringify(EmailInfo)
+          };
 
-        };
+          const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateEmail`, requestOptions
+            , { signal: this.controller.signal }
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/ForgetPassword/AuthenticateEmail`, requestOptions
-,{signal: this.controller.signal}
-
-        );
-
-
-        if (response.ok) {
-          this.setState({ loading: false });
-          const json = await response.json();
-
-          Alert.alert(
-
-            "Confirmation code sent successfully",
-            "",
-            [
-              { text: "Ok", onPress: () =>  this.props.navigation.navigate('ConfirmYourIdentity',json.result)}
-            ],
-            { cancelable: false }
           );
-         
-          this.controller.abort()
 
-        }
-        else {
 
+          if (response.ok) {
+            this.setState({ loading: false });
+            const json = await response.json();
+
+            Alert.alert(
+
+              "Confirmation code sent successfully",
+              "",
+              [
+                { text: "Ok", onPress: () => this.props.navigation.navigate('ConfirmYourIdentity', json.result) }
+              ],
+              { cancelable: false }
+            );
+
+            this.controller.abort()
+
+          }
+          else {
+
+            this.setState({ loading: false });
+            Alert.alert(
+
+              "Please verify your email",
+              "User with Email id " + Email + " does not exist",
+              [
+                { text: "Ok", onPress: () => null }
+              ],
+              { cancelable: false }
+            );
+            this.controller.abort()
+          }
+
+        } catch (err) {
           this.setState({ loading: false });
           Alert.alert(
 
-            "Please verify your email",
-            "User with Email id "+Email+" does not exist",
+            "Something went wrong!!",
+            "Please try again",
             [
               { text: "Ok", onPress: () => null }
             ],
@@ -121,31 +128,14 @@ export default class ForgotPassword extends Component {
           );
           this.controller.abort()
 
-          //  console.log(responseJson);
         }
-
-      } catch (err) {
-        this.setState({ loading: false });
-        console.log('error signing up: ', err)
-        Alert.alert(
-
-          "Something went wrong!!",
-          "Please try again",
-          [
-            { text: "Ok", onPress: () => null }
-          ],
-          { cancelable: false }
-        );
-        this.controller.abort()
-
+      } else {
+        alert("Please enter a valid email id");
       }
-    }else{
-      alert("Please enter a valid email id");
-    }
     } else {
-     
-        alert("Please enter an email id");
-        
+
+      alert("Please enter an email id");
+
 
     }
 
@@ -160,40 +150,38 @@ export default class ForgotPassword extends Component {
 
       <View style={styles.container}>
 
-<Loader isLoading={this.state.loading} />
-<View style={{justifyContent:"flex-start",flex:1}} >
-        <AdMobBanner style={{marginBottom:70}} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-       
-        <View style={styles.inputContainer}>
-
-          <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
-          <TextInput style={styles.inputs}
-            placeholder="Email"
-            multiline={true}
-            //  value={this.state.Email}
-            maxLength={75}
-            editable={true}
-            onChangeText={(Email) => this.setState({ Email })}
-            //keyboardType="email-address"
-            underlineColorAndroid='transparent'
+        <Loader isLoading={this.state.loading} />
+        <View style={{ justifyContent: "flex-start", flex: 1 }} >
+          <AdMobBanner style={{ marginBottom: 70 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
           />
 
+          <View style={styles.inputContainer}>
+
+            <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
+            <TextInput style={styles.inputs}
+              placeholder="Email"
+              multiline={true}
+              maxLength={75}
+              editable={true}
+              onChangeText={(Email) => this.setState({ Email })}
+              underlineColorAndroid='transparent'
+            />
+
+          </View>
+
+
+          <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.authenticateEmail()}>
+            <Text style={styles.loginText}>Send confirmation code in email</Text>
+          </TouchableOpacity>
+
+
+
+
+
+
         </View>
-
-
-        <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={()=>this.authenticateEmail()}>
-          <Text style={styles.loginText}>Send confirmation code in email</Text>
-        </TouchableOpacity>
-
-
-        
-
-
-
-      </View>
       </View>
     );
   }
@@ -221,8 +209,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 19,
     flexDirection: 'row',
-
-    //alignItems:'center'
   },
   inputs: {
     height: 45,
@@ -248,7 +234,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-marginLeft:30
+    marginLeft: 30
   },
   loginButton: {
     backgroundColor: '#3498db',
@@ -278,12 +264,6 @@ marginLeft:30
   },
 
   Imagecontainer: {
-
-    // flex:2,
-
-    // height: 20,
-    //alignItems: 'center', 
-
     resizeMode: 'contain',
     height: 200,
     width: 200,
@@ -294,7 +274,6 @@ marginLeft:30
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //  paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 20
   },

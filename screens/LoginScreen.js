@@ -15,10 +15,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   BackHandler
- 
+
 } from 'react-native';
-// import Facebook_login_Icon from '../Pictures/Facebook_Login_Button.png';
-// import GooglePlus_login_Icon from '../Pictures/Google_Plus.png';
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
@@ -34,9 +32,8 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
- //AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
- setTestDeviceIDAsync('EMULATOR')
-//AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+setTestDeviceIDAsync('EMULATOR')
+
 
 
 
@@ -51,56 +48,39 @@ export default class LoginScreen extends Component {
       loading: false,
       hidePassword: true,
 
-   
+
     };
   }
 
   backAction = () => {
-    if(this.props.navigation.isFocused()){
-    Alert.alert("See You Later!", "Do you want to exit from App", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: "YES", onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
-  }else{
-    false;
-  }
+    if (this.props.navigation.isFocused()) {
+      Alert.alert("See You Later!", "Do you want to exit from App", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    } else {
+      false;
+    }
   };
 
-  
+
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
-   // this._unsubscribe =  this.getPermissionAsync();
-  //  this._openInterstitial()
-   // this._openRewarded()
   }
 
   componentWillUnmount() {
-    //  this._unsubscribe;
-     
-      BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-  
-       if (this.cleanup) this.cleanup();
-      this.cleanup = null;
-  
-    }
-  // getPermissionAsync = async () => {
-  //   const { status }= Permissions.getAsync(Permissions.NOTIFICATIONS)
-  //   if (status !== 'granted') {
-  //     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //     if (status !== 'granted') {
-  //       alert('Notification Permission is not granted');
-  //     }
-  //   }
-  // };
 
-  // componentWillUnmount() {
-  //   this._unsubscribe;
-  // }
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
+  }
 
   login = async () => {
     Keyboard.dismiss();
@@ -108,11 +88,11 @@ export default class LoginScreen extends Component {
     const { userName, password } = this.state
 
     if (userName && password) {
-      this.setState({ loading: true,data:'' });
+      this.setState({ loading: true, data: '' });
       try {
 
 
-         let pushToken;
+        let pushToken;
         let statusObj = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         if (statusObj.status !== 'granted') {
           statusObj = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -126,14 +106,11 @@ export default class LoginScreen extends Component {
         var LoginInfo = {
           "username": userName,
           "password": password,
-          "ownerPushToken":pushToken
+          "ownerPushToken": pushToken
         }
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
@@ -142,7 +119,7 @@ export default class LoginScreen extends Component {
         };
 
         const response = await fetch(`${APIBaseUrl.BaseUrl}/users/login`, requestOptions,
-        {signal: this.controller.signal}
+          { signal: this.controller.signal }
 
         );
 
@@ -153,18 +130,18 @@ export default class LoginScreen extends Component {
           UserToken.userToken = responseJson.token;
           const payload = jwt_decode(responseJson.token);
 
-          this.saveDataToStorage(responseJson.token, payload._id)//changedLogin
+          this.saveDataToStorage(responseJson.token, payload._id)
 
           Alert.alert(
 
             "Welcome to the Group App " + responseJson.user.profile.full_name,
             "Login Successful",
             [
-              { text: "Ok", onPress: () => this.props.navigation.navigate('DrawerScreen',responseJson.user) }
+              { text: "Ok", onPress: () => this.props.navigation.navigate('DrawerScreen', responseJson.user) }
             ],
             { cancelable: false }
           );
-         
+
           this.controller.abort()
         }
         else {
@@ -180,12 +157,11 @@ export default class LoginScreen extends Component {
             { cancelable: false }
           );
           this.controller.abort()
-          //  console.log(responseJson);
+
         }
 
       } catch (err) {
         this.setState({ loading: false });
-        console.log('error signing up: ', err)
         Alert.alert(
 
           "Something went wrong!!",
@@ -209,11 +185,11 @@ export default class LoginScreen extends Component {
     }
 
   }
-  setPasswordVisibility(){
+  setPasswordVisibility() {
     this.setState({ hidePassword: !this.state.hidePassword });
   }
 
-  
+
   saveDataToStorage = (token, userId) => {
     AsyncStorage.setItem(
       'userData',
@@ -224,25 +200,24 @@ export default class LoginScreen extends Component {
       })
     );
   };
-  bannerError=(error)=>{
-    console.log("Error while loading banner "+error)
+  bannerError = (error) => {
   }
 
   render() {
-   
+
     const { userName, password } = this.state
     return (
 
       <KeyboardAvoidingView style={styles.container}>
-        <View style={{marginBottom:50}}>
-        <AdMobBanner  bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+        <View style={{ marginBottom: 50 }}>
+          <AdMobBanner bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
         </View>
-          
+
         <Loader isLoading={this.state.loading} />
-      
+
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={Email_Icon} />
           <TextInput style={styles.inputs}
@@ -264,16 +239,16 @@ export default class LoginScreen extends Component {
             underlineColorAndroid='transparent'
             onChangeText={(password) => this.setState({ password })}
           />
-            <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={()=>this.setPasswordVisibility()}>
-           {(this.state.hidePassword)?
-            <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} />:
-<MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
-           
-         
-         
+          <TouchableOpacity activeOpacity={0.8} style={styles.touachableButton} onPress={() => this.setPasswordVisibility()}>
+            {(this.state.hidePassword) ?
+              <MaterialCommunityIcons name="eye" size={25} style={styles.buttonImage} /> :
+              <MaterialCommunityIcons name="eye-off" size={25} style={styles.buttonImage} />}
+
+
+
           </TouchableOpacity>
         </View>
-      
+
 
 
 
@@ -289,33 +264,6 @@ export default class LoginScreen extends Component {
         <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('SignupScreen')}   >
           <Text style={{ fontWeight: 'bold', width: "100%", marginLeft: 100 }}>Don't have an account?signup </Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}  onPress={()=>{}}>
-
-<Image 
- source={Facebook_login_Icon} 
- style={styles.ImageIconStyle} 
- />
-
-<View style={styles.SeparatorLine} />
-
-<Text style={styles.TextStyle}> Login Using Facebook </Text>
-
-</TouchableOpacity>
-
-        <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5} onPress={()=>navigation.push('DrawerScreen')}>
-
-<Image 
- source={GooglePlus_login_Icon} 
- style={styles.ImageIconStyle} 
- />
-
-<View style={styles.SeparatorLine} />
-
-<Text style={styles.TextStyle}> Login Using Google</Text>
-
-</TouchableOpacity> */}
-    
       </KeyboardAvoidingView>
 
     );
@@ -330,7 +278,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#B0E0E6',
-   // paddingTop:50
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -342,12 +289,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    
+
   },
   inputs: {
     height: 45,
     marginLeft: 16,
-    marginRight:16,
+    marginRight: 16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },
@@ -467,18 +414,18 @@ const styles = StyleSheet.create({
 
   },
   touachableButton: {
-    //position: 'absolute',
+
     right: 3,
     height: 40,
     width: 35,
     padding: 2,
-    marginTop:10
+    marginTop: 10
   },
   buttonImage: {
-  //  resizeMode: 'contain',
+
     height: '100%',
     width: '100%',
-  
+
   }
 
 });

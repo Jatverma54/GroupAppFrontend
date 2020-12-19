@@ -12,7 +12,6 @@ import NotificationScreen from '../screens/NotificationScreen';
 import BackArrow from '../Pictures/BackArrow.png';
 import YourPublicGroupPostscreen from '../screens/JoinPublicGroupScreen/YourPublicGroupPostscreen';
 import CreateaNewPost from '../screens/Posts/CreateaNewPost';
-//import TextInputClass from '../screens/Posts/TextInputClass';
 import JoinedPublicGroupBio from '../screens/JoinPublicGroupScreen/JoinedPublicGroupBio';
 import ViewMembers from '../components/ViewMembers';
 import AddMember from '../components/AddMember';
@@ -55,9 +54,6 @@ const JoinedPublicGroupStackNavigator = (props) => {
 
 const JoinedGroupBioStack = createStackNavigator();
 export const JoinedGroupBioStackNavigator = ({ route }) => {
-  //const { GroupName } = route.params;
-
-  //let name =GroupName;
 
   return (
     <JoinedGroupBioStack.Navigator headerMode='float' screenOptions={{
@@ -89,8 +85,6 @@ export const JoinedGroupBioStackNavigator = ({ route }) => {
         }}
         name='JoinedPGroupBio'
         component={withMyHookBio(JoinedPublicGroupBio, route.params)} />
-
-      {/* //withMyHookBio(JoinedPublicGroupBio,route.params) */}
 
       <JoinedGroupBioStack.Screen
 
@@ -211,39 +205,17 @@ const JoinedGroupInsideGroupTabStackNavigator = ({ route }) => {
         initialParams={{ groupid: route.params.groupId }}
       />
 
-
-
       <JoinedGroupInsideGroupTabStack.Screen options={({ navigation }) => ({
-
-
         tabBarLabel: ({ focused, tintColor: color }) => {
-
-          // console.log(navigation.isFocused(),"dddddddddddd")
-
-          // if (navigation.isFocused()) {
-          //   setnotification(false)
-          //   console.log("entered")
-          // }
-
           return focused ?
             <MaterialCommunityIcons name="bell" color="black" size={26} /> :
             <MaterialCommunityIcons name="bell-ring" color="black" size={26} />
-
-
         },
-
-
       })}
-
-
         name='Notification'
         component={NotificationGroupTabStackNavigator}
         initialParams={{ groupid: route.params.groupId }}
       />
-
-
-
-
     </JoinedGroupInsideGroupTabStack.Navigator>
 
 
@@ -346,16 +318,11 @@ export const HomeFeedStackNavigator = ({ route }) => {
           }),
         },
       }),
-      // headerTitleStyle: {
-      //   fontWeight: 'bold',
 
-
-      // },
       headerTintColor: colors.StackheaderTintColor,
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
       headerTitleStyle: {
         fontSize: 18,
-        // fontWeight: "200",//colors.TabLabelStylefontWeight,
         width: colors.TabLabelStylewidth
       },
 
@@ -436,18 +403,7 @@ export const HomeFeedStackNavigator = ({ route }) => {
         name='AddMembers'
         component={withMyHook(AddMember)} />
 
-      {/* <HomeFeedStack.Screen
-
-        options={{
-
-          headerTitle: "Start a conversation"
-        }}
-        name='CreateaTextPost'
-        component={withMyHook(TextInputClass)} /> */}
-
     </HomeFeedStack.Navigator>
-
-
   );
 };
 

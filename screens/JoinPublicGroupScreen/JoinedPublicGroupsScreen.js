@@ -48,10 +48,10 @@ export default class JoinedPublicGroupsScreen extends Component {
       error: null,
 
       errorPagination: null,
-      skipPagination:1,
-      loadingPagination:false,
-      isImageLoaded:true,
-      disabled:false
+      skipPagination: 1,
+      loadingPagination: false,
+      isImageLoaded: true,
+      disabled: false
     }
 
 
@@ -60,8 +60,8 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   getData = async () => {
 
-    
-    this.setState({ loading: true,data:'',skipPagination:1 });
+
+    this.setState({ loading: true, data: '', skipPagination: 1 });
     try {
 
       const userData = await AsyncStorage.getItem('userData');
@@ -76,16 +76,16 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
-      // console.log("Error ",e)
-      this.setState({ error: 'Reload the Page',  disabled:false,isFetching: false, loading: false });
-      //   console.log("Error ",e)
+
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
 
     }
@@ -93,7 +93,7 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   getPaginationData = async () => {
 
-    
+
     this.setState({ loadingPagination: true, });
     try {
 
@@ -109,42 +109,36 @@ export default class JoinedPublicGroupsScreen extends Component {
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getJoinedPublicGroups?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
+
       this.setResult(json.result);
       this.controller.abort()
 
     } catch (e) {
-      // console.log("Error ",e)
-    
-      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
+
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
       this.controller.abort()
 
-      //   console.log("Error ",e)
     }
   };
 
-    cleanup = null;
+  cleanup = null;
   componentDidMount() {
 
-     let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-         this.setState({ data: "" })
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+      this.setState({ data: "" })
       this.getData(); // do something
     });
-     this.cleanup = () => { unsubscribe1(); }
+    this.cleanup = () => { unsubscribe1(); }
 
   }
   componentWillUnmount() {
-    // this._unsubscribe;
-    // this._unsubscribe2;
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
-  
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
+
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
+
+
   }
 
 
@@ -155,74 +149,53 @@ export default class JoinedPublicGroupsScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
-      loadingPagination:false
+      isFetching: false, disabled: false,
+      loadingPagination: false
     });
   }
 
 
   onRefresh() {
-  
-    this.setState({ isFetching: true, data: "",skipPagination:1}, function () { this.getData() });
+
+    this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
 
 
-  loadmoreData(){
+  loadmoreData() {
 
-    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
   }
-   
-  FooterComponent(){
-  return(
-    
-    this.state.errorPagination != null ?
+
+  FooterComponent() {
+    return (
+
+      this.state.errorPagination != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}
-          title="Reload the page"  
+          } disabled={this.state.disabled}
+            title="Reload the page"
           />
-        </View>:
-    this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',alignSelf:"center"}}>
-    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-  <Text>Loading...</Text>
-    {/* If you want to image set source here */}
-    {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
-  </View>:null
-  )
+        </View> :
+        this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+        </View> : null
+    )
   }
 
-
-  // renderGroupMembers = (group) => {
-
-  //   if(group.members) {
-  //     return (
-  //       <View style={styles.groupMembersContent}>
-  //         {group.members.map((prop, key) => {
-  //           return (
-  //             <Image key={key} style={styles.memberImage}  source={{uri:prop}}/>
-  //           );
-  //         })}
-  //       </View>
-  //     );
-  //   }
-  //   return null;
-  // }
 
   formatDate(date) {
     var d = new Date(date),
@@ -240,21 +213,21 @@ export default class JoinedPublicGroupsScreen extends Component {
 
 
 
-  
+
   renderEmpty = () => {
- 
+
     return (
-      <View style={{ flex: 1, backgroundColor: "white",marginTop:height/3}}>
-              <Image source={NoGroups} style={{
-                alignSelf: "center", alignItems: "center", width: 53,
-                height: 53,
-                borderRadius: 25,
-              }}
-               />
-              <Text style={{ alignSelf:"center",alignContent:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.   </Text>
-            <Text style={{ alignSelf:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>You will see all the public groups that you have joined     </Text>
-            <Text style={{ alignSelf:"center",  fontSize: 15, color: "grey", fontWeight: "bold" }}>here.</Text>
-            </View>
+      <View style={{ flex: 1, backgroundColor: "white", marginTop: height / 3 }}>
+        <Image source={NoGroups} style={{
+          alignSelf: "center", alignItems: "center", width: 53,
+          height: 53,
+          borderRadius: 25,
+        }}
+        />
+        <Text style={{ alignSelf: "center", alignContent: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.   </Text>
+        <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>You will see all the public groups that you have joined     </Text>
+        <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>here.</Text>
+      </View>
     )
   }
 
@@ -267,14 +240,14 @@ export default class JoinedPublicGroupsScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
         <View style={styles.FloatButtonPlacement} >
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
 
           <SectionList
@@ -287,9 +260,9 @@ export default class JoinedPublicGroupsScreen extends Component {
             }
 
             renderSectionHeader={({ section }) => {
-             
+
               return (
-               <View style={styles.titleContainer}>
+                <View style={styles.titleContainer}>
                   <Text style={styles.title}>
                     {section.GroupCategory}
                   </Text>
@@ -305,18 +278,18 @@ export default class JoinedPublicGroupsScreen extends Component {
               return item.groupObject._id;
             }}
 
-            ListFooterComponent={()=>this.FooterComponent()}
-             
+            ListFooterComponent={() => this.FooterComponent()}
+
             contentContainerStyle={{ flexGrow: 1 }}
-            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-            onEndReached={() =>{
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
               if (!this.onEndReachedCalledDuringMomentum) {
                 this.loadmoreData();    // LOAD MORE DATA
                 this.onEndReachedCalledDuringMomentum = true;
               }
-            } }
+            }}
             onEndReachedThreshold={0.2}
-          ListEmptyComponent={this.renderEmpty()}
+            ListEmptyComponent={this.renderEmpty()}
 
 
             renderItem={(item) => {
@@ -330,14 +303,14 @@ export default class JoinedPublicGroupsScreen extends Component {
 
                 <View style={styles.container}>
                   <TouchableOpacity onPress={() => this.props.myHookValue.navigate("JoinedPublicGroupBio", Group)}>
-                    <Image source={{ uri: Group.image }} 
-                     style={styles.avatar}
-                     onLoad={ () => this.setState({ isImageLoaded: true }) }
-                     onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-                   />
-                      <ActivityIndicator
+                    <Image source={{ uri: Group.image }}
+                      style={styles.avatar}
+                      onLoad={() => this.setState({ isImageLoaded: true })}
+                      onLoadEnd={() => this.setState({ isImageLoaded: false })}
+                    />
+                    <ActivityIndicator
                       animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+                    />
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => this.props.myHookValue.navigate("JoinedGroupInsideGroup", Group)}>
@@ -350,10 +323,9 @@ export default class JoinedPublicGroupsScreen extends Component {
                           {Group.countMembers} {(parseInt(Group.countMembers) > 1) ? "members" : "member"}
                         </Text>
                         <Text style={styles.timeAgo}>
-                          {/* { this.formatDate(Group.groupCreateddate)} */}
-                  Last updated {moment(Group.LastUpdated).fromNow()}
+                          Last updated {moment(Group.LastUpdated).fromNow()}
                         </Text>
-                        {/* {this.renderGroupMembers(Group)} */}
+
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -362,10 +334,10 @@ export default class JoinedPublicGroupsScreen extends Component {
               );
             }} />
 
-<AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
         </View>
 
 
@@ -448,7 +420,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    // marginVertical:2,
     backgroundColor: "#DCDCDC",
     padding: 5,
 

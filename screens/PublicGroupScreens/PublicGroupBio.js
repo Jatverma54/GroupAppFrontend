@@ -50,30 +50,6 @@ export default class PublicGroupBio extends Component {
 
   }
 
-  getData = async () => {
-    // const url = `https://jsonplaceholder.typicode.com/users`;
-    // this.setState({ loading: true,data:'' });
-
-    //  try {
-    //     const response = await fetch(url);
-    //     const json = await response.json();
-    //     this.setResult(json);
-    //  } catch (e) {
-    //     this.setState({ error: 'Error Loading content', loading: false });
-    //  }
-  };
-
-
-  setResult = (res) => {
-    this.setState({
-      data: [...this.state.data, ...res],
-
-      error: res.error || null,
-      loading: false
-    });
-  }
-
-
 
 
   addMemberorShare = () => {
@@ -82,7 +58,6 @@ export default class PublicGroupBio extends Component {
 
       <View style={{ flex: 1 }} >
         <View>
-          {/* this.props.myHookValue.push("ViewMembers") */}
           <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName.groupInformation }) }}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
@@ -97,25 +72,6 @@ export default class PublicGroupBio extends Component {
               </View>
             </View>
           </TouchableOpacity>
-          {/*      
-               <View>
-     
-               <TouchableOpacity style={styles.buttonContainerShare}  onPress={()=>{this.props.myHookValue.push("AddMembers")}}>
-      <View>
-      <View style={styles.bodyContentShare}  >
-                <Text style={{fontWeight:"bold",width:"100%",alignSelf:"center",marginLeft:40,marginTop:11}}>Join Group</Text> 
-                </View>
-                <View>
-                  
-                <Image 
-                      style={{ marginHorizontal: 5,height:30,width:35,marginLeft:150,marginTop:-40}}
-                       source={AddGroup} />
-                       
-                  </View> 
-                </View>
-              </TouchableOpacity>
-         
-     </View> */}
 
         </View>
 
@@ -127,8 +83,8 @@ export default class PublicGroupBio extends Component {
 
   }
 
-  bannerError=(error)=>{
-    console.log("Error while loading banner"+error)
+  bannerError = (error) => {
+
   }
 
 
@@ -145,7 +101,7 @@ export default class PublicGroupBio extends Component {
       createdAt
     } = this.state.data;
 
-   
+
     const images = [
       {
         uri: image ? image : PlaceHolderImage,
@@ -160,14 +116,14 @@ export default class PublicGroupBio extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
-        <View style={{flex:1}}>
- <Loader isLoading={this.state.loading} />
+        <View style={{ flex: 1 }}>
+          <Loader isLoading={this.state.loading} />
 
 
           <ScrollView >
@@ -195,15 +151,15 @@ export default class PublicGroupBio extends Component {
                   <Text style={styles.name}>
                     {GroupName}
                   </Text>
-                  {countMembers?<Text style={styles.CountMember}>
+                  {countMembers ? <Text style={styles.CountMember}>
                     Members: {countMembers}
-                  </Text>:null}
+                  </Text> : null}
                   <Text style={{
                     fontSize: 15,
                     color: "#FFFFFF",
-                    //padding:10,
+
                     marginLeft: 5,
-                    //fontWeight:'600',
+
                     width: "100%",
                     alignSelf: 'center', marginTop: 5
                   }}>{privacy}</Text>
@@ -212,9 +168,9 @@ export default class PublicGroupBio extends Component {
                   <Text style={{
                     fontSize: 15,
                     color: "#FFFFFF",
-                    //padding:10,
+
                     marginLeft: 5,
-                    //fontWeight:'600',
+
                     width: "100%",
                     alignSelf: 'center', marginTop: 5,
 
@@ -222,18 +178,18 @@ export default class PublicGroupBio extends Component {
                   }}>Group Category: {GroupCategory}</Text>
 
 
-<Text style={styles.GroupAdminName}>
+                  <Text style={styles.GroupAdminName}>
                     Group Admin:  {admin_id.map((prop, key) => {
-                return (
-                prop.profile.full_name
-                );
-              }).join(" , ")}
+                    return (
+                      prop.profile.full_name
+                    );
+                  }).join(" , ")}
                   </Text>
 
- <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
-                  
-                  
-                
+                  <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
+
+
+
 
                 </View>
 
@@ -247,14 +203,14 @@ export default class PublicGroupBio extends Component {
                 </View>
               </View>
             </View>
-          
+
           </ScrollView>
-          <View style={{flex:1,justifyContent:"flex-end"}} >
-            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-            </View>
+          <View style={{ flex: 1, justifyContent: "flex-end" }} >
+            <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+              servePersonalizedAds={true}
+              onDidFailToReceiveAdWithError={this.bannerError}
+            />
+          </View>
         </View>
 
     );
@@ -290,9 +246,7 @@ const styles = StyleSheet.create({
   CountMember: {
     fontSize: 15,
     color: "#FFFFFF",
-    //padding:10,
     marginLeft: 5,
-    //fontWeight:'600',
     width: "100%",
     alignSelf: 'center',
   },
@@ -362,8 +316,6 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
 
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -381,9 +333,6 @@ const styles = StyleSheet.create({
   bodyContentShare: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerShare: {
     marginTop: -55,
@@ -401,9 +350,7 @@ const styles = StyleSheet.create({
   GroupAdminName: {
     fontSize: 15,
     color: "#FFFFFF",
-    //padding:10,
     marginLeft: 5,
-    //fontWeight:'600',
     width: "100%",
     alignSelf: 'center',
     marginTop: 5

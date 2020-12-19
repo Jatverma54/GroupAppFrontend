@@ -43,7 +43,7 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
- setTestDeviceIDAsync('EMULATOR')
+setTestDeviceIDAsync('EMULATOR')
 export default class JoinedGroupgroupBio extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -56,7 +56,7 @@ export default class JoinedGroupgroupBio extends Component {
       isVisible: false,
       loading: false,
       error: null,
-      disabled:false
+      disabled: false
 
     }
   }
@@ -68,11 +68,6 @@ export default class JoinedGroupgroupBio extends Component {
 
   }
 
-  // componentWillUnmount() {
-  //   this.getPermissionAsync();
-  //   this.getCameraPermissionAsync();
-
-  // }
 
   getuser = async () => {
     const userData = await AsyncStorage.getItem('userData');
@@ -94,16 +89,6 @@ export default class JoinedGroupgroupBio extends Component {
 
 
   _pickImage = async () => {
-    // const {
-    //   _id,
-    //   GroupName,
-    //   countMembers,
-    //   privacy,
-    //   group_Bio,
-    //   GroupCategory,
-    //   GroupAdminName
-    // } = this.state.data;
-
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -115,20 +100,6 @@ export default class JoinedGroupgroupBio extends Component {
       this.CameraOptions.close();
       if (!result.cancelled) {
         this.setState({ loading: true });
-        // var  Data=
-        //   {
-        //     _id:_id, 
-        //     image: result.uri, 
-        //     GroupName:GroupName, 
-        //     countMembers:countMembers, 
-        //     privacy: privacy,
-        //     GroupCategory:GroupCategory,
-        //     group_Bio:group_Bio, 
-        //     GroupAdminName:GroupAdminName  
-        //   };
-
-        //   this.setState({ data: Data });
-
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -141,9 +112,6 @@ export default class JoinedGroupgroupBio extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
@@ -151,7 +119,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
@@ -178,7 +146,7 @@ export default class JoinedGroupgroupBio extends Component {
 
     } catch (E) {
       this.setState({ loading: false });
-      console.log(E);
+
       this.controller.abort()
     }
 
@@ -195,16 +163,6 @@ export default class JoinedGroupgroupBio extends Component {
 
 
   _clickImage = async () => {
-
-    // const {
-    //   _id,
-    //   GroupName,
-    //   countMembers,
-    //   privacy,
-    //   group_Bio,
-    //   GroupCategory,
-    //   GroupAdminName
-    // } = this.state.data;
     try {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -218,19 +176,6 @@ export default class JoinedGroupgroupBio extends Component {
 
 
         this.setState({ loading: true });
-        // var  Data=
-        // {
-        //   _id:_id, 
-        //   image: result.uri, 
-        //   GroupName:GroupName, 
-        //   countMembers:countMembers, 
-        //   privacy: privacy,
-        //   group_Bio:group_Bio,    
-        //   GroupCategory:GroupCategory,
-        //   GroupAdminName:GroupAdminName
-        // };
-
-
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -243,9 +188,6 @@ export default class JoinedGroupgroupBio extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
@@ -253,7 +195,7 @@ export default class JoinedGroupgroupBio extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/updateGroupimage`, requestOptions, { signal: this.controller.signal });
 
 
         if (response.ok) {
@@ -279,24 +221,24 @@ export default class JoinedGroupgroupBio extends Component {
 
       }
 
-      // console.log(result);
+
     } catch (E) {
-      //  this.CameraOptions.close(); 
+
       this.setState({ loading: false });
-      console.log(E);
+
       this.controller.abort()
     }
 
   };
 
-  AddMembers(){
+  AddMembers() {
 
-    if(this.state.data.admin_id.find(id=>id._id===this.state.data.currentUser)){
-   
-     this.props.myHookValue.push("AddMembers",this.state.data._id)
+    if (this.state.data.admin_id.find(id => id._id === this.state.data.currentUser)) {
+
+      this.props.myHookValue.push("AddMembers", this.state.data._id)
     }
-    else{
-  
+    else {
+
       Alert.alert(
         "",
         "You need to be admin to add members to the group",
@@ -306,14 +248,14 @@ export default class JoinedGroupgroupBio extends Component {
             onPress: () => null,
             style: "cancel"
           },
-         
+
         ],
         { cancelable: false }
       );
-  
+
     }
-  
-  
+
+
   }
 
 
@@ -325,7 +267,6 @@ export default class JoinedGroupgroupBio extends Component {
 
       <View style={{ flex: 1 }} >
         <View>
-          {/* this.props.myHookValue.push("this.props.myHookValue.push("ViewMembers") ") */}
           <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName }) }}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
@@ -343,7 +284,7 @@ export default class JoinedGroupgroupBio extends Component {
 
           <View>
 
-            <TouchableOpacity style={styles.buttonContainerShare} onPress={()=>this.AddMembers()} >
+            <TouchableOpacity style={styles.buttonContainerShare} onPress={() => this.AddMembers()} >
               <View>
                 <View style={styles.bodyContentShare}  >
                   <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>
@@ -378,7 +319,7 @@ export default class JoinedGroupgroupBio extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deleteGroupfromDb(item) }
@@ -404,8 +345,6 @@ export default class JoinedGroupgroupBio extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
       var requestOptions = {
         method: 'DELETE',
@@ -415,7 +354,7 @@ export default class JoinedGroupgroupBio extends Component {
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/` + _id, requestOptions,
-      {signal: this.controller.signal}
+        { signal: this.controller.signal }
       );
 
 
@@ -446,7 +385,7 @@ export default class JoinedGroupgroupBio extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -460,7 +399,7 @@ export default class JoinedGroupgroupBio extends Component {
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
+
       this.controller.abort()
     }
 
@@ -477,7 +416,7 @@ export default class JoinedGroupgroupBio extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.LeaveGroupfromDb(item) }
@@ -505,20 +444,17 @@ export default class JoinedGroupgroupBio extends Component {
       } = this.state.data;
 
       this.setState({ loading: true, });
-      //console.log(item.id, "first ")
-
-
 
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
 
-      var isAdmin = admin_id.find(id=>id._id===userId) ? true : false;
-console.log(isAdmin)
+      var isAdmin = admin_id.find(id => id._id === userId) ? true : false;
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
+
       var RemoveUser = {
         "groupid": _id,
         "userId": userId,
@@ -532,7 +468,7 @@ console.log(isAdmin)
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/leaveGroup`, requestOptions, { signal: this.controller.signal });
 
 
       if (response.ok) {
@@ -562,7 +498,7 @@ console.log(isAdmin)
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -622,14 +558,14 @@ console.log(isAdmin)
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
-        <View style={{flex:1}}>
- <Loader isLoading={this.state.loading} />
+        <View style={{ flex: 1 }}>
+          <Loader isLoading={this.state.loading} />
 
           <ScrollView >
 
@@ -638,11 +574,11 @@ console.log(isAdmin)
                 {(owner_id.includes(currentUser)) ? <Button color="black" style={styles.groupMembersContent} onPress={() => this.DeleteGroup(GroupName)} >Delete Group</Button> :
                   <Button color="black" style={styles.groupMembersContent} onPress={() => this.leaveGroup(GroupName)} >Leave Group</Button>}
 
-                {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen", this.state.data) }} >
+                {(admin_id.find(id => id._id === currentUser)) && <Button color="white" style={{ marginLeft: width - 30 - 30, marginTop: -20 }} onPress={() => { this.props.myHookValue.navigate("UpdatePublicGroupAccountInfoScreen", this.state.data) }} >
 
                   <MaterialCommunityIcons
                     name='account-edit'
-                    //  color={color}
+
                     size={20}
                   />
                 </Button>}
@@ -655,22 +591,11 @@ console.log(isAdmin)
                   </TouchableOpacity>
 
 
-                  {(admin_id.find(id=>id._id===currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
+                  {(admin_id.find(id => id._id === currentUser)) && <Button color="white" style={{ marginLeft: 120, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
                     <MaterialIcons
                       name='edit'
-
-                      //  color={color}
                       size={20}
                     /></Button>}
-                  {/* <MaterialIcons
-                  name='edit'
-                  style={{marginLeft:120,marginTop:-30,marginBottom:10}}
-                //  color={color}
-                  size={20}
-                /> */}
-
-
-
 
                   {this.state.isVisible &&
 
@@ -691,9 +616,7 @@ console.log(isAdmin)
                   <Text style={{
                     fontSize: 15,
                     color: "#FFFFFF",
-                    //padding:10,
                     marginLeft: 5,
-                    //fontWeight:'600',
                     width: "100%",
                     alignSelf: 'center', marginTop: 5
                   }}>
@@ -703,32 +626,25 @@ console.log(isAdmin)
                   <Text style={{
                     fontSize: 15,
                     color: "#FFFFFF",
-                    //padding:10,
                     marginLeft: 5,
-                    //fontWeight:'600',
                     width: "100%",
                     alignSelf: 'center', marginTop: 5
 
 
                   }}>Group Category: {GroupCategory}</Text>
 
-<Text style={styles.GroupAdminName}>
+                  <Text style={styles.GroupAdminName}>
                     Group Admin:  {admin_id.map((prop, key) => {
-                return (
-                prop.profile.full_name
-                );
-              }).join(" , ")}
+                    return (
+                      prop.profile.full_name
+                    );
+                  }).join(" , ")}
                   </Text>
 
 
- <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
-                  {/* <Text style={styles.GroupAdminName}>
-                    Group owner: {GroupAdminName.join(" , ")}
-                  </Text> */}
+                  <Text style={styles.GroupAdminName}>Created {moment(createdAt).fromNow()}</Text>
 
                 </View>
-
-
               </View>
               {this.addMemberorShare()}
 
@@ -746,12 +662,12 @@ console.log(isAdmin)
 
           </ScrollView>
 
-          <View style={{flex:1,justifyContent:"flex-end"}} >
-            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-            </View>
+          <View style={{ flex: 1, justifyContent: "flex-end" }} >
+            <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+              servePersonalizedAds={true}
+              onDidFailToReceiveAdWithError={this.bannerError}
+            />
+          </View>
 
           <RBSheet
             ref={ref => {
@@ -791,7 +707,7 @@ console.log(isAdmin)
 
 
 
-        
+
 
 
 
@@ -831,9 +747,9 @@ const styles = StyleSheet.create({
   GroupAdminName: {
     fontSize: 15,
     color: "#FFFFFF",
-    //padding:10,
+
     marginLeft: 5,
-    //fontWeight:'600',
+
     width: "100%",
     alignSelf: 'center',
     marginTop: 5
@@ -842,9 +758,9 @@ const styles = StyleSheet.create({
   CountMember: {
     fontSize: 15,
     color: "#FFFFFF",
-    //padding:10,
+
     marginLeft: 5,
-    //fontWeight:'600',
+
     width: "100%",
     alignSelf: 'center',
   },
@@ -898,7 +814,6 @@ const styles = StyleSheet.create({
   groupMembersContent: {
     flexDirection: 'row',
     marginTop: 10,
-    //marginLeft:-230,
     marginBottom: -20
   },
   mainContent: {
@@ -914,9 +829,6 @@ const styles = StyleSheet.create({
   bodyContentInviteMember: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
-
   },
   buttonContainerInviteMember: {
     marginTop: 10,
@@ -934,8 +846,6 @@ const styles = StyleSheet.create({
   bodyContentShare: {
     flex: 2,
     alignItems: 'center',
-
-    // marginVertical:-5,
 
   },
   buttonContainerShare: {

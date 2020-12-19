@@ -45,60 +45,51 @@ export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ProfileName:'',
-      email:'',
+      ProfileName: '',
+      email: '',
       photo: null,
       isVisible: false,
-      username:"",
-      _id:"",
-      data:"",
-      loading:false,
-      isImageLoaded:true,
-      disabled:false
+      username: "",
+      _id: "",
+      data: "",
+      loading: false,
+      isImageLoaded: true,
+      disabled: false
 
     }
   }
 
-  bannerError=(error)=>{
-		console.log("Error while loading banner"+error)
-	  }
-      cleanup = null;
+  bannerError = (error) => {
+
+  }
+  cleanup = null;
 
 
   componentDidMount() {
-    let unsubscribe2;
+    let unsubscribe2;
 
-     let unsubscribe1 =  this.props.navigation.addListener('focus', () => {
-      // do something
-   
-      unsubscribe2 =   this.setState({ data: "" })
-      this.getData(); // do something
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+      unsubscribe2 = this.setState({ data: "" })
+      this.getData();
     });
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
 
-     this.cleanup = () => { unsubscribe1(); unsubscribe2;}
+    this.cleanup = () => { unsubscribe1(); unsubscribe2; }
 
   }
 
   componentWillUnmount() {
-  //  this._unsubscribe;
-   if (this.cleanup) this.cleanup();
-    this.cleanup = null;
 
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
-    // this.getPermissionAsync();
-    // this.getCameraPermissionAsync();
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
   }
 
-  
+
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
-   
+    this.setState({ loading: true, data: '' });
+
     try {
 
       const userData = await AsyncStorage.getItem('userData');
@@ -114,25 +105,26 @@ export default class ProfileScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions, { signal: this.controller.signal });
 
 
       if (response.ok) {
-        this.setState({ loading: false, disabled:false });
+        this.setState({ loading: false, disabled: false });
         const json = await response.json();
 
-        this.setState({photo:json.result.profile.profile_pic,
-           ProfileName:json.result.profile.full_name,
-           email:json.result.email,
-           username:json.result.username,
-           _id:json.result._id,data:json.result
-          })
-          this.controller.abort()
-        
-      
+        this.setState({
+          photo: json.result.profile.profile_pic,
+          ProfileName: json.result.profile.full_name,
+          email: json.result.email,
+          username: json.result.username,
+          _id: json.result._id, data: json.result
+        })
+        this.controller.abort()
+
+
       } else {
 
-        this.setState({ loading: false, disabled:false });
+        this.setState({ loading: false, disabled: false });
         Alert.alert(
 
           "Something went wrong!!",
@@ -144,11 +136,10 @@ export default class ProfileScreen extends Component {
         );
         this.controller.abort()
       }
-      // setuserimageUrl(json.result.profile.profile_pic);
-      //setuserName(json.result.profile.full_name);
+
     } catch (e) {
-      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
-      console.log("Error ", e)
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
     }
   };
@@ -163,30 +154,6 @@ export default class ProfileScreen extends Component {
   };
 
 
-
-
-
-  // _pickImage = async () => {
-  //   try {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //       base64:true
-  //     });
-  //     if (!result.cancelled) {
-  //       this.setState({ photo: result.uri });
-  //       this.CameraOptions.close();
-  //     }
-
-  //     // console.log(result);
-  //   } catch (E) {
-  //     console.log(E);
-  //   }
-
-  // };
-
   getCameraPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -197,26 +164,6 @@ export default class ProfileScreen extends Component {
   };
 
 
-  // _clickImage = async () => {
-  //   try {
-  //     let result = await ImagePicker.launchCameraAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //       base64:true
-  //     });
-  //     if (!result.cancelled) {
-  //       this.setState({ photo: result.uri });
-  //       this.CameraOptions.close();
-  //     }
-
-  //     //console.log(result);
-  //   } catch (E) {
-  //     console.log(E);
-  //   }
-
-  // };
 
   _clickImage = async () => {
 
@@ -232,7 +179,7 @@ export default class ProfileScreen extends Component {
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true,data:'' });
+        this.setState({ loading: true, data: '' });
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -246,8 +193,6 @@ export default class ProfileScreen extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
         var requestOptions = {
           method: 'POST',
@@ -256,17 +201,17 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions, { signal: this.controller.signal });
 
 
         if (response.ok) {
           this.setState({ loading: false });
           image = `data:image/jpg;base64,${result.base64}`;
-         
+
 
           this.setState({ photo: image });
           const json = await response.json();
-          this.props.navigation.push('DrawerScreen',json.result)
+          this.props.navigation.push('DrawerScreen', json.result)
           this.controller.abort()
         }
         else {
@@ -284,18 +229,17 @@ export default class ProfileScreen extends Component {
 
       }
 
-      // console.log(result);
     } catch (E) {
-      //  this.CameraOptions.close(); 
+
       this.setState({ loading: false });
-      console.log(E);
+
       this.controller.abort()
     }
 
   };
 
   _pickImage = async () => {
-  
+
 
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -307,8 +251,8 @@ export default class ProfileScreen extends Component {
       });
       this.CameraOptions.close();
       if (!result.cancelled) {
-        this.setState({ loading: true,data:'' });
-    
+        this.setState({ loading: true, data: '' });
+
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -322,8 +266,6 @@ export default class ProfileScreen extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
 
         var requestOptions = {
           method: 'POST',
@@ -332,14 +274,14 @@ export default class ProfileScreen extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
-    
+
           this.setState({ photo: `data:image/jpg;base64,${result.base64}` });
           const json = await response.json();
-          this.props.navigation.push('DrawerScreen',json.result)
+          this.props.navigation.push('DrawerScreen', json.result)
           this.controller.abort()
         }
         else {
@@ -359,7 +301,6 @@ export default class ProfileScreen extends Component {
 
     } catch (E) {
       this.setState({ loading: false });
-      console.log(E);
       this.controller.abort()
     }
 
@@ -381,143 +322,133 @@ export default class ProfileScreen extends Component {
     return (
 
       this.state.error != null ?
-      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{this.state.error}</Text>
-        <Button onPress={
-          () => {
-            this.getData();this.setState({disabled:true});
-          }
-        } disabled={this.state.disabled}>
-          <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
-        </Button>
-      </View> :
-      <View style={{flex:1}}>
-         <Loader isLoading={this.state.loading} />
-        <View style={styles.header}>
-
-          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation",this.state.data) }} >
-
-            <MaterialCommunityIcons
-              name='account-edit'
-              //  color={color}
-              size={20}
-            />
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getData(); this.setState({ disabled: true });
+            }
+          } disabled={this.state.disabled}>
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
+        </View> :
+        <View style={{ flex: 1 }}>
+          <Loader isLoading={this.state.loading} />
+          <View style={styles.header}>
 
-          <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword",this.state.data) }} >
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data) }} >
 
-<MaterialCommunityIcons
-  name='onepassword'
-  //  color={color}
-  size={20}
-/>
-</Button>
-
-          <View style={styles.headerContent}>
-            <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>
-              <Image 
-                source={{ uri: this.state.photo }} 
-                style={styles.avatar} //,{ display: (!this.state.isImageLoaded ? 'flex' : 'none') }
-                onLoad={ () => this.setState({ isImageLoaded: true }) }
-                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
+              <MaterialCommunityIcons
+                name='account-edit'
+                size={20}
               />
-                           <ActivityIndicator
-                      animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
+            </Button>
 
-              <Button color="white" style={{ marginLeft: 90, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
-                <MaterialIcons
-                  name='edit'
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) }} >
 
-                  //  color={color}
-                  size={20}
-                /></Button>
+              <MaterialCommunityIcons
+                name='onepassword'
+                size={20}
+              />
+            </Button>
+
+            <View style={styles.headerContent}>
+              <TouchableOpacity onPress={() => this.setState({ isVisible: true })}>
+                <Image
+                  source={{ uri: this.state.photo }}
+                  style={styles.avatar}
+                  onLoad={() => this.setState({ isImageLoaded: true })}
+                  onLoadEnd={() => this.setState({ isImageLoaded: false })}
+                />
+                <ActivityIndicator
+                  animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
+                />
+
+                <Button color="white" style={{ marginLeft: 90, marginTop: -30, marginBottom: 10 }} onPress={() => this.CameraOptions.open()}>
+                  <MaterialIcons
+                    name='edit'
+                    size={20}
+                  /></Button>
 
 
-              {this.state.isVisible &&
+                {this.state.isVisible &&
 
-                <ImageView
-                  images={images}
-                  imageIndex={0}
-                  visible={this.state.isVisible}
-                  onRequestClose={() => this.setState({ isVisible: false })}
+                  <ImageView
+                    images={images}
+                    imageIndex={0}
+                    visible={this.state.isVisible}
+                    onRequestClose={() => this.setState({ isVisible: false })}
 
-                />}
+                  />}
 
-              <Text style={styles.name}>
-              {this.state.ProfileName}</Text>
-            </TouchableOpacity>
+                <Text style={styles.name}>
+                  {this.state.ProfileName}</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
 
-        </View>
-
-        <View style={styles.body}>
-          <View style={styles.bodyContent}>
-            <Text style={styles.textInfo}>
-            Email: {this.state.email}
+          <View style={styles.body}>
+            <View style={styles.bodyContent}>
+              <Text style={styles.textInfo}>
+                Email: {this.state.email}
               </Text>
 
               <Text style={styles.textInfo}>
-            Username: {this.state.username}
+                Username: {this.state.username}
               </Text>
-
-              
-            {/* <Button   color="white" style={{marginTop:20,width:"100%"}} onPress={() => {this.props.navigation.navigate("ChangePassword")}}>Change Password</Button>
-              */}
-
-
+            </View>
           </View>
+          <View style={{ flex: 1, justifyContent: "flex-end", alignItems: "center" }}>
+            <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+              servePersonalizedAds={true}
+              onDidFailToReceiveAdWithError={this.bannerError}
+            />
+          </View>
+
+
+          <RBSheet
+            ref={ref => {
+              this.CameraOptions = ref;
+            }}
+            height={330}
+          >
+            <View style={styles.listContainer}>
+              <Text style={styles.listTitle}>Change Profile Picture</Text>
+
+              <TouchableOpacity
+
+                style={styles.listButton}
+                onPress={() => this._clickImage()}
+              >
+                <MDIcon name="photo-camera" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Take photo</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+
+                style={styles.listButton}
+                onPress={() => this._pickImage()}
+              >
+                <MDIcon name="photo" style={styles.listIcon} />
+                <Text style={styles.listLabel}>Choose image</Text>
+              </TouchableOpacity>
+
+            </View>
+          </RBSheet>
+
+
+
+
+
+
+
+
+
+
+
+
         </View>
-<View style={{flex:1,justifyContent:"flex-end",alignItems:"center"}}>
-        <AdMobBanner  bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-</View>
-
-        {/* List Menu */}
-        <RBSheet
-          ref={ref => {
-            this.CameraOptions = ref;
-          }}
-          height={330}
-        >
-          <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Change Profile Picture</Text>
-
-            <TouchableOpacity
-
-              style={styles.listButton}
-              onPress={() => this._clickImage()}
-            >
-              <MDIcon name="photo-camera" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Take photo</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-
-              style={styles.listButton}
-              onPress={() => this._pickImage()}
-            >
-              <MDIcon name="photo" style={styles.listIcon} />
-              <Text style={styles.listLabel}>Choose image</Text>
-            </TouchableOpacity>
-
-          </View>
-        </RBSheet>
-
-
-
-
-
-
-
-
-
-
-
-
-      </View>
     );
   }
 }
@@ -542,10 +473,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     color: "#FFFFFF",
-  //  fontWeight: '600',
     alignSelf: "center",
-   // width:"100%"
-    //marginRight:20
   },
   bodyContent: {
     flex: 1,

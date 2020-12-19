@@ -43,15 +43,13 @@ export default class ReplyComments extends Component {
       Role: "admin",
       currentUserOnwerId: "abcd",
       height: 40,
-      //fontWeight
-
       isFetching: false,
       loading: false,
       error: null,
-      skipPagination:1,
-      loadingPagination:false,
+      skipPagination: 1,
+      loadingPagination: false,
       errorPagination: null,
-      disabled:false
+      disabled: false
     }
     this.send = this.send.bind(this);
 
@@ -59,7 +57,7 @@ export default class ReplyComments extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:[] });
+    this.setState({ loading: true, data: [] });
 
     try {
 
@@ -79,14 +77,14 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ error: 'Reload the Page',disabled:false, isFetching: false, loading: false });
-      console.log("Error ", e)
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
     }
   };
@@ -113,14 +111,14 @@ export default class ReplyComments extends Component {
         body: JSON.stringify(ReplyComment)
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=`+this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getReplyComments?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
-      console.log("Error ", e)
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
     }
   };
@@ -130,45 +128,44 @@ export default class ReplyComments extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
-      loadingPagination:false
+      isFetching: false, disabled: false,
+      loadingPagination: false
     });
   }
-    cleanup = null;
+  cleanup = null;
   componentDidMount() {
-    let unsubscribe1 =  this.setState({skipPagination:1 })
-      this.props.navigation.setOptions({
+    let unsubscribe1 = this.setState({ skipPagination: 1 })
+    this.props.navigation.setOptions({
       headerTitle: `Replying to ` + this.props.route.params.name,
     })
-    let unsubscribe2 =   this.getData();
+    let unsubscribe2 = this.getData();
 
-     this.cleanup = () => { unsubscribe1; unsubscribe2;}
+    this.cleanup = () => { unsubscribe1; unsubscribe2; }
   }
 
   componentWillUnmount() {
-   // this._unsubscribe;
-   if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
     this.send();
   }
 
   renderEmpty = () => {
- 
+
     return (
-      <View style={{ flex: 1,marginTop:height/4 }}>
-      <MaterialCommunityIcons
-        name="comment-text"
-        size={45}
-        color="black"
-        style={{
-          marginLeft:width/3, width: 53,
-          height: 53,
-          borderRadius: 25,
-        }}
-      />
-      <Text style={{marginLeft:width/3, color: "grey", fontWeight: "bold", }}>No reply yet</Text>
-    </View>
+      <View style={{ flex: 1, marginTop: height / 4 }}>
+        <MaterialCommunityIcons
+          name="comment-text"
+          size={45}
+          color="black"
+          style={{
+            marginLeft: width / 3, width: 53,
+            height: 53,
+            borderRadius: 25,
+          }}
+        />
+        <Text style={{ marginLeft: width / 3, color: "grey", fontWeight: "bold", }}>No reply yet</Text>
+      </View>
     )
   }
 
@@ -177,11 +174,6 @@ export default class ReplyComments extends Component {
 
       data.item.isLiked = !data.item.isLiked;
       data.item.likeCount = data.item.isLiked ? (parseInt(data.item.likeCount) + 1) : (parseInt(data.item.likeCount) - 1)
-
-      //  data.item.isLiked ? data.item.LikedBy.push({_id:data.item.currentUserId,name:data.item.currentUseProfileName,username:data.item.currentUserName, image:data.item.currentUserPic})
-      //  : data.item.LikedBy=data.item.LikedBy.filter(item => item._id !== data.item.currentUserId);
-
-
 
       const index = this.state.data.findIndex(
         item => data.item._id === item._id
@@ -220,7 +212,6 @@ export default class ReplyComments extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
       var LikePost = {
         "isLiked": data.item.isLiked,
         "commentId": this.props.route.params._id,
@@ -228,9 +219,6 @@ export default class ReplyComments extends Component {
         "ReplycommentId": data.item._id
 
       }
-
-
-
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -238,11 +226,9 @@ export default class ReplyComments extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/replyCommentslike`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/replyCommentslike`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
-
-        //  this.setState({search:''});  this.setState({data:'',temp:''});  
         this.controller.abort()
       }
       else {
@@ -258,7 +244,7 @@ export default class ReplyComments extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (e) {
@@ -283,7 +269,7 @@ export default class ReplyComments extends Component {
 
 
 
-  // console.log(this.state.data)
+
 
 
 
@@ -301,44 +287,40 @@ export default class ReplyComments extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "",skipPagination:1}, function () { this.getData() });
+    this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
-  loadmoreData(){
+  loadmoreData() {
 
-    this.setState({skipPagination:parseInt(this.state.skipPagination)+1,loadingPagination:true},()=>{this.getPaginationData()})
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 1, loadingPagination: true }, () => { this.getPaginationData() })
   }
-   
-  FooterComponent(){
-  return(
-    this.state.errorPagination != null ?
-    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{this.state.error}</Text>
-      <Button onPress={
-        () => {
-          this.getPaginationData();this.setState({disabled:true});
-        }
-      }  disabled={this.state.disabled}>
-        <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
-      </Button>
-    </View>:this.state.loadingPagination?<View style={{ backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',alignSelf:"center"}}>
-    <ActivityIndicator animating={this.state.loadingPagination} color="black" />
-  <Text>Loading...</Text>
-    {/* If you want to image set source here */}
-    {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
-  </View>:null
-  )
+
+  FooterComponent() {
+    return (
+      this.state.errorPagination != null ?
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{this.state.error}</Text>
+          <Button onPress={
+            () => {
+              this.getPaginationData(); this.setState({ disabled: true });
+            }
+          } disabled={this.state.disabled}>
+            <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
+          </Button>
+        </View> : this.state.loadingPagination ? <View style={{
+          backgroundColor: '#FFFFFF',
+          height: 100,
+          width: 100,
+          borderRadius: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', alignSelf: "center"
+        }}>
+          <ActivityIndicator animating={this.state.loadingPagination} color="black" />
+          <Text>Loading...</Text>
+
+        </View> : null
+    )
   }
 
 
@@ -382,21 +364,6 @@ export default class ReplyComments extends Component {
 
       try {
 
-        // var data = this.state.data;
-        //var id=Math.floor((Math.random() * 999999999999999) + 1);
-        // // data.push({
-        // //   id:id,
-        // //   name: "example",
-        // //   likeCount:0,
-        // //   LikedBy:[],
-        // //   comment: this.state.msg,
-        // //   isLiked:false,
-        // //   image: null,
-        // //   OnwerId:""
-        // // });
-        // // this.setState({data:data});
-
-
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
@@ -404,7 +371,6 @@ export default class ReplyComments extends Component {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
         var comment = {
           "comment": this.state.msg,
           "commentId": this.props.route.params._id,
@@ -418,24 +384,15 @@ export default class ReplyComments extends Component {
 
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/addNewReplyComment`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/addNewReplyComment`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
 
-          //  this.setState({search:''});  this.setState({data:'',temp:''});  
-          this.setState({ data: '',skipPagination:1 });
+          this.setState({ data: '', skipPagination: 1 });
           this.getData();
           this.controller.abort()
         }
         else {
-
-
-          // const index = this.state.data.findIndex(
-          //   items => items.id === id
-          // );
-
-          //  this.setState({
-          //   data: this.state.data.filter((x,i) => i != index) })
 
           Alert.alert(
 
@@ -447,7 +404,6 @@ export default class ReplyComments extends Component {
             { cancelable: false }
           );
           this.controller.abort()
-          //  console.log(responseJson);
         }
 
       } catch (e) {
@@ -464,13 +420,6 @@ export default class ReplyComments extends Component {
         );
         this.controller.abort()
       }
-
-
-
-
-      //   setTimeout(() => {
-      //     this.reply();
-      //   }, 2000);
     }
   }
 
@@ -491,7 +440,7 @@ export default class ReplyComments extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => null,
           style: "cancel"
         },
         { text: "Yes", onPress: () => this.deletearray(item.item) }
@@ -516,33 +465,22 @@ export default class ReplyComments extends Component {
         "postId": this.props.route.params.PostId,
         "ReplycommentId": item._id
       }
-
-
-
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-
-
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(DeletePost)
 
       };
-
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/deleteReplyComment`, requestOptions,
-      {signal: this.controller.signal}
-
-
+        { signal: this.controller.signal }
       );
-
 
       if (response.ok) {
 
-        this.setState({ data: "",skipPagination:1 });
+        this.setState({ data: "", skipPagination: 1 });
 
         Alert.alert(
 
@@ -568,7 +506,7 @@ export default class ReplyComments extends Component {
           { cancelable: false }
         );
         this.controller.abort()
-        //  console.log(responseJson);
+
       }
 
     } catch (err) {
@@ -582,54 +520,35 @@ export default class ReplyComments extends Component {
         ],
         { cancelable: false }
       );
-      console.log('error deleting the group: ', err)
       this.controller.abort()
     }
 
   }
 
 
-  // delssetearray(item){
 
-
-  //   const index = this.state.data.findIndex(
-  //     items => item.id === items.id
-  //   );
-
-  //    this.setState({
-  //     data: this.state.data.filter((x,i) => i != index) })
-  //    // console.log(this.state.data,"updated")
-
-
-
-
-  //  // console.log(this.state.data,"updated")
-  // }
 
 
   handleUrlPress(url) {
-    //console.log(`url: ${url} has been pressed!`);
 
     Linking.openURL(url);
   }
 
   handlePhonePress(phone) {
-    //console.log(`phone ${phone} has been pressed!`);
+
   }
 
   handleNamePress(name) {
-    // console.log(`Hello ${name}`);
+
   }
 
   handleEmailPress(email) {
-    //  console.log(`send email to ${email}`);
+
     Linking.openURL("mailto:" + email);
   }
 
   renderText(matchingString, matches) {
 
-
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /@(\w+)/;
     let match = matchingString.match(pattern);
     return `${match[1]}`;
@@ -642,7 +561,7 @@ export default class ReplyComments extends Component {
 
 
     const { height } = this.state;
-   
+
 
     return (
 
@@ -651,88 +570,88 @@ export default class ReplyComments extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
         <KeyboardAvoidingView style={styles.keyboard}>
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
-<View style={styles.Commentcontainer}>
+          <View style={styles.Commentcontainer}>
 
-<Image style={styles.avatar} source={{ uri: this.props.route.params.image }}></Image>
-
-
-<View style={styles.CommentContainerAtCenter}>
+            <Image style={styles.avatar} source={{ uri: this.props.route.params.image }}></Image>
 
 
-
-  <View style={styles.CommentcontentContainer}>
-
-
-    {!(this.props.route.params.name.length > 38) ?
-      <Text style={styles.name}>{this.props.route.params.name}</Text>
-      : <Text style={styles.name}>{this.props.route.params.name.toString().substring(0, 38)}..</Text>}
+            <View style={styles.CommentContainerAtCenter}>
 
 
 
+              <View style={styles.CommentcontentContainer}>
 
-    <View>
-      <Text style={styles.CommentTime}>{moment(this.props.route.params.CommentcreatedAt).fromNow()}</Text>
-    </View>
 
-    <ViewMoreText
-      numberOfLines={4}
-      renderViewMore={this.renderViewMore}
-      renderViewLess={this.renderViewLess}
-      textStyle={styles.title2}
-    >
-
-      <ParsedText style={styles.content} parse={[
-        { type: 'url', style: styles.url, onPress: this.handleUrlPress },
-        {
-          type: 'phone',
-          style: styles.phone,
-          onPress: this.handlePhonePress,
-        },
-        {
-          type: 'email',
-          style: styles.email,
-          onPress: this.handleEmailPress,
-        },
-        {
-          pattern: /Bob|David/,
-          style: styles.name,
-          onPress: this.handleNamePress,
-        },
-        {
-          pattern: /@(\w+)/,
-          style: styles.username,
-          onPress: this.handleNamePress,
-          renderText: this.renderText,
-        },
-        {
-          pattern: /@(\w+)_(\w+)/,
-          style: styles.username,
-          onPress: this.handleNamePress,
-          renderText: this.renderText,
-        },
-        { pattern: /42/, style: styles.magicNumber },
-        { pattern: /#(\w+)/, style: styles.hashTag },
-      ]}
-
-      >{this.props.route.params.comment}</ParsedText>
+                {!(this.props.route.params.name.length > 38) ?
+                  <Text style={styles.name}>{this.props.route.params.name}</Text>
+                  : <Text style={styles.name}>{this.props.route.params.name.toString().substring(0, 38)}..</Text>}
 
 
 
 
+                <View>
+                  <Text style={styles.CommentTime}>{moment(this.props.route.params.CommentcreatedAt).fromNow()}</Text>
+                </View>
 
-    </ViewMoreText>
-  </View>
-</View>
-</View>
+                <ViewMoreText
+                  numberOfLines={4}
+                  renderViewMore={this.renderViewMore}
+                  renderViewLess={this.renderViewLess}
+                  textStyle={styles.title2}
+                >
+
+                  <ParsedText style={styles.content} parse={[
+                    { type: 'url', style: styles.url, onPress: this.handleUrlPress },
+                    {
+                      type: 'phone',
+                      style: styles.phone,
+                      onPress: this.handlePhonePress,
+                    },
+                    {
+                      type: 'email',
+                      style: styles.email,
+                      onPress: this.handleEmailPress,
+                    },
+                    {
+                      pattern: /Bob|David/,
+                      style: styles.name,
+                      onPress: this.handleNamePress,
+                    },
+                    {
+                      pattern: /@(\w+)/,
+                      style: styles.username,
+                      onPress: this.handleNamePress,
+                      renderText: this.renderText,
+                    },
+                    {
+                      pattern: /@(\w+)_(\w+)/,
+                      style: styles.username,
+                      onPress: this.handleNamePress,
+                      renderText: this.renderText,
+                    },
+                    { pattern: /42/, style: styles.magicNumber },
+                    { pattern: /#(\w+)/, style: styles.hashTag },
+                  ]}
+
+                  >{this.props.route.params.comment}</ParsedText>
+
+
+
+
+
+                </ViewMoreText>
+              </View>
+            </View>
+          </View>
 
 
 
@@ -744,33 +663,24 @@ export default class ReplyComments extends Component {
             refreshControl={
               <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
             }
-            //   ListHeaderComponent={
-            //    this.LikesScreen()
 
-            // }
-
-            // ItemSeparatorComponent={() => {
-            //   return (
-            //     <View style={styles.separator}/>
-            //   )
-            // }}
             keyExtractor={(item) => {
               return item._id;
             }}
 
-            ListFooterComponent={()=>this.FooterComponent()}
-             
+            ListFooterComponent={() => this.FooterComponent()}
+
             contentContainerStyle={{ flexGrow: 1 }}
-            onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false}}
-            onEndReached={() =>{
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+            onEndReached={() => {
               if (!this.onEndReachedCalledDuringMomentum) {
                 this.loadmoreData();    // LOAD MORE DATA
                 this.onEndReachedCalledDuringMomentum = true;
               }
-            } }
+            }}
             onEndReachedThreshold={0.2}
-       
-          ListEmptyComponent={this.renderEmpty()}
+
+            ListEmptyComponent={this.renderEmpty()}
 
 
             renderItem={(item) => {
@@ -853,8 +763,6 @@ export default class ReplyComments extends Component {
 
 
                       <TouchableOpacity onPress={() => this.Likes(item)}>
-                        {/* <Text style={{fontWeight:"bold",color:"grey"}}>Like</Text> */}
-                        {/* <Image style={{ width:15,height:15}} source={Like}/> */}
 
                         {Notification.isLiked ?
                           <AntDesign
@@ -874,34 +782,24 @@ export default class ReplyComments extends Component {
 
                       <TouchableOpacity style={styles.likeBtn} onPress={() => this.props.navigation.navigate("ReplyLikesComment", Notification)}>
                         <Text style={{ fontSize: 12, marginLeft: 44 }} >{(parseInt(Notification.likeCount) === 0) ? "" : Notification.likeCount} {(parseInt(Notification.likeCount) > 1) ? "Likes" : "Like"}</Text>
-                        {/* <TouchableOpacity style={styles.replyBtn}><Text>Reply</Text></TouchableOpacity> */}
+
                       </TouchableOpacity>
 
                       {(Notification.OnwerId === Notification.currentUserId || Notification.PostOwnerId === Notification.currentUserId || Notification.CommentOwnerId === Notification.currentUserId) &&
 
-                        // <Button style={{height:15,width:15,flex: 1,
-                        //   marginLeft:310,
-                        //   marginTop:-20}} >DEL</Button>
-
                         <TouchableOpacity onPress={() => this.delete(item)}>
 
                           <MaterialCommunityIcons name="delete-outline" size={15} style={{ height: 15, width: 15, }} />
-                          {/* <Image style={{height:15,width:15,flex: 1,marginLeft:310,}} source={Close_icon} /> */}
 
                         </TouchableOpacity>
-
                       }
-
-
-
-
                     </View>
                   </View>
                 </View>
               )
             }} />
 
-       
+
 
           <View style={{
 
@@ -909,7 +807,6 @@ export default class ReplyComments extends Component {
             alignSelf: 'flex-end',
             padding: 10,
             height: height,
-            // width: width - 20,
             marginRight: 80,
             backgroundColor: 'white',
             margin: 10,
@@ -937,11 +834,11 @@ export default class ReplyComments extends Component {
                 placeholder="Type a message"
                 multiline={true}
                 value={this.state.msg}
-                // placeholderTextColor = "#696969"            
+
                 onChangeText={msg => this.setState({ msg })}
-                //  blurOnSubmit={true}
+
                 onSubmitEditing={() => this.send()}
-                //  returnKeyType="send"
+
                 onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
                 multiline style={{
                   width: '100%', height: height, marginTop: -10, fontSize: 18, padding: 10
@@ -956,7 +853,7 @@ export default class ReplyComments extends Component {
             <TouchableOpacity onPress={() => this.send()}>
               <MaterialCommunityIcons
                 name="send"
-                //  color={color}
+
                 size={40}
               />
             </TouchableOpacity>
@@ -974,7 +871,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: "#ffffff",
     marginTop: 10,
-    marginLeft:40
+    marginLeft: 40
   },
   keyboard: {
     flex: 1,
@@ -983,18 +880,15 @@ const styles = StyleSheet.create({
   },
 
   editor: {
-    // justifyContent: 'center',
+
     height: "100%",
     width: '100%',
-    // fontSize:5,
-    // marginTop:-70
   },
   input: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
     padding: 10,
     height: 40,
-    // width: width - 20,
     marginRight: 80,
     backgroundColor: 'white',
     margin: 10,
@@ -1014,28 +908,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'flex-end',
     padding: 10,
-    // height: 40,
-    // width: width - 20,
-    //marginRight:80,
     marginTop: -62,
     marginRight: 10,
     backgroundColor: 'white',
-    // margin: 10,
-
-
   },
 
   container: {
-    //paddingLeft: ,
     paddingRight: 5,
     paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'flex-start',
- 
+
 
   },
   Commentcontainer: {
-    //paddingLeft: ,
     paddingRight: 5,
     paddingVertical: 5,
     flexDirection: 'row',
@@ -1043,24 +929,11 @@ const styles = StyleSheet.create({
 
   },
   content: {
-    //  marginLeft: 16,
-    //flex: 1,
-
-    //   borderBottomColor: 'black',
-    //  // backgroundColor: '#FFFFFF',
-    //   borderRadius:60,
-    //   borderBottomWidth: 1,
-    //   width:width,
-    //   height:45,
-    //   marginBottom:20,
-    //   flexDirection: 'row',
     borderRadius: 30,
     flexDirection: 'row',
     alignSelf: 'flex-end',
     padding: 5,
     height: 70,
-    // width: width ,
-    // marginRight:20,
     backgroundColor: "#e9ebee",
     margin: 5,
     shadowColor: '#3d3d3d',
@@ -1072,18 +945,8 @@ const styles = StyleSheet.create({
     borderColor: '#696969',
     borderWidth: 1,
     fontSize: 15
-
   },
   contentHeader: {
-    // flex:1,
-    // justifyContent: "space-between",
-
-    //width:"100%",
-    //flexWrap:"nowrap"
-    //  marginBottom: 3
-
-
-    //paddingVertical:,
     paddingHorizontal: 10,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
@@ -1111,12 +974,8 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 12,
     fontWeight: "bold",
-    // flexDirection:"row",
     width: "80%",
     marginLeft: 10,
-    // alignSelf:"flex-start"
-
-
   },
 
 
@@ -1145,7 +1004,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     backgroundColor: '#e9ebee',
     borderRadius: 10,
-    width: width-110,
+    width: width - 110,
     marginRight: 20,
   },
   CommentcontentContainer: {
@@ -1169,8 +1028,6 @@ const styles = StyleSheet.create({
     marginTop: -5,
     marginLeft: 5,
     flexDirection: 'row',
-    // width: 0.6 * screenWidth,
-
   },
   Time: {
     flex: 1,

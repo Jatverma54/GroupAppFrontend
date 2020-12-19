@@ -29,32 +29,6 @@ export default class NewPostImagesTile extends React.Component {
     };
   }
 
-
-
-
-  //   clickEventListener() {
-  //   //  Alert.alert('Alert', 'image clicked');
-  // console.log();
-  // const images = [
-  //   {
-  //       source: {
-  //           uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
-  //       },
-  //       title: 'Paris',
-  //       width: 806,
-  //       height: 720,
-  //   },
-  // ];
-
-  // <ImageView
-  //   images={images}
-  //   imageIndex={0}
-  //   isVisible={true}
-  //   renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
-  // />
-
-  //   }
-
   renderOne() {
     const { images } = this.state;
     const { countFrom } = this.state;
@@ -262,24 +236,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     height: 120,
-    // resizeMode:'contain'
+
   },
   imageContent1: {
     width: '100%',
-    //  resizeMode:'contain'
+
   },
   imageContent2: {
     width: '50%',
-    // resizeMode:'contain'
+
   },
   imageContent3: {
     width: '33.33%',
-    //  resizeMode:'contain'
+
   },
   image: {
     width: '100%',
     height: '100%',
-    // resizeMode:'contain'
+
   },
   //overlay efect
   overlayContent: {
@@ -305,22 +279,15 @@ const styles = StyleSheet.create({
 
   },
   ImageView: {
-
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
-    //  resizeMode: 'cover',
   },
   stretch: {
     flex: 1,
-    // justifyContent:'center',
-    // width: '100%',
-    // height: "100%",
     resizeMode: "contain",
     width: 400,
     height: 200,
-    // alignSelf:"center",
 
   },
   overlayCancel: {

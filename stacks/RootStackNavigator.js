@@ -144,105 +144,9 @@ const RootMainStackNavigator = () => {
 
 };
 
-// const backAction = () => {
-//   Alert.alert("See You Later!", "Do you want to exit From App", [
-//     {
-//       text: "Cancel",
-//       onPress: () => null,
-//       style: "cancel"
-//     },
-//     { text: "YES", onPress: () => BackHandler.exitApp() }
-//   ]);
-//   return true;
-// };
-
-
 
 const DrawerStack = createDrawerNavigator();
 const DrawerScreen = ({ route, navigation }) => {
-
-
-
-  // useEffect(() => {
-  //   BackHandler.addEventListener("hardwareBackPress", backAction);
-
-  //   return () =>
-  //     BackHandler.removeEventListener("hardwareBackPress", backAction);
-  // }, []);
-
-  // const [userdata, setuserdata] = useState('');
-
-  // useEffect(() => {
-  //   const tryLogin = async () => {
-
-  //     try {
-  //       const userData = await AsyncStorage.getItem('userData');
-
-  //       const transformedData = JSON.parse(userData);
-  //       const { token, userId } = transformedData;
-  //       //const expirationDate = new Date(expiryDate);
-
-
-  //       //  const expirationTime = expirationDate.getTime() - new Date().getTime();
-
-
-
-  //       var myHeaders = new Headers();
-  //       myHeaders.append("Content-Type", "application/json");
-  //       myHeaders.append("Authorization", "Bearer " + token);
-  //       var requestOptions = {
-  //         method: 'GET',
-  //         headers: myHeaders,
-
-  //       };
-
-  //       const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions,{signal: this.controller.signal});
-
-
-  //       if (response.ok) {
-
-  //         const json = await response.json();
-  //         setuserdata(json.result)
-  //        // navigation.navigate('DrawerScreen', json.result)
-  //       } else {
-
-  //         await AsyncStorage.clear();
-  //         Alert.alert(
-
-  //           "Something went wrong!!",
-  //           "Please Re login",
-  //           [
-  //             { text: "Ok", onPress: () => navigation.navigate('LoginScreen',json.result) }
-  //           ],
-  //           { cancelable: false }
-  //         );
-  //       }
-  //       // setuserimageUrl(json.result.profile.profile_pic);
-  //       //setuserName(json.result.profile.full_name);
-
-  //     } catch (e) {
-
-  //       await AsyncStorage.clear();
-  //       Alert.alert(
-
-  //         "Something went wrong!!",
-  //         "Please Re login",
-  //         [
-  //           { text: "Ok", onPress: () => navigation.navigate('LoginScreen') }
-  //         ],
-  //         { cancelable: false }
-  //       );
-
-  //       //this.setState({ error: 'Reload the Page',disabled:false,  });
-  //       console.log("Error ", e)
-  //     }
-
-
-  //     //dispatch(authActions.authenticate(userId, token, expirationTime));
-  //   };
-
-  //   tryLogin();
-  // }, []);
 
   return (
 
@@ -262,7 +166,7 @@ const DrawerScreen = ({ route, navigation }) => {
 
           fontFamily: 'SomeFont',
         }}
-      //initialRouteName="Public Groups"
+
       />}
       initialRouteName="Public Groups"
     >
@@ -271,7 +175,6 @@ const DrawerScreen = ({ route, navigation }) => {
       <DrawerStack.Screen name="Public Groups" component={PublicGroupStackNavigator} />
       <DrawerStack.Screen name="Public Groups Feed" component={PublicGroupFeedStackNavigator} />
       <DrawerStack.Screen name="Personal Groups" component={PersonalGroupRootStackNavigator} />
-      {/* <DrawerStack.Screen name="Professional groups" component={ProfessionalGroupRootStackNavigator}/> */}
       <DrawerStack.Screen name="Profile" component={ProfileScreenStackNavigator} />
 
     </DrawerStack.Navigator>

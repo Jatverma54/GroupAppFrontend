@@ -57,7 +57,6 @@ export default class CreateaNewPost extends Component {
       document: null,
       newValue: '',
       height: 40,
-      //fontWeight
       fontSize: 20,
       width: "100%",
       marginLeft: 16,
@@ -76,7 +75,6 @@ export default class CreateaNewPost extends Component {
       loading: false,
       documentToBeSentToDb: null,
       ClickedPhotoToBeSentToDb: null
-      //  photos: []
     };
   }
 
@@ -89,17 +87,8 @@ export default class CreateaNewPost extends Component {
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-    //this.changeScreenOrientation();
-  // this._openRewarded();
-
-
   }
 
-  //   componentWillUnmount(){
-  //     if (this.cleanup) this.cleanup();
-  //     this.cleanup = null;
-
-  //   }
 
   _openRewarded = async () => {
     try {
@@ -107,12 +96,11 @@ export default class CreateaNewPost extends Component {
       await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
+
     }
   }
 
   getPermissionAsync = async () => {
-    // if (Constants.platform.ios) {
     const { status } = Permissions.getAsync(Permissions.CAMERA_ROLL)
     if (status !== 'granted') {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -120,7 +108,6 @@ export default class CreateaNewPost extends Component {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
-    //}
   };
 
 
@@ -180,11 +167,9 @@ export default class CreateaNewPost extends Component {
 
         this.setState({ documentToBeSentToDb: img });
       }
-      // console.log(result);
-
 
     } catch (E) {
-      console.log(E);
+
     }
 
   }
@@ -197,7 +182,6 @@ export default class CreateaNewPost extends Component {
         allowsEditing: true,
         allowsMultipleSelection: true,
         base64: true,
-        //aspect: [1.100,1],
         quality: 1,
       });
       if (!result.cancelled) {
@@ -206,13 +190,10 @@ export default class CreateaNewPost extends Component {
 
         this.setState({ PhotoPresent: true });
         this.CameraOptions.close();
-
-        // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
       }
 
-      // console.log(result);
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -223,14 +204,9 @@ export default class CreateaNewPost extends Component {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         allowsEditing: true,
-
-        //aspect: [1.100,1],
         quality: 1,
-        //   base64:true,
       });
       if (!result.cancelled) {
-        //this.setState({ video: `data:video/mp4;base64,${result.base64}` });
-
         let mediaUrl_string = result.uri.trim().split("/");
         let mediaUrl_Length = mediaUrl_string.length - 1;
         let Media_Name = result.uri.split("/")[mediaUrl_Length];
@@ -247,19 +223,18 @@ export default class CreateaNewPost extends Component {
 
         this.CameraOptions.close();
 
-        // this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
+
       }
 
-      // console.log(result);
+
     } catch (E) {
-      console.log(E);
+
     }
 
   };
 
 
   getCameraPermissionAsync = async () => {
-    // if (Constants.platform.ios) {
     const { status } = Permissions.getAsync(Permissions.CAMERA)
     if (status !== 'granted') {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -267,7 +242,6 @@ export default class CreateaNewPost extends Component {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
-    // }
   };
 
 
@@ -276,9 +250,7 @@ export default class CreateaNewPost extends Component {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        // aspect: [1.85,1],
         quality: 1,
-        // base64:true,
       });
       if (!result.cancelled) {
 
@@ -292,27 +264,13 @@ export default class CreateaNewPost extends Component {
           name: Media_Name,
           type: mime.getType(result.uri)
         }
-
-
-
         this.state.photo.push(result.uri);
-
-
-        // this.state.PhotoToBeSentToDb.push(img);
         this.setState({ ClickedPhotoToBeSentToDb: img })
-
-        console.log(this.state.PhotoToBeSentToDb);
-        // this.state.photo.push(`data:image/jpg;base64,${result.base64}` )
-
         this.setState({ PhotoPresent: true });
-
         this.CameraOptions.close();
-        //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);
       }
-
-
     } catch (E) {
-      console.log(E);
+
     }
 
   };
@@ -324,85 +282,34 @@ export default class CreateaNewPost extends Component {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         allowsEditing: true,
-        // aspect: [1.85,1],
         quality: 1,
-        // base64:true
       });
       if (!result.cancelled) {
-        // this.setState({ video: `data:video/mp4;base64,${result.base64}` });
-
         let mediaUrl_string = result.uri.trim().split("/");
         let mediaUrl_Length = mediaUrl_string.length - 1;
         let Media_Name = result.uri.split("/")[mediaUrl_Length];
-
         let img = {
           uri: result.uri,
           name: Media_Name,
           type: mime.getType(result.uri)
         }
-
-
         this.setState({ video: result.uri });
-
         this.setState({ videoToBeSentToDb: img });
-
-        //this.state.PhotoToBeSentToDb.push(img);
-
         this.CameraOptions.close();
-        //  this.props.myHookValue.navigate("CreateaImagePost",this.state.photo);  
       }
-      //  console.log(result);    
+
     } catch (E) {
-      console.log(E);
+
     }
 
   };
 
 
-  // ShowImageorVideo(){
-
-  //   if(this.state.photo!=null&&!this.state.photo.toString().includes(".mp4")){
-  //     return(
-  //     <View style={styles.ImageView} >
-  //   {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-
-  //   <Image
-  // style={styles.stretch}
-  // source={{uri:this.state.photo}}
-
-  // />
-  // </View>)
-  //     }
-  //     else if(this.state.photo!=null&&this.state.photo.toString().includes(".mp4")) {
-  //       return(
-  //       <View style={styles.ImageView} >
-  //       {this.state.photo&&<TouchableOpacity onPress={() => this.setState({ photo: null })} ><Text style={{marginLeft:5}}>Remove</Text></TouchableOpacity> }
-  //       <Video
-  //       source={{ uri: this.state.photo }}
-  //       rate={1.0}
-  //       volume={1.0}
-  //       isMuted={false}
-  //       resizeMode="cover"
-  //       shouldPlay={false}
-  //       isLooping={false}
-  //       useNativeControls
-  //       style={styles.video}
-
-  //     />
-  //     </View>) 
-  //     } 
-
-  // }
 
   imageBrowserCallback = (callback) => {
     callback.then((photo) => {
 
 
-      // this.setState({
-      //   imageBrowserOpen: false,
-      //   photo
-      // })
-      //console.log(photo)
       var photos = photo.map(function ({ uri }) {
         return uri;
       });
@@ -412,33 +319,9 @@ export default class CreateaNewPost extends Component {
         photo: photos
       })
 
-      //   var PhotoToBeSentToDb=photo.map(function({ uri, mediaType,filename,}){
-      //     return { uri, mediaType,filename,};
-      // });
-
-
-      // var PhotoToBeSentToDb = photo.map(item => {
-      //   let img={
-      //     uri : item.uri,
-      //     name : item.filename,
-      //     type : mime.getType(item.uri),
-
-      // }
-
-      //   return img;
-      // });
-
-
-      // console.log(PhotoToBeSentToDb)
-
-      //  console.log(PhotoToBeSentToDb,"final")
       this.setState({ PhotoToBeSentToDb: photo })
 
-
-
-      // console.log(this.state.photos[0].uri,"final")
-      //for
-    }).catch((e) => console.log(e))
+    }).catch((e) => null)
 
   }
 
@@ -507,19 +390,13 @@ export default class CreateaNewPost extends Component {
 
         }
 
-        formdata.append("GroupId", this.props.GroupName._id);
+        formdata.append("GroupId",this.props.GroupName.AllPublicFeed !== undefined ?this.props.GroupName.GroupId:this.props.GroupName._id);
         formdata.append("postMetaData", newValue);
         formdata.append("OnwerId", userId);
 
 
-        //  var formdata = new FormData();
-        // formdata.append("file", videoToBeSentToDb);
-        // formdata.append("userDetails", JSON.stringify(PostInfo));
-        //  console.log(formdata)
-
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "multipart/form-data");
-        // myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
@@ -527,32 +404,21 @@ export default class CreateaNewPost extends Component {
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
-          body: formdata,//JSON.stringify(PostInfo),//formdata
+          body: formdata,
           redirect: 'follow'
         };
-        //console.log(formdata)
+
         const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/createNewPost/`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
           this.props.navigation.goBack();
-          // Alert.alert(
 
-          //   "Post created successfully",
-          //   "",
-          //   [
-          //     { text: "Ok", onPress: () => this.props.navigation.goBack()}
-          //   ],
-          //   { cancelable: false }
-          // );
           this.controller.abort()
         }
         else {
           this.setState({ loading: false });
-          // let responseJson = await response.json();
 
-          //  let errorstring= responseJson.error.toString();
-          //  alert(errorstring )
           Alert.alert(
 
             "Something went wrong!!",
@@ -570,7 +436,6 @@ export default class CreateaNewPost extends Component {
     }
     catch (e) {
       this.setState({ loading: false });
-      console.log('error creating post: ', e)
       Alert.alert(
 
         "Something went wrong!!",
@@ -585,7 +450,7 @@ export default class CreateaNewPost extends Component {
   }
 
   render() {
-    //console.log(this.props.GroupName,"sss")
+
     if (this.state.imageBrowserOpen) {
       return (
         <ImageBrowser
@@ -619,11 +484,7 @@ export default class CreateaNewPost extends Component {
             <View style={styles.inputContainer} >
 
               <TextInput style={styles.inputs}
-                //maxLength={500}
                 placeholder="Click and Type your thoughts here.."
-                // placeholderTextColor="black"
-                // keyboardType="email-address"
-                //underlineColorAndroid='transparent'
                 autoCapitalize="none"
                 style={[newStyle]}
                 editable={true}
@@ -687,66 +548,15 @@ export default class CreateaNewPost extends Component {
                         <MaterialCommunityIcons
                           name="file-document"
                           size={70}
-                        // style={styles.DocumentIcon} 
+
                         />
                       </TouchableHighlight>
 
                       <Text style={{ alignSelf: "center" }}>PDF</Text>
 
-
-                      {/* {this.state.isDocumentVisible===true&&
-    
-    <Modal>
-   
-    <View style={{height:height,width:width,flex:1}}>
-      
-
- <PDFReader style={{height:height,width:width}} 
-        source={{
-          uri: this.state.OpenDucumentUri,
-
-        }}    />
-        
-   
-
-
-
-      <TouchableHighlight
-        style={styles.overlayCancel}
-        onPress={()=>{this.setState({isDocumentVisible: false})}}>
-       
-            <MaterialCommunityIcons
-              name="close"                
-              size={27}
-             style={styles.cancelIcon} 
-            />
-      
-         
-      </TouchableHighlight>
-    </View>
-   
-    </Modal>
-    
-    
-    }   
-       */}
-
-
-
-
-
                     </View>) : null)}
 
-
-
-
-
           </ScrollView>
-
-
-
-
-
 
           <View>
             <TouchableOpacity style={styles.inputIconLeft} onPress={() => this.CameraOptions.open()} >
@@ -786,24 +596,8 @@ export default class CreateaNewPost extends Component {
             </TouchableOpacity>
           </View>
 
-
         </View>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {/* List Menu */}
         <RBSheet
           ref={ref => {
             this.CameraOptions = ref;
@@ -1054,8 +848,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "60%",
     marginBottom: 30,
-    // flexDirection: 'row',
-    //alignItems:'center'
     marginTop: 10
   },
   inputs: {
@@ -1064,35 +856,24 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
     flex: 2,
-    //  marginTop:10,
     fontWeight: "bold",
     fontSize: 25,
 
   },
   inputIcon: {
     flex: 1,
-
-    //alignSelf:"center",
-    //marginLeft:180,
-
     width: 120,
     marginTop: -90,
-    //alignSelf:"center",
     marginLeft: width / 2 - 37,
-
     marginBottom: 30,
-    // paddingTop:20
+
   },
 
   TextStyle: {
 
     fontWeight: "bold",
     width: "100%",
-
     marginLeft: 9,
-
-
-    //marginBottom:10
   },
   buttonContainer: {
     height: 45,
@@ -1110,15 +891,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   editor: {
-    // justifyContent: 'center',
     height: '100%',
     width: '100%'
   },
   stretch: {
-    // flex:1,
+
     justifyContent: 'center',
-    // width: '100%',
-    // height: "100%",
     resizeMode: "center",
     width: 400,
     height: 400,
@@ -1128,16 +906,12 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
     resizeMode: "cover",
-    //  resizeMode: "stretch",
   },
   inputIconLeft: {
     width: 120,
-
-    //alignSelf:"center",
     marginLeft: 30,
 
 
@@ -1154,8 +928,6 @@ const styles = StyleSheet.create({
   inputIconRight: {
 
     width: 120,
-    // alignSelf:"center",
-
     marginLeft: width - 80,
     marginTop: -59
   },
@@ -1172,10 +944,8 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
     width: '100%',
     height: "100%",
-    //  resizeMode: "stretch",
   },
   overlayCancel: {
     padding: 20,
@@ -1190,21 +960,15 @@ const styles = StyleSheet.create({
 
   },
   DocumentIcon: {
-    // color: 'black',
     marginTop: 10,
     alignSelf: "center"
 
   },
   stretch: {
-    // flex:1,
     width: width,
     height: height / 3,
     resizeMode: "contain",
   },
-  // video: {
-  //   width: width,
-  //   height: height / 2
-  // },
 
 });
 

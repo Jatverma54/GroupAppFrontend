@@ -16,7 +16,7 @@ import {
 setTestDeviceIDAsync('EMULATOR')
 AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 enableScreens();
-//console.disableYellowBox = true;
+
 //LogBox.ignoreAllLogs()
 
 
@@ -33,55 +33,32 @@ Notifications.setNotificationHandler({
 export default function App() {
   _openRewarded = async () => {
     try {
-     
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
       await AdMobRewarded.showAdAsync()
     } catch (error) {
-      console.log(error)
-    } 
+
+    }
   }
 
-  // useEffect(() => {
-  //   const tryLogin = async () => {
-  //     const userData = await AsyncStorage.getItem('userData');
-  //     if (!userData) {
-  //     //  props.navigation.navigate('LoginScreen');
-  //       return null;
-  //     }
-  //     const transformedData = JSON.parse(userData);
-  //     const { token, userId } = transformedData;
-  //     //const expirationDate = new Date(expiryDate);
 
-  //     if ( !token || !userId) {//expirationDate <= new Date() ||
-  //      // props.navigation.navigate('LoginScreen');
-  //       return null;
-  //     }
-
-  //   //  const expirationTime = expirationDate.getTime() - new Date().getTime();
-  //   UserToken.userToken =token;
-  //   UserToken.UserId = userId;    
-  //     //dispatch(authActions.authenticate(userId, token, expirationTime));
-  //   };
-
-  //   tryLogin();
-  // }, []);
   useEffect(() => {
 
-     const time=   setTimeout(() => {
-          this._openRewarded();
-        }, 10000);
+    const time = setTimeout(() => {
+      this._openRewarded();
+    }, 10000);
 
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
 
       (response) => {
-        // console.log(response);
+
 
       }
     );
 
     const foregroundSubscription = Notifications.addNotificationReceivedListener(
       (notification) => {
-        // console.log(notification);
+
       }
     );
 
@@ -92,7 +69,7 @@ export default function App() {
     };
   }, []);
 
-  //Notifications.getExpoPushTokenAsync();
+
   return (
     <NavigationContainer>
       <View style={styles.Rootscreen}>

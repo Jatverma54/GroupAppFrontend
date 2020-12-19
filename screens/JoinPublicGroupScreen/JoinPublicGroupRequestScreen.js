@@ -45,48 +45,38 @@ export default class JoinPublicGroupRequestScreen extends Component {
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,
-      disabled:false
+      disabled: false
 
     }
   }
-   cleanup = null;
+  cleanup = null;
 
   componentDidMount() {
 
+    let unsubscribe1;
+    let unsubscribe2;
+    if (this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) {
+      unsubscribe1 = this.setState({ data: "" })
+      unsubscribe2 = this.getData(); // do something
+    }
 
-
-  //  this._unsubscribe =   this.props.navigation.addListener('focus', () => {
-      // do something
-       let unsubscribe1 ;
-       let unsubscribe2 ;
-      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
-         unsubscribe1 =    this.setState({ data: "" })
-         unsubscribe2 =  this.getData(); // do something
-      }
-
-   // });
-    this.cleanup = () => { unsubscribe1; unsubscribe2; }
+    this.cleanup = () => { unsubscribe1; unsubscribe2; }
 
   }
 
   componentWillUnmount() {
-   // this._unsubscribe;
-    if (this.cleanup) this.cleanup();
-    this.cleanup = null;
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
- 
+
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
   }
 
   getData = async () => {
 
- 
+
     this.setState({ loading: true, data: '', skipPagination: 1 });
 
     try {
-      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
+      if (this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) {
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -105,30 +95,26 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
         const json = await response.json();
-        //  console.log("Error ",json)
         this.setResult(json.result);
+        if (this.state.data.length !== 0) {
 
-       
-
-        if(this.state.data.length!==0){
-        
-           this.props.navigation.setOptions({
-             tabBarLabel: (parseInt(this.state.data.length) > 1) ? this.state.data.length+" Group Requests" :this.state.data.length+" Group Request"
-           })
-         }else{
+          this.props.navigation.setOptions({
+            tabBarLabel: (parseInt(this.state.data.length) > 1) ? this.state.data.length + " Group Requests" : this.state.data.length + " Group Request"
+          })
+        } else {
           this.props.navigation.setOptions({
             tabBarLabel: 'Group Requests'
           })
-         }
-         this.controller.abort()
+        }
+        this.controller.abort()
       }
     } catch (e) {
 
-      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
-      console.log("Error ", e)
-      
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
+
       this.controller.abort()
 
     }
@@ -140,11 +126,11 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   getPaginationData = async () => {
 
- 
+
     this.setState({ loadingPagination: true });
 
     try {
-      if (this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) {
+      if (this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) {
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -163,20 +149,20 @@ export default class JoinPublicGroupRequestScreen extends Component {
           body: JSON.stringify(GroupData),
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getAllGroupRequest?page_size=7&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
         const json = await response.json();
-        //  console.log("Error ",json)
+
         this.setResult(json.result);
 
         this.controller.abort()
 
-      
+
       }
     } catch (e) {
-      this.setState({ errorPagination: 'Reload', disabled:false, isFetching: false, loading: false });
+      this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
 
-      console.log("Error ", e)
-      
+
+
       this.controller.abort()
 
     }
@@ -192,7 +178,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
+      isFetching: false, disabled: false,
       loadingPagination: false
     });
   }
@@ -210,9 +196,9 @@ export default class JoinPublicGroupRequestScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -227,13 +213,6 @@ export default class JoinPublicGroupRequestScreen extends Component {
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
         </View> : null
     )
   }
@@ -257,7 +236,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   confirmRequest = async (item) => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true, data: '' });
 
     try {
 
@@ -281,9 +260,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(ConfirmRequest),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/confirmGroupRequest`, requestOptions,{signal: this.controller.signal});
-      //const json = await response.json();
-      //  console.log("Error ",json)
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/confirmGroupRequest`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -315,8 +292,6 @@ export default class JoinPublicGroupRequestScreen extends Component {
         );
 
         this.controller.abort()
-
-        //  console.log(responseJson);
       }
 
     } catch (e) {
@@ -340,7 +315,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   RemoveRequest = async (item) => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true, data: '' });
 
     try {
 
@@ -364,9 +339,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
         body: JSON.stringify(RemoveRequest),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/removeGroupRequest`, requestOptions,{signal: this.controller.signal});
-      //const json = await response.json();
-      //  console.log("Error ",json)
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/removeGroupRequest`, requestOptions, { signal: this.controller.signal });
 
       if (response.ok) {
         this.setState({ loading: false });
@@ -399,7 +372,6 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
         this.controller.abort()
 
-        //  console.log(responseJson);
       }
 
     } catch (e) {
@@ -422,20 +394,19 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
   render() {
 
-   
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> : <View style={{ flex: 1, }} >
-        <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
           <FlatList
             style={styles.root}
             data={this.state.data}
@@ -455,7 +426,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
               return item._id;
             }}
 
-         
+
             ListFooterComponent={() => this.FooterComponent()}
 
             contentContainerStyle={{ flexGrow: 1 }}
@@ -527,30 +498,30 @@ export default class JoinPublicGroupRequestScreen extends Component {
               );
             }} />
 
-          {(!this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) &&
+          {(!this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
               <Image source={NoGroups} style={{
                 alignSelf: "center", alignItems: "center", width: 53,
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ alignContent:"center",alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Only group admin can accept or reject joining requests.       </Text>
+              <Text style={{ alignContent: "center", alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Only group admin can accept or reject joining requests.       </Text>
             </View>}
 
-          {(this.state.data.length === 0 && this.props.route.params.groupid.admin_id.find(a=>a._id===this.props.route.params.groupid.currentUser)) &&
+          {(this.state.data.length === 0 && this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) &&
             <View style={{ flex: 1, backgroundColor: "white" }}>
               <Image source={NoGroups} style={{
                 alignSelf: "center", alignItems: "center", width: 53,
                 height: 53,
                 borderRadius: 25,
               }} />
-              <Text style={{ alignSelf:"center",alignItems: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.   </Text>
+              <Text style={{ alignSelf: "center", alignItems: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.   </Text>
             </View>}
 
-            <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
         </View>
     );
   }

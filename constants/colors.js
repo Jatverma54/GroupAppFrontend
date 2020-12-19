@@ -2,7 +2,7 @@ export default {
 
     // Status Bar Color
     StatusBarStyle: "light-content",
-    StatusbackgroundColor: "#086A87",//#086A87",
+    StatusbackgroundColor: "#086A87",
 
     //Different stacks color and header
     cardStyleBackgroundColor: 'transparent',

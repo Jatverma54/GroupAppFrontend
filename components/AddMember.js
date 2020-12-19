@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from "react";
-import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Alert, RefreshControl,AsyncStorage } from "react-native";
+import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Alert, RefreshControl, AsyncStorage } from "react-native";
 import { Icon } from "react-native-elements";
 import {
   Avatar,
@@ -28,7 +28,7 @@ setTestDeviceIDAsync('EMULATOR')
 AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class AddMembers extends React.Component {
-    cleanup = null;
+  cleanup = null;
 
   controller = new AbortController();
   constructor(props) {
@@ -36,76 +36,33 @@ export default class AddMembers extends React.Component {
     this.state = {
       data: [],
       error: null,
-     // search: null,
       isFetching: false,
       loading: false,
       selected: [],
-      userName:"",
-      disabled:false
+      userName: "",
+      disabled: false
     };
   }
 
-  // _openRewarded = async () => {
-  //   try {
-     
-  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true})
-  //     await AdMobRewarded.showAdAsync()
-  //   } catch (error) {
-  //     console.log(error)
-  //   } 
-  // }
 
-  // componentDidMount(){
-  //    this._openRewarded();
-   
-  // }
 
-  // componentWillUnmount() {
-   
-  //    if (this.cleanup) this.cleanup();
-  //       this.cleanup = null;
-    
-    
-  // }
- 
-// fetchData = () => {this.setState({loading: true});
-
-  // fetch("https://jsonplaceholder.typicode.com/photos")
-  //   .then(response => response.json())
-  //   .then(responseJson => {
-  //     responseJson = responseJson.map(item => {
-  //       item.isSelect = false;
-  //       item.selectedClass = styles.list;
-
-  //       return item;
-  //     });
-
-  //     this.setState({
-  //       loading: false,
-  //       dataSource: responseJson,
-  //     });
-  //     console.log(responseJson[0])
-  //   }).catch(error => {this.setState({loading: false});
-  //  });
-  // };// ADD group id/Name with
 
 
   getData = async () => {
-   
+
 
     if (this.state.userName.length > 0) {
 
       try {
         this.setState({ loading: true, data: [] });
-    const userData = await AsyncStorage.getItem('userData');
+        const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
         const { token, userId } = transformedData;
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-        //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-     
+
         var search = {
           "userSearchQuery": this.state.userName,
         }
@@ -116,20 +73,19 @@ export default class AddMembers extends React.Component {
           body: JSON.stringify(search)
         };
 
-        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userSearchQuery`, requestOptions,{signal: this.controller.signal});
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userSearchQuery`, requestOptions, { signal: this.controller.signal });
 
         if (response.ok) {
           this.setState({ loading: false });
           const json = await response.json();
-          //  this.setState({search:''});  this.setState({data:'',temp:''}); 
-          let jsonResult=json.result;
-          jsonResult=jsonResult.map(item => {
-                  item.isSelect = false;
-                  item.selectedClass = styles.list;
-          
-                  return item;
-                });
-          
+          let jsonResult = json.result;
+          jsonResult = jsonResult.map(item => {
+            item.isSelect = false;
+            item.selectedClass = styles.list;
+
+            return item;
+          });
+
           this.setState({ data: jsonResult });
           this.controller.abort()
         }
@@ -146,7 +102,7 @@ export default class AddMembers extends React.Component {
             { cancelable: false }
           );
           this.controller.abort()
-          //  console.log(responseJson);
+
         }
 
       } catch (e) {
@@ -166,20 +122,6 @@ export default class AddMembers extends React.Component {
     }
   };
 
-
-
-  // setResult = (res) => {
-  //   this.setState({
-  //     data: [...this.state.data, ...res],
-  //     dataSearch: [...this.state.temp, ...res],
-  //     error: res.error || null,
-  //     loading: false
-  //   });
-  // }
-
-
-
-
   FlatListItemSeparator = () => <View style={styles.line} />;
 
   selectItem = data => {
@@ -192,126 +134,121 @@ export default class AddMembers extends React.Component {
 
     this.state.data[index] = data.item;
 
-    if(data.item.isSelect&&!this.state.selected.find(a=>a._id===data.item._id)){
-   //   console.log(data.item,"ADDDD")
+    if (data.item.isSelect && !this.state.selected.find(a => a._id === data.item._id)) {
 
-  // if(!this.state.selected.find(a=>a._id===data.item._id)){
 
-  let selectedthing= this.state.data.filter(item => item.isSelect)
+      let selectedthing = this.state.data.filter(item => item.isSelect)
 
-for(var data in selectedthing){
+      for (var data in selectedthing) {
 
-  if(this.state.selected.indexOf(selectedthing[data]) === -1) {
-    this.state.selected.push(selectedthing[data]);
-}
-}
-   this.setState({
-      data: this.state.data,
-      // dataSearch:this.state.data,
-      selected: this.state.selected,
-    });
-   // }
-  }
-    else{
-    //  console.log(data.item,"REMOVW")
-      this.state.selected=  this.state.selected.filter((item) => {
-        return data.item._id !==item._id})
+        if (this.state.selected.indexOf(selectedthing[data]) === -1) {
+          this.state.selected.push(selectedthing[data]);
+        }
+      }
       this.setState({
         data: this.state.data,
-        // dataSearch:this.state.data,
-         selected: this.state.selected,
+
+        selected: this.state.selected,
+      });
+
+    }
+    else {
+
+      this.state.selected = this.state.selected.filter((item) => {
+        return data.item._id !== item._id
+      })
+      this.setState({
+        data: this.state.data,
+
+        selected: this.state.selected,
       });
     }
 
   };
 
 
-  // onRefresh() {
-  //   this.setState({ isFetching: true }, function () { this.searchRandomUser() });
-  // }
 
 
 
 
-  getSelectedArray=async () =>{
 
-    // const itemss = this.state.data.filter(item => item.isSelect);
+  getSelectedArray = async () => {
+
+
     const itemss = this.state.selected;
-  
+
     if (itemss.length > 0) {
-      // console.log(itemss);
+
 
 
       try {
         this.setState({ loading: true });
         const userData = await AsyncStorage.getItem('userData');
-            const transformedData = JSON.parse(userData);
-            const { token, userId } = transformedData;
-    
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            myHeaders.append("Authorization", "Bearer " + token);
-            //myHeaders.append("Authorization", 'Basic ' + encode(userName + ":" + password));
-         
-            var search = {
-              "SelectedUsers": itemss,
-              "groupid":this.props.route.params
-            }
-          
-            var requestOptions = {
-              method: 'POST',
-              headers: myHeaders,
-              body: JSON.stringify(search)
-            };
-    
-            const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions,{signal: this.controller.signal});
-    
-            if (response.ok) {
-              this.setState({ loading: false });
-              Alert.alert(
-    
-                "Users added Successfully",
-                "",
-                [
-                  { text: "Ok", onPress: () =>  this.setState({data: [],selected: []})}
-                ],
-                { cancelable: false }
-              );
-    
-               //  console.log(responseJson)
-               this.controller.abort()
-            }
-            else {
-    
-              this.setState({ loading: false });
-              Alert.alert(
-    
-                "Something went wrong!!",
-                "Please try again",
-                [
-                  { text: "Ok", onPress: () => null }
-                ],
-                { cancelable: false }
-              );
-    
-              //  console.log(responseJson);
-              this.controller.abort()
-            }
-    
-          } catch (e) {
-    
-            this.setState({ loading: false });
-            Alert.alert(
-    
-              "Something went wrong!!",
-              "Please try again",
-              [
-                { text: "Ok", onPress: () => null }
-              ],
-              { cancelable: false }
-            );
-            this.controller.abort()
-          }
+        const transformedData = JSON.parse(userData);
+        const { token, userId } = transformedData;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        var search = {
+          "SelectedUsers": itemss,
+          "groupid": this.props.route.params
+        }
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(search)
+        };
+
+        const response = await fetch(`${APIBaseUrl.BaseUrl}/users/adduserTogroup`, requestOptions, { signal: this.controller.signal });
+
+        if (response.ok) {
+          this.setState({ loading: false });
+          Alert.alert(
+
+            "Users added Successfully",
+            "",
+            [
+              { text: "Ok", onPress: () => this.setState({ data: [], selected: [] }) }
+            ],
+            { cancelable: false }
+          );
+
+
+          this.controller.abort()
+        }
+        else {
+
+          this.setState({ loading: false });
+          Alert.alert(
+
+            "Something went wrong!!",
+            "Please try again",
+            [
+              { text: "Ok", onPress: () => null }
+            ],
+            { cancelable: false }
+          );
+
+          this.controller.abort()
+        }
+
+      } catch (e) {
+
+        this.setState({ loading: false });
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+        this.controller.abort()
+      }
 
     }
     else {
@@ -332,22 +269,20 @@ for(var data in selectedthing){
         source={{ uri: data.item.image }}
         style={{ width: 40, height: 40, margin: 6 }}
       />
-      {/* <Text style={styles.lightText}>  {data.item.name}  </Text>
-      <Text style={styles.lightText2}>{data.item.username}</Text> */}
 
 
       <View>
-            <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt}  ellipsizeMode="tail"> {data.item.name}</Text>
+        <View style={styles.nameContainer}>
+          <Text style={styles.nameTxt} ellipsizeMode="tail"> {data.item.name}</Text>
 
 
 
-            </View>
-            <View style={styles.msgContainer}>
-              <Text style={styles.msgTxt}>{data.item.username}</Text>
-            </View>
+        </View>
+        <View style={styles.msgContainer}>
+          <Text style={styles.msgTxt}>{data.item.username}</Text>
+        </View>
 
-</View>
+      </View>
 
 
 
@@ -360,7 +295,7 @@ for(var data in selectedthing){
 
       placeholder="Type a username.."
       lightTheme round editable={true}
-      // containerStyle={{height:35,paddingBottom:40,}}
+
       containerStyle={{
         borderBottomColor: "#CCCCCC",
         borderBottomWidth: 0.5,
@@ -370,16 +305,15 @@ for(var data in selectedthing){
       platform="android"
       inputStyle={{ color: "black" }}
       value={this.state.userName}
-      //onChangeText={this.updateSearch}
       onChangeText={userName => this.setState({ userName })}
       onSubmitEditing={() => this.getData()}
       returnKeyType="send"
       editable={true}
       multiline={true}
       blurOnSubmit={true}
-      onClear={()=>this.setState({data:[]})}
-      
-       />;
+      onClear={() => this.setState({ data: [] })}
+
+    />;
 
 
 
@@ -403,29 +337,11 @@ for(var data in selectedthing){
   };
 
 
-  // deselectItem = item => {
-  //   item.isSelect = !item.isSelect;
-  //   item.selectedClass = item.isSelect ? styles.selected : styles.list;
-
-  //   const index = this.state.data.findIndex(
-  //     item => item.id === item.id
-  //   );
-
-  //   this.state.data[index] = item;
-
-  //   this.setState({
-  //     data: this.state.data,
-  //    // dataSearch:this.state.data,
-  //    selected: this.state.data.filter(item => item.isSelect)
-  //   });
-  // };
-
-
   render() {
-    
-    const itemNumber = this.state.selected.length;//this.state.data.filter(item => item.isSelect).length;
 
-   
+    const itemNumber = this.state.selected.length;
+
+
 
 
     return (
@@ -435,14 +351,14 @@ for(var data in selectedthing){
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
         <View style={styles.container}>
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
 
           {this.state.selected.length > 0 &&
@@ -465,7 +381,6 @@ for(var data in selectedthing){
 
 
                 renderItem={(data) => {
-                  //const item = post.item;
 
                   return (
                     <View style={{ flex: 1 }} >
@@ -484,8 +399,8 @@ for(var data in selectedthing){
                               source={{ uri: data.item.image }} size={60} />
 
                             {!(data.item.name.length > 9) ?
-                              <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6}}>{data.item.name}</Text>
-                              : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6  }}>{data.item.name.toString().substring(0, 10)}..</Text>}
+                              <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{data.item.name}</Text>
+                              : <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6 }}>{data.item.name.toString().substring(0, 10)}..</Text>}
 
                           </View>
 
@@ -509,9 +424,7 @@ for(var data in selectedthing){
             ListHeaderComponent={this.renderHeader}
             renderItem={item => this.renderItem(item)}
             keyExtractor={item => item._id.toString()}
-            // refreshControl={
-            //   <RefreshControl refreshing={this.state.isFetching} onRefresh={() => this.onRefresh()} />
-            // }
+
             extraData={this.state}
           />
 
@@ -521,15 +434,23 @@ for(var data in selectedthing){
 
           <TouchableOpacity style={styles.icon}>
             <View>
-              <Icon
+           {this.state.selected.length!==0?<Icon
                 raised
                 name="check"
                 type="font-awesome"
-                color="green"
+                color= "green"
                 size={30}
                 onPress={() => this.goToStore()}
                 containerStyle={{ backgroundColor: "#FA7B5F" }}
-              />
+              />:<Icon
+              raised
+              name="check"
+              type="font-awesome"
+              color= "grey"
+              size={30}
+              onPress={() => Alert.alert("Please search and select an user")}
+              containerStyle={{ backgroundColor: "#FA7B5F" }}
+            />}
             </View>
           </TouchableOpacity>
         </View>
@@ -571,18 +492,17 @@ const styles = StyleSheet.create({
     width: 200,
     paddingLeft: 15,
     fontSize: 17,
-    marginTop:-15,
-    fontWeight:"bold"
-   // marginBottom:10
+    marginTop: -15,
+    fontWeight: "bold"
   },
   lightText2: {
     color: "black",
     width: 200,
     paddingLeft: 15,
     fontSize: 12,
-  
-   alignSelf:'flex-end',
-   marginLeft:-194
+
+    alignSelf: 'flex-end',
+    marginLeft: -194
 
   },
   line: {
@@ -616,12 +536,9 @@ const styles = StyleSheet.create({
 
 
   FaltlistSelect: {
-    // paddingHorizontal: 4,
+
     backgroundColor: "white",
 
-    // paddingHorizontal: 4,
-    //paddingStart: 5,
-    // paddingEnd: 5,
   },
 
   separator: {

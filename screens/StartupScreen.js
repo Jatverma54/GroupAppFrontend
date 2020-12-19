@@ -20,17 +20,12 @@ const StartupScreen = props => {
       }
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-      //const expirationDate = new Date(expiryDate);
-
-      if (!token || !userId) {//expirationDate <= new Date() ||
+      if (!token || !userId) {
         props.navigation.navigate('LoginScreen');
         return;
       }
-
-      //  const expirationTime = expirationDate.getTime() - new Date().getTime();
-
       props.navigation.navigate('DrawerScreen');
-      //dispatch(authActions.authenticate(userId, token, expirationTime));
+
     };
 
     tryLogin();

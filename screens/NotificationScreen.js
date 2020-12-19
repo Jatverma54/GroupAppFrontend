@@ -45,7 +45,7 @@ export default class NotificationScreen extends Component {
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,
-      disabled:false
+      disabled: false
     }
   }
 
@@ -65,25 +65,20 @@ export default class NotificationScreen extends Component {
       myHeaders.append("Authorization", "Bearer " + token);
 
       let groupId = this.props.route.params.groupid._id;
-
-      //    let groupId=this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id;
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
-      //console.log(json,"dddddddddddddddddddddddddddddddddd")
+
       this.setResult(json.result);
 
       this.controller.abort()
 
     } catch (e) {
-      // console.log("Error ",e)
-      this.setState({ error: 'Reload the Page', disabled:false, isFetching: false, loading: false });
-      //   console.log("Error ",e)
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
       this.controller.abort()
     }
   };
@@ -105,23 +100,20 @@ export default class NotificationScreen extends Component {
       myHeaders.append("Authorization", "Bearer " + token);
 
       let groupId = this.props.route.params.groupid._id;
-
-      //    let groupId=this.props.route.params.groupId.AllPublicFeed!==undefined?this.props.route.params.groupId.Groupid:this.props.route.params.groupId._id;
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/notifications/` + groupId + "?page_size=14&page_number=" + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
-      //  console.log("Error ",json)
-      //console.log(json,"dddddddddddddddddddddddddddddddddd")
+
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      // console.log("Error ",e)
-      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false, disabled:false });
-      //   console.log("Error ",e)
+
+      this.setState({ errorPagination: 'Reload', isFetching: false, loading: false, disabled: false });
+
       this.controller.abort()
     }
   };
@@ -131,27 +123,22 @@ export default class NotificationScreen extends Component {
     this.setState({ isFetching: true, data: "", skipPagination: 1 }, function () { this.getData() });
   }
 
-    cleanup = null;
+  cleanup = null;
 
   componentDidMount() {
-    let unsubscribe2;
-    let unsubscribe1 =    this.props.navigation.addListener('focus', () => {
-      unsubscribe2 =     this.setState({ data: "" })
-      this.getData(); // do something
+    let unsubscribe2;
+    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+      unsubscribe2 = this.setState({ data: "" })
+      this.getData();
 
     });
- this.cleanup = () => { unsubscribe1();  unsubscribe2;}
+    this.cleanup = () => { unsubscribe1(); unsubscribe2; }
 
   }
   componentWillUnmount() {
-    //this._unsubscribe;
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
 
-    // this.props.navigation.removeListener('focus', () => {
-    //   // this.setState({data:""})
-    //   // this.getData(); // do something
-    // });
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
   }
 
   setResult = (res) => {
@@ -162,7 +149,7 @@ export default class NotificationScreen extends Component {
       loading: false,
       isFetching: false,
       loadingPagination: false,
-      disabled:false
+      disabled: false
     });
   }
   renderViewMore(onPress) {
@@ -190,9 +177,9 @@ export default class NotificationScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData();this.setState({disabled:true});
+              this.getPaginationData(); this.setState({ disabled: true });
             }
-          }  disabled={this.state.disabled}>
+          } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
@@ -207,13 +194,6 @@ export default class NotificationScreen extends Component {
         }}>
           <ActivityIndicator animating={this.state.loadingPagination} color="black" />
           <Text>Loading...</Text>
-          {/* If you want to image set source here */}
-          {/* <Image
-      source={require('../Pictures/loading.gif')}
-      style={{ height: 80, width: 80 }}
-      resizeMode="contain"
-      resizeMethod="resize"
-    /> */}
         </View> : null
     )
   }
@@ -223,31 +203,20 @@ export default class NotificationScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white", marginTop: height / 4 }}>
 
-<Text style={{alignContent:"center",alignItems:"center",alignSelf:"center", fontSize: 15, color: "grey", fontWeight: "bold",}}>No new notification     </Text>
+        <Text style={{ alignContent: "center", alignItems: "center", alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold", }}>No new notification     </Text>
       </View>
     )
   }
 
 
   render() {
-
-    //  this.state.Seen?this.props.navigation.setOptions({
-
-    //     tabBarLabel: ({focused, tintColor:color}) => (
-    //       <MaterialCommunityIcons name="bell" color="black"  size={26} /> 
-    //       ),
-    //   }):null
-
-
-
-
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
@@ -346,10 +315,10 @@ export default class NotificationScreen extends Component {
             }} />
 
 
-<AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
+          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            servePersonalizedAds={true}
+            onDidFailToReceiveAdWithError={this.bannerError}
+          />
         </View>
     );
   }

@@ -165,14 +165,9 @@ const UpdateAccountProfileInformationStackNavigator = ({ route }) => {
       headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor },
     }}>
 
-
-
-
-
       <UpdateAccountProfileInformation.Screen
 
         options={{
-          // headerTitle: 'Change Password',
           headerTitle: 'Update Account Information',
         }}
         name='UpdateProfileInformation'

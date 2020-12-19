@@ -30,18 +30,18 @@ export default class ImageBrowser extends React.Component {
       hasNextPage: true
     }
   }
-   cleanup = null;
+  cleanup = null;
   componentDidMount() {
-     let unsubscribe1 =  this.getPhotos();
-     let unsubscribe2 = this.setState({ badgeColor: this.props.badgeColor ? this.props.badgeColor : '#007aff' })
+    let unsubscribe1 = this.getPhotos();
+    let unsubscribe2 = this.setState({ badgeColor: this.props.badgeColor ? this.props.badgeColor : '#007aff' })
 
-     this.cleanup = () => { unsubscribe1;unsubscribe2; }
+    this.cleanup = () => { unsubscribe1; unsubscribe2; }
 
   }
 
-  componentWillUnmount(){
-    if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+  componentWillUnmount() {
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
   }
 
@@ -62,7 +62,7 @@ export default class ImageBrowser extends React.Component {
   }
 
   getPhotos = () => {
-    let params = { first: 500,  sortBy: [[MediaLibrary.SortBy.default, false]] }
+    let params = { first: 500, sortBy: [[MediaLibrary.SortBy.default, false]] }
     if (this.state.after) params.after = this.state.after
     if (!this.state.hasNextPage) return
     MediaLibrary
@@ -99,10 +99,9 @@ export default class ImageBrowser extends React.Component {
   prepareCallback = () => {
     let { selected, photos } = this.state
 
-    const selectedPhotos = selected.map(i => photos[i])//photos[i].uri
+    const selectedPhotos = selected.map(i => photos[i])
 
     const assetsInfo = Promise.all(selectedPhotos)
-    //Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)))
     this.props.callback(assetsInfo)
   }
 

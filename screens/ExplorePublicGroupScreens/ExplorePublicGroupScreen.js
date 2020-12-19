@@ -11,9 +11,9 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
- BackHandler,
- RefreshControl,
- ImageBackground,
+  BackHandler,
+  RefreshControl,
+  ImageBackground,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -34,14 +34,14 @@ setTestDeviceIDAsync('EMULATOR')
 export default class ExplorePublicGroupScreen extends Component {
   controller = new AbortController()
   constructor(props) {
- 
+
     super(props);
     this.state = {
       data: "",
       loading: false,
       error: null,
-      isImageLoaded:true,
-      disabled:false
+      isImageLoaded: true,
+      disabled: false
     };
 
   }
@@ -52,7 +52,7 @@ export default class ExplorePublicGroupScreen extends Component {
 
   getData = async () => {
 
-    this.setState({ loading: true,data:'' });
+    this.setState({ loading: true, data: '' });
 
     try {
 
@@ -69,51 +69,50 @@ export default class ExplorePublicGroupScreen extends Component {
 
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/admin/GetCategoriesToDB`, requestOptions,{signal: this.controller.signal});
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/admin/GetCategoriesToDB`, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-      this.setState({ error: 'Reload the Page',disabled:false,isFetching: false, loading: false});
-      console.log("Error ", e)
+      this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
+
       this.controller.abort()
     }
   };
-    cleanup = null;
+  cleanup = null;
 
   componentDidMount() {
-    let unsubscribe1 = this.getData();  
+    let unsubscribe1 = this.getData();
 
-      BackHandler.addEventListener("hardwareBackPress", this.backAction);
-    
-       this.cleanup = () => { unsubscribe1; }
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+
+    this.cleanup = () => { unsubscribe1; }
 
   }
 
   backAction = () => {
-    if(this.props.navigation.isFocused()){
-    Alert.alert("See You Later!", "Do you want to exit from App", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel"
-      },
-      { text: "YES", onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
-  }else{
-    false;
-  }
+    if (this.props.navigation.isFocused()) {
+      Alert.alert("See You Later!", "Do you want to exit from App", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    } else {
+      false;
+    }
   };
 
   componentWillUnmount() {
-  //  this._unsubscribe;
-   
+    this.state;
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
 
-     if (this.cleanup) this.cleanup();
-    this.cleanup = null;
+    if (this.cleanup) this.cleanup();
+    this.cleanup = null;
 
   }
 
@@ -122,15 +121,15 @@ export default class ExplorePublicGroupScreen extends Component {
       data: [...this.state.data, ...res],
       error: res.error || null,
       loading: false,
-      isFetching: false, disabled:false,
-     
+      isFetching: false, disabled: false,
+
     });
   }
 
 
   render() {
 
-   
+
 
     return (
 
@@ -139,14 +138,14 @@ export default class ExplorePublicGroupScreen extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getData();this.setState({disabled:true});
+              this.getData(); this.setState({ disabled: true });
             }
           } disabled={this.state.disabled} >
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />
           </Button>
         </View> :
         <View style={styles.container}>
- <Loader isLoading={this.state.loading} />
+          <Loader isLoading={this.state.loading} />
 
 
           <FlatList style={styles.list}
@@ -166,35 +165,30 @@ export default class ExplorePublicGroupScreen extends Component {
 
               return (
                 <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]} onPress={() => this.props.myHookValue.navigate("ExplorePublicGroupCategoryBased", item)}>
-                <ImageBackground  source={{ uri: item.image }}
-                style={[styles.cardImage]}
-                onLoad={ () => this.setState({ isImageLoaded: true }) }
-                onLoadEnd={() => this.setState({ isImageLoaded: false }) }
-              
-   >
-            <ActivityIndicator
+                  <ImageBackground source={{ uri: item.image }}
+                    style={[styles.cardImage]}
+                    onLoad={() => this.setState({ isImageLoaded: true })}
+                    onLoadEnd={() => this.setState({ isImageLoaded: false })}
+
+                  >
+                    <ActivityIndicator
                       animating={this.state.isImageLoaded} style={{ justifyContent: "center", position: 'absolute', flexDirection: "row", alignItems: "center", alignContent: "center", alignSelf: "center", bottom: 0, left: 0, right: 0, height: 45 }} color="black"
-         />
-                  <View style={styles.cardHeader}>
-                    <Text style={styles.title}>{item.title}</Text>
-                  </View>
-                  {/* <Image style={styles.cardImage} source={{ uri: item.image }} /> */}
-                  {/* <View style={styles.cardFooter}>
-                    <Text style={styles.subTitle}>{item.Groups} {(parseInt(item.Groups) > 1) ? "Groups" : "Group"}</Text>
-                    
-                  </View> */}
-       
+                    />
+                    <View style={styles.cardHeader}>
+                      <Text style={styles.title}>{item.title}</Text>
+                    </View>
+
                   </ImageBackground>
-         
+
                 </TouchableOpacity>
               )
             }} />
-              <View>
-              <AdMobBanner style={{alignItems:"center"}} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={this.bannerError} 
-        />
-</View>
+          <View>
+            <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+              servePersonalizedAds={true}
+              onDidFailToReceiveAdWithError={this.bannerError}
+            />
+          </View>
         </View>
     );
   }
@@ -209,10 +203,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0,
-    
+
   },
   list: {
-    //paddingHorizontal: 5,
+
     backgroundColor: "#E6E6E6",
   },
   listContainer: {
@@ -233,13 +227,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center",
-    
-   // marginTop:width/3.2
   },
   cardContent: {
     paddingVertical: 12.5,
     paddingHorizontal: 16,
-    
+
   },
   cardFooter: {
     flexDirection: 'column',
@@ -249,14 +241,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-   // marginTop:-width/12
 
   },
   cardImage: {
-    height: height/4,
+    height: height / 4,
     width: "100%",
     alignSelf: 'center',
-    resizeMode:"center",
+    resizeMode: "center",
     justifyContent: 'flex-end',
   },
   title: {
@@ -265,15 +256,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: 'bold',
     justifyContent: 'flex-end',
-    marginBottom:-10
-   // marginTop:height/6.4
+    marginBottom: -10
   },
   subTitle: {
     fontSize: 12,
     flex: 1,
     fontWeight: 'bold',
-    color:"black",
-    marginTop:-height/24
+    color: "black",
+    marginTop: -height / 24
   },
   icon: {
     height: 20,

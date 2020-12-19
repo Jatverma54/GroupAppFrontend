@@ -28,31 +28,6 @@ export default class FbImages extends React.Component {
   }
 
 
-
-
-  //   clickEventListener() {
-  //   //  Alert.alert('Alert', 'image clicked');
-  // console.log();
-  // const images = [
-  //   {
-  //       source: {
-  //           uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
-  //       },
-  //       title: 'Paris',
-  //       width: 806,
-  //       height: 720,
-  //   },
-  // ];
-
-  // <ImageView
-  //   images={images}
-  //   imageIndex={0}
-  //   isVisible={true}
-  //   renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
-  // />
-
-  //   }
-
   renderOne() {
     const { images } = this.state;
     const { countFrom } = this.state;
@@ -94,7 +69,7 @@ export default class FbImages extends React.Component {
     const { images } = this.state;
     const { countFrom } = this.state;
     const conditionalRender = [2, 3].includes(images.length) || images.length > +countFrom && [2, 3].includes(+countFrom);
-    //console.log(conditionalRender)
+
 
     let index;
     let index1;
@@ -187,16 +162,6 @@ export default class FbImages extends React.Component {
 
         this.state.ImageData.push({ uri: images[i] });
       }
-
-
-      // const imagsses = [
-      //     {
-      //       uri:  "https://lorempixel.com/400/200/nature/4/", 
-      //     }
-
-
-
-      //   ];
       a++;
     }
 
@@ -207,7 +172,7 @@ export default class FbImages extends React.Component {
     const { modal, index, countFrom, isVisible, imageindex } = this.state;
     const { images } = this.state;
     const imagesToShow = [...images];
-    //console.log(imagesToShow.length,"total images");
+
     if (countFrom && images.length > countFrom) {
       imagesToShow.length = countFrom;
     }
@@ -280,7 +245,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  //overlay efect
+
   overlayContent: {
     flex: 1,
     position: 'absolute',
@@ -304,20 +269,17 @@ const styles = StyleSheet.create({
   ImageView: {
 
     flex: 1,
-    //justifyContent:'center',
+
     width: '100%',
     height: "100%",
-    //  resizeMode: 'cover',
+
   },
   stretch: {
     flex: 1,
-    // justifyContent:'center',
-    // width: '100%',
-    // height: "100%",
+
     resizeMode: "contain",
     width: 400,
     height: 200,
-    // alignSelf:"center",
 
   },
   overlayCancel: {
