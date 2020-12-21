@@ -11,7 +11,7 @@ import {
 
 const { width } = Dimensions.get('window')
 
-export default class ImageTile extends React.PureComponent {
+export default class ImageTile extends React.Component {
   render() {
     let { item, index, selected, selectImage, selectedItemCount, badgeColor } = this.props
     if (!item) return null

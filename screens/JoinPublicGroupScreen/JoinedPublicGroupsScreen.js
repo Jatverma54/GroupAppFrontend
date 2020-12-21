@@ -51,7 +51,7 @@ export default class JoinedPublicGroupsScreen extends Component {
       skipPagination: 1,
       loadingPagination: false,
       isImageLoaded: true,
-      disabled: false
+      disabled: false,
     }
 
 

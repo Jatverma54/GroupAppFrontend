@@ -53,12 +53,12 @@ export default class ForgotPassword extends Component {
 
   }
 
-  componentDidMount() {
-    this._openRewarded();
+  // componentDidMount() {
+  //   this._openRewarded();
 
 
 
-  }
+  // }
 
 
   AuthenticateConfirmCode = async () => {

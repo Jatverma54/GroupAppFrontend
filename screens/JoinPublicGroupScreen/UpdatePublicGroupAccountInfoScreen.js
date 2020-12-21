@@ -130,7 +130,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-    this._openRewarded();
+   // this._openRewarded();
 
 
   }

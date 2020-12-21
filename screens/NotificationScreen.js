@@ -64,7 +64,7 @@ export default class NotificationScreen extends Component {
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
 
-      let groupId = this.props.route.params.groupid._id;
+      let groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -98,8 +98,8 @@ export default class NotificationScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-
-      let groupId = this.props.route.params.groupid._id;
+      let groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
+ 
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,

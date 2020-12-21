@@ -201,6 +201,7 @@ export default class CreateaNewPost extends Component {
 
   _pickVideo = async () => {
     try {
+      
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         allowsEditing: true,
@@ -647,6 +648,10 @@ export default class CreateaNewPost extends Component {
               <Text style={styles.listLabelVideoNewPost}>Choose Video</Text>
             </TouchableOpacity>
 
+            <Text style={{    fontSize: 16,
+    marginTop: 10,
+    color: "#666",
+    fontWeight: "900"}}>Media must not exceed 50 mb</Text>
 
 
           </View>

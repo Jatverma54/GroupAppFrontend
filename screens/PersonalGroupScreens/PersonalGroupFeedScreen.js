@@ -705,7 +705,8 @@ export default class PersonalGroupFeedScreen extends Component {
           "User Removed",
           this.state.PostUsertitle + " removed from the group",
           [
-            { text: "Ok", onPress: () => this.getData() }
+            
+            { text: "Ok", onPress: () => {this.getData(),this.setState({ skipPagination: 0 })} }
           ],
           { cancelable: false }
         );

@@ -51,10 +51,10 @@ export default class ChangePassword extends Component {
   }
   cleanup = null;
 
-  componentDidMount() {
-    this._openRewarded();
+  // componentDidMount() {
+  //   //this._openRewarded();
 
-  }
+  // }
 
 
   setPasswordVisibility() {

@@ -82,6 +82,7 @@ export default class PersonalGroupsScreen extends Component {
   };
 
   componentWillUnmount() {
+    this.state;
 
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     if (this.cleanup) this.cleanup();
