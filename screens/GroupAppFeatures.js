@@ -18,6 +18,7 @@ const GroupAppFeatures = () => {
           {'\n'}<Text style={{ fontWeight: 'bold' }}>Personal Groups:</Text>{'\n'}Personal groups will be visible to the group members only.{'\n'}{'\n'}Personal Group Privacy{'\n'}Only group admin can add group app users to a personal group.{'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Plan for the future</Text>{'\n'}Support for chat.{'\n'}Support for live video streaming.{'\n'}Support for Check in location.{'\n'}On Demand experts to give the resolutions on various official groups across all the categories.{'\n'}Online Marketplace to sell and shop{'\n'}Support for story feature in personal groups{'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Want to be an investor or want to get in touch with us? Feel free to drop a mail at</Text>{'\n'}groupApp@gmail.com
        </Text>
 
+    
 
       </ScrollView>
 

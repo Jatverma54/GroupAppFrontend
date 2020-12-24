@@ -28,6 +28,8 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
+import * as Notifications from 'expo-notifications';
+
 const { width, height } = Dimensions.get('window');
 import {
   AdMobBanner,
@@ -305,9 +307,115 @@ export default class ProfileScreen extends Component {
     }
 
   };
+
+
+  turnOffNotifications(){
+
+    Alert.alert(
+
+      this.state.data.ExpopushToken?"Do you want to turn off the notifications":"Do you want to turn on the notifications",
+      "",
+      [
+        { text: "Yes", onPress: () => this.turnOffNotofication() }
+      ,
+      {
+        text: "No",
+        onPress: () => null,
+        style: "cancel"
+      }]
+    );
+  }
+
+  turnOffNotofication=async()=>{
+    
+    try {
+      this.setState({ loading: true });
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId } = transformedData;
+
+let pushToken;
+if(!this.state.data.ExpopushToken){
+  
+        let statusObj = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        if (statusObj.status !== 'granted') {
+          statusObj = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        }
+        if (statusObj.status !== 'granted') {
+          pushToken = null;
+        } else {
+          pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+        }
+}
+
+      var TurnOnOffNotification = {
+       "notificationoff":this.state.data.ExpopushToken?true:false,
+       "ownerPushToken": pushToken
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(TurnOnOffNotification)
+
+      };
+
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/users/turnOnOffNotification`, requestOptions, { signal: this.controller.signal });
+
+
+      if (response.ok) {
+        this.setState({ loading: false });
+        const json = await response.json();
+        
+        Alert.alert(
+          json.message,
+         "",
+          [
+            { text: "Ok", onPress: () => this.getData() }
+          ],
+          { cancelable: false }
+        );
+
+        this.controller.abort()
+
+
+      } else {
+
+        this.setState({ loading: false });
+        Alert.alert(
+
+          "Something went wrong!!",
+          "Please try again.",
+          [
+            { text: "Ok", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+        this.controller.abort()
+      }
+
+    } catch (e) {
+      this.setState({ loading: false });
+      Alert.alert(
+
+        "Something went wrong!!",
+        "Please try again.",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+      this.controller.abort()
+    }
+
+  }
+
+
   render() {
-
-
 
     const images = [
       {
@@ -350,6 +458,17 @@ export default class ProfileScreen extends Component {
                 name='onepassword'
                 size={20}
               />
+            </Button>
+
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => this.turnOffNotifications()} >
+
+            {this.state.data.ExpopushToken? <MaterialIcons
+                name='notifications-off'
+                size={20}
+              />:<MaterialIcons
+              name='notifications-active'
+              size={20}
+            />}
             </Button>
 
             <View style={styles.headerContent}>
