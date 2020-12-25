@@ -24,9 +24,6 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -391,6 +388,10 @@ export default class JoinPublicGroupRequestScreen extends Component {
 
     }
   }
+  bannerError = (error) => {
+
+  }
+
 
   render() {
 

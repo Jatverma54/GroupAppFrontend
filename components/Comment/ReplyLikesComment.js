@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Image,
   RefreshControl,
   FlatList,
@@ -24,14 +23,11 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
 setTestDeviceIDAsync('EMULATOR')
-const { width, height } = Dimensions.get('window');
+const {  height } = Dimensions.get('window');
 import Loader from '../Loader';
 export default class ReplyLikesComment extends Component {
   cleanup = null;
@@ -45,7 +41,6 @@ export default class ReplyLikesComment extends Component {
       error: null,
       search: null,
       isFetching: false,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,
@@ -290,6 +285,9 @@ export default class ReplyLikesComment extends Component {
 
     })
   };
+  bannerError = (error) => {
+
+  }
 
 
 

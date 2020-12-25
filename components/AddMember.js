@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from "react";
-import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Alert, RefreshControl, AsyncStorage } from "react-native";
+import { StyleSheet, View,  FlatList, Text, TouchableOpacity, Image, Alert,  AsyncStorage } from "react-native";
 import { Icon } from "react-native-elements";
 import {
   Avatar,
@@ -10,22 +10,7 @@ import { SearchBar } from "react-native-elements";
 import Close_icon from '../Pictures/Close_icon.png'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from './Loader';
-import {
-
-  Dimensions
-} from 'react-native';
 import APIBaseUrl from '../constants/APIBaseUrl';
-const { width, height } = Dimensions.get('window');
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-
-setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class AddMembers extends React.Component {
   cleanup = null;
@@ -43,10 +28,6 @@ export default class AddMembers extends React.Component {
       disabled: false
     };
   }
-
-
-
-
 
   getData = async () => {
 

@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Image,
   RefreshControl,
   FlatList,
@@ -21,14 +20,11 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
 FAIcon.loadFont();
 MDIcon.loadFont();
-const { width, height } = Dimensions.get('window');
+const {  height } = Dimensions.get('window');
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import Loader from '../Loader';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -54,9 +50,6 @@ export default class Likes extends Component {
     };
   }
 
-  bannerError = (error) => {
-
-  }
 
   getData = async () => {
 
@@ -292,7 +285,9 @@ export default class Likes extends Component {
     )
   }
 
+  bannerError = (error) => {
 
+  }
 
 
 

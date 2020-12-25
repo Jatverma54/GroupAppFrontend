@@ -11,14 +11,10 @@ import {
   Platform,
   Alert,
   Keyboard,
-  ActivityIndicator,
-  Dimensions,
   ScrollView
 } from 'react-native';
 import {
-
   Avatar,
-
 } from 'react-native-paper';
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
@@ -31,19 +27,14 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
-import mime from "mime";
 import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
-const { width, height } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -368,15 +359,9 @@ export default class SignupScreen extends Component {
     return [year, month, day].join('-');
   }
 
-
-
-
   bannerError = (error) => {
 
   }
-
-
-
 
   render() {
 

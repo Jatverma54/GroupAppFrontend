@@ -15,15 +15,7 @@ import lock_Icon from '../Pictures/lock.png';
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class ChangePassword extends Component {
   controller = new AbortController();
@@ -40,21 +32,8 @@ export default class ChangePassword extends Component {
     }
   }
 
-  _openRewarded = async () => {
-    try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
   cleanup = null;
-
-  // componentDidMount() {
-  //   //this._openRewarded();
-
-  // }
 
 
   setPasswordVisibility() {

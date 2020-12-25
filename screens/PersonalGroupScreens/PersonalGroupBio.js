@@ -7,17 +7,13 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
   Dimensions,
   AsyncStorage
 } from 'react-native';
-
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 import {
-
   Button,
-
 } from 'react-native-paper';
 import ImageView from "react-native-image-viewing";
 import { ScrollView } from 'react-native-gesture-handler';
@@ -33,7 +29,7 @@ import * as Permissions from 'expo-permissions';
 import moment from "moment";
 FAIcon.loadFont();
 MDIcon.loadFont();
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 export default class PersonalGroupBio extends Component {
   controller = new AbortController();
   constructor(props) {

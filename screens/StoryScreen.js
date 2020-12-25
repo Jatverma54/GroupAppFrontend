@@ -9,15 +9,9 @@ import {
   Text
 } from 'react-native';
 
-
-
-
 const StoryScreen = ({ navigation }) => {
   const [error, seterror] = useState(null);
   const [loading, setloading] = useState(false);
-
-
-
   if (loading) {
     return (
       <View style={{
@@ -68,12 +62,6 @@ const StoryScreen = ({ navigation }) => {
   );
 
 }
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -143,8 +131,5 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
 });
-
-
-
 
 export default StoryScreen;

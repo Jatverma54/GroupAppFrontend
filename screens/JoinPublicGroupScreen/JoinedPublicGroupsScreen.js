@@ -16,18 +16,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   Button,
 } from 'react-native-paper';
-import UserToken from '../../constants/APIPasswordCollection';
 import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
-const { width, height } = Dimensions.get('window');
+const {  height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -230,6 +226,11 @@ export default class JoinedPublicGroupsScreen extends Component {
       </View>
     )
   }
+
+  bannerError = (error) => {
+
+  }
+
 
   render() {
 

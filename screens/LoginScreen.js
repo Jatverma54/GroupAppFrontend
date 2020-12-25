@@ -10,12 +10,8 @@ import {
   Alert,
   Keyboard,
   AsyncStorage,
-  ActivityIndicator,
-  Dimensions,
-  ScrollView,
   KeyboardAvoidingView,
   BackHandler
-
 } from 'react-native';
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
@@ -23,7 +19,6 @@ import lock_Icon from '../Pictures/lock.png';
 import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
-const { width, height } = Dimensions.get('window');
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
@@ -34,21 +29,15 @@ import {
 
 setTestDeviceIDAsync('EMULATOR')
 
-
-
-
 export default class LoginScreen extends Component {
   controller = new AbortController();
   constructor(props) {
     super(props);
-
     this.state = {
       userName: '',
       Password: '',
       loading: false,
       hidePassword: true,
-
-
     };
   }
 

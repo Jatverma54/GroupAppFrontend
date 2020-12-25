@@ -1,14 +1,13 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Button, AsyncStorage, Alert, Dimensions } from 'react-native';
-
 import APIBaseUrl from '../constants/APIBaseUrl';
 import colors from '../constants/colors';
 import MainScreenText from '../constants/MainScreenText';
 
 import menu from '../Pictures/circle-312343.png';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const MainScreenPage = ({ navigation }) => {
 

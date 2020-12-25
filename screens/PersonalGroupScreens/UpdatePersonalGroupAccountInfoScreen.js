@@ -10,10 +10,7 @@ import {
   ScrollView,
   Keyboard,
   AsyncStorage,
-  Dimensions,
-  ActivityIndicator,
   Alert
-
 } from 'react-native';
 import Group_Name from '../../Pictures/Group_Name.png';
 import GroupBio from '../../Pictures/GroupBio.png';
@@ -22,16 +19,6 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-const { width, height } = Dimensions.get('window');
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class UpdatePersonalGroupAccountInfoScreen extends Component {
   controller = new AbortController();
@@ -71,17 +58,6 @@ export default class UpdatePersonalGroupAccountInfoScreen extends Component {
     }
   }
 
-
-
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
 
   cleanup = null;
 

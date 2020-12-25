@@ -36,15 +36,7 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class CreateaNewPost extends Component {
   controller = new AbortController();
@@ -87,17 +79,6 @@ export default class CreateaNewPost extends Component {
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-  }
-
-
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
   }
 
   getPermissionAsync = async () => {

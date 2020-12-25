@@ -3,14 +3,9 @@ import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
-  Button,
   ScrollView,
-  ActivityIndicator,
   Text
 } from 'react-native';
-
-
-
 
 const TermsAndCondition = ({ navigation }) => {
 
@@ -18,25 +13,13 @@ const TermsAndCondition = ({ navigation }) => {
 
     <View style={styles.container}>
       <ScrollView>
-
-
-
         <Text style={{ fontWeight: '900' }}>Terms
        </Text>
-
-
       </ScrollView>
-
     </View>
   );
 
 }
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {

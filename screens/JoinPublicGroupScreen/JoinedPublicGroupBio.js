@@ -7,17 +7,13 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
   Dimensions,
   AsyncStorage
 } from 'react-native';
-
 import AddGroup from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 import {
-
   Button,
-
 } from 'react-native-paper';
 import ImageView from "react-native-image-viewing";
 import { ScrollView } from 'react-native-gesture-handler';
@@ -25,21 +21,17 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import RBSheet from "react-native-raw-bottom-sheet";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import moment from "moment";
 FAIcon.loadFont();
 MDIcon.loadFont();
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
@@ -519,11 +511,9 @@ export default class JoinedGroupgroupBio extends Component {
 
   }
 
+  bannerError = (error) => {
 
-
-
-
-
+  }
 
   render() {
 

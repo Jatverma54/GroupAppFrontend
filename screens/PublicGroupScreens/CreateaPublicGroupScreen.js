@@ -12,7 +12,6 @@ import {
   Keyboard,
   Alert,
   AsyncStorage,
-  ActivityIndicator,
   Dimensions,
 
 } from 'react-native';
@@ -34,22 +33,17 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-import UserToken from '../../constants/APIPasswordCollection'
-const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
-AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
+
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class CreateaPublicGroupScreen extends Component {
   controller = new AbortController();
@@ -293,17 +287,9 @@ export default class CreateaPublicGroupScreen extends Component {
 
   };
 
+  bannerError = (error) => {
 
-
-
-
-
-
-
-
-
-
-
+  }
 
   render() {
 

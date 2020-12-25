@@ -14,32 +14,23 @@ import {
   Dimensions,
   ImageBackground
 } from 'react-native';
-
 import {
-
   Divider,
-
-
-
 } from 'react-native-paper';
-
 import { FloatingAction } from "react-native-floating-action";
 import actions from '../../components/FloatingActionsButton';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../constants/colors';
-import { SearchBar } from "react-native-elements";
+
 import DialogInput from 'react-native-dialog-input';
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import NoGroups from '../../Pictures/NoGroups.png';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-const { width, height } = Dimensions.get('window');
+import {  MaterialCommunityIcons } from '@expo/vector-icons';
+const {  height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -590,8 +581,9 @@ export default class PublicGroupListScreen extends Component {
   }
 
 
+  bannerError = (error) => {
 
-
+  }
 
   render() {
 

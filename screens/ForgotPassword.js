@@ -9,16 +9,12 @@ import {
   Image,
   Alert,
   Keyboard
-
 } from 'react-native';
 import Email_Icon from '../Pictures/Email.png';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Loader from '../components/Loader';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')

@@ -11,28 +11,21 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions
-
 } from 'react-native';
 import {
-
   Button
-
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import moment from "moment";
 import ViewMoreText from 'react-native-view-more-text';
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class PublicNotificationScreen extends Component {
   controller = new AbortController();
@@ -51,15 +44,7 @@ export default class PublicNotificationScreen extends Component {
     }
   }
 
-  _openRewarded = async () => {
-    try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
 
   getData = async () => {
 
@@ -221,6 +206,9 @@ export default class PublicNotificationScreen extends Component {
     )
   }
 
+  bannerError = (error) => {
+
+  }
 
   render() {
 

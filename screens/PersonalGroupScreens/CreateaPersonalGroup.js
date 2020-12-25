@@ -7,24 +7,18 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-
   ScrollView,
   Keyboard,
   Alert,
   AsyncStorage,
-  ActivityIndicator,
   Dimensions
 } from 'react-native';
 
 import {
   Avatar,
-
 } from 'react-native-paper';
-
-
 import Group_Name from '../../Pictures/Group_Name.png';
 import GroupBio from '../../Pictures/GroupBio.png';
-import Category from '../../Pictures/Category.png';
 import * as Permissions from 'expo-permissions';
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
@@ -32,7 +26,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-import UserToken from '../../constants/APIPasswordCollection'
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 const { width, height } = Dimensions.get('window');
@@ -40,13 +33,10 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class CreateaPersonalGroup extends Component {
   controller = new AbortController();
@@ -72,25 +62,9 @@ export default class CreateaPersonalGroup extends Component {
       });
     }
   }
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
-
-
-
 
   CreateGroup = async () => {
     Keyboard.dismiss();
-
-
-
-
     const { photo, GroupName, GroupBioName } = this.state;
 
     if (GroupName && GroupBioName) {
@@ -242,16 +216,9 @@ export default class CreateaPersonalGroup extends Component {
 
   };
 
+  bannerError = (error) => {
 
-
-
-
-
-
-
-
-
-
+  }
 
 
   render() {

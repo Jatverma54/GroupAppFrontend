@@ -5,7 +5,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   Alert,
   FlatList,
   ActivityIndicator,
@@ -21,12 +20,9 @@ import {
 } from 'react-native-paper';
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-const { width, height } = Dimensions.get('window');
+const {  height } = Dimensions.get('window');
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -126,6 +122,9 @@ export default class ExplorePublicGroupScreen extends Component {
     });
   }
 
+  bannerError = (error) => {
+
+  }
 
   render() {
 

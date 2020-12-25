@@ -26,12 +26,8 @@ import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-const { width, height } = Dimensions.get('window');
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')

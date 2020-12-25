@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/native';
 import {
@@ -13,19 +13,15 @@ import {
   Paragraph,
   Drawer,
   Button,
-  Divider
 } from 'react-native-paper';
 import {
   AsyncStorage,
   Dimensions,
   Text,
   Alert,
-  BackHandler,
-
 } from 'react-native';
 
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import DrawerLogo from '../Pictures/DrawerLogo.png';
 import FooterLogo from '../Pictures/Father.png';
 import colors from '../constants/colors';
 import ImageView from "react-native-image-viewing";
@@ -36,12 +32,9 @@ const { width, height } = Dimensions.get('window');
 
 const DrawerContent = (props,) => {
   const navigation = useNavigation();
-  const route = useRoute();
   const [isVisible, setisVisible] = useState(false);
   const [error, seterror] = useState(null);
   const [loading, setloading] = useState(false);
-  const [userimageUrl, setuserimageUrl] = useState('');
-  const [userName, setuserName] = useState('');
   const [isImageLoaded, setisImageLoaded] = useState(true);
 
   const images = [

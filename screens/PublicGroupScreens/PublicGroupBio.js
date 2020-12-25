@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
   Dimensions
 } from 'react-native';
 import {
@@ -16,15 +15,12 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ImageView from "react-native-image-viewing";
 import Group_Name from '../../Pictures/Group_Name.png';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import moment from "moment";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import Loader from '../../components/Loader';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 

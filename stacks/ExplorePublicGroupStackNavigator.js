@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import { DrawerActions } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreens/ExplorePublicGroupScreen';
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
@@ -16,10 +15,7 @@ import BackArrow from '../Pictures/BackArrow.png';
 const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
 
 const ExplorePublicGroupTabStackNavigator = () => {
-
-
   return (
-
     <ExplorePublicGroupTabStack.Navigator initialRouteName="Explore Public Groups"
       tabBarOptions={{
         activeTintColor: colors.TabactiveTintColor,

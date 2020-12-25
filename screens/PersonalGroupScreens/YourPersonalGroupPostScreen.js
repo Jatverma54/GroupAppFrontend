@@ -20,10 +20,8 @@ import {
   Divider,
   Button
 } from 'react-native-paper';
-import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/YourPostImagesJoinedGroup';
 import Comment from '../../Pictures/Comment.png';
-import Close_icon from '../../Pictures/Close_icon.png';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
@@ -38,13 +36,10 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 
 export default class YourPersonalGroupPostScreen extends Component {
@@ -73,15 +68,6 @@ export default class YourPersonalGroupPostScreen extends Component {
     };
   }
 
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
 
   cleanup = null;
   componentDidMount() {
@@ -807,16 +793,12 @@ export default class YourPersonalGroupPostScreen extends Component {
 
 
 
+  bannerError = (error) => {
 
-
+  }
 
 
   render() {
-
-
-
-
-
     return (
       this.state.error != null ?
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

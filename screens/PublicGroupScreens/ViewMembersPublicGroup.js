@@ -12,23 +12,18 @@ import {
   AsyncStorage
 } from 'react-native';
 import { SearchBar } from "react-native-elements";
-import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   Button,
 } from 'react-native-paper';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
-AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712')//INTERSTITIAL_ID
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 
 export default class ViewMembersPublicGroup extends Component {
   controller = new AbortController();
@@ -287,19 +282,13 @@ export default class ViewMembersPublicGroup extends Component {
 
   };
 
-
-
-
-
   FlatListItemSeparator = () => <View style={styles.separator} />;
 
+  bannerError = (error) => {
 
-
-
+  }
 
   render() {
-
-
     return (
 
       this.state.error != null ?

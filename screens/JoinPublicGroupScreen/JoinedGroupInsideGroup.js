@@ -18,14 +18,11 @@ import {
 
 } from 'react-native';
 import {
-
   Divider,
   Avatar,
   Button
-
 } from 'react-native-paper';
 
-import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/PostImagesJoinedGroup';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
@@ -47,9 +44,6 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -1176,10 +1170,6 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     )
   }
 
-  bannerError = (error) => {
-
-  }
-
   _onPlaybackStatusUpdate = playbackStatus => {
     if (!playbackStatus.isLoaded) {
       // Update your UI for the unloaded state
@@ -1212,6 +1202,11 @@ export default class JoinedGroupInsideGroupFeed extends Component {
 
     }
   };
+
+  bannerError = (error) => {
+
+  }
+
 
   render() {
 

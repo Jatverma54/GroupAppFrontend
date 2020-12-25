@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import {
-  View,
-  ActivityIndicator,
   StyleSheet,
   AsyncStorage
 } from 'react-native';
-
-
-
 const StartupScreen = props => {
-
-
   useEffect(() => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData');

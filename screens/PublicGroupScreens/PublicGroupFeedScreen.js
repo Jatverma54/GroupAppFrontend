@@ -18,19 +18,15 @@ import {
   BackHandler
 } from 'react-native';
 import {
-
   Divider,
   Avatar,
   Button
 
 } from 'react-native-paper';
 
-import DrawerLogo from '../../Pictures/DrawerLogo.png';
+
 import FbImages from '../JoinPublicGroupScreen/PostImagesJoinedGroup';
 import Comment from '../../Pictures/Comment.png';
-import Post_Add from '../../Pictures/Post_Add.png';
-import AddGroup from '../../Pictures/AddGroup.png';
-import ShareIcon from '../../Pictures/ShareIcon.png';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { MaterialCommunityIcons, AntDesign, FontAwesome } from '@expo/vector-icons';
@@ -46,15 +42,6 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
-
 
 export default class PublicGroupFeedScreen extends Component {
   controller = new AbortController();

@@ -15,13 +15,10 @@ import Email_Icon from '../Pictures/Email.png';
 import Loader from '../components/Loader';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class ForgotPassword extends Component {
   controller = new AbortController();
@@ -35,15 +32,6 @@ export default class ForgotPassword extends Component {
     }
   }
 
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
 
   resetCodeValidation(matchingString) {
 
@@ -53,12 +41,7 @@ export default class ForgotPassword extends Component {
 
   }
 
-  // componentDidMount() {
-  //   this._openRewarded();
-
-
-
-  // }
+ 
 
 
   AuthenticateConfirmCode = async () => {

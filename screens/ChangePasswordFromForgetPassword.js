@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
   Keyboard,
-  AsyncStorage,
   Alert,
 } from 'react-native';
 import lock_Icon from '../Pictures/lock.png';

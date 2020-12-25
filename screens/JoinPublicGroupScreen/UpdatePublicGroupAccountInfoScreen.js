@@ -13,19 +13,14 @@ import {
   Alert,
   AsyncStorage,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 
 import {
   TouchableRipple,
   Switch,
 } from 'react-native-paper';
-
-import lock_Icon from '../../Pictures/lock.png';
-import AddGroup_Icon from '../../Pictures/AddGroup.png';
 import Group_Name from '../../Pictures/Group_Name.png';
 import GroupBio from '../../Pictures/GroupBio.png';
-import lock from '../../Pictures/lock.png';
 import Category from '../../Pictures/Category.png';
 import * as Permissions from 'expo-permissions';
 import FAIcon from "react-native-vector-icons/FontAwesome";
@@ -34,21 +29,17 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-const { width, height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
   AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class UpdatePublicGroupAccountInfoScreen extends Component {
   controller = new AbortController();
@@ -115,15 +106,7 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
 
     );
   }
-  _openRewarded = async () => {
-    try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
 
   cleanup = null;
 

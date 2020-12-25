@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity, View, Image, Modal, } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import colors from '../constants/colors';
 import ProfileScreen from '../screens/ProfileScreen';
 import UpdateProfileInformation from '../screens/UpdateProfileInformation';

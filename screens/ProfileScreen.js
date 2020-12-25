@@ -11,11 +11,9 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-
 import {
   Button,
 } from 'react-native-paper';
-
 import ImageView from "react-native-image-viewing";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
@@ -29,13 +27,9 @@ MDIcon.loadFont();
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
-
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -108,8 +102,6 @@ export default class ProfileScreen extends Component {
       };
 
       const response = await fetch(`${APIBaseUrl.BaseUrl}/users/userInformation`, requestOptions, { signal: this.controller.signal });
-
-
       if (response.ok) {
         this.setState({ loading: false, disabled: false });
         const json = await response.json();
@@ -423,9 +415,6 @@ if(!this.state.data.ExpopushToken){
       },
 
     ];
-
-
-
 
     return (
 

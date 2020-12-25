@@ -11,24 +11,18 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions
-
 } from 'react-native';
 import {
-
   Button
-
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import moment from "moment";
 import APIBaseUrl from '../constants/APIBaseUrl';
 import ViewMoreText from 'react-native-view-more-text';
-const { width, height } = Dimensions.get('window');
+const {  height } = Dimensions.get('window');
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
@@ -63,8 +57,14 @@ export default class NotificationScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-
-      let groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
+     
+      let groupId;
+      if(this.props.route.params.groupid.GroupId!==undefined){
+         groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
+      }
+     else{
+       groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.Groupid : this.props.route.params.groupid._id;
+     }
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -98,8 +98,13 @@ export default class NotificationScreen extends Component {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
-      let groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
- 
+      let groupId;
+      if(this.props.route.params.groupid.GroupId!==undefined){
+         groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.GroupId : this.props.route.params.groupid._id;
+      }
+     else{
+       groupId = this.props.route.params.groupid.AllPublicFeed !== undefined ? this.props.route.params.groupid.Groupid : this.props.route.params.groupid._id;
+     }
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -208,6 +213,9 @@ export default class NotificationScreen extends Component {
     )
   }
 
+  bannerError = (error) => {
+
+  }
 
   render() {
     return (

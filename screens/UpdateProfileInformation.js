@@ -6,47 +6,24 @@ import {
   View,
   TextInput,
   TouchableHighlight,
-  TouchableOpacity,
   Image,
   Platform,
   Alert,
   Keyboard,
-  ActivityIndicator,
-  Dimensions,
   AsyncStorage
 } from 'react-native';
-import {
-
-  Avatar,
-
-} from 'react-native-paper';
-import Email_Icon from '../Pictures/Email.png';
-import lock_Icon from '../Pictures/lock.png';
 import person from '../Pictures/person.png';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MDIcon from "react-native-vector-icons/MaterialIcons";
-import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
-import mime from "mime";
-import PlaceHolderImage from '../Pictures/PlaceholderImage.png';
-const { width, height } = Dimensions.get('window');
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class UpdateProfileInformation extends Component {
   controller = new AbortController();
@@ -258,7 +235,6 @@ export default class UpdateProfileInformation extends Component {
 
   }
 
-
   render() {
 
 
@@ -296,6 +272,7 @@ export default class UpdateProfileInformation extends Component {
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.signUp}>
           <Text style={styles.signUpText}>Update Information</Text>
         </TouchableHighlight>
+        
       </View>
     );
   }

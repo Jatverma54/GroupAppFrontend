@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -22,10 +22,6 @@ import UpdatePublicGroupAccountInfoScreen from '../screens/JoinPublicGroupScreen
 import ReplyComments from '../components/Comment/ReplyComments';
 import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinPublicGroupRequestScreen';
 import ReplyLikesComment from '../components/Comment/ReplyLikesComment';
-
-import {
-  Button,
-} from 'react-native-paper';
 
 const JoinedPublicGroupStack = createStackNavigator();
 const JoinedPublicGroupStackNavigator = (props) => {

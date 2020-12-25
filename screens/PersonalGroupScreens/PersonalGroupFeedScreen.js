@@ -17,14 +17,11 @@ import {
   AsyncStorage
 } from 'react-native';
 import {
-
   Divider,
   Avatar,
   Button
-
 } from 'react-native-paper';
 
-import DrawerLogo from '../../Pictures/DrawerLogo.png';
 import FbImages from '../JoinPublicGroupScreen/PostImagesJoinedGroup';
 import Comment from '../../Pictures/Comment.png';
 import Post_Add from '../../Pictures/Post_Add.png';
@@ -47,9 +44,6 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')

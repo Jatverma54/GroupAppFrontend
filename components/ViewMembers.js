@@ -24,18 +24,15 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 setTestDeviceIDAsync('EMULATOR')
-AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
+
 
 export default class ViewMembers extends Component {
   cleanup = null;
@@ -103,15 +100,6 @@ export default class ViewMembers extends Component {
 
   };
 
-  _openRewarded = async () => {
-    try {
-
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-
-    }
-  }
   getPaginationData = async () => {
 
     this.setState({ loadingPagination: true });
@@ -661,6 +649,9 @@ export default class ViewMembers extends Component {
   };
 
 
+  bannerError = (error) => {
+
+  }
 
 
 
