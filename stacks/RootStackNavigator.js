@@ -108,7 +108,7 @@ const RootMainStackNavigator = () => {
 
       <RootMainStack.Screen
         options={{
-          headerTitle: "Welcome to the Group APP",
+          headerTitle: "Welcome to GroupHelpMe",
 
           headerTintColor: colors.StackheaderTintColor,
           headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },
@@ -121,7 +121,7 @@ const RootMainStackNavigator = () => {
 
       <RootMainStack.Screen
         options={{
-          headerTitle: "Group APP Features",
+          headerTitle: "GroupHelpMe Features",
 
           headerTintColor: colors.StackheaderTintColor,
           headerStyle: { backgroundColor: colors.StackheaderStyleBackgroundColor, height: 80 },

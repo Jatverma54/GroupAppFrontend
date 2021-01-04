@@ -123,7 +123,7 @@ export default class LoginScreen extends Component {
 
           Alert.alert(
 
-            "Welcome to the Group App " + responseJson.user.profile.full_name,
+            "Welcome to GroupHelpMe " + responseJson.user.profile.full_name,
             "Login Successful",
             [
               { text: "Ok", onPress: () => this.props.navigation.navigate('DrawerScreen', responseJson.user) }

@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   paragraph: {
 
     margin: -20,
-    fontSize: 19,
+    fontSize: 14,
     textAlign: 'right',
 
   },

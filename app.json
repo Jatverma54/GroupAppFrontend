@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Groupyy",
+    "name": "GroupHelpMe",
     "description":"Group App",
-    "slug": "Groupyy", 
+    "slug": "GroupHelpMe", 
     "sdkVersion":"39.0.0" ,
     "privacy":"unlisted",
     "platforms": [

@@ -146,7 +146,7 @@ const DrawerContent = (props,) => {
 
             <Title style={styles.title}>{props.Userdata.profile.full_name}</Title>
             <Paragraph style={[styles.paragraph, styles.caption]}>
-              Groupyy App
+            GroupHelpMe
                 </Paragraph>
             <Caption style={styles.caption}>Its All About Groups</Caption>
             <View style={styles.row}>

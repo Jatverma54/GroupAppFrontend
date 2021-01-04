@@ -374,7 +374,7 @@ export default class SignupScreen extends Component {
         <Loader isLoading={this.state.loading} />
         <ScrollView>
           <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-            <View style={{ height: 100, padding: 10, marginTop: 50, flex: 3, backgroundColor: "#3498db", marginBottom: 60, width: "100%" }}>
+            <View style={{ height: 100, padding: 10, marginTop: 50, flex: 3, backgroundColor: "#B0E0E6", marginBottom: 60, width: "100%" }}>
 
               <Avatar.Image
                 style={{ alignSelf: "center", marginHorizontal: 2, borderColor: 'black', borderWidth: 2, }}
@@ -565,7 +565,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3498db',
+   // backgroundColor: '#3498db',
+   backgroundColor: '#B0E0E6',
 
   },
   inputContainer: {
@@ -620,7 +621,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   signupButton: {
-    backgroundColor: "#FF4DFF",
+    backgroundColor: '#3498db',
   },
   signUpText: {
     color: 'white',
