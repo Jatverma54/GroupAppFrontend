@@ -33,7 +33,7 @@
   "iosDisplayInForeground": true
     },
     "android": {
-      "package":"uniqueDomain.groupname",
+      "package":"com.grouphelpme.grouphelpmeApp",
       "versionCode": 1,
       "useNextNotificationsApi": true,
       "config": {
