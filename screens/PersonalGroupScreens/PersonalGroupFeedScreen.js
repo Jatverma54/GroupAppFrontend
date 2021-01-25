@@ -306,8 +306,18 @@ export default class PersonalGroupFeedScreen extends Component {
       data.item.isLiked = !data.item.isLiked;
       data.item.countLikes = data.item.isLiked ? (parseInt(data.item.countLikes) + 1) : (parseInt(data.item.countLikes) - 1)
 
-      data.item.isLiked ? data.item.LikePictures.push(data.item.currentUserPic)
-        : data.item.LikePictures = data.item.LikePictures.filter(item => item !== data.item.currentUserPic);
+      if( data.item.isLiked ){
+        data.item.LikePictures.push(data.item.currentUserPic)
+      }else{
+       var idx = data.item.LikePictures.indexOf(data.item.currentUserPic)
+       if (idx >= 0 && data.item.LikePictures.length>1) {
+         data.item.LikePictures=    data.item.LikePictures.splice(idx, 1);
+       }
+       else{
+         data.item.LikePictures = data.item.LikePictures.filter(item => item !== data.item.currentUserPic);
+        }
+     
+      }
 
       const index = this.state.data.findIndex(
         item => data.item._id === item._id
