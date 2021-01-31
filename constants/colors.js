@@ -26,7 +26,7 @@ export default {
     TabshadowRadius: 30,
     Tabelevation: 5,
     TabshadowOpacity: 1,
-    Tabheight: 55,
+    Tabheight: 57,
 
     TabLabelStylefontSize: 15,
     TabLabelStylefontWeight: "bold",

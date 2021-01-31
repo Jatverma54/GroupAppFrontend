@@ -18,7 +18,7 @@ import {
 } from 'react-native-paper';
 import NoGroups from '../../Pictures/NoGroups.png';
 import moment from "moment";
-const {  height } = Dimensions.get('window');
+const {  width,height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 
@@ -221,8 +221,8 @@ export default class JoinedPublicGroupsScreen extends Component {
         }}
         />
         <Text style={{ alignSelf: "center", alignContent: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Please join your first group.   </Text>
-        <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>You will see all the public groups that you have joined     </Text>
-        <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>here.</Text>
+        <Text style={{ alignSelf: "center", marginLeft:width/2-70, fontSize: 15, color: "grey", fontWeight: "bold",width:"100%" }}>You will see all the public groups that{'\n'} you have joined here.</Text>
+      
       </View>
     )
   }

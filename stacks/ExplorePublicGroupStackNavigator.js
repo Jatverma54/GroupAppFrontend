@@ -3,7 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image,Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ExplorePublicGroupScreen from '../screens/ExplorePublicGroupScreens/ExplorePublicGroupScreen';
 import JoinedPublicGroupStackNavigator from '../stacks/JoinedPublicGroupStackNavigator';
@@ -13,7 +13,7 @@ import BackArrow from '../Pictures/BackArrow.png';
 
 
 const ExplorePublicGroupTabStack = createMaterialTopTabNavigator();
-
+const { width, height } = Dimensions.get('window');
 const ExplorePublicGroupTabStackNavigator = () => {
   return (
     <ExplorePublicGroupTabStack.Navigator initialRouteName="Explore Public Groups"
@@ -32,31 +32,31 @@ const ExplorePublicGroupTabStackNavigator = () => {
           shadowRadius: colors.TabshadowRadius,
           elevation: colors.Tabelevation,
           shadowOpacity: colors.TabshadowOpacity,
-          height: colors.Tabheight
+          height: colors.Tabheight,
+         
         },
 
         labelStyle: {
           fontSize: colors.TabLabelStylefontSize,
           fontWeight: colors.TabLabelStylefontWeight,
-          width: colors.TabLabelStylewidth,
-
+          width: width/2,
+        
         },
 
 
         tabStyle: {
           alignItems: colors.TabTabStylealignItems,
           justifyContent: colors.TabTabStylejustifyContent,
-
           paddingVertical: colors.TabTabStylepaddingVertical,
           backgroundColor: colors.TabTabStylebackgroundColor,
-
+        
         },
 
       }}>
 
 
       <ExplorePublicGroupTabStack.Screen options={{
-        tabBarLabel: 'Explore Public Groups'
+        tabBarLabel: 'Explore Public Groups',
       }}
         name='Explore Public Groups'
         component={ExplorePublicGroupStackNavigator} />
