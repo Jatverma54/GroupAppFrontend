@@ -286,7 +286,7 @@ export default class SignupScreen extends Component {
         alert("Enter a valid Email Id");
       }
       else if (!underAgeValidate) {
-        alert("User must be at least 12 years old to have an account");
+        alert("User must be at least 13 years old to have an account");
       }
       else if (!this.PasswordValidation(password)) {
 
@@ -329,7 +329,7 @@ export default class SignupScreen extends Component {
     // calculate age comparing current date and borthday
     var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
 
-    if (myAge < 12) {
+    if (myAge < 13) {
       return false;
     } else {
       return true;
@@ -501,7 +501,7 @@ export default class SignupScreen extends Component {
             <Text style={styles.signUpText}>Sign up</Text>
           </TouchableHighlight>
           <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('TermsAndCondition')}   >
-            <Text style={{ width: "100%", marginLeft: 100 }}>By signing in, you agree to the <Text style={{ fontWeight: 'bold', }}>terms and conditions</Text></Text>
+            <Text style={{ width: "100%", marginLeft: 100 }}>By signing in, you agree to the <Text style={{ fontWeight: 'bold', }}>{'\n'}privacy policy and terms and conditions</Text></Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.buttonSignupContainer} onPress={() => this.props.navigation.push('LoginScreen')}   >

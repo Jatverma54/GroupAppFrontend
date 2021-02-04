@@ -103,7 +103,7 @@ class SearchFunctionality extends Component {
 
     return <SearchBar
 
-      placeholder="Type a group name..."
+      placeholder="Type a public group name..."
       placeholderTextColor="grey"
       lightTheme round editable={true}
 
