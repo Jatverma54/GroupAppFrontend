@@ -84,15 +84,15 @@ export default class UpdateProfileInformation extends Component {
     }
   };
 
-  _openRewarded = async () => {
-    try {
+  // _openRewarded = async () => {
+  //   try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
+  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+  //     await AdMobRewarded.showAdAsync()
+  //   } catch (error) {
 
-    }
-  }
+  //   }
+  // }
   _pickImage = async () => {
     try {
 

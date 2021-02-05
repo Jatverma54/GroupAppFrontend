@@ -34,7 +34,6 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
 import {
-  AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 

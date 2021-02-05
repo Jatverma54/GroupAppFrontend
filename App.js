@@ -7,7 +7,6 @@ import RootMainStackNavigator from './stacks/RootStackNavigator';
 import { NavigationContainer, DrawerActions, Header } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import UserToken from './constants/APIPasswordCollection'
 import * as Notifications from 'expo-notifications';
 import {
   AdMobRewarded,

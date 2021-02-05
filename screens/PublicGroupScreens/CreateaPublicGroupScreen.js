@@ -120,15 +120,15 @@ export default class CreateaPublicGroupScreen extends Component {
     );
   }
 
-  _openRewarded = async () => {
-    try {
+  // _openRewarded = async () => {
+  //   try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
+  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+  //     await AdMobRewarded.showAdAsync()
+  //   } catch (error) {
 
-    }
-  }
+  //   }
+  // }
 
   CreateGroup = async () => {
     Keyboard.dismiss();
