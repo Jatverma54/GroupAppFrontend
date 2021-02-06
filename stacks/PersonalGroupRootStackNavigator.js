@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PersonalGroupsScreen from '../screens/PersonalGroupScreens/PersonalGroupsScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -35,7 +35,7 @@ const HeaderLeft = () => {
   );
 };
 
-const PersonalGroupRootStack = createStackNavigator();
+const PersonalGroupRootStack = createStackNavigator ();
 const PersonalGroupRootStackNavigator = () => {
 
   return (
@@ -97,7 +97,7 @@ const PersonalGroupRootStackNavigator = () => {
 };
 
 
-const PersonalGroupBioStack = createStackNavigator();
+const PersonalGroupBioStack = createStackNavigator ();
 const PersonalGroupBioStackNavigator = ({ route }) => {
 
   return (
@@ -167,7 +167,7 @@ const PersonalGroupBioStackNavigator = ({ route }) => {
 };
 
 
-const CreateaPersonalGroupStack = createStackNavigator();
+const CreateaPersonalGroupStack = createStackNavigator ();
 const CreateaPersonalGroupStackNavigator = () => {
 
   return (
@@ -300,7 +300,7 @@ function withMyHook(Component) {
   }
 }
 
-const PersonalGroupFeedScreenStack = createStackNavigator();
+const PersonalGroupFeedScreenStack = createStackNavigator ();
 const PersonalGroupFeedScreenkNavigator = ({ route }) => {
   const { GroupName } = route.params;
 

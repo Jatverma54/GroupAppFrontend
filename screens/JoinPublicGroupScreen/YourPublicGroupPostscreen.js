@@ -13,7 +13,8 @@ import {
   RefreshControl,
   Clipboard,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager 
 } from 'react-native';
 import {
   Avatar,
@@ -69,15 +70,15 @@ export default class YourPublicGroupPostscreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-
-    this.DetectOrientation();
-    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "", skipPagination: 0 })
+    InteractionManager.runAfterInteractions(() => {
+  });
+  this.DetectOrientation();
+  let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+    this.setState({ data: "", skipPagination: 0 })
       this.getData();
 
-    });
-    this.cleanup = () => { unsubscribe1(); }
-
+  });
+  this.cleanup = () => { unsubscribe1(); }
   }
 
   componentWillUnmount() {

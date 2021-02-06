@@ -11,7 +11,8 @@ import {
   Share,
   ActivityIndicator,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager
 } from 'react-native';
 import {
   Avatar,
@@ -132,8 +133,11 @@ export default class Stories extends Component {
   };
 
   componentDidMount() {
+
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.getData();
     this.cleanup = () => { unsubscribe1; }
+  });
   }
 
   componentWillUnmount() {

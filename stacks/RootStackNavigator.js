@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StyleSheet, TouchableOpacity, View, Image, AsyncStorage, Alert, BackHandler } from 'react-native';
@@ -37,7 +37,7 @@ const HeaderLeft = () => {
 
 
 
-const RootMainStack = createStackNavigator();
+const RootMainStack = createStackNavigator ();
 const RootMainStackNavigator = () => {
 
 

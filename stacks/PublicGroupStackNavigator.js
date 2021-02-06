@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
@@ -63,7 +63,7 @@ const Search = () => {
 
 }
 
-const PublicGroupStack = createStackNavigator();
+const PublicGroupStack = createStackNavigator ();
 const PublicGroupStackNavigator = () => {
 
   return (
@@ -125,7 +125,7 @@ const PublicGroupStackNavigator = () => {
   );
 };
 
-const SearchFunctionalityStack = createStackNavigator();
+const SearchFunctionalityStack = createStackNavigator ();
 const SearchFunctionalityStackNavigator = () => {
 
   return (
@@ -176,7 +176,7 @@ const SearchFunctionalityStackNavigator = () => {
 
 
 
-const PublicGroupBioStack = createStackNavigator();
+const PublicGroupBioStack = createStackNavigator ();
 const PublicGroupBioStackNavigator = ({ route }) => {
   const { GroupName } = route.params;
   let name = GroupName;

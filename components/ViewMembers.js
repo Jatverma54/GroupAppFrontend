@@ -11,7 +11,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager
 } from 'react-native';
 import { SearchBar } from "react-native-elements";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -141,9 +142,12 @@ export default class ViewMembers extends Component {
 
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+
     let unsubscribe1 = this.getData();
 
     this.cleanup = () => { unsubscribe1 }
+  });
   }
 
   componentWillUnmount() {

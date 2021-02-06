@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, Text, View, Image, } from 'react-native';
@@ -23,7 +23,7 @@ import ReplyComments from '../components/Comment/ReplyComments';
 import JoinPublicGroupRequestScreen from '../screens/JoinPublicGroupScreen/JoinPublicGroupRequestScreen';
 import ReplyLikesComment from '../components/Comment/ReplyLikesComment';
 
-const JoinedPublicGroupStack = createStackNavigator();
+const JoinedPublicGroupStack = createStackNavigator ();
 const JoinedPublicGroupStackNavigator = (props) => {
   const navigation = useNavigation();
   return (
@@ -48,7 +48,7 @@ const JoinedPublicGroupStackNavigator = (props) => {
 
 
 
-const JoinedGroupBioStack = createStackNavigator();
+const JoinedGroupBioStack = createStackNavigator ();
 export const JoinedGroupBioStackNavigator = ({ route }) => {
 
   return (
@@ -280,7 +280,7 @@ const NotificationGroupTabStackNavigator = ({ route }) => {
 };
 
 
-const HomeFeedStack = createStackNavigator();
+const HomeFeedStack = createStackNavigator ();
 export const HomeFeedStackNavigator = ({ route }) => {
 
   const { GroupName } = route.params;

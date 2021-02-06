@@ -11,7 +11,8 @@ import {
   Keyboard,
   AsyncStorage,
   KeyboardAvoidingView,
-  BackHandler
+  BackHandler,
+  InteractionManager 
 } from 'react-native';
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
@@ -59,7 +60,9 @@ export default class LoginScreen extends Component {
 
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  });
   }
 
   componentWillUnmount() {

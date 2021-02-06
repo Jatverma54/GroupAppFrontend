@@ -11,7 +11,8 @@ import {
   Dimensions,
   ActivityIndicator,
   AsyncStorage,
-  Alert
+  Alert,
+  InteractionManager 
 } from 'react-native';
 import {
   Button
@@ -49,7 +50,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
   cleanup = null;
 
   componentDidMount() {
-
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1;
     let unsubscribe2;
     if (this.props.route.params.groupid.admin_id.find(a => a._id === this.props.route.params.groupid.currentUser)) {
@@ -58,7 +59,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
     }
 
     this.cleanup = () => { unsubscribe1; unsubscribe2; }
-
+  });
   }
 
   componentWillUnmount() {

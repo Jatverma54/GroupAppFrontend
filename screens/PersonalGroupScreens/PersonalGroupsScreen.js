@@ -12,7 +12,8 @@ import {
   AsyncStorage,
   ActivityIndicator,
   BackHandler,
-  Alert
+  Alert,
+  InteractionManager 
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -54,12 +55,11 @@ export default class PersonalGroupsScreen extends Component {
   cleanup = null;
 
   componentDidMount() {
-
+    InteractionManager.runAfterInteractions(() => {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
     let unsubscribe1 = this.getData();
-
     this.cleanup = () => { unsubscribe1; }
-
+  });
   }
   backAction = () => {
     if (this.props.navigation.isFocused()) {

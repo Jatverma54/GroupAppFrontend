@@ -14,7 +14,8 @@ import {
   RefreshControl,
   Share,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager 
 } from 'react-native';
 import {
   Divider,
@@ -84,20 +85,15 @@ export default class PersonalGroupFeedScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
+   InteractionManager.runAfterInteractions(() => {});
+   this.DetectOrientation();
+   let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+ // do something
+ this.setState({ data: "", skipPagination: 0 })
+ this.getData(); // do something
+});
+this.cleanup = () => { unsubscribe1(); }
 
-    this.DetectOrientation();
-
-    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-
-      // do something
-      this.setState({ data: "", skipPagination: 0 })
-      this.getData(); // do something
-
-
-
-
-    });
-    this.cleanup = () => { unsubscribe1(); }
   }
 
   componentWillUnmount() {

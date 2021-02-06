@@ -9,7 +9,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager 
 } from 'react-native';
 import { SearchBar } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -141,9 +142,10 @@ export default class ViewMembersPublicGroup extends Component {
   // }
   cleanup = null;
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.getData();
     this.cleanup = () => { unsubscribe1; }
-
+  });
   }
 
   componentWillUnmount() {

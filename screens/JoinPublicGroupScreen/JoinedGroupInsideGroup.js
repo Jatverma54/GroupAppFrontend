@@ -15,7 +15,7 @@ import {
   Share,
   ActivityIndicator,
   AsyncStorage,
-
+  InteractionManager
 } from 'react-native';
 import {
   Divider,
@@ -85,24 +85,18 @@ export default class JoinedGroupInsideGroupFeed extends Component {
   }
   cleanup = null;
   componentDidMount() {
-
+    InteractionManager.runAfterInteractions(() => {});
     let unsubscribe1 = this.DetectOrientation();
     let unsubscribe2 = this.props.navigation.addListener('focus', () => {
-
-      this.setState({ data: "", skipPagination: 0 })
+       this.setState({ data: "", skipPagination: 0 })
       this.getData();
-
-      if (this.props.route.params && this.props.route.params.Notification) {
-
-        this.setState({ notificationData: [] })
-
-        this.getNotificationData();
-        this.props.route.params.Notification = "";
-      }
-    });
-
-    this.cleanup = () => { unsubscribe2(); unsubscribe1; }
-
+       if (this.props.route.params && this.props.route.params.Notification) {
+       this.setState({ notificationData: [] })
+         this.getNotificationData();
+         this.props.route.params.Notification = "";
+       }
+     this.cleanup = () => { unsubscribe2(); unsubscribe1; }
+  });
   }
 
   componentWillUnmount() {

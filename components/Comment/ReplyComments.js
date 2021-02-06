@@ -14,7 +14,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager 
 } from 'react-native';
 
 import {
@@ -134,6 +135,7 @@ export default class ReplyComments extends Component {
   }
   cleanup = null;
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.setState({ skipPagination: 1 })
     this.props.navigation.setOptions({
       headerTitle: `Replying to ` + this.props.route.params.name,
@@ -141,6 +143,7 @@ export default class ReplyComments extends Component {
     let unsubscribe2 = this.getData();
 
     this.cleanup = () => { unsubscribe1; unsubscribe2; }
+  });
   }
 
   componentWillUnmount() {

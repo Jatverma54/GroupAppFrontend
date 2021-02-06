@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import colors from '../constants/colors';
@@ -26,7 +26,7 @@ const HeaderLeft = () => {
 
 
 
-const ProfileScreenStack = createStackNavigator();
+const ProfileScreenStack = createStackNavigator ();
 const ProfileScreenStackNavigator = () => {
 
   return (
@@ -82,7 +82,7 @@ const ProfileScreenStackNavigator = () => {
 
 };
 
-const changePassword = createStackNavigator();
+const changePassword = createStackNavigator ();
 const changePasswordStackNavigator = ({ route }) => {
 
   return (
@@ -138,7 +138,7 @@ const changePasswordStackNavigator = ({ route }) => {
 
 
 
-const UpdateAccountProfileInformation = createStackNavigator();
+const UpdateAccountProfileInformation = createStackNavigator ();
 const UpdateAccountProfileInformationStackNavigator = ({ route }) => {
 
   return (

@@ -15,7 +15,8 @@ import {
   Share,
   ActivityIndicator,
   AsyncStorage,
-  BackHandler
+  BackHandler,
+  InteractionManager 
 } from 'react-native';
 import {
   Divider,
@@ -80,16 +81,16 @@ export default class PublicGroupFeedScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    InteractionManager.runAfterInteractions(() => {
+  });
+  BackHandler.addEventListener("hardwareBackPress", this.backAction);
     let unsubscribe2 = this.DetectOrientation();
-    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-
+   let unsubscribe1 = this.props.navigation.addListener('focus', () => {
       // do something
       this.setState({ data: "", skipPagination: 0 })
       this.getData(); // do something
     });
     this.cleanup = () => { unsubscribe1(); unsubscribe2 }
-
   }
 
   backAction = () => {

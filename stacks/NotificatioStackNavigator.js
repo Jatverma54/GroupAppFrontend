@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
@@ -21,7 +21,7 @@ const HeaderLeft = () => {
 };
 
 
-const NotificatioStack = createStackNavigator();
+const NotificatioStack = createStackNavigator ();
 const NotificatioStackNavigator = () => {
 
   return (

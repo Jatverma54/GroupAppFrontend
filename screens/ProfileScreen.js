@@ -9,7 +9,7 @@ import {
   Dimensions,
   AsyncStorage,
   ActivityIndicator,
-  Alert
+  Alert,
 } from 'react-native';
 import {
   Button,
@@ -62,16 +62,16 @@ export default class ProfileScreen extends Component {
 
 
   componentDidMount() {
-    let unsubscribe2;
 
-    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-      unsubscribe2 = this.setState({ data: "" })
+    let unsubscribe2;
+   let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+    unsubscribe2=  this.setState({ data: "" })
       this.getData();
-    });
+   });
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
 
-    this.cleanup = () => { unsubscribe1(); unsubscribe2; }
+    this.cleanup = () => {  unsubscribe1();unsubscribe2; }
 
   }
 

@@ -10,7 +10,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+  InteractionManager 
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -121,13 +122,13 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.props.navigation.addListener('focus', () => {
       this.setState({ data: "" })
-      this.getData(); // do something
+       this.getData(); // do something
     });
     this.cleanup = () => { unsubscribe1(); }
-
+  });
   }
   componentWillUnmount() {
 

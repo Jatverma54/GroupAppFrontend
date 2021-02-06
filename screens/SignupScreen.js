@@ -11,7 +11,8 @@ import {
   Platform,
   Alert,
   Keyboard,
-  ScrollView
+  ScrollView,
+  InteractionManager 
 } from 'react-native';
 import {
   Avatar,
@@ -99,9 +100,11 @@ export default class SignupScreen extends Component {
 
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
     this.PasswordInfoshowAlert();
+  });
   }
 
   PasswordInfoshowAlert() {

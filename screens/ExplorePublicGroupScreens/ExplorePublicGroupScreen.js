@@ -13,6 +13,7 @@ import {
   BackHandler,
   RefreshControl,
   ImageBackground,
+  InteractionManager 
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
@@ -79,12 +80,11 @@ export default class ExplorePublicGroupScreen extends Component {
   cleanup = null;
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.getData();
-
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
-
     this.cleanup = () => { unsubscribe1; }
-
+  });
   }
 
   backAction = () => {

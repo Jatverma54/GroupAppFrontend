@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View, Image,Dimensions } from 'react-native';
@@ -73,7 +73,7 @@ const ExplorePublicGroupTabStackNavigator = () => {
 };
 
 
-const ExplorePublicGroupStack = createStackNavigator();
+const ExplorePublicGroupStack = createStackNavigator ();
 const ExplorePublicGroupStackNavigator = () => {
 
 
@@ -98,7 +98,7 @@ const ExplorePublicGroupStackNavigator = () => {
   );
 };
 
-const ExplorePublicGroupCategoryBasedStack = createStackNavigator();
+const ExplorePublicGroupCategoryBasedStack = createStackNavigator ();
 const ExplorePublicGroupCategoryBasedStackNavigator = ({ route }) => {
   const { title } = route.params;
   var SearchTitle = ''

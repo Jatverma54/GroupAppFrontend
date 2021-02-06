@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import colors from '../constants/colors';
 import PublicGroupFeedScreen from '../screens/PublicGroupScreens/PublicGroupFeedScreen';
 import { useNavigation } from '@react-navigation/native';
@@ -27,7 +27,7 @@ const HeaderLeft = () => {
   );
 };
 
-const PublicGroupFeedStack = createStackNavigator();
+const PublicGroupFeedStack = createStackNavigator ();
 const PublicGroupFeedStackNavigator = () => {
 
   return (
@@ -90,7 +90,7 @@ const PublicGroupFeedStackNavigator = () => {
 };
 
 
-const LikeStack = createStackNavigator();
+const LikeStack = createStackNavigator ();
 const LikeStackNavigator = ({ route }) => {
 
   return (
@@ -141,7 +141,7 @@ const LikeStackNavigator = ({ route }) => {
 };
 
 
-const CommentStack = createStackNavigator();
+const CommentStack = createStackNavigator ();
 function CommentStackNavigator({ route }) {
 
   return (
@@ -296,7 +296,7 @@ const HeaderLeftFeed = () => {
 
 
 
-const PublicFeedHomeFeedStack = createStackNavigator();
+const PublicFeedHomeFeedStack = createStackNavigator ();
 const PublicFeedHomeFeedStackNavigator = () => {
 
   return (

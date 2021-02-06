@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  InteractionManager 
 } from 'react-native';
 import {
   Divider,
@@ -64,21 +65,17 @@ export default class PublicGroupListScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-
-    let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-      this.setState({ data: "", temp: "", searchResult: [] });
-      this.getData(); // do something
-
-      if (this.props.route.params.data && this.props.route.params.data.GroupName) {
-
-
-        this.groupSearchnData();
-
-      }
-
-
-    });
-    this.cleanup = () => { unsubscribe1(); }
+    InteractionManager.runAfterInteractions(() => {
+  
+ });
+ let unsubscribe1 = this.props.navigation.addListener('focus', () => {
+  this.setState({ data: "", temp: "", searchResult: [] });
+    this.getData(); // do something
+  if (this.props.route.params.data && this.props.route.params.data.GroupName) {
+    this.groupSearchnData();
+  }
+  this.cleanup = () => { unsubscribe1(); }
+});
   }
   componentWillUnmount() {
     if (this.cleanup) this.cleanup();

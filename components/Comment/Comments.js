@@ -14,7 +14,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  InteractionManager 
 } from 'react-native';
 
 import {
@@ -134,10 +135,11 @@ export default class Comments extends Component {
 
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.setState({ skipPagination: 1 })
     let unsubscribe2 = this.getData();
-
     this.cleanup = () => { unsubscribe1; unsubscribe2; }
+  });
   }
 
   componentWillUnmount() {

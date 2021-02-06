@@ -9,7 +9,8 @@ import {
   FlatList,
   ActivityIndicator,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+  InteractionManager 
 } from 'react-native';
 import {
   Button,
@@ -116,9 +117,10 @@ export default class Likes extends Component {
 
 
   componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
     let unsubscribe1 = this.getData();
     this.cleanup = () => { unsubscribe1; }
-
+  });
   }
 
   componentWillUnmount() {
