@@ -6,7 +6,7 @@ import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import colors from '../constants/colors';
 import ProfileScreen from '../screens/ProfileScreen';
 import UpdateProfileInformation from '../screens/UpdateProfileInformation';
-import changePasswordscreen from '../screens/changePassword';
+import changePasswordscreen from '../screens/ChangePassword';
 
 
 import BackArrow from '../Pictures/BackArrow.png';
