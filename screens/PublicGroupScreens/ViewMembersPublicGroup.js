@@ -131,15 +131,6 @@ export default class ViewMembersPublicGroup extends Component {
 
   };
 
-  // _openRewarded = async () => {
-  //   try {
-
-  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-  //     await AdMobRewarded.showAdAsync()
-  //   } catch (error) {
-
-  //   }
-  // }
   cleanup = null;
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {

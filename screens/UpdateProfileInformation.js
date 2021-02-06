@@ -69,8 +69,6 @@ export default class UpdateProfileInformation extends Component {
   componentDidMount() {
     this.getPermissionAsync();
     this.getCameraPermissionAsync();
-   // this._openRewarded();
-
   }
 
 
@@ -84,15 +82,6 @@ export default class UpdateProfileInformation extends Component {
     }
   };
 
-  // _openRewarded = async () => {
-  //   try {
-
-  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-  //     await AdMobRewarded.showAdAsync()
-  //   } catch (error) {
-
-  //   }
-  // }
   _pickImage = async () => {
     try {
 
