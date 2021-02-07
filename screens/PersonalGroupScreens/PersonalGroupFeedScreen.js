@@ -1426,7 +1426,7 @@ this.cleanup = () => { unsubscribe1(); }
               }} />
 
             <View >
-              <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+              <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-1558609691925120/2704256015'}
                 servePersonalizedAds={true}
                 onDidFailToReceiveAdWithError={this.bannerError}
               />

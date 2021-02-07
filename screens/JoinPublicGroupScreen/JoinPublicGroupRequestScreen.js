@@ -23,11 +23,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
 
 export default class JoinPublicGroupRequestScreen extends Component {
   controller = new AbortController();
@@ -519,11 +514,6 @@ export default class JoinPublicGroupRequestScreen extends Component {
               }} />
               <Text style={{ alignSelf: "center", alignItems: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>No Pending Requests.   </Text>
             </View>}
-
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-            servePersonalizedAds={true}
-            onDidFailToReceiveAdWithError={this.bannerError}
-          />
         </View>
     );
   }

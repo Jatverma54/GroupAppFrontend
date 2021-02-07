@@ -285,7 +285,7 @@ export default class PersonalGroupsScreen extends Component {
               <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Press below plus icon to create your first personal group.     </Text>
               <Text style={{ alignSelf: "center", fontSize: 15, color: "grey", fontWeight: "bold" }}>Personal groups will be visible to members only.         </Text>
             </View>}
-          <AdMobBanner style={{ backgroundColor: "white" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          <AdMobBanner style={{ backgroundColor: "white" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-1558609691925120/2704256015'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
           />

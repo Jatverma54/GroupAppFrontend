@@ -65,9 +65,7 @@ export default class PublicGroupListScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-  
- });
+    InteractionManager.runAfterInteractions(() => {});
  let unsubscribe1 = this.props.navigation.addListener('focus', () => {
   this.setState({ data: "", temp: "", searchResult: [] });
     this.getData(); // do something
@@ -80,8 +78,6 @@ export default class PublicGroupListScreen extends Component {
   componentWillUnmount() {
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
-
-
   }
 
   groupSearchnData = async () => {
@@ -108,15 +104,9 @@ export default class PublicGroupListScreen extends Component {
       this.setNotificationResult(json.result);
       this.controller.abort()
     } catch (e) {
-
       this.setState({ error: 'Reload the Page', disabled: false, isFetching: false, loading: false });
-
       this.controller.abort()
     }
-
-
-
-
   };
   setNotificationResult = (res) => {
 
@@ -167,28 +157,18 @@ export default class PublicGroupListScreen extends Component {
 
       this.controller.abort()
     }
-
-
-
-
   };
 
 
   getPaginationData = async () => {
-
     this.setState({ loadingPagination: true, });
-
     try {
-
       const userData = await AsyncStorage.getItem('userData');
       const transformedData = JSON.parse(userData);
       const { token, userId } = transformedData;
-
-
       var GroupData = {
         GroupCategory_id: this.props.route.params.data !== undefined ? this.props.route.params.data.GroupCategory_id : this.props.route.params._id,
       }
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -197,22 +177,14 @@ export default class PublicGroupListScreen extends Component {
         headers: myHeaders,
         body: JSON.stringify(GroupData),
       };
-
       const response = await fetch(`${APIBaseUrl.BaseUrl}/groups/getPublicGroupsWithCategory?page_size=10&page_number=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
       this.setResult(json.result);
       this.controller.abort()
     } catch (e) {
-
       this.setState({ errorPagination: 'Reload', disabled: false, isFetching: false, loading: false });
-
-
       this.controller.abort()
     }
-
-
-
-
   };
 
   setResult = (res) => {
@@ -695,7 +667,7 @@ export default class PublicGroupListScreen extends Component {
 
               );
             }} />
-          <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4839217340'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
           />

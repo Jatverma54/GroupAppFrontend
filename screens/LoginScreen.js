@@ -202,7 +202,7 @@ export default class LoginScreen extends Component {
 
       <KeyboardAvoidingView style={styles.container}>
         <View style={{ marginBottom: 50 }}>
-          <AdMobBanner bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          <AdMobBanner bannerSize="mediumRectangle" adUnitID={'ca-app-pub-1558609691925120/4647645652'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
           />

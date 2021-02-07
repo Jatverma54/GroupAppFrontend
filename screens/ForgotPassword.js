@@ -148,7 +148,7 @@ export default class ForgotPassword extends Component {
 
         <Loader isLoading={this.state.loading} />
         <View style={{ justifyContent: "flex-start", flex: 1 }} >
-          <AdMobBanner style={{ marginBottom: 70 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+          <AdMobBanner style={{ marginBottom: 70 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-1558609691925120/4647645652'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
           />

@@ -22,11 +22,7 @@ import APIBaseUrl from '../../constants/APIBaseUrl';
 import moment from "moment";
 import ViewMoreText from 'react-native-view-more-text';
 const { height } = Dimensions.get('window');
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+
 
 export default class PublicNotificationScreen extends Component {
   controller = new AbortController();
@@ -314,11 +310,6 @@ export default class PublicNotificationScreen extends Component {
                 </View>
               );
             }} />
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
-            servePersonalizedAds={true}
-            onDidFailToReceiveAdWithError={this.bannerError}
-          />
-
         </View>
     );
   }

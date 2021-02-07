@@ -508,7 +508,7 @@ if(!this.state.data.ExpopushToken){
             </View>
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end", alignItems: "center" }}>
-            <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4647645652'}
               servePersonalizedAds={true}
               onDidFailToReceiveAdWithError={this.bannerError}
             />
