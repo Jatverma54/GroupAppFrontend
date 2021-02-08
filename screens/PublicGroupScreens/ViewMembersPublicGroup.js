@@ -325,10 +325,10 @@ export default class ViewMembersPublicGroup extends Component {
             }
 
             renderItem={this.renderItem} />
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4839217340'}
+          {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4839217340'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */}
         </View>
     );
   }

@@ -667,10 +667,10 @@ export default class PublicGroupListScreen extends Component {
 
               );
             }} />
-          <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4839217340'}
+          {/* <AdMobBanner bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4839217340'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */}
           <FloatingActionButton />
         </View>
 

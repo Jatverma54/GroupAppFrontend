@@ -335,10 +335,10 @@ export default class LikesComments extends Component {
             }}
             onEndReachedThreshold={0.2}
             renderItem={this.renderItem} />
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+             {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */}
         </View>
     );
   }

@@ -336,10 +336,10 @@ export default class JoinedPublicGroupsScreen extends Component {
               );
             }} />
 
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/5651119023'}
+          {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/5651119023'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */}
         </View>
 
 

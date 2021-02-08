@@ -1479,10 +1479,10 @@ export default class JoinedGroupInsideGroupFeed extends Component {
                 )
               }} />
             <View >
-              <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-1558609691925120/9973507414'}
+              {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="fullbanner" adUnitID={'ca-app-pub-1558609691925120/9973507414'}
                 servePersonalizedAds={true}
                 onDidFailToReceiveAdWithError={this.bannerError}
-              />
+              /> */}
             </View>
 
 

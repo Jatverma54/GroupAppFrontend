@@ -183,10 +183,10 @@ export default class ExplorePublicGroupScreen extends Component {
               )
             }} />
           <View>
-            <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4184611226'}
+            {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4184611226'}
               servePersonalizedAds={true}
               onDidFailToReceiveAdWithError={this.bannerError}
-            />
+            /> */}
           </View>
         </View>
     );

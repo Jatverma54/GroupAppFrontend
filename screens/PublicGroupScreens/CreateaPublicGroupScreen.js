@@ -424,10 +424,10 @@ export default class CreateaPublicGroupScreen extends Component {
 
 
         </ScrollView>
-        <AdMobBanner style={{ flex: 1, justifyContent: "flex-end" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/6310961554'}
+        {/* <AdMobBanner style={{ flex: 1, justifyContent: "flex-end" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/6310961554'}
           servePersonalizedAds={true}
           onDidFailToReceiveAdWithError={this.bannerError}
-        />
+        /> */}
       </View>
 
 

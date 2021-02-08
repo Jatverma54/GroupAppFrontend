@@ -1058,10 +1058,10 @@ export default class YourPersonalGroupPostScreen extends Component {
               )
             }} />
 
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/2704256015'}
+          {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/2704256015'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */}
         </View>
 
     );

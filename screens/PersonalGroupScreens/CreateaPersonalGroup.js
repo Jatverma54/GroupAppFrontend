@@ -340,10 +340,10 @@ export default class CreateaPersonalGroup extends Component {
           </View>
         </RBSheet>
 
-        <AdMobBanner style={{ alignItems: "center", marginTop: 30 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-1558609691925120/6310961554'}
+        {/* <AdMobBanner style={{ alignItems: "center", marginTop: 30 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-1558609691925120/6310961554'}
           servePersonalizedAds={true}
           onDidFailToReceiveAdWithError={this.bannerError}
-        />
+        /> */}
       </View>
 
     );

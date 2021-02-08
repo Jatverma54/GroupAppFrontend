@@ -340,10 +340,10 @@ export default class Likes extends Component {
 
 
             renderItem={this.renderItem} />
-          <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
+            {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-3940256099942544/6300978111'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
-          />
+          /> */} 
         </View>
     );
   }
