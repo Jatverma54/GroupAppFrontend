@@ -36,8 +36,8 @@
       "package":"com.grouphelpme.grouphelpmeApp",
       "versionCode": 1,
       "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json",
       "config": {
-        
         "googleMobileAdsAppId": "ca-app-pub-1558609691925120~2018624642" 
       },
      "adaptiveIcon":{

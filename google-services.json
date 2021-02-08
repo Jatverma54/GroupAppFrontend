@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "841915816694",
+    "project_id": "grouphelpme-5aa3e",
+    "storage_bucket": "grouphelpme-5aa3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841915816694:android:de9b5332c046765165ead7",
+        "android_client_info": {
+          "package_name": "com.grouphelpme.grouphelpmeApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841915816694-m6gq3i26hs89mr0m5c9h37un3oiik8m0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpTkplDWmi1XKdXJGCODLxNtzbG9_FUAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841915816694-m6gq3i26hs89mr0m5c9h37un3oiik8m0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
