@@ -37,7 +37,7 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
-setTestDeviceIDAsync('EMULATOR')
+//setTestDeviceIDAsync('EMULATOR')
 
 
 export default class UpdatePublicGroupAccountInfoScreen extends Component {

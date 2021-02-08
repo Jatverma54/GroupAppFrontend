@@ -13,11 +13,11 @@ import {
 import Email_Icon from '../Pictures/Email.png';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import Loader from '../components/Loader';
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
+//setTestDeviceIDAsync('EMULATOR')
 
 export default class ForgotPassword extends Component {
   controller = new AbortController();
@@ -147,7 +147,7 @@ export default class ForgotPassword extends Component {
       <View style={styles.container}>
 
         <Loader isLoading={this.state.loading} />
-        <View style={{ justifyContent: "flex-start", flex: 1 }} >
+        <View style={{ justifyContent: "flex-start", flex: 1,justifyContent:"center" }} >
           {/* <AdMobBanner style={{ marginBottom: 70 }} bannerSize="mediumRectangle" adUnitID={'ca-app-pub-1558609691925120/4647645652'}
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}

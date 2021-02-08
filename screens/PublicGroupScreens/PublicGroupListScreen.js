@@ -30,11 +30,11 @@ import {  MaterialCommunityIcons } from '@expo/vector-icons';
 const {  height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
+//setTestDeviceIDAsync('EMULATOR')
 export default class PublicGroupListScreen extends Component {
   cleanup = null;
   controller = new AbortController();

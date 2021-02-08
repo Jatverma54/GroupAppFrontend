@@ -28,11 +28,11 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
 const { width } = Dimensions.get('window');
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
+//setTestDeviceIDAsync('EMULATOR')
 
 
 export default class ProfileScreen extends Component {

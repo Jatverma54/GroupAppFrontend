@@ -8,16 +8,15 @@ import { NavigationContainer, DrawerActions, Header } from '@react-navigation/na
 import { Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
-import {
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+// import {
+//   AdMobRewarded,
+//   setTestDeviceIDAsync,
+// } from 'expo-ads-admob';
+ //setTestDeviceIDAsync('EMULATOR')
 // AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917')//REWARDED_ID
 enableScreens();
 
 LogBox.ignoreAllLogs()
-
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -30,22 +29,22 @@ Notifications.setNotificationHandler({
 
 
 export default function App() {
-  _openRewarded = async () => {
-    try {
+  // _openRewarded = async () => {
+  //   try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
+  //     await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+  //     await AdMobRewarded.showAdAsync()
+  //   } catch (error) {
 
-    }
-  }
+  //   }
+  // }
 
 
   useEffect(() => {
 
-    const time = setTimeout(() => {
-      this._openRewarded();
-    }, 10000);
+    // const time = setTimeout(() => {
+    //   this._openRewarded();
+    // }, 10000);
 
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
 

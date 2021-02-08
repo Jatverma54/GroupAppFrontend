@@ -23,11 +23,11 @@ const {  width,height } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
+//setTestDeviceIDAsync('EMULATOR')
 
 
 export default class JoinedPublicGroupsScreen extends Component {

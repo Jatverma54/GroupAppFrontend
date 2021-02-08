@@ -22,12 +22,12 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
 
-setTestDeviceIDAsync('EMULATOR')
+//setTestDeviceIDAsync('EMULATOR')
 const {  height } = Dimensions.get('window');
 import Loader from '../Loader';
 export default class ReplyLikesComment extends Component {

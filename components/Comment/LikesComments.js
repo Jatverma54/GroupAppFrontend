@@ -24,12 +24,12 @@ MDIcon.loadFont();
 const {  height } = Dimensions.get('window');
 import Loader from '../Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
 
-setTestDeviceIDAsync('EMULATOR')
+//setTestDeviceIDAsync('EMULATOR')
 export default class LikesComments extends Component {
 
   cleanup = null;

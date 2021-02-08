@@ -28,11 +28,11 @@ import APIBaseUrl from '../constants/APIBaseUrl';
 const { width } = Dimensions.get('window');
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
-setTestDeviceIDAsync('EMULATOR')
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
+//setTestDeviceIDAsync('EMULATOR')
 
 
 export default class ViewMembers extends Component {

@@ -37,12 +37,12 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
 
-setTestDeviceIDAsync('EMULATOR')
+//setTestDeviceIDAsync('EMULATOR')
 
 
 export default class CreateaPublicGroupScreen extends Component {

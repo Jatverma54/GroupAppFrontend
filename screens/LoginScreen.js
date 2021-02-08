@@ -12,24 +12,26 @@ import {
   AsyncStorage,
   KeyboardAvoidingView,
   BackHandler,
-  InteractionManager 
+  InteractionManager,
+  Dimensions,
 } from 'react-native';
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
+import Splash_Icon from '../Pictures/circle-312343.png';
 import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import {
-  AdMobBanner,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+//import {
+ //AdMobBanner,
+  //setTestDeviceIDAsync,
+//} from 'expo-ads-admob';
 
-setTestDeviceIDAsync('EMULATOR')
-
+//setTestDeviceIDAsync('EMULATOR')
+const { width } = Dimensions.get('window');
 export default class LoginScreen extends Component {
   controller = new AbortController();
   constructor(props) {
@@ -205,6 +207,9 @@ export default class LoginScreen extends Component {
             servePersonalizedAds={true}
             onDidFailToReceiveAdWithError={this.bannerError}
           /> */}
+          <View style={styles.Images}>
+      <Image  source={Splash_Icon} />
+      </View>
         </View>
 
         <Loader isLoading={this.state.loading} />
@@ -268,7 +273,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#B0E0E6',
+    backgroundColor: 'white',
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -417,6 +422,10 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
 
+  },
+  Images:{
+    height: "40%",
+   width: "100%",
   }
 
 });
