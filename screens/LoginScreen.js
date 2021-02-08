@@ -76,7 +76,6 @@ export default class LoginScreen extends Component {
 
   login = async () => {
     Keyboard.dismiss();
-
     const { userName, password } = this.state
 
     if (userName && password) {
