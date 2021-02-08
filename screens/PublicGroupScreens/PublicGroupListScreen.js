@@ -72,8 +72,9 @@ export default class PublicGroupListScreen extends Component {
   if (this.props.route.params.data && this.props.route.params.data.GroupName) {
     this.groupSearchnData();
   }
-  this.cleanup = () => { unsubscribe1(); }
+
 });
+this.cleanup = () => { unsubscribe1(); }
   }
   componentWillUnmount() {
     if (this.cleanup) this.cleanup();

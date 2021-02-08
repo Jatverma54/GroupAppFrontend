@@ -95,8 +95,9 @@ export default class JoinedGroupInsideGroupFeed extends Component {
          this.getNotificationData();
          this.props.route.params.Notification = "";
        }
-     this.cleanup = () => { unsubscribe2(); unsubscribe1; }
+   
   });
+  this.cleanup = () => { unsubscribe2(); unsubscribe1; }
   }
 
   componentWillUnmount() {

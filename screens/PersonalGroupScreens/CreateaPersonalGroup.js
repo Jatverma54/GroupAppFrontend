@@ -358,8 +358,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: '#B0E0E6',
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'center',
+  alignItems: 'center',
     paddingTop: 170
   },
   inputContainer: {

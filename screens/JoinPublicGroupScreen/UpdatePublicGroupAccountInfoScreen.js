@@ -33,9 +33,9 @@ import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 FAIcon.loadFont();
 MDIcon.loadFont();
-import {
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+// import {
+//   setTestDeviceIDAsync,
+// } from 'expo-ads-admob';
 
 //setTestDeviceIDAsync('EMULATOR')
 
