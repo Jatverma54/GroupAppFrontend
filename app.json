@@ -6,12 +6,12 @@
     "sdkVersion":"39.0.0" ,
     "privacy":"unlisted",
     "platforms": [
-      "ios",
+     
       "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/circle-312343.png",
+    "icon": "./assets/circles.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,25 +23,23 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
+   
     "notification": {
-      "icon": "./assets/icon.png",
+      "icon": "./assets/circles.png",
       "androidMode": "default",
-  "androidCollapsedTitle": "Updates from Colab.notes",
-  "iosDisplayInForeground": true
+  "androidCollapsedTitle": "Updates from Colab.notes"
+  
     },
     "android": {
       "package":"com.grouphelpme.grouphelpmeApp",
-      "googleServicesFile": "./googles.json",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "useNextNotificationsApi": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-1558609691925120~2018624642" 
+       
       },
      "adaptiveIcon":{
-       "foregroundImage":"./assets/icon.png",
+       "foregroundImage":"./assets/circles.png",
        "backgroundColor":"#171717"
      },
      "permissions":[
