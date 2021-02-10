@@ -224,7 +224,7 @@ export default class Stories extends Component {
     try {
       const result = await Share.share({
 
-        message: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
+        message: "https://play.google.com/store/search?q=GroupHelpMe&c=apps",
       });
 
       if (result.action === Share.sharedAction) {

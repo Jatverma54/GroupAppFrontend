@@ -412,71 +412,7 @@ this.cleanup = () => { unsubscribe1(); }
 
 
 
-  PostScreen = () => {
-
-    return (
-
-      <View style={{ flex: 1 }} >
-        <View>
-
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => this.props.navigation.push("AddMembers")}>
-            <View>
-              <View style={styles.bodyContentInviteMember}  >
-                <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Add Members</Text>
-              </View>
-              <View>
-
-                <Image
-                  style={{ marginHorizontal: 5, height: 25, width: 30, marginLeft: width / 2 - 30 - 20, marginTop: -35 }}
-                  source={AddGroup} />
-
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <View>
-
-            <TouchableOpacity style={{ ...styles.buttonContainerShare, marginLeft: this.state.Width_Layout / 2, }} onPress={() => this.onShare()}>
-              <View>
-                <View style={styles.bodyContentShare}  >
-                  <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>Share Group</Text>
-                </View>
-                <View>
-
-                  <Image
-                    style={{ marginHorizontal: 5, height: 25, width: 30, marginLeft: width / 2 - 30 - 20, marginTop: -35 }}
-                    source={ShareIcon} />
-
-                </View>
-              </View>
-            </TouchableOpacity>
-
-
-          </View>
-
-
-
-        </View>
-
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.push("CreateaNewPost")}>
-          <View>
-            <View style={styles.bodyContent}  >
-              <Text style={{ fontWeight: "bold", width: "100%", marginLeft: 50, marginTop: 11 }}>Start a conversation</Text>
-            </View>
-            <View>
-
-              <Image
-                style={{ marginHorizontal: 5, height: 30, width: 35, marginLeft: width - 70 - 30, marginTop: -40 }}
-                source={Post_Add} />
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-
-
-  }
+ 
 
   renderGroupMembers = (item) => {
 
@@ -505,29 +441,6 @@ this.cleanup = () => { unsubscribe1(); }
       <Divider style={{ height: 0.5, marginTop: 4, marginLeft: 20, width: "35%", backgroundColor: "grey" }} />
     </View>
   }
-
-
-
-  onShare = async () => {
-    try {
-      const result = await Share.share({
-
-        message: "https://www.radiantmediaplayer.com/media/bbb-360p.mp4",
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 
   copyText(item) {
 
