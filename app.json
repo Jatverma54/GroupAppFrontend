@@ -44,10 +44,11 @@
      },
      "permissions":[
        "CAMERA",
+       "CAMERA_ROLL",
+       "READ_EXTERNAL_STORAGE",
+       "WRITE_EXTERNAL_STORAGE",
        "NOTIFICATIONS",
        "USER_FACING_NOTIFICATIONS",
-       "AUDIO_RECORDING",
-       "CAMERA_ROLL",
        "CALENDAR",
        "MOTION"
     ]
