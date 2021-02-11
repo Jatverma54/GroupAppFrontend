@@ -8,6 +8,7 @@ import { NavigationContainer, DrawerActions, Header } from '@react-navigation/na
 import { Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 // import {
 //   AdMobRewarded,
 //   setTestDeviceIDAsync,
@@ -38,32 +39,53 @@ export default function App() {
 
   //   }
   // }
+  getPermissionAsync = async () => {
+    const { status } = Permissions.getAsync(Permissions.CAMERA_ROLL)
+    if (status !== 'granted') {
+try{
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }catch(e){}
+    }
+  };
 
+  getCameraPermissionAsync = async () => {
+    const { status } = Permissions.getAsync(Permissions.CAMERA)
+    if (status !== 'granted') {
+      try{
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera permissions to make this work!');
+      }
+    }catch(e){}
+  }
+  };
 
   useEffect(() => {
 
     // const time = setTimeout(() => {
     //   this._openRewarded();
     // }, 10000);
-
+   const permissions= getPermissionAsync();
+   const Camerapermissions= getCameraPermissionAsync();
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
-
       (response) => {
-
-
       }
     );
 
     const foregroundSubscription = Notifications.addNotificationReceivedListener(
       (notification) => {
-
       }
     );
 
     return () => {
+      permissions.remove();
+      Camerapermissions.remove();
       backgroundSubscription.remove();
       foregroundSubscription.remove();
-      clearTimeout(time)
+    //  clearTimeout(time)
     };
   }, []);
 
@@ -94,4 +116,3 @@ const styles = StyleSheet.create({
   }
 
 });
-

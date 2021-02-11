@@ -18,7 +18,7 @@ import {
 import jwt_decode from "jwt-decode";
 import Email_Icon from '../Pictures/Email.png';
 import lock_Icon from '../Pictures/lock.png';
-import Splash_Icon from '../Pictures/circle-312343.png';
+import Splash_Icon from '../Pictures/circleOriginal.png';
 import UserToken from '../constants/APIPasswordCollection';
 import Loader from '../components/Loader';
 import { MaterialCommunityIcons, } from '@expo/vector-icons';

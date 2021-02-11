@@ -84,15 +84,14 @@ export default class CreateaNewPost extends Component {
   getPermissionAsync = async () => {
     const { status } = Permissions.getAsync(Permissions.CAMERA_ROLL)
     if (status !== 'granted') {
+try{
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
+    }catch(e){}
     }
   };
-
-
-
 
   onFullscreenUpdate = ({ fullscreenUpdate, status }) => {
 
@@ -219,11 +218,13 @@ export default class CreateaNewPost extends Component {
   getCameraPermissionAsync = async () => {
     const { status } = Permissions.getAsync(Permissions.CAMERA)
     if (status !== 'granted') {
+      try{
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+        Alert.alert('Sorry, we need camera permissions to make this work!');
       }
-    }
+    }catch(e){}
+  }
   };
 
 
