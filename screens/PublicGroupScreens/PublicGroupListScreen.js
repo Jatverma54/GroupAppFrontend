@@ -44,10 +44,7 @@ export default class PublicGroupListScreen extends Component {
 
     this.state = {
       data: "",
-      temp: "",
-
       isFetching: false,
-
       loading: false,
       error: null,
       isDialogVisible: false,
@@ -67,7 +64,7 @@ export default class PublicGroupListScreen extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {});
  let unsubscribe1 = this.props.navigation.addListener('focus', () => {
-  this.setState({ data: "", temp: "", searchResult: [] });
+  this.setState({ data: "", searchResult: [] });
     this.getData(); // do something
   if (this.props.route.params.data && this.props.route.params.data.GroupName) {
     this.groupSearchnData();
@@ -191,7 +188,6 @@ this.cleanup = () => { unsubscribe1(); }
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
-      temp: [...this.state.temp, ...res],
       error: res.error || null,
       loading: false,
       isFetching: false, disabled: false,
@@ -204,7 +200,7 @@ this.cleanup = () => { unsubscribe1(); }
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "", temp: "", skipPagination: 1, searchResult: [] }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "",skipPagination: 1, searchResult: [] }, function () { this.getData() });
   }
 
   loadmoreData() {
@@ -296,15 +292,15 @@ this.cleanup = () => { unsubscribe1(); }
 
         this.state.data[index] = data.item;
 
-        const index1 = this.state.temp.findIndex(
+        const index1 = this.state.searchResult.findIndex(
           item => data.item._id === item._id
         );
 
-        this.state.temp[index1] = data.item;
+        this.state.searchResult[index1] = data.item;
 
         this.setState({
           data: this.state.data,
-          temp: this.state.temp
+          searchResult: this.state.searchResult
         });
         this.controller.abort()
       } else {
@@ -380,16 +376,16 @@ this.cleanup = () => { unsubscribe1(); }
         this.state.data[index] = data.item;
 
 
-        const index1 = this.state.temp.findIndex(
+        const index1 = this.state.searchResult.findIndex(
           item => data.item._id === item._id
         );
 
-        this.state.temp[index1] = data.item;
+        this.state.searchResult[index1] = data.item;
 
 
         this.setState({
           data: this.state.data,
-          temp: this.state.temp
+          searchResult: this.state.searchResult
 
         });
         this.controller.abort()
