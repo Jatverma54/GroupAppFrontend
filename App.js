@@ -81,8 +81,6 @@ try{
     );
 
     return () => {
-      permissions.remove();
-      Camerapermissions.remove();
       backgroundSubscription.remove();
       foregroundSubscription.remove();
     //  clearTimeout(time)
