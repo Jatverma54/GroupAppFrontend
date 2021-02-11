@@ -122,25 +122,20 @@ export default class JoinedPublicGroupsScreen extends Component {
 
   cleanup = null;
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
+    InteractionManager.runAfterInteractions(() => { });
     let unsubscribe1 = this.props.navigation.addListener('focus', () => {
       this.setState({ data: "" })
        this.getData(); // do something
     });
     this.cleanup = () => { unsubscribe1(); }
-  });
+ 
   }
   componentWillUnmount() {
 
     if (this.cleanup) this.cleanup();
     this.cleanup = null;
-
-
   }
-
-
-
-
+h
   setResult = (res) => {
     this.setState({
       data: [...this.state.data, ...res],
