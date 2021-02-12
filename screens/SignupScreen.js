@@ -111,7 +111,7 @@ export default class SignupScreen extends Component {
     Alert.alert(
 
       "Password must contain",
-      "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
+      "At least 8 characters",
       [
         { text: "Ok", onPress: () => null }
       ],
@@ -297,7 +297,7 @@ export default class SignupScreen extends Component {
         Alert.alert(
 
           "Password must contain",
-          "At least 8 characters\nAt least one digit[0-9]\nAt least one lowercase character [a-z]\nAt least one uppercase character [A-Z]\nAt least one special character",
+          "At least 8 characters",
           [
             { text: "Ok", onPress: () => null }
           ],
@@ -341,7 +341,7 @@ export default class SignupScreen extends Component {
   }
 
   PasswordValidation(matchingString) {
-    let pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+    let pattern = /^[a-zA-Z0-9]{8,}$/;
 
     let match = matchingString.match(pattern);
     return match ? true : false;
