@@ -15,7 +15,7 @@ const GroupAppFeatures = () => {
 
         <Text ><Text style={{ fontWeight: 'bold' }}>Features v1.0</Text>{'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Public Groups:</Text>{'\n'}Public groups will be visible to all the users of GroupHelpMe.{'\n'}{'\n'}Public Group Privacy{'\n'}<Text style={{ fontWeight: 'bold' }}>Open Group:</Text>  Anyone can join and post in the group{'\n'}<Text style={{ fontWeight: 'bold' }}>Private Group:</Text> Group Admin need to approve the joining request of GroupHelpMe users to join the group{'\n'}
 
-          {'\n'}<Text style={{ fontWeight: 'bold' }}>Personal Groups:</Text>{'\n'}Personal groups will be visible to the group members only.{'\n'}{'\n'}Personal Group Privacy{'\n'}Only group admin can add GroupHelpMe users to a personal group.{'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Want to be an investor or want to get in touch with us? Feel free to drop a mail at</Text>{'\n'}support@grouphelpme.com
+          {'\n'}<Text style={{ fontWeight: 'bold' }}>Personal Groups:</Text>{'\n'}Personal groups will be visible to the group members only.{'\n'}{'\n'}Personal Group Privacy{'\n'}Only group admin can add GroupHelpMe users to a personal group.{'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Want to be an investor or want to get in touch with us? Feel free to drop a mail at</Text>{'\n'}support@grouphelpme.com{'\n'}www.grouphelpme.com
        </Text>
 
     
