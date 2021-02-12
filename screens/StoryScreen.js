@@ -52,7 +52,7 @@ const StoryScreen = ({ navigation }) => {
      {'\n'}So with this idea, GroupHelpMe came into the world so that it can connect more healthcare providers as well as different members of the society together in one Umbrella when it comes to socializing with the various groups whether public, private or professional.
      {'\n'}{'\n'}<Text style={{ fontWeight: 'bold', color: '#CAAC3E' }}>We would like to dedicate this app to all the fathers who are battling hard to keep their family ends meet.{'\n'}We wish you all a healthy life.</Text>{'\n'}{'\n'}
      Also, we would like to request from bottom of my heart to different medical service providers to join different medical groups created by people on various topics on GroupHelpMe, and let's help everyone to achieve a better life.
-     {'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Heartiest thanks to all the Medical workers. There is a reason why you get compared with god,{'\n'}{'\n'}Best Regards,{'\n'}GroupHelpMe Team</Text>
+     {'\n'}{'\n'}<Text style={{ fontWeight: 'bold' }}>Heartiest thanks to all the Medical workers. There is a reason why you get compared with god.{'\n'}{'\n'}Best Regards,{'\n'}GroupHelpMe Team</Text>
           </Text>
 
 
