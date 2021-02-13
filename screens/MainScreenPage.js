@@ -102,10 +102,6 @@ const MainScreenPage = ({ navigation }) => {
         <Image source={menu} style={styles.image} />
       </View>
 
-
-
-
-
       <View style={styles.ButtonContainer}>
         <View style={styles.button}><Button title="Login" color={colors.LoginButtonColor} onPress={({ }) => navigation.navigate('LoginScreen')} /></View>
         <View style={styles.button}><Button title="SignUp" color={colors.SignUpButton} onPress={({ }) => navigation.navigate('SignupScreen')} /></View>
