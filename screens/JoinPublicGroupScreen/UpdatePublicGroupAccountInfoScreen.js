@@ -92,14 +92,24 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         onValueChange={(itemValue, itemIndex) => this.setState({ selectedGroupCategoryValue: itemValue })}
       >
         <Picker.Item label={FirstGroupCategoryValue} value={selectedGroupCategoryValue} />
-        <Picker.Item label="Home Remedies" value="5f63b02895358640bc482a27" />
-        <Picker.Item label="Healthcare" value="5f63b02895358640bc482a28" />
-        <Picker.Item label="Family" value="5f63b02895358640bc482a29" />
-        <Picker.Item label="School" value="5f63b02895358640bc482a2a" />
-        <Picker.Item label="Things" value="5f63b02895358640bc482a2b" />
-        <Picker.Item label="World" value="5f63b02895358640bc482a2c" />
-        <Picker.Item label="Remember" value="5f63b02895358640bc482a2d" />
-        <Picker.Item label="Game" value="5f63b02895358640bc482a2e" />
+        <Picker.Item label="Healthcare" value="6027e3cfa971f10e325fbc2f" />
+        <Picker.Item label="Fitness & Sports" value="6027e3cfa971f10e325fbc30" />
+        <Picker.Item label="Shop & Sell" value="6027e3cfa971f10e325fbc31" />
+        <Picker.Item label="Job Alerts" value="6027e3cfa971f10e325fbc32" />
+        <Picker.Item label="Social News" value="6027e3cfa971f10e325fbc33" />
+        <Picker.Item label="Travel" value="6027e3cfa971f10e325fbc34" />
+        <Picker.Item label="Food & Recipes" value="6027e3cfa971f10e325fbc35" />
+        <Picker.Item label="Entertainment" value="6027e3cfa971f10e325fbc36" />
+        <Picker.Item label="Real Estate" value="6027e3cfa971f10e325fbc37" />
+        <Picker.Item label="Education" value="6027e3cfa971f10e325fbc38" />
+        <Picker.Item label="Science & Technology" value="6027e3cfa971f10e325fbc39" />
+        <Picker.Item label="Home Remedies" value="6027e3cfa971f10e325fbc3a" />
+        <Picker.Item label="New Trend & Style" value="6027e3cfa971f10e325fbc3b" />
+        <Picker.Item label="Spirituality" value="6027e3cfa971f10e325fbc3c" />
+        <Picker.Item label="Consultation" value="6027e3cfa971f10e325fbc3d" />
+        <Picker.Item label="Art & Hobbies" value="6027e3cfa971f10e325fbc3e" />
+        <Picker.Item label="Automobile" value="6027e3cfa971f10e325fbc3f" />
+        <Picker.Item label="Others" value="6027e3cfa971f10e325fbc40" />
 
       </Picker>
 
