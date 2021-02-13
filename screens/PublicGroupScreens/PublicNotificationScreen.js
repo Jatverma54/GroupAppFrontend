@@ -33,7 +33,6 @@ export default class PublicNotificationScreen extends Component {
       isFetching: false,
       loading: false,
       error: null,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

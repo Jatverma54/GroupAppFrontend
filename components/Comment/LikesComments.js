@@ -44,7 +44,6 @@ export default class LikesComments extends Component {
       error: null,
       search: null,
       isFetching: false,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

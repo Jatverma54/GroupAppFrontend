@@ -48,7 +48,6 @@ export default class YourPublicGroupPostscreen extends Component {
     super(props);
     this.state = {
       data: '',
-
       isVisible: false,
       MaximizeImage: '',
       isDocumentVisible: false,
@@ -56,8 +55,6 @@ export default class YourPublicGroupPostscreen extends Component {
       isFetching: false,
       loading: false,
       error: null,
-
-
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width,
       skipPagination: 0,

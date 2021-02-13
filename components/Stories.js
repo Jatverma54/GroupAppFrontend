@@ -38,12 +38,9 @@ export default class Stories extends Component {
       Groupimages: [],
       loading: false,
       error: null,
-
       isFetching: false,
-
       OrientationStatus: '',
       Width_Layout: Dimensions.get('window').width,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

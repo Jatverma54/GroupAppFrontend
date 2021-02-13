@@ -32,7 +32,6 @@ export default class NotificationScreen extends Component {
       isFetching: false,
       loading: false,
       error: null,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

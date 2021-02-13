@@ -53,7 +53,6 @@ export default class ViewMembers extends Component {
       loading: false,
       error: null,
       userId: '',
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

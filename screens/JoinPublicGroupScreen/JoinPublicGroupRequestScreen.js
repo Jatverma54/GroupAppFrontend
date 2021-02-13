@@ -32,9 +32,7 @@ export default class JoinPublicGroupRequestScreen extends Component {
       data: "",
       loading: false,
       error: null,
-
       isFetching: false,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

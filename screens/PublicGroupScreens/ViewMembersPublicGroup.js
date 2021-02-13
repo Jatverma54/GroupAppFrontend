@@ -37,7 +37,6 @@ export default class ViewMembersPublicGroup extends Component {
       search: null,
       loading: false,
       isFetching: false,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

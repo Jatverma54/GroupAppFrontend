@@ -43,7 +43,6 @@ export default class JoinedPublicGroupsScreen extends Component {
       isFetching: false,
       loading: false,
       error: null,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,

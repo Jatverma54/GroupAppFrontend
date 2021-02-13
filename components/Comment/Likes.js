@@ -43,7 +43,6 @@ export default class Likes extends Component {
       error: null,
       search: null,
       isFetching: false,
-
       errorPagination: null,
       skipPagination: 1,
       loadingPagination: false,
