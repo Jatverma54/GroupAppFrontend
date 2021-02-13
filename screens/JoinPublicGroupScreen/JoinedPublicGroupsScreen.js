@@ -140,6 +140,7 @@ h
     this.setState({
       data: [...this.state.data, ...res],
       error: res.error || null,
+      errorPagination:res.error ||null,  
       loading: false,
       isFetching: false, disabled: false,
       loadingPagination: false

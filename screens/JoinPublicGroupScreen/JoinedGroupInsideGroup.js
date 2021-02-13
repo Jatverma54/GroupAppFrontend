@@ -242,6 +242,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
     this.setState({
       data: [...this.state.data, ...res],
       error: res.error || null,
+      errorPagination:res.error ||null,
       loading: false,
       isFetching: false, disabled: false,
       loadingPagination: false
@@ -1155,7 +1156,7 @@ export default class JoinedGroupInsideGroupFeed extends Component {
           <Text>{this.state.error}</Text>
           <Button onPress={
             () => {
-              this.getPaginationData(); this.setState({ disabled: true });
+              this.getPaginationData(); this.setState({ disabled: true});
             }
           } disabled={this.state.disabled}>
             <MaterialCommunityIcons name="reload" size={30} style={{ height: 15, width: 15, }} />

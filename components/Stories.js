@@ -151,9 +151,9 @@ export default class Stories extends Component {
 
   setResult = (res) => {
     this.setState({
-      data: [...this.state.data, ...res],
-
+      data: [...this.state.data, ...res],   
       error: res.error || null,
+      errorPagination:res.error ||null,  
       loading: false,
       isFetching: false,
       loadingPagination: false,

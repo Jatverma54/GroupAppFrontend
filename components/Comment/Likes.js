@@ -143,6 +143,7 @@ export default class Likes extends Component {
       data: [...this.state.data, ...res],
       temp: [...this.state.temp, ...res],
       error: res.error || null,
+      errorPagination:res.error ||null,  
       loading: false,
       isFetching: false,
       loadingPagination: false,
