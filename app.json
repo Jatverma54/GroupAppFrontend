@@ -50,7 +50,16 @@
        "NOTIFICATIONS",
        "USER_FACING_NOTIFICATIONS",
        "CALENDAR",
-       "MOTION"
+       "MOTION",
+       "ACCESS_NETWORK_STATE",
+       "ACCESS_WIFI_STATE",
+       "FOREGROUND_SERVICE",
+       "INTERNET",
+       "MODIFY_AUDIO_SETTINGS",
+       "READ_APP_BADGE",
+       "RECEIVE_BOOT_COMPLETED",
+       "SYSTEM_ALERT_WINDOW",
+       "WAKE_LOCK"
     ]
     },
     "androidStatusBar": {
