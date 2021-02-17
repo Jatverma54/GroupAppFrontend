@@ -113,7 +113,7 @@ export default class YourPersonalGroupPostScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=14&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
@@ -174,7 +174,7 @@ export default class YourPersonalGroupPostScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=14&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
@@ -230,7 +230,7 @@ export default class YourPersonalGroupPostScreen extends Component {
 
   loadmoreData() {
 
-    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 10, loadingPagination: true }, () => { this.getPaginationData() })
+    this.setState({ skipPagination: parseInt(this.state.skipPagination) + 14, loadingPagination: true }, () => { this.getPaginationData() })
   }
 
   renderGroupMembers = (item) => {
