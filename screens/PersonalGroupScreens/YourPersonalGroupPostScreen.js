@@ -113,7 +113,7 @@ export default class YourPersonalGroupPostScreen extends Component {
         body: JSON.stringify(GroupData),
       };
 
-      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup`, requestOptions, { signal: this.controller.signal });
+      const response = await fetch(`${APIBaseUrl.BaseUrl}/groupPost/getAllUserPostofGroup?limit=10&skip=` + this.state.skipPagination, requestOptions, { signal: this.controller.signal });
       const json = await response.json();
 
       this.setResult(json.result);
@@ -293,7 +293,7 @@ export default class YourPersonalGroupPostScreen extends Component {
 
   onRefresh() {
 
-    this.setState({ isFetching: true, data: "" }, function () { this.getData() });
+    this.setState({ isFetching: true, data: "",skipPagination: 0 }, function () { this.getData() });
   }
 
 
