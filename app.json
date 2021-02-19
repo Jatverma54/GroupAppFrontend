@@ -9,7 +9,7 @@
      
       "android"
     ],
-    "version": "2.0.0",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/circles.png",
     "splash": {
@@ -33,10 +33,10 @@
     "android": {
       "package":"com.grouphelpme.grouphelpmeApp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 2,
+      "versionCode": 3,
       "useNextNotificationsApi": true,
       "config": {
-       
+        "googleMobileAdsAppId": "ca-app-pub-1558609691925120~2018624642" 
       },
      "adaptiveIcon":{
        "foregroundImage":"./assets/circles.png",

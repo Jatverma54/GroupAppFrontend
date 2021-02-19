@@ -81,7 +81,7 @@ export default class PersonalGroupBio extends Component {
   _OpenAdMobInterstitial = async () => {
     try {
 
- await AdMobInterstitial.setAdUnitID(`${APIBaseUrl.PublicGroupBioScreenINTAd}`); // Test ID, Replace with your-admob-unit-id
+ await AdMobInterstitial.setAdUnitID(`${APIBaseUrl.PersonalGroupBioScreenINTAd}`); // Test ID, Replace with your-admob-unit-id
 await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
 await AdMobInterstitial.showAdAsync();
 } catch (error) {
