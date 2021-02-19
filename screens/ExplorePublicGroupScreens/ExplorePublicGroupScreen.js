@@ -22,10 +22,10 @@ import {
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
 const {  height } = Dimensions.get('window');
-//import {
- //AdMobBanner,
-  //setTestDeviceIDAsync,
-//} from 'expo-ads-admob';
+import {
+ AdMobBanner,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 //setTestDeviceIDAsync('EMULATOR')
 
 export default class ExplorePublicGroupScreen extends Component {
@@ -183,10 +183,10 @@ export default class ExplorePublicGroupScreen extends Component {
               )
             }} />
           <View>
-            {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/4184611226'}
+            <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={`${APIBaseUrl.ExplorePublicGroupScreenBannerAd}`}
               servePersonalizedAds={true}
               onDidFailToReceiveAdWithError={this.bannerError}
-            /> */}
+            />
           </View>
         </View>
     );
