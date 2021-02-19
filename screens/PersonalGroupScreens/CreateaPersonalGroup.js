@@ -40,7 +40,7 @@ import {
   AdMobRewarded,
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
-AdMobRewarded.setAdUnitID(`${APIBaseUrl.CreateaPublicGroupScreenRewardedAd}`)//REWARDED_ID
+AdMobRewarded.setAdUnitID(`${APIBaseUrl.CreateaPersonalGroupScreenRewardedAd}`)//REWARDED_ID
 
 export default class CreateaPersonalGroup extends Component {
   controller = new AbortController();
