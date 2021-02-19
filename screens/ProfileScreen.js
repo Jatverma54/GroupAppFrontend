@@ -28,11 +28,11 @@ import Loader from '../components/Loader';
 import APIBaseUrl from '../constants/APIBaseUrl';
 import * as Notifications from 'expo-notifications';
 const { width } = Dimensions.get('window');
-//import {
- //AdMobBanner,
-  //setTestDeviceIDAsync,
-//} from 'expo-ads-admob';
-//setTestDeviceIDAsync('EMULATOR')
+import {
+ AdMobInterstitial,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+setTestDeviceIDAsync('EMULATOR')
 
 
 export default class ProfileScreen extends Component {
@@ -81,6 +81,16 @@ export default class ProfileScreen extends Component {
     this.cleanup = null;
   }
 
+  _OpenAdMobInterstitial = async () => {
+    try {
+
+ await AdMobInterstitial.setAdUnitID(`${APIBaseUrl.PublicGroupBioScreenINTAd}`); // Test ID, Replace with your-admob-unit-id
+await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+await AdMobInterstitial.showAdAsync();
+} catch (error) {
+
+   }
+  }
 
   getData = async () => {
 
@@ -433,7 +443,7 @@ if(!this.state.data.ExpopushToken){
           <Loader isLoading={this.state.loading} />
           <View style={styles.header}>
 
-            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data) }} >
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data);this._OpenAdMobInterstitial() }} >
 
               <MaterialCommunityIcons
                 name='account-edit'
@@ -441,7 +451,7 @@ if(!this.state.data.ExpopushToken){
               />
             </Button>
 
-            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) }} >
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) ;this._OpenAdMobInterstitial()}} >
 
               <MaterialCommunityIcons
                 name='onepassword'

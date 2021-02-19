@@ -30,10 +30,10 @@ MDIcon.loadFont();
 const { width } = Dimensions.get('window');
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-//import {
- //AdMobBanner,
-  //setTestDeviceIDAsync,
-//} from 'expo-ads-admob';
+import {
+ AdMobInterstitial,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 //setTestDeviceIDAsync('EMULATOR')
 export default class JoinedGroupgroupBio extends Component {
@@ -79,6 +79,16 @@ export default class JoinedGroupgroupBio extends Component {
     }
   };
 
+  _OpenAdMobInterstitial = async () => {
+    try {
+
+ await AdMobInterstitial.setAdUnitID(`${APIBaseUrl.JoinedGroupBioScreenINTAd}`); // Test ID, Replace with your-admob-unit-id
+await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+await AdMobInterstitial.showAdAsync();
+} catch (error) {
+
+   }
+  }
 
   _pickImage = async () => {
     try {
@@ -259,7 +269,7 @@ export default class JoinedGroupgroupBio extends Component {
 
       <View style={{ flex: 1 }} >
         <View>
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName }) }}>
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName });this._OpenAdMobInterstitial() }}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
                 <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>View Members</Text>

@@ -19,10 +19,11 @@ const { width } = Dimensions.get('window');
 import moment from "moment";
 import PlaceHolderImage from '../../Pictures/PlaceholderImage.png';
 import Loader from '../../components/Loader';
-//import {
- //AdMobBanner,
-  //setTestDeviceIDAsync,
-//} from 'expo-ads-admob';
+import APIBaseUrl from '../../constants/APIBaseUrl';
+import {
+ AdMobInterstitial,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 //setTestDeviceIDAsync('EMULATOR')
 
@@ -46,7 +47,16 @@ export default class PublicGroupBio extends Component {
 
   }
 
+  _OpenAdMobInterstitial = async () => {
+    try {
 
+ await AdMobInterstitial.setAdUnitID(`${APIBaseUrl.PublicGroupBioScreenINTAd}`); // Test ID, Replace with your-admob-unit-id
+await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+await AdMobInterstitial.showAdAsync();
+} catch (error) {
+
+   }
+  }
 
   addMemberorShare = () => {
 
@@ -54,7 +64,7 @@ export default class PublicGroupBio extends Component {
 
       <View style={{ flex: 1 }} >
         <View>
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName.groupInformation }) }}>
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName.groupInformation });this._OpenAdMobInterstitial() }}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
                 <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>View Members</Text>
@@ -202,7 +212,7 @@ export default class PublicGroupBio extends Component {
 
           </ScrollView>
           <View style={{ flex: 1, justifyContent: "flex-end" }} >
-            {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={'ca-app-pub-1558609691925120/5651119023'}
+            {/* <AdMobBanner style={{ alignItems: "center" }} bannerSize="banner" adUnitID={`${APIBaseUrl.PublicGroupBioScreenBannerAd}`}
               servePersonalizedAds={true}
               onDidFailToReceiveAdWithError={this.bannerError}
             /> */}
