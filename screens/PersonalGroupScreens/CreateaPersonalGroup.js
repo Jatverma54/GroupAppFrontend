@@ -36,12 +36,7 @@ MDIcon.loadFont();
   //setTestDeviceIDAsync,
 //} from 'expo-ads-admob';
 //setTestDeviceIDAsync('EMULATOR')
-import {
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
- //setTestDeviceIDAsync('EMULATOR')
- AdMobRewarded.setAdUnitID(`${APIBaseUrl.CreateaPublicGroupScreenRewardedAd}`)//REWARDED_ID
+
 
 export default class CreateaPersonalGroup extends Component {
   controller = new AbortController();
@@ -57,15 +52,7 @@ export default class CreateaPersonalGroup extends Component {
     }
   }
 
-  _openRewarded = async () => {
-    try {
 
-      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobRewarded.showAdAsync()
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   updateSize = (height) => {
 
@@ -119,7 +106,7 @@ export default class CreateaPersonalGroup extends Component {
             "Group created successfully",
             "Let's explore the power of group conversation",
             [
-              { text: "Ok", onPress: () => {this.props.navigation.goBack();this._openRewarded();} }
+              { text: "Ok", onPress: () => this.props.navigation.goBack() }
             ],
             { cancelable: false }
           );
