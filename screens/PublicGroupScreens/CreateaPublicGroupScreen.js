@@ -452,25 +452,6 @@ export default class CreateaPublicGroupScreen extends Component {
 
 
 
-const PrivacySettingsPickerList = () => {
-  const [selectedPrivacySettingsValue, setselectedPrivacySettingsValue] = useState("");
-  return (
-
-    <Picker
-      selectedValue={selectedPrivacySettingsValue}
-      style={{ height: 50, width: "80%" }}
-      onValueChange={(itemValue, itemIndex) => setselectedPrivacySettingsValue(itemValue)}
-    >
-      <Picker.Item label="Privacy Settings" value="" />
-      <Picker.Item label="Open Group" value="Open Group" />
-      <Picker.Item label="Close Group" value="js" />
-
-
-    </Picker>
-
-  );
-}
-
 const styles = StyleSheet.create({
 
   container: {
