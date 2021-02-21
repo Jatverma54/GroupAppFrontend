@@ -68,7 +68,7 @@ export default class ProfileScreen extends Component {
     unsubscribe2=  this.setState({ data: "" })
       this.getData();
    });
-    this.getPermissionAsync();
+   // this.getPermissionAsync();
     //this.getCameraPermissionAsync();
 
     this.cleanup = () => {  unsubscribe1();unsubscribe2; }

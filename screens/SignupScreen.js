@@ -101,7 +101,7 @@ export default class SignupScreen extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-    this.getPermissionAsync();
+   // this.getPermissionAsync();
     //this.getCameraPermissionAsync();
     this.PasswordInfoshowAlert();
   });

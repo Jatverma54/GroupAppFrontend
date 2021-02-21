@@ -160,12 +160,12 @@ export default class CreateaPersonalGroup extends Component {
     }
 
   }
-  cleanup = null;
-  componentDidMount() {
-    this.getPermissionAsync();
-    //this.getCameraPermissionAsync();
+  // cleanup = null;
+  // componentDidMount() {
+  // //  this.getPermissionAsync();
+  //   //this.getCameraPermissionAsync();
 
-  }
+  // }
 
 
   getPermissionAsync = async () => {

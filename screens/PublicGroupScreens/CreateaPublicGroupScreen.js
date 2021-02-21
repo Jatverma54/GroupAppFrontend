@@ -224,14 +224,14 @@ export default class CreateaPublicGroupScreen extends Component {
     }
 
   }
-  cleanup = null;
-  componentDidMount() {
+ // cleanup = null;
+  // componentDidMount() {
 
-    this.getPermissionAsync();
-    //this.getCameraPermissionAsync();
+  //  // this.getPermissionAsync();
+  //   //this.getCameraPermissionAsync();
 
 
-  }
+  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {

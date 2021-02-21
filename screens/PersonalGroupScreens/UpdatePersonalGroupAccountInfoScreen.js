@@ -61,13 +61,13 @@ export default class UpdatePersonalGroupAccountInfoScreen extends Component {
 
   cleanup = null;
 
-  componentDidMount() {
-    this.getPermissionAsync();
-    //this.getCameraPermissionAsync();
-   // this._openRewarded();
+  // componentDidMount() {
+  //  // this.getPermissionAsync();
+  //   //this.getCameraPermissionAsync();
+  //  // this._openRewarded();
 
 
-  }
+  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {

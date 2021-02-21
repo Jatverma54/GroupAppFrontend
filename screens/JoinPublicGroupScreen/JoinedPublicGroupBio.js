@@ -54,11 +54,11 @@ export default class JoinedGroupgroupBio extends Component {
   }
 
 
-  componentDidMount() {
-    this.getPermissionAsync();
-    //this.getCameraPermissionAsync();
+  // componentDidMount() {
+  //   this.getPermissionAsync();
+  //   //this.getCameraPermissionAsync();
 
-  }
+  // }
 
 
   getuser = async () => {
