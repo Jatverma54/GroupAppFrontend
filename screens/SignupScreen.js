@@ -111,7 +111,7 @@ export default class SignupScreen extends Component {
     Alert.alert(
 
       "Password must contain",
-      "At least 8 characters",
+      "At least 8 alphabets",
       [
         { text: "Ok", onPress: () => null }
       ],
@@ -297,7 +297,7 @@ export default class SignupScreen extends Component {
         Alert.alert(
 
           "Password must contain",
-          "At least 8 characters",
+          "At least 8 alphabets",
           [
             { text: "Ok", onPress: () => null }
           ],
