@@ -77,8 +77,8 @@ export default class CreateaNewPost extends Component {
   }
   cleanup = null;
   componentDidMount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+   this.getPermissionAsync();
+    //this.getCameraPermissionAsync();
   }
 
   getPermissionAsync = async () => {

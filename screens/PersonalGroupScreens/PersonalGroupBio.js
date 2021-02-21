@@ -55,7 +55,7 @@ export default class PersonalGroupBio extends Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+    //this.getCameraPermissionAsync();
 
   }
 

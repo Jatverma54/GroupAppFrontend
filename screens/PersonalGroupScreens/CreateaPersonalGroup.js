@@ -163,7 +163,7 @@ export default class CreateaPersonalGroup extends Component {
   cleanup = null;
   componentDidMount() {
     this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+    //this.getCameraPermissionAsync();
 
   }
 

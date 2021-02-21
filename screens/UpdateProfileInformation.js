@@ -68,7 +68,7 @@ export default class UpdateProfileInformation extends Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+    //this.getCameraPermissionAsync();
   }
 
 

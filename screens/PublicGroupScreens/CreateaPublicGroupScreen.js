@@ -228,7 +228,7 @@ export default class CreateaPublicGroupScreen extends Component {
   componentDidMount() {
 
     this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+    //this.getCameraPermissionAsync();
 
 
   }

@@ -129,7 +129,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
         Alert.alert(
 
           "Password must contain",
-          "At least 8 alphabets",
+          "At least 8 characters",
           [
             { text: "Ok", onPress: () => null }
           ],
@@ -144,7 +144,7 @@ export default class ChangePasswordFromForgetPassword extends Component {
   }
 
   PasswordValidation(matchingString) {
-    let pattern = /^[a-zA-Z0-9]{8,}$/;
+    let pattern = /^(?=.{8,})/;
 
     let match = matchingString.match(pattern);
     return match ? true : false;

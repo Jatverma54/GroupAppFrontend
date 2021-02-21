@@ -63,7 +63,7 @@ export default class UpdatePersonalGroupAccountInfoScreen extends Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    this.getCameraPermissionAsync();
+    //this.getCameraPermissionAsync();
    // this._openRewarded();
 
 
