@@ -11,7 +11,8 @@ import {
   Keyboard,
   Alert,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+ 
 } from 'react-native';
 
 import {
@@ -242,25 +243,18 @@ export default class CreateaPersonalGroup extends Component {
 
       <View style={styles.container}>
         <Loader isLoading={this.state.loading} />
-
+        <ScrollView contentContainerStyle={styles.scrollcontainer}>
         <TouchableOpacity onPress={() => this.CameraOptions.open()}>
-          <View style={{ height: 100, padding: 50 }}>
-
-            <View style={{ flex: 3, backgroundColor: "#B0E0E6" }}>
-
-              <View>
+        <View style={{ padding: 10, marginTop:100, backgroundColor: "#B0E0E6", marginBottom: 20, width: "100%" }}>
 
                 <Avatar.Image
-                  style={{ alignSelf: "center", marginTop: -70, marginHorizontal: 2, borderColor: 'black', borderWidth: 2 }}
+                 style={{ alignSelf: "center", marginHorizontal: 2, borderColor: 'black', borderWidth: 2, }}
                   source={photo ? { uri: photo } : PlaceHolderImage} size={100} />
 
 
-                <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%" }}>Choose an Avatar</Text>
+                <Text style={{ fontSize: 12, alignSelf: "center", paddingTop: 6, fontWeight: "bold", width: "100%" }}>Choose an Avatar  </Text>
               </View>
 
-            </View>
-
-          </View>
         </TouchableOpacity>
 
         <View style={styles.inputContainer}>
@@ -321,7 +315,7 @@ export default class CreateaPersonalGroup extends Component {
         <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]} onPress={this.CreateGroup}>
           <Text style={styles.loginText}>Create Group</Text>
         </TouchableOpacity>
-
+       
 
         <RBSheet
           ref={ref => {
@@ -357,8 +351,9 @@ export default class CreateaPersonalGroup extends Component {
           servePersonalizedAds={true}
           onDidFailToReceiveAdWithError={this.bannerError}
         /> */}
+         </ScrollView>
       </View>
-
+      
     );
   }
 }
@@ -369,11 +364,11 @@ export default class CreateaPersonalGroup extends Component {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#B0E0E6',
-    //justifyContent: 'center',
+    justifyContent: 'center',
   alignItems: 'center',
-    paddingTop: 170
+   
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -385,6 +380,13 @@ const styles = StyleSheet.create({
     marginBottom: 19,
     flexDirection: 'row',
     marginTop: 30
+  },
+  scrollcontainer: {
+
+    backgroundColor: '#B0E0E6',
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
   inputs: {
     height: 45,
