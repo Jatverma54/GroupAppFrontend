@@ -36,7 +36,11 @@ FAIcon.loadFont();
 MDIcon.loadFont();
 import Loader from '../../components/Loader';
 import APIBaseUrl from '../../constants/APIBaseUrl';
-
+import {
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
+AdMobRewarded.setAdUnitID(`${APIBaseUrl.CreateaPersonalGroupScreenRewardedAd}`)//REWARDED_ID
 
 export default class CreateaNewPost extends Component {
   controller = new AbortController();
@@ -80,6 +84,17 @@ export default class CreateaNewPost extends Component {
    this.getPermissionAsync();
     //this.getCameraPermissionAsync();
   }
+
+  _openRewarded = async () => {
+    try {
+
+      await AdMobRewarded.requestAdAsync({ servePersonalizedAds: true })
+      await AdMobRewarded.showAdAsync()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   getPermissionAsync = async () => {
     const { status } = Permissions.getAsync(Permissions.CAMERA_ROLL)
@@ -556,7 +571,7 @@ try{
 
           <View >
 
-            <TouchableOpacity style={styles.inputIcon} onPress={() => this.sharePost()} >
+            <TouchableOpacity style={styles.inputIcon} onPress={() => {this.sharePost();this._openRewarded()}} >
               <Image style={{
                 width: 60,
                 height: 60,
