@@ -92,24 +92,24 @@ export default class UpdatePublicGroupAccountInfoScreen extends Component {
         onValueChange={(itemValue, itemIndex) => this.setState({ selectedGroupCategoryValue: itemValue })}
       >
         <Picker.Item label={FirstGroupCategoryValue} value={selectedGroupCategoryValue} />
-        <Picker.Item label="Healthcare" value="6027e3cfa971f10e325fbc2f" />
-        <Picker.Item label="Fitness & Sports" value="6027e3cfa971f10e325fbc30" />
-        <Picker.Item label="Shop & Sell" value="6027e3cfa971f10e325fbc31" />
-        <Picker.Item label="Job Alerts" value="6027e3cfa971f10e325fbc32" />
-        <Picker.Item label="Social News" value="6027e3cfa971f10e325fbc33" />
-        <Picker.Item label="Travel" value="6027e3cfa971f10e325fbc34" />
-        <Picker.Item label="Food & Recipes" value="6027e3cfa971f10e325fbc35" />
-        <Picker.Item label="Entertainment" value="6027e3cfa971f10e325fbc36" />
-        <Picker.Item label="Real Estate" value="6027e3cfa971f10e325fbc37" />
-        <Picker.Item label="Education" value="6027e3cfa971f10e325fbc38" />
-        <Picker.Item label="Science & Technology" value="6027e3cfa971f10e325fbc39" />
-        <Picker.Item label="Home Remedies" value="6027e3cfa971f10e325fbc3a" />
-        <Picker.Item label="New Trend & Style" value="6027e3cfa971f10e325fbc3b" />
-        <Picker.Item label="Spirituality" value="6027e3cfa971f10e325fbc3c" />
-        <Picker.Item label="Consultation" value="6027e3cfa971f10e325fbc3d" />
-        <Picker.Item label="Art & Hobbies" value="6027e3cfa971f10e325fbc3e" />
-        <Picker.Item label="Automobile" value="6027e3cfa971f10e325fbc3f" />
-        <Picker.Item label="Others" value="6027e3cfa971f10e325fbc40" />
+        <Picker.Item label="Healthcare" value="603b7a137556dc0a957a14dd" />
+        <Picker.Item label="Fitness & Sports" value="603b7a137556dc0a957a14de" />
+        <Picker.Item label="Shop & Sell" value="603b7a137556dc0a957a14df" />
+        <Picker.Item label="Job Alerts" value="603b7a137556dc0a957a14e0" />
+        <Picker.Item label="Social News" value="603b7a137556dc0a957a14e1" />
+        <Picker.Item label="Travel" value="603b7a137556dc0a957a14e2" />
+        <Picker.Item label="Food & Recipes" value="603b7a137556dc0a957a14e3" />
+        <Picker.Item label="Entertainment" value="603b7a137556dc0a957a14e4" />
+        <Picker.Item label="Real Estate" value="603b7a137556dc0a957a14e5" />
+        <Picker.Item label="Education" value="603b7a137556dc0a957a14e6" />
+        <Picker.Item label="Science & Technology" value="603b7a137556dc0a957a14e7" />
+        <Picker.Item label="Home Remedies" value="603b7a137556dc0a957a14e8" />
+        <Picker.Item label="New Trend & Style" value="603b7a137556dc0a957a14e9" />
+        <Picker.Item label="Spirituality" value="603b7a137556dc0a957a14ea" />
+        <Picker.Item label="Consultation" value="603b7a137556dc0a957a14eb" />
+        <Picker.Item label="Art & Hobbies" value="603b7a137556dc0a957a14ec" />
+        <Picker.Item label="Automobile" value="603b7a137556dc0a957a14ed" />
+        <Picker.Item label="Others" value="603b7a137556dc0a957a14ee" />
 
       </Picker>
 
