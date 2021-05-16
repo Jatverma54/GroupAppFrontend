@@ -120,7 +120,8 @@ export default class CreateaPersonalGroup extends Component {
             "Group created successfully",
             "Let's explore the power of group conversation",
             [
-              { text: "Ok", onPress: () => {this.props.navigation.goBack();this._openRewarded()} }
+            //  { text: "Ok", onPress: () => {this.props.navigation.goBack();this._openRewarded()} }
+              { text: "Ok", onPress: () => {this.props.navigation.goBack()} }
             ],
             { cancelable: false }
           );

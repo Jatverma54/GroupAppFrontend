@@ -571,7 +571,8 @@ try{
 
           <View >
 
-            <TouchableOpacity style={styles.inputIcon} onPress={() => {this.sharePost();this._openRewarded()}} >
+          {/* <TouchableOpacity style={styles.inputIcon} onPress={() => {this.sharePost();this._openRewarded()}} > */}
+          <TouchableOpacity style={styles.inputIcon} onPress={() => {this.sharePost()}} >
               <Image style={{
                 width: 60,
                 height: 60,
