@@ -247,7 +247,8 @@ await AdMobInterstitial.showAdAsync();
       <View style={{ flex: 1 }} >
         <View>
 
-          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName });this._OpenAdMobInterstitial() }}>
+          {/* <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName });this._OpenAdMobInterstitial() }}> */}
+          <TouchableOpacity style={styles.buttonContainerInviteMember} onPress={() => { this.props.navigation.navigate("ViewMembers", { Group: this.props.GroupName }) }}>
             <View>
               <View style={styles.bodyContentInviteMember}  >
                 <Text style={{ fontWeight: "bold", width: "100%", alignSelf: "center", marginLeft: 40, marginTop: 11 }}>View Members</Text>

@@ -170,7 +170,7 @@ await AdMobInterstitial.showAdAsync();
 
 
   _clickImage = async () => {
-
+    
     try {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -183,7 +183,7 @@ await AdMobInterstitial.showAdAsync();
       if (!result.cancelled) {
 
 
-        this.setState({ loading: true, data: '' });
+        this.setState({ loading: true });
 
         const userData = await AsyncStorage.getItem('userData');
         const transformedData = JSON.parse(userData);
@@ -193,7 +193,7 @@ await AdMobInterstitial.showAdAsync();
           "UserId": this.state.data._id,
           "image": `data:image/jpg;base64,${result.base64}`,
         }
-
+        
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
@@ -204,15 +204,14 @@ await AdMobInterstitial.showAdAsync();
           body: JSON.stringify(UpdateImage)
 
         };
-
+        
         const response = await fetch(`${APIBaseUrl.BaseUrl}/users/updateUserImage`, requestOptions, { signal: this.controller.signal });
-
-
+        
+     
         if (response.ok) {
+         
           this.setState({ loading: false });
-          image = `data:image/jpg;base64,${result.base64}`;
-
-
+          const image = `data:image/jpg;base64,${result.base64}`;
           this.setState({ photo: image });
           const json = await response.json();
           this.props.navigation.push('DrawerScreen', json.result)
@@ -233,11 +232,17 @@ await AdMobInterstitial.showAdAsync();
 
       }
 
-    } catch (E) {
-
+    } catch (e) {
       this.setState({ loading: false });
-
       this.controller.abort()
+      Alert.alert(
+        "Something went wrong",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
     }
 
   };
@@ -306,6 +311,14 @@ await AdMobInterstitial.showAdAsync();
     } catch (E) {
       this.setState({ loading: false });
       this.controller.abort()
+      Alert.alert(
+        "Something went wrong",
+        "Please try again",
+        [
+          { text: "Ok", onPress: () => null }
+        ],
+        { cancelable: false }
+      );   
     }
 
   };
@@ -402,6 +415,7 @@ if(!this.state.data.ExpopushToken){
 
     } catch (e) {
       this.setState({ loading: false });
+      this.controller.abort()
       Alert.alert(
 
         "Something went wrong!!",
@@ -411,7 +425,7 @@ if(!this.state.data.ExpopushToken){
         ],
         { cancelable: false }
       );
-      this.controller.abort()
+
     }
 
   }
@@ -443,16 +457,16 @@ if(!this.state.data.ExpopushToken){
           <Loader isLoading={this.state.loading} />
           <View style={styles.header}>
 
-            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data);this._OpenAdMobInterstitial() }} >
-
+            {/* <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data);this._OpenAdMobInterstitial() }} > */}
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("UpdateAccountProfileInformation", this.state.data)}} >
               <MaterialCommunityIcons
                 name='account-edit'
                 size={20}
               />
             </Button>
 
-            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) ;this._OpenAdMobInterstitial()}} >
-
+            {/* <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) ;this._OpenAdMobInterstitial()}} > */}
+            <Button color="white" style={{ marginLeft: width - 30 - 30 }} onPress={() => { this.props.navigation.navigate("changePassword", this.state.data) }} >
               <MaterialCommunityIcons
                 name='onepassword'
                 size={20}

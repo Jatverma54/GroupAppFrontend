@@ -60,7 +60,7 @@ export default class ForgotPassword extends Component {
         try {
 
           var EmailInfo = {
-            "Email": Email,
+            "Email": Email
 
           }
 
