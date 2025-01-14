@@ -54,6 +54,6 @@ For any questions or feedback, please contact us at jatinv94@gmail.com.
 Thank you for using GroupApp! We hope you enjoy building and engaging with your communities.
 
 **Learn more about GroupHelpMe App**:
-https://www.facebook.com/GroupHelpMe
-https://www.linkedin.com/company/grouphelpme/
+**Facebook**: https://www.facebook.com/GroupHelpMe
+**Linkedin**: https://www.linkedin.com/company/grouphelpme/
 
