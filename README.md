@@ -13,7 +13,7 @@ To get started with the GroupApp frontend project, follow these steps:
 
 1. Clone the repository:
 git clone https://github.com/yourusername/GroupApp.git
-cd GroupApp
+cd GroupAppFrontend
 2. Install dependencies:
 npm install
 3. Run the app:
