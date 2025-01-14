@@ -1,1 +1,2 @@
-# GroupApp
+**GroupApp Frontend**
+
